@@ -17,6 +17,8 @@ using ESRI.ArcGIS.Geodatabase;
 using ESRI.ArcGIS.DataSourcesGDB;
 using System.Data.OleDb;
 using GISData.Common;
+using GISData.Dictionary;
+using GISData.DataRegister;
 
 
 namespace GISData
@@ -79,6 +81,18 @@ namespace GISData
                 m_menuMap.PopupMenu(e.x, e.y, m_tocControl.hWnd);
             if (item == esriTOCControlItem.esriTOCControlItemLayer)
                 m_menuLayer.PopupMenu(e.x, e.y, m_tocControl.hWnd);
+        }
+
+        private void 字典管理ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormDictionary formDictionary = new FormDictionary();
+            formDictionary.Show();
+        }
+
+        private void 数据注册ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormRegister formRegister = new FormRegister();
+            formRegister.Show();
         }
 
     }

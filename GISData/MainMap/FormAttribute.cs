@@ -22,7 +22,10 @@ namespace GISData.MainMap
         public DataTable dt2;
         bool up = true;
         public string strAddField = "";
+        int row_index = 0;
+        int col_index = 0; 
         RowAndCol[] pRowAndCol = new RowAndCol[10000];
+        int count = 0;
         //TOCControl中图层菜单
 
         public FormAttribute(AxMapControl pMapControl, IMapControl3 pMapCtrl)
@@ -190,6 +193,126 @@ namespace GISData.MainMap
             IFields pFields = pFeatureClass.Fields;
             ExportExcelClass exportExcel = new ExportExcelClass();
             exportExcel.ExportExcel(dataGridViewAttr, pFields);
+        }
+
+        private void dataGridViewAttr_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            //记录值一旦改变触发此事件  
+            //在dataGridView中获取改变记录的行数，列数和记录值  
+            pRowAndCol[count].Row = dataGridViewAttr.CurrentCell.RowIndex;
+            pRowAndCol[count].Column = dataGridViewAttr.CurrentCell.ColumnIndex;
+            pRowAndCol[count].Value = dataGridViewAttr.Rows[dataGridViewAttr.CurrentCell.RowIndex].Cells[dataGridViewAttr.CurrentCell.ColumnIndex].Value.ToString();
+            count++; 
+        }
+
+        private void dataGridViewAttr_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                if (e.RowIndex >= 0)
+                {
+                    //若行已是选中状态就不再进行设置
+                    if (dataGridViewAttr.Rows[e.RowIndex].Selected == false)
+                    {
+                        dataGridViewAttr.ClearSelection();
+                        dataGridViewAttr.Rows[e.RowIndex].Selected = true;
+                    }
+                    //只选中一行时设置活动单元格
+                    if (dataGridViewAttr.SelectedRows.Count == 1)
+                    {
+                        dataGridViewAttr.CurrentCell = dataGridViewAttr.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                    }
+                    //弹出操作菜单
+                    //contextMenuStrip1.Show(MousePosition.X, MousePosition.Y);
+                }
+                else if (e.RowIndex == -1)
+                {
+                    contextMenuStrip1.Show(MousePosition.X, MousePosition.Y);
+                }
+            }
+        }
+
+        private void dataGridViewAttr_MouseMove(object sender, MouseEventArgs e)
+        {
+            row_index = this.dataGridViewAttr.HitTest(e.X, e.Y).RowIndex; //行
+            col_index = this.dataGridViewAttr.HitTest(e.X, e.Y).ColumnIndex; //列
+        }
+
+        private void dataGridViewAttr_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            IQueryFilter pQuery = new QueryFilterClass();
+            int count = this.dataGridViewAttr.SelectedRows.Count;
+            string val;
+            string col;
+            col = this.dataGridViewAttr.Columns[0].Name;
+            //当只选中一行时  
+            if (count == 1)
+            {
+                val = this.dataGridViewAttr.SelectedRows[0].Cells[col].Value.ToString();
+                //设置高亮要素的查询条件  
+                pQuery.WhereClause = col + "=" + val;
+            }
+            else//当选中多行时  
+            {
+                int i;
+                string str;
+                for (i = 0; i < count - 1; i++)
+                {
+                    val = this.dataGridViewAttr.SelectedRows[i].Cells[col].Value.ToString();
+                    str = col + "=" + val + " OR ";
+                    pQuery.WhereClause += str;
+                }
+                //添加最后一个要素的条件  
+                val = this.dataGridViewAttr.SelectedRows[i].Cells[col].Value.ToString();
+                str = col + "=" + val;
+                pQuery.WhereClause += str;
+            }
+            ILayer pLayer = (ILayer)m_mapControl.CustomProperty;
+            IFeatureLayer pFLayer = pLayer as IFeatureLayer;
+            IFeatureSelection pFeatSelection;
+            pFeatSelection = pFLayer as IFeatureSelection;
+            pFeatSelection.SelectFeatures(pQuery, esriSelectionResultEnum.esriSelectionResultNew, false);
+            _MapControl.ActiveView.Refresh();  
+        }
+
+        private void dataGridViewAttr_RowHeaderMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            IQueryFilter pQuery = new QueryFilterClass();
+            int count = this.dataGridViewAttr.SelectedRows.Count;
+            string val;
+            string col;
+            col = this.dataGridViewAttr.Columns[0].Name;
+            //当只选中一行时  
+            if (count == 1)
+            {
+                val = this.dataGridViewAttr.SelectedRows[0].Cells[col].Value.ToString();
+                //设置高亮要素的查询条件  
+                pQuery.WhereClause = col + "=" + val;
+            }
+            else//当选中多行时  
+            {
+                int i;
+                string str;
+                for (i = 0; i < count - 1; i++)
+                {
+                    val = this.dataGridViewAttr.SelectedRows[i].Cells[col].Value.ToString();
+                    str = col + "=" + val + " OR ";
+                    pQuery.WhereClause += str;
+                }
+                //添加最后一个要素的条件  
+                val = this.dataGridViewAttr.SelectedRows[i].Cells[col].Value.ToString();
+                str = col + "=" + val;
+                pQuery.WhereClause += str;
+            }
+
+            ILayer pLayer = (ILayer)m_mapControl.CustomProperty;
+            IFeature feature = (pLayer as IFeatureLayer).FeatureClass.GetFeature(int.Parse(val));
+            IFeatureLayer pFLayer = pLayer as IFeatureLayer;
+            IFeatureSelection pFeatSelection;
+            pFeatSelection = pFLayer as IFeatureSelection;
+            pFeatSelection.SelectFeatures(pQuery, esriSelectionResultEnum.esriSelectionResultNew, false);
+            _MapControl.ActiveView.Extent = feature.ShapeCopy.Envelope;
+            _MapControl.ActiveView.Refresh();
         }
     }
 }

@@ -88,11 +88,54 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChekConfig\FormChange.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChekConfig\FormChange.Designer.cs">
+      <DependentUpon>FormChange.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ChekConfig\FormConfigMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChekConfig\FormConfigMain.Designer.cs">
+      <DependentUpon>FormConfigMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ChekConfig\FormStep.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChekConfig\FormStep.Designer.cs">
+      <DependentUpon>FormStep.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ChekConfig\FormStructure.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChekConfig\FormStructure.Designer.cs">
+      <DependentUpon>FormStructure.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Common\ConnectDB.cs" />
     <Compile Include="Common\ExportExcelClass.cs" />
     <Compile Include="Common\OpenAttribute.cs" />
     <Compile Include="Common\RefreshTable.cs" />
     <Compile Include="Common\RemoveLayer.cs" />
     <Compile Include="Common\ZoomToLayer.cs" />
+    <Compile Include="DataRegister\FormDBConnectInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataRegister\FormDBConnectInfo.Designer.cs">
+      <DependentUpon>FormDBConnectInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataRegister\FormRegister.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataRegister\FormRegister.Designer.cs">
+      <DependentUpon>FormRegister.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dictionary\FormDictionary.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dictionary\FormDictionary.Designer.cs">
+      <DependentUpon>FormDictionary.cs</DependentUpon>
+    </Compile>
     <Compile Include="File\CreateNewDocument .cs" />
     <Compile Include="FormMain.cs">
       <SubType>Form</SubType>
@@ -114,6 +157,27 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="ChekConfig\FormChange.resx">
+      <DependentUpon>FormChange.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ChekConfig\FormConfigMain.resx">
+      <DependentUpon>FormConfigMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ChekConfig\FormStep.resx">
+      <DependentUpon>FormStep.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ChekConfig\FormStructure.resx">
+      <DependentUpon>FormStructure.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataRegister\FormDBConnectInfo.resx">
+      <DependentUpon>FormDBConnectInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataRegister\FormRegister.resx">
+      <DependentUpon>FormRegister.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dictionary\FormDictionary.resx">
+      <DependentUpon>FormDictionary.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
     </EmbeddedResource>

@@ -55,6 +55,11 @@
             this.dataGridViewAttr.RowTemplate.Height = 27;
             this.dataGridViewAttr.Size = new System.Drawing.Size(891, 428);
             this.dataGridViewAttr.TabIndex = 2;
+            this.dataGridViewAttr.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridViewAttr_CellMouseDown);
+            this.dataGridViewAttr.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewAttr_CellValueChanged);
+            this.dataGridViewAttr.RowHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridViewAttr_RowHeaderMouseClick);
+            this.dataGridViewAttr.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridViewAttr_RowHeaderMouseDoubleClick);
+            this.dataGridViewAttr.MouseMove += new System.Windows.Forms.MouseEventHandler(this.dataGridViewAttr_MouseMove);
             // 
             // menuStrip1
             // 

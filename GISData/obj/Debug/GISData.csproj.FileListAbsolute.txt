@@ -11,3 +11,10 @@ F:\数据验收平台建设\GISData\GISData\bin\Debug\ESRI.ArcGIS.ADF.dll
 F:\数据验收平台建设\GISData\GISData\bin\Debug\ESRI.ArcGIS.ADF.xml
 F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.MainMap.FormAttribute.resources
 F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.MainMap.FormAddField.resources
+F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.DataRegister.FormRegister.resources
+F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.Dictionary.FormDictionary.resources
+F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.ChekConfig.FormChange.resources
+F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.ChekConfig.FormConfigMain.resources
+F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.ChekConfig.FormStep.resources
+F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.ChekConfig.FormStructure.resources
+F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.DataRegister.FormDBConnectInfo.resources

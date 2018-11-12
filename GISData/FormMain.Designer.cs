@@ -39,6 +39,7 @@
             this.axTOCControl1 = new ESRI.ArcGIS.Controls.AxTOCControl();
             this.axLicenseControl1 = new ESRI.ArcGIS.Controls.AxLicenseControl();
             this.axMapControl1 = new ESRI.ArcGIS.Controls.AxMapControl();
+            this.质检配置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.axToolbarControl1)).BeginInit();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -64,7 +65,8 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.文件ToolStripMenuItem,
             this.数据注册ToolStripMenuItem,
-            this.字典管理ToolStripMenuItem});
+            this.字典管理ToolStripMenuItem,
+            this.质检配置ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1201, 28);
@@ -82,12 +84,14 @@
             this.数据注册ToolStripMenuItem.Name = "数据注册ToolStripMenuItem";
             this.数据注册ToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
             this.数据注册ToolStripMenuItem.Text = "数据注册";
+            this.数据注册ToolStripMenuItem.Click += new System.EventHandler(this.数据注册ToolStripMenuItem_Click);
             // 
             // 字典管理ToolStripMenuItem
             // 
             this.字典管理ToolStripMenuItem.Name = "字典管理ToolStripMenuItem";
             this.字典管理ToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
             this.字典管理ToolStripMenuItem.Text = "字典管理";
+            this.字典管理ToolStripMenuItem.Click += new System.EventHandler(this.字典管理ToolStripMenuItem_Click);
             // 
             // statusStrip1
             // 
@@ -143,6 +147,12 @@
             this.axMapControl1.Size = new System.Drawing.Size(797, 519);
             this.axMapControl1.TabIndex = 0;
             // 
+            // 质检配置ToolStripMenuItem
+            // 
+            this.质检配置ToolStripMenuItem.Name = "质检配置ToolStripMenuItem";
+            this.质检配置ToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
+            this.质检配置ToolStripMenuItem.Text = "质检配置";
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -183,6 +193,7 @@
         private ESRI.ArcGIS.Controls.AxTOCControl axTOCControl1;
         private ESRI.ArcGIS.Controls.AxMapControl axMapControl1;
         private ESRI.ArcGIS.Controls.AxLicenseControl axLicenseControl1;
+        private System.Windows.Forms.ToolStripMenuItem 质检配置ToolStripMenuItem;
     }
 }
 
