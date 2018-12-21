@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace GISData.Common
 {
-    class GetAllFeature
+    class GetAllFeatures
     {
         /// <summary>
         /// 获取所有要素集
         /// </summary>
         /// <param name="workspace">工作空间对象</param>
         /// <returns>要素集列表</returns>
-        public static List<IFeatureDataset> GetAllFeatureClass(IWorkspace workspace)
+        public List<IFeatureDataset> GetAllFeatureDataset(IWorkspace workspace)
         {
             IEnumDataset dataset = workspace.get_Datasets(esriDatasetType.esriDTFeatureDataset);
             IFeatureDataset featureDataset = dataset.Next() as IFeatureDataset;
@@ -34,19 +34,41 @@ namespace GISData.Common
         /// </summary>
         /// <param name="featureDataset">要素集</param>
         /// <returns>要素类列表</returns>
-        public static List<IFeatureClass> GetAllFeatureClass(IFeatureDataset featureDataset)
+        public List<IDataset> GetAllFeatureClass(IWorkspace pWs)
         {
-            IFeatureClassContainer featureClassContainer = (IFeatureClassContainer)featureDataset;
-            IEnumFeatureClass enumFeatureClass = featureClassContainer.Classes;
-            IFeatureClass featureClass = enumFeatureClass.Next();
- 
-            List<IFeatureClass> featureClassList = new List<IFeatureClass>();
-            while (featureClass != null)
+            List<IDataset> iDatasetList = new List<IDataset>();
+
+            IEnumDataset pEDataset = pWs.get_Datasets(esriDatasetType.esriDTAny);
+
+            IDataset pDataset = pEDataset.Next();
+
+            while (pDataset != null)
             {
-                featureClassList.Add(featureClass);
-                featureClass = enumFeatureClass.Next();
+                if (pDataset.Type == esriDatasetType.esriDTFeatureClass)
+                {
+                    IFeatureClass ifc = pDataset as IFeatureClass;
+                    //pDataset.BrowseName = ifc.AliasName;
+                    iDatasetList.Add(pDataset);
+                }
+                //如果是数据集
+                else if (pDataset.Type == esriDatasetType.esriDTFeatureDataset)
+                {
+                    IEnumDataset pESubDataset = pDataset.Subsets;
+
+                    IDataset pSubDataset = pESubDataset.Next();
+
+                    while (pSubDataset != null)
+                    {
+                        IFeatureClass ifc = pSubDataset as IFeatureClass;
+                        //pSubDataset.BrowseName = ifc.AliasName;
+                        iDatasetList.Add(pSubDataset);
+
+                        pSubDataset = pESubDataset.Next();
+                    }
+                }
+                pDataset = pEDataset.Next();
             }
-            return featureClassList;
+            return iDatasetList;
         }
 
         /// <summary>
@@ -54,12 +76,11 @@ namespace GISData.Common
         /// </summary>
         /// <param name="featureClass">要素类</param>
         /// <returns>要素列表</returns>
-        public static List<IFeature> GetAllFeatureClass(IFeatureClass featureClass)
+        public List<IFeature> GetAllFeature(IFeatureClass featureClass)
         {
             List<IFeature> featureList = new List<IFeature>();
             IFeatureCursor featureCursor = featureClass.Search(null, false);
             IFeature feature = featureCursor.NextFeature();
- 
             while (feature != null)
             {
                 featureList.Add(feature);

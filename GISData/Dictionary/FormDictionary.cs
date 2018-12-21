@@ -49,9 +49,6 @@ namespace GISData.Dictionary
                     treeViewDic.Nodes.Add(tn);
                 }
             }
-            
-            
-            
         }
 
         private void FormDictionary_Load(object sender, EventArgs e)

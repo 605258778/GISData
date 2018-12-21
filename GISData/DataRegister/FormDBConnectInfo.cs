@@ -15,15 +15,24 @@ namespace GISData.DataRegister
 {
     public partial class FormDBConnectInfo : Form
     {
+        private TreeView treeView;
+
         public FormDBConnectInfo()
         {
             InitializeComponent();
+        }
+
+        public FormDBConnectInfo(TreeView treeView)
+        {
+            InitializeComponent();
+            // TODO: Complete member initialization
+            this.treeView = treeView;
         }
         //选择路径
         private void buttonPathSelect_Click(object sender, EventArgs e)
         {
             string selectPath = "";
-            if (comboBoxConType.SelectedItem == "Access数据库")
+            if (comboBoxConType.SelectedItem.ToString() == "Access数据库")
             {
                 OpenFileDialog ofd = new OpenFileDialog();
                 ofd.Filter = "Access数据库(*.mdb)|*.mdb|所有文件|*.*";
@@ -49,21 +58,20 @@ namespace GISData.DataRegister
         //确定添加连接
         private void buttonConOK_Click(object sender, EventArgs e)
         {
-            GetAllFeature gaf = new GetAllFeature();
+            
+            treeView.Nodes.Clear();
+            GetAllFeatures gaf = new GetAllFeatures();
             ConnectDB cd = new ConnectDB();
             string ConName = this.textBoxConName.Text;
             string ConType = this.comboBoxConType.SelectedItem.ToString();
             string ConPath = this.textBoxConPath.Text;
             //插入信息到GISDATA_REGCONNECT
-            bool isInsert = cd.Insert("insert into GISDATA_REGCONNECT (REG_NAME,REG_TYPE,REG_PATH) values ('" + ConName + "','" + ConType + "','" + ConPath + "',)");
+            bool isInsert = cd.Insert("insert into GISDATA_REGCONNECT (REG_NAME,REG_TYPE,REG_PATH) values ('" + ConName + "','" + ConType + "','" + ConPath + "')");
             if (isInsert) 
             {
-                DataTable dt = cd.GetDataBySql("select * from GISDATA_REGCONNECT");
-                DataRow[] dr = dt.Select("1=1");
-                for (int i = 0; i < dr.Length; i++)
-                {
-                    string path = dr[i]["sad"].ToString();
-                }
+                FormRegister fr = new FormRegister();
+                fr.refreshTreeViewReg();
+                this.Close();
             }
         }
     }

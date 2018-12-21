@@ -114,9 +114,11 @@
     </Compile>
     <Compile Include="Common\ConnectDB.cs" />
     <Compile Include="Common\ExportExcelClass.cs" />
+    <Compile Include="Common\GetAllFeature.cs" />
     <Compile Include="Common\OpenAttribute.cs" />
     <Compile Include="Common\RefreshTable.cs" />
     <Compile Include="Common\RemoveLayer.cs" />
+    <Compile Include="Common\TreeNodeMul.cs" />
     <Compile Include="Common\ZoomToLayer.cs" />
     <Compile Include="DataRegister\FormDBConnectInfo.cs">
       <SubType>Form</SubType>
