@@ -30,9 +30,9 @@
         {
             this.textBoxStepName = new System.Windows.Forms.TextBox();
             this.labelStepName = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.comboBoxChekType = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.buttonAddStepOk = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // textBoxStepName
@@ -51,10 +51,10 @@
             this.labelStepName.TabIndex = 1;
             this.labelStepName.Text = "名称：";
             // 
-            // comboBox1
+            // comboBoxChekType
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
+            this.comboBoxChekType.FormattingEnabled = true;
+            this.comboBoxChekType.Items.AddRange(new object[] {
             "结构检查",
             "数据排查",
             "变化提取",
@@ -62,10 +62,10 @@
             "属性检查",
             "图形检查",
             "统计报表"});
-            this.comboBox1.Location = new System.Drawing.Point(85, 84);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(210, 23);
-            this.comboBox1.TabIndex = 2;
+            this.comboBoxChekType.Location = new System.Drawing.Point(85, 84);
+            this.comboBoxChekType.Name = "comboBoxChekType";
+            this.comboBoxChekType.Size = new System.Drawing.Size(210, 23);
+            this.comboBoxChekType.TabIndex = 2;
             // 
             // label1
             // 
@@ -76,23 +76,24 @@
             this.label1.TabIndex = 3;
             this.label1.Text = "类型：";
             // 
-            // button1
+            // buttonAddStepOk
             // 
-            this.button1.Location = new System.Drawing.Point(138, 168);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 38);
-            this.button1.TabIndex = 4;
-            this.button1.Text = "确定";
-            this.button1.UseVisualStyleBackColor = true;
+            this.buttonAddStepOk.Location = new System.Drawing.Point(142, 137);
+            this.buttonAddStepOk.Name = "buttonAddStepOk";
+            this.buttonAddStepOk.Size = new System.Drawing.Size(75, 38);
+            this.buttonAddStepOk.TabIndex = 4;
+            this.buttonAddStepOk.Text = "确定";
+            this.buttonAddStepOk.UseVisualStyleBackColor = true;
+            this.buttonAddStepOk.Click += new System.EventHandler(this.buttonAddStepOk_Click);
             // 
             // FormStep
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(390, 265);
-            this.Controls.Add(this.button1);
+            this.ClientSize = new System.Drawing.Size(358, 218);
+            this.Controls.Add(this.buttonAddStepOk);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.comboBoxChekType);
             this.Controls.Add(this.labelStepName);
             this.Controls.Add(this.textBoxStepName);
             this.Name = "FormStep";
@@ -106,8 +107,8 @@
 
         private System.Windows.Forms.TextBox textBoxStepName;
         private System.Windows.Forms.Label labelStepName;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox comboBoxChekType;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button buttonAddStepOk;
     }
 }

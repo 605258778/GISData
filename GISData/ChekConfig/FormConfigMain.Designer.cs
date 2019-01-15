@@ -29,12 +29,12 @@
         private void InitializeComponent()
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.AddScheme = new System.Windows.Forms.Button();
-            this.EditScheme = new System.Windows.Forms.Button();
             this.DelScheme = new System.Windows.Forms.Button();
+            this.EditScheme = new System.Windows.Forms.Button();
+            this.AddScheme = new System.Windows.Forms.Button();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.button1 = new System.Windows.Forms.Button();
+            this.buttonAddStep = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -65,22 +65,14 @@
             this.splitContainer1.SplitterDistance = 37;
             this.splitContainer1.TabIndex = 0;
             // 
-            // comboBox1
+            // DelScheme
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(12, 7);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(328, 23);
-            this.comboBox1.TabIndex = 0;
-            // 
-            // AddScheme
-            // 
-            this.AddScheme.Location = new System.Drawing.Point(376, 7);
-            this.AddScheme.Name = "AddScheme";
-            this.AddScheme.Size = new System.Drawing.Size(86, 23);
-            this.AddScheme.TabIndex = 1;
-            this.AddScheme.Text = "添加方案";
-            this.AddScheme.UseVisualStyleBackColor = true;
+            this.DelScheme.Location = new System.Drawing.Point(597, 6);
+            this.DelScheme.Name = "DelScheme";
+            this.DelScheme.Size = new System.Drawing.Size(86, 23);
+            this.DelScheme.TabIndex = 1;
+            this.DelScheme.Text = "删除方案";
+            this.DelScheme.UseVisualStyleBackColor = true;
             // 
             // EditScheme
             // 
@@ -91,36 +83,46 @@
             this.EditScheme.Text = "编辑方案";
             this.EditScheme.UseVisualStyleBackColor = true;
             // 
-            // DelScheme
+            // AddScheme
             // 
-            this.DelScheme.Location = new System.Drawing.Point(597, 6);
-            this.DelScheme.Name = "DelScheme";
-            this.DelScheme.Size = new System.Drawing.Size(86, 23);
-            this.DelScheme.TabIndex = 1;
-            this.DelScheme.Text = "删除方案";
-            this.DelScheme.UseVisualStyleBackColor = true;
+            this.AddScheme.Location = new System.Drawing.Point(376, 7);
+            this.AddScheme.Name = "AddScheme";
+            this.AddScheme.Size = new System.Drawing.Size(86, 23);
+            this.AddScheme.TabIndex = 1;
+            this.AddScheme.Text = "添加方案";
+            this.AddScheme.UseVisualStyleBackColor = true;
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(12, 7);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(328, 23);
+            this.comboBox1.TabIndex = 0;
             // 
             // splitContainer2
             // 
+            this.splitContainer2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer2.Location = new System.Drawing.Point(0, 0);
             this.splitContainer2.Name = "splitContainer2";
             // 
             // splitContainer2.Panel1
             // 
-            this.splitContainer2.Panel1.Controls.Add(this.button1);
+            this.splitContainer2.Panel1.Controls.Add(this.buttonAddStep);
             this.splitContainer2.Size = new System.Drawing.Size(1164, 502);
             this.splitContainer2.SplitterDistance = 240;
             this.splitContainer2.TabIndex = 0;
             // 
-            // button1
+            // buttonAddStep
             // 
-            this.button1.Location = new System.Drawing.Point(80, 3);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 38);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "添加";
-            this.button1.UseVisualStyleBackColor = true;
+            this.buttonAddStep.Location = new System.Drawing.Point(80, 17);
+            this.buttonAddStep.Name = "buttonAddStep";
+            this.buttonAddStep.Size = new System.Drawing.Size(75, 38);
+            this.buttonAddStep.TabIndex = 0;
+            this.buttonAddStep.Text = "添加";
+            this.buttonAddStep.UseVisualStyleBackColor = true;
+            this.buttonAddStep.Click += new System.EventHandler(this.buttonAddStep_Click);
             // 
             // FormConfigMain
             // 
@@ -128,8 +130,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1164, 543);
             this.Controls.Add(this.splitContainer1);
+            this.IsMdiContainer = true;
             this.Name = "FormConfigMain";
             this.Text = "质检配置";
+            this.Load += new System.EventHandler(this.FormConfigMain_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
@@ -149,7 +153,7 @@
         private System.Windows.Forms.Button AddScheme;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.SplitContainer splitContainer2;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button buttonAddStep;
 
     }
 }

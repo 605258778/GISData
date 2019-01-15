@@ -19,6 +19,7 @@ using System.Data.OleDb;
 using GISData.Common;
 using GISData.Dictionary;
 using GISData.DataRegister;
+using GISData.ChekConfig;
 
 
 namespace GISData
@@ -93,6 +94,12 @@ namespace GISData
         {
             FormRegister formRegister = new FormRegister();
             formRegister.Show();
+        }
+
+        private void 质检配置ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormConfigMain fcm = new FormConfigMain();
+            fcm.Show();
         }
 
     }

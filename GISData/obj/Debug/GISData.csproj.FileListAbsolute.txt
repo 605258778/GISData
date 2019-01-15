@@ -18,3 +18,11 @@ F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.ChekConfig.FormCon
 F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.ChekConfig.FormStep.resources
 F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.ChekConfig.FormStructure.resources
 F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.DataRegister.FormDBConnectInfo.resources
+F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.DataRegister.FormDomain.resources
+F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.ChekConfig.FormAttr.resources
+F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.ChekConfig.FormGroup.resources
+F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.ChekConfig.FormAttrAdd.resources
+F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.ChekConfig.CheckDialog.FormNullValue.resources
+F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.ChekConfig.CheckDialog.FormDomain.resources
+F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.ChekConfig.CheckDialog.FormLogic.resources
+F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.ChekConfig.CheckDialog.FormUnique.resources

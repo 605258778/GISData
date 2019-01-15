@@ -15,17 +15,18 @@ namespace GISData.Common
         private string item4;
         private string item5;
         private string item6;
+
         public string Item1
         {
             get
             {
                 //TODO
-                return item6;
+                return item1;
             }
             set
             {
                 //TODO
-                item6 = value;
+                item1 = value;
             }
         }
         public string Item2

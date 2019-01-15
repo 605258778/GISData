@@ -24,7 +24,7 @@ namespace GISData.Dictionary
             ConnectDB connectDB = new ConnectDB();
             DataTable dt;
             DataRow[] dr;
-            if (this.comboBoxDic.SelectedItem == "政区数据字典") 
+            if (this.comboBoxDic.SelectedItem.ToString() == "政区数据字典") 
             {
                 dt = connectDB.GetDataBySql("select * from GISDATA_ZQSJZD");
                 dr = dt.Select("ID=1");

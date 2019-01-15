@@ -16,6 +16,7 @@ namespace GISData.DataRegister
 {
     public partial class FormRegister : Form
     {
+        private string regName;
         public FormRegister()
         {
             InitializeComponent();
@@ -32,16 +33,30 @@ namespace GISData.DataRegister
             refreshTreeViewReg();
             refreshDataGridReg();
         }
+        public void refreshDataGridField(string regName)
+        {
+            ConnectDB cd = new ConnectDB();
+            DataTable dt = cd.GetDataBySql("select ID,FIELD_NAME AS 字段名,FIELD_ALSNAME AS 别名,DATA_TYPE AS 数据类型,IS_AUTO AS 是否自称,IS_KEY AS 是否主键,MAXLEN AS 字段长度,IS_NULL AS 是否为空,IS_READONLY AS 是否只读,CAN_SHOW AS 是否显示,CODE_PK AS 字典域,CODE_WHERE AS 字典域条件 from GISDATA_MATEDATA where REG_NAME = '" + regName+"'");
+            this.dataGridViewFieldView.DataSource = dt;
+            if (this.dataGridViewFieldView.Columns.Count > 0)
+            {
+                this.dataGridViewFieldView.Columns[0].Visible = false;
+            }
+        }
+
         public void refreshDataGridReg()
         {
             ConnectDB cd = new ConnectDB();
-            DataTable dt = cd.GetDataBySql("select REG_NAME AS 注册名称 from GISDATA_REGINFO");
+            DataTable dt = cd.GetDataBySql("select REG_NAME,REG_ALIASNAME AS 注册名称 from GISDATA_REGINFO");
             this.dataGridViewDataReg.DataSource = dt;
-            //this.dataGridViewDataReg.AutoGenerateColumns = false;//不自动  
+            if (this.dataGridViewDataReg.Columns.Count > 0)
+            {
+                this.dataGridViewDataReg.Columns[0].Visible = false;
+            }
         }
 
         //刷新注册连接树
-        public void refreshTreeViewReg() 
+        public void refreshTreeViewReg()
         {
             this.treeViewReg.Nodes.Clear();
             //加载注册数据连接
@@ -85,7 +100,7 @@ namespace GISData.DataRegister
 
         private void treeViewReg_MouseDown(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Right) 
+            if (e.Button == MouseButtons.Right)
             { 
             
             }
@@ -93,25 +108,50 @@ namespace GISData.DataRegister
         //添加注册连接
         private void buttonRegister_Click(object sender, EventArgs e)
         {
-            if (this.treeViewReg.SelectedNode.Level == 1) {
+            if (this.treeViewReg.SelectedNode.Level == 1) 
+            {
                 DialogResult dr = MessageBox.Show("确定注册？", "提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
                 if (dr == DialogResult.OK)
                 {
                     ConnectDB cd = new ConnectDB();
-                    Boolean result = cd.Insert("insert into GISDATA_REGINFO (REG_NAME) values ('" + treeViewReg.SelectedNode.Text + "')");
+                    Boolean result = cd.Insert("insert into GISDATA_REGINFO (REG_NAME,REG_ALIASNAME) values ('" + treeViewReg.SelectedNode.Tag + "','" + treeViewReg.SelectedNode.Text + "')");
                     if (result) 
                     {
                         TreeNodeMul node = this.treeViewReg.SelectedNode as TreeNodeMul;
                         IWorkspaceFactory pWorkspaceFactory = new AccessWorkspaceFactoryClass();
                         IFeatureWorkspace pFeatureWorkspace = pWorkspaceFactory.OpenFromFile(node.Item1, 0) as IFeatureWorkspace;
                         //打开数据文件中航路点这个表
-                        IFeatureClass pFeatureClass = pFeatureWorkspace.OpenFeatureClass(node.Name);
+                        IFeatureClass pFeatureClass = pFeatureWorkspace.OpenFeatureClass(node.Tag.ToString());
+                        Boolean boolFlag = true;
                         for (int i = 0; i < pFeatureClass.Fields.FieldCount; i++) 
                         {
                             IField field = pFeatureClass.Fields.get_Field(i);
-                            Boolean insertResult = cd.Insert("insert into GISDATA_REGINFO (REG_NAME) values ('" + treeViewReg.SelectedNode.Text + "')");
+                            string REG_NAME = node.Tag.ToString();
+                            string FIELDID = i.ToString();
+                            string FIELD_NAME = field.Name;
+                            string FIELD_ALSNAME = field.AliasName;
+                            string DATA_TYPE = field.Type.ToString();
+                            string MAXLEN = field.Length.ToString();
+                            string MINLEN = field.Length.ToString();
+                            string CODE_PK = "";
+                            string CODE_WHERE = "";
+                            string IS_NULL = field.IsNullable.ToString();
+                            string DEFAULT_VALUE = field.DefaultValue.ToString();
+                            Boolean insertResult = cd.Insert("insert into GISDATA_MATEDATA (REG_NAME,FIELDID,FIELD_NAME,FIELD_ALSNAME,DATA_TYPE,MAXLEN,MINLEN,CODE_PK,CODE_WHERE,IS_NULL,DEFAULT_VALUE) values ('" + REG_NAME + "','" + FIELDID + "','" + FIELD_NAME + "','" + FIELD_ALSNAME + "','" + DATA_TYPE + "','" + MAXLEN + "','" + MINLEN + "','" + CODE_PK + "','" + CODE_WHERE + "','" + IS_NULL + "','" + DEFAULT_VALUE + "')");
+                            if (!insertResult) 
+                            {
+                                boolFlag = false;
+                            }
                         }
+                        if (boolFlag)
+                        {
                             MessageBox.Show("注册成功！", "提示");
+                            refreshDataGridReg();
+                        }
+                        else 
+                        {
+                            MessageBox.Show("注册失败！", "提示");
+                        }
                     }
                 }
             }
@@ -127,7 +167,6 @@ namespace GISData.DataRegister
                     Boolean result = cd.Delete("DELETE from GISDATA_REGCONNECT WHERE ID = " + this.treeViewReg.SelectedNode.Tag);
                     if (result)
                     {
-                        refreshTreeViewReg();
                         MessageBox.Show("删除成功！", "提示");
                     }
                 }
@@ -136,7 +175,41 @@ namespace GISData.DataRegister
 
         private void dataGridViewDataReg_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
+            DataGridViewRow dgvr = dataGridViewDataReg.CurrentRow;
+            string val = dgvr.Cells["REG_NAME"].Value.ToString();
+            this.regName = val;
+            refreshDataGridField(val);
+        }
+        //删除注册信息
+        private void buttonDelReg_Click(object sender, EventArgs e)
+        {
+            DataGridViewRow dgvr = dataGridViewDataReg.CurrentRow;
+            string val = dgvr.Cells["REG_NAME"].Value.ToString();
+            if (val != "") 
+            {
+                DialogResult dr = MessageBox.Show("确定删除？", "提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                if (dr == DialogResult.OK)
+                {
+                    ConnectDB cd = new ConnectDB();
+                    Boolean result = cd.Delete("DELETE from GISDATA_REGINFO WHERE REG_NAME = '" + val+"'");
+                    if (result)
+                    {
+                        Boolean result1 = cd.Delete("DELETE from GISDATA_MATEDATA WHERE REG_NAME = '" + val + "'");
+                        if (result1)
+                        {
+                            refreshDataGridReg();
+                            MessageBox.Show("删除成功！", "提示");
+                        }
+                    }
+                }
+            }
+        }
 
+        private void dataGridViewFieldView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridViewRow dgvr = this.dataGridViewFieldView.CurrentRow;
+            FormDomain fd = new FormDomain(dgvr, regName);
+            fd.Show();
         }
     }
 }

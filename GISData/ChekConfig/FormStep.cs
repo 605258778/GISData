@@ -16,5 +16,14 @@ namespace GISData.ChekConfig
         {
             InitializeComponent();
         }
+
+        private void buttonAddStepOk_Click(object sender, EventArgs e)
+        {
+            if (comboBoxChekType.SelectedItem.ToString() == "结构检查") {
+                this.Close();
+                FormConfigMain fcfm = new FormConfigMain();
+                fcfm.ShowForm();
+            }
+        }
     }
 }

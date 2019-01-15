@@ -78,6 +78,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -88,6 +89,42 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChekConfig\CheckDialog\FormDomain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChekConfig\CheckDialog\FormDomain.Designer.cs">
+      <DependentUpon>FormDomain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ChekConfig\CheckDialog\FormLogic.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChekConfig\CheckDialog\FormLogic.Designer.cs">
+      <DependentUpon>FormLogic.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ChekConfig\CheckDialog\FormNullValue.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChekConfig\CheckDialog\FormNullValue.Designer.cs">
+      <DependentUpon>FormNullValue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ChekConfig\CheckDialog\FormUnique.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChekConfig\CheckDialog\FormUnique.Designer.cs">
+      <DependentUpon>FormUnique.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ChekConfig\FormAttr.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChekConfig\FormAttr.Designer.cs">
+      <DependentUpon>FormAttr.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ChekConfig\FormAttrAdd.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChekConfig\FormAttrAdd.Designer.cs">
+      <DependentUpon>FormAttrAdd.cs</DependentUpon>
+    </Compile>
     <Compile Include="ChekConfig\FormChange.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -100,6 +137,12 @@
     <Compile Include="ChekConfig\FormConfigMain.Designer.cs">
       <DependentUpon>FormConfigMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="ChekConfig\FormGroup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChekConfig\FormGroup.Designer.cs">
+      <DependentUpon>FormGroup.cs</DependentUpon>
+    </Compile>
     <Compile Include="ChekConfig\FormStep.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -111,6 +154,9 @@
     </Compile>
     <Compile Include="ChekConfig\FormStructure.Designer.cs">
       <DependentUpon>FormStructure.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Common\ButtonEx.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Common\ConnectDB.cs" />
     <Compile Include="Common\ExportExcelClass.cs" />
@@ -125,6 +171,12 @@
     </Compile>
     <Compile Include="DataRegister\FormDBConnectInfo.Designer.cs">
       <DependentUpon>FormDBConnectInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataRegister\FormDomain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataRegister\FormDomain.Designer.cs">
+      <DependentUpon>FormDomain.cs</DependentUpon>
     </Compile>
     <Compile Include="DataRegister\FormRegister.cs">
       <SubType>Form</SubType>
@@ -159,11 +211,32 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="ChekConfig\CheckDialog\FormDomain.resx">
+      <DependentUpon>FormDomain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ChekConfig\CheckDialog\FormLogic.resx">
+      <DependentUpon>FormLogic.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ChekConfig\CheckDialog\FormNullValue.resx">
+      <DependentUpon>FormNullValue.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ChekConfig\CheckDialog\FormUnique.resx">
+      <DependentUpon>FormUnique.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ChekConfig\FormAttr.resx">
+      <DependentUpon>FormAttr.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ChekConfig\FormAttrAdd.resx">
+      <DependentUpon>FormAttrAdd.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ChekConfig\FormChange.resx">
       <DependentUpon>FormChange.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ChekConfig\FormConfigMain.resx">
       <DependentUpon>FormConfigMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ChekConfig\FormGroup.resx">
+      <DependentUpon>FormGroup.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ChekConfig\FormStep.resx">
       <DependentUpon>FormStep.cs</DependentUpon>
@@ -173,6 +246,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DataRegister\FormDBConnectInfo.resx">
       <DependentUpon>FormDBConnectInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataRegister\FormDomain.resx">
+      <DependentUpon>FormDomain.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DataRegister\FormRegister.resx">
       <DependentUpon>FormRegister.cs</DependentUpon>

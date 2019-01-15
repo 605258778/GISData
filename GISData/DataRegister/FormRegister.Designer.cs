@@ -32,7 +32,9 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.groupBoxDataReg = new System.Windows.Forms.GroupBox();
+            this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.dataGridViewDataReg = new System.Windows.Forms.DataGridView();
+            this.buttonDelReg = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.buttonAddConnect = new System.Windows.Forms.Button();
             this.buttonRegister = new System.Windows.Forms.Button();
@@ -40,18 +42,6 @@
             this.groupBoxLoadReg = new System.Windows.Forms.GroupBox();
             this.treeViewReg = new System.Windows.Forms.TreeView();
             this.dataGridViewFieldView = new System.Windows.Forms.DataGridView();
-            this.ZDMC = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ZDBM = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ZDLX = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ZDZZ = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SFZJ = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ZDCD = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.XSWS = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.NFWK = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SFZD = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SFXS = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ZDY = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ZDYTJ = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -61,6 +51,10 @@
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             this.groupBoxDataReg.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
+            this.splitContainer3.Panel1.SuspendLayout();
+            this.splitContainer3.Panel2.SuspendLayout();
+            this.splitContainer3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewDataReg)).BeginInit();
             this.panel1.SuspendLayout();
             this.groupBoxLoadReg.SuspendLayout();
@@ -105,7 +99,7 @@
             // 
             // groupBoxDataReg
             // 
-            this.groupBoxDataReg.Controls.Add(this.dataGridViewDataReg);
+            this.groupBoxDataReg.Controls.Add(this.splitContainer3);
             this.groupBoxDataReg.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBoxDataReg.Location = new System.Drawing.Point(0, 0);
             this.groupBoxDataReg.Name = "groupBoxDataReg";
@@ -113,6 +107,24 @@
             this.groupBoxDataReg.TabIndex = 0;
             this.groupBoxDataReg.TabStop = false;
             this.groupBoxDataReg.Text = "数据注册";
+            // 
+            // splitContainer3
+            // 
+            this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer3.Location = new System.Drawing.Point(3, 21);
+            this.splitContainer3.Name = "splitContainer3";
+            this.splitContainer3.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer3.Panel1
+            // 
+            this.splitContainer3.Panel1.Controls.Add(this.dataGridViewDataReg);
+            // 
+            // splitContainer3.Panel2
+            // 
+            this.splitContainer3.Panel2.Controls.Add(this.buttonDelReg);
+            this.splitContainer3.Size = new System.Drawing.Size(271, 240);
+            this.splitContainer3.SplitterDistance = 202;
+            this.splitContainer3.TabIndex = 1;
             // 
             // dataGridViewDataReg
             // 
@@ -129,13 +141,23 @@
             this.dataGridViewDataReg.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridViewDataReg.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewDataReg.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridViewDataReg.Location = new System.Drawing.Point(3, 21);
+            this.dataGridViewDataReg.Location = new System.Drawing.Point(0, 0);
             this.dataGridViewDataReg.Name = "dataGridViewDataReg";
             this.dataGridViewDataReg.ReadOnly = true;
             this.dataGridViewDataReg.RowTemplate.Height = 27;
-            this.dataGridViewDataReg.Size = new System.Drawing.Size(271, 240);
+            this.dataGridViewDataReg.Size = new System.Drawing.Size(271, 202);
             this.dataGridViewDataReg.TabIndex = 0;
             this.dataGridViewDataReg.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewDataReg_CellDoubleClick);
+            // 
+            // buttonDelReg
+            // 
+            this.buttonDelReg.Location = new System.Drawing.Point(171, 3);
+            this.buttonDelReg.Name = "buttonDelReg";
+            this.buttonDelReg.Size = new System.Drawing.Size(75, 27);
+            this.buttonDelReg.TabIndex = 0;
+            this.buttonDelReg.Text = "删除";
+            this.buttonDelReg.UseVisualStyleBackColor = true;
+            this.buttonDelReg.Click += new System.EventHandler(this.buttonDelReg_Click);
             // 
             // panel1
             // 
@@ -204,19 +226,6 @@
             this.dataGridViewFieldView.AllowUserToDeleteRows = false;
             this.dataGridViewFieldView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridViewFieldView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewFieldView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.ZDMC,
-            this.ZDBM,
-            this.ZDLX,
-            this.ZDZZ,
-            this.SFZJ,
-            this.ZDCD,
-            this.XSWS,
-            this.NFWK,
-            this.SFZD,
-            this.SFXS,
-            this.ZDY,
-            this.ZDYTJ});
             this.dataGridViewFieldView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridViewFieldView.Location = new System.Drawing.Point(0, 0);
             this.dataGridViewFieldView.Name = "dataGridViewFieldView";
@@ -224,78 +233,7 @@
             this.dataGridViewFieldView.RowTemplate.Height = 27;
             this.dataGridViewFieldView.Size = new System.Drawing.Size(781, 537);
             this.dataGridViewFieldView.TabIndex = 0;
-            // 
-            // ZDMC
-            // 
-            this.ZDMC.HeaderText = "字段名称";
-            this.ZDMC.Name = "ZDMC";
-            this.ZDMC.ReadOnly = true;
-            // 
-            // ZDBM
-            // 
-            this.ZDBM.HeaderText = "字段别名";
-            this.ZDBM.Name = "ZDBM";
-            this.ZDBM.ReadOnly = true;
-            // 
-            // ZDLX
-            // 
-            this.ZDLX.HeaderText = "字段类型";
-            this.ZDLX.Name = "ZDLX";
-            this.ZDLX.ReadOnly = true;
-            // 
-            // ZDZZ
-            // 
-            this.ZDZZ.HeaderText = "自动增值";
-            this.ZDZZ.Name = "ZDZZ";
-            this.ZDZZ.ReadOnly = true;
-            // 
-            // SFZJ
-            // 
-            this.SFZJ.HeaderText = "是否主键";
-            this.SFZJ.Name = "SFZJ";
-            this.SFZJ.ReadOnly = true;
-            // 
-            // ZDCD
-            // 
-            this.ZDCD.HeaderText = "字段长度";
-            this.ZDCD.Name = "ZDCD";
-            this.ZDCD.ReadOnly = true;
-            // 
-            // XSWS
-            // 
-            this.XSWS.HeaderText = "小数位数";
-            this.XSWS.Name = "XSWS";
-            this.XSWS.ReadOnly = true;
-            // 
-            // NFWK
-            // 
-            this.NFWK.HeaderText = "能否为空";
-            this.NFWK.Name = "NFWK";
-            this.NFWK.ReadOnly = true;
-            // 
-            // SFZD
-            // 
-            this.SFZD.HeaderText = "是否只读";
-            this.SFZD.Name = "SFZD";
-            this.SFZD.ReadOnly = true;
-            // 
-            // SFXS
-            // 
-            this.SFXS.HeaderText = "是否显示";
-            this.SFXS.Name = "SFXS";
-            this.SFXS.ReadOnly = true;
-            // 
-            // ZDY
-            // 
-            this.ZDY.HeaderText = "字典域";
-            this.ZDY.Name = "ZDY";
-            this.ZDY.ReadOnly = true;
-            // 
-            // ZDYTJ
-            // 
-            this.ZDYTJ.HeaderText = "字典域条件";
-            this.ZDYTJ.Name = "ZDYTJ";
-            this.ZDYTJ.ReadOnly = true;
+            this.dataGridViewFieldView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewFieldView_CellDoubleClick);
             // 
             // FormRegister
             // 
@@ -315,6 +253,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             this.groupBoxDataReg.ResumeLayout(false);
+            this.splitContainer3.Panel1.ResumeLayout(false);
+            this.splitContainer3.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
+            this.splitContainer3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewDataReg)).EndInit();
             this.panel1.ResumeLayout(false);
             this.groupBoxLoadReg.ResumeLayout(false);
@@ -335,18 +277,8 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.TreeView treeViewReg;
         private System.Windows.Forms.DataGridView dataGridViewFieldView;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ZDMC;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ZDBM;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ZDLX;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ZDZZ;
-        private System.Windows.Forms.DataGridViewTextBoxColumn SFZJ;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ZDCD;
-        private System.Windows.Forms.DataGridViewTextBoxColumn XSWS;
-        private System.Windows.Forms.DataGridViewTextBoxColumn NFWK;
-        private System.Windows.Forms.DataGridViewTextBoxColumn SFZD;
-        private System.Windows.Forms.DataGridViewTextBoxColumn SFXS;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ZDY;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ZDYTJ;
         private System.Windows.Forms.Button buttonRegister;
+        private System.Windows.Forms.SplitContainer splitContainer3;
+        private System.Windows.Forms.Button buttonDelReg;
     }
 }
