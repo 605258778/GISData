@@ -26,3 +26,9 @@ F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.ChekConfig.CheckDi
 F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.ChekConfig.CheckDialog.FormDomain.resources
 F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.ChekConfig.CheckDialog.FormLogic.resources
 F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.ChekConfig.CheckDialog.FormUnique.resources
+F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.ChekConfig.CheckTopo.FormTopo.resources
+F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.CheckConfig.CheckTopo.CheckDialog.FormContainPoint.resources
+F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.CheckConfig.CheckTopo.CheckDialog.FormNoInterLine.resources
+F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.CheckConfig.CheckTopo.CheckDialog.FormNoOverlapArea.resources
+F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.CheckConfig.CheckTopo.CheckDialog.Formxbm.resources
+F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.DataCheck.FormCheckMain.resources

@@ -7,6 +7,9 @@ public class ButtonEx : Button
     public new event EventHandler DoubleClick;
     DateTime clickTime;
     bool isClicked = false;
+    object iTag;
+    string iName;
+    string iText;
     protected override void OnClick(EventArgs e)
     {
         base.OnClick(e);
@@ -15,8 +18,9 @@ public class ButtonEx : Button
             TimeSpan span = DateTime.Now - clickTime;
             if (span.Milliseconds < SystemInformation.DoubleClickTime)
             {
-                DoubleClick(this, e);
+                DoubleClick(this,e);
                 isClicked = false;
+                
             }
             else
             {
@@ -29,5 +33,8 @@ public class ButtonEx : Button
             isClicked = true;
             clickTime = DateTime.Now;
         }
+        iName = this.Name;
+        iText = this.Text;
+        iTag = this.Tag;
     }
 }

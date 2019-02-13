@@ -20,6 +20,7 @@ using GISData.Common;
 using GISData.Dictionary;
 using GISData.DataRegister;
 using GISData.ChekConfig;
+using GISData.DataCheck;
 
 
 namespace GISData
@@ -99,6 +100,12 @@ namespace GISData
         private void 质检配置ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FormConfigMain fcm = new FormConfigMain();
+            fcm.Show();
+        }
+
+        private void 数据质检ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormCheckMain fcm = new FormCheckMain();
             fcm.Show();
         }
 

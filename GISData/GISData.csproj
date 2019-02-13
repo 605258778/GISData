@@ -89,70 +89,100 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ChekConfig\CheckDialog\FormDomain.cs">
+    <Compile Include="CheckConfig\CheckAttr\CheckDialog\FormDomain.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ChekConfig\CheckDialog\FormDomain.Designer.cs">
+    <Compile Include="CheckConfig\CheckAttr\CheckDialog\FormDomain.Designer.cs">
       <DependentUpon>FormDomain.cs</DependentUpon>
     </Compile>
-    <Compile Include="ChekConfig\CheckDialog\FormLogic.cs">
+    <Compile Include="CheckConfig\CheckAttr\CheckDialog\FormLogic.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ChekConfig\CheckDialog\FormLogic.Designer.cs">
+    <Compile Include="CheckConfig\CheckAttr\CheckDialog\FormLogic.Designer.cs">
       <DependentUpon>FormLogic.cs</DependentUpon>
     </Compile>
-    <Compile Include="ChekConfig\CheckDialog\FormNullValue.cs">
+    <Compile Include="CheckConfig\CheckAttr\CheckDialog\FormNullValue.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ChekConfig\CheckDialog\FormNullValue.Designer.cs">
+    <Compile Include="CheckConfig\CheckAttr\CheckDialog\FormNullValue.Designer.cs">
       <DependentUpon>FormNullValue.cs</DependentUpon>
     </Compile>
-    <Compile Include="ChekConfig\CheckDialog\FormUnique.cs">
+    <Compile Include="CheckConfig\CheckAttr\CheckDialog\FormUnique.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ChekConfig\CheckDialog\FormUnique.Designer.cs">
+    <Compile Include="CheckConfig\CheckAttr\CheckDialog\FormUnique.Designer.cs">
       <DependentUpon>FormUnique.cs</DependentUpon>
     </Compile>
-    <Compile Include="ChekConfig\FormAttr.cs">
+    <Compile Include="CheckConfig\CheckAttr\FormAttr.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ChekConfig\FormAttr.Designer.cs">
+    <Compile Include="CheckConfig\CheckAttr\FormAttr.Designer.cs">
       <DependentUpon>FormAttr.cs</DependentUpon>
     </Compile>
-    <Compile Include="ChekConfig\FormAttrAdd.cs">
+    <Compile Include="CheckConfig\CheckAttr\FormAttrAdd.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ChekConfig\FormAttrAdd.Designer.cs">
+    <Compile Include="CheckConfig\CheckAttr\FormAttrAdd.Designer.cs">
       <DependentUpon>FormAttrAdd.cs</DependentUpon>
     </Compile>
-    <Compile Include="ChekConfig\FormChange.cs">
+    <Compile Include="CheckConfig\CheckAttr\FormChange.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ChekConfig\FormChange.Designer.cs">
+    <Compile Include="CheckConfig\CheckAttr\FormChange.Designer.cs">
       <DependentUpon>FormChange.cs</DependentUpon>
     </Compile>
-    <Compile Include="ChekConfig\FormConfigMain.cs">
+    <Compile Include="CheckConfig\CheckTopo\CheckDialog\FormContainPoint.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ChekConfig\FormConfigMain.Designer.cs">
+    <Compile Include="CheckConfig\CheckTopo\CheckDialog\FormContainPoint.Designer.cs">
+      <DependentUpon>FormContainPoint.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CheckConfig\CheckTopo\CheckDialog\FormNoInterLine.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CheckConfig\CheckTopo\CheckDialog\FormNoInterLine.Designer.cs">
+      <DependentUpon>FormNoInterLine.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CheckConfig\CheckTopo\CheckDialog\FormNoOverlapArea.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CheckConfig\CheckTopo\CheckDialog\FormNoOverlapArea.Designer.cs">
+      <DependentUpon>FormNoOverlapArea.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CheckConfig\CheckTopo\CheckDialog\Formxbm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CheckConfig\CheckTopo\CheckDialog\Formxbm.Designer.cs">
+      <DependentUpon>Formxbm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CheckConfig\CheckTopo\FormTopo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CheckConfig\CheckTopo\FormTopo.Designer.cs">
+      <DependentUpon>FormTopo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CheckConfig\FormConfigMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CheckConfig\FormConfigMain.Designer.cs">
       <DependentUpon>FormConfigMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="ChekConfig\FormGroup.cs">
+    <Compile Include="CheckConfig\CheckAttr\FormGroup.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ChekConfig\FormGroup.Designer.cs">
+    <Compile Include="CheckConfig\CheckAttr\FormGroup.Designer.cs">
       <DependentUpon>FormGroup.cs</DependentUpon>
     </Compile>
-    <Compile Include="ChekConfig\FormStep.cs">
+    <Compile Include="CheckConfig\FormStep.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ChekConfig\FormStep.Designer.cs">
+    <Compile Include="CheckConfig\FormStep.Designer.cs">
       <DependentUpon>FormStep.cs</DependentUpon>
     </Compile>
-    <Compile Include="ChekConfig\FormStructure.cs">
+    <Compile Include="CheckConfig\CheckAttr\FormStructure.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ChekConfig\FormStructure.Designer.cs">
+    <Compile Include="CheckConfig\CheckAttr\FormStructure.Designer.cs">
       <DependentUpon>FormStructure.cs</DependentUpon>
     </Compile>
     <Compile Include="Common\ButtonEx.cs">
@@ -166,6 +196,12 @@
     <Compile Include="Common\RemoveLayer.cs" />
     <Compile Include="Common\TreeNodeMul.cs" />
     <Compile Include="Common\ZoomToLayer.cs" />
+    <Compile Include="DataCheck\FormCheckMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataCheck\FormCheckMain.Designer.cs">
+      <DependentUpon>FormCheckMain.cs</DependentUpon>
+    </Compile>
     <Compile Include="DataRegister\FormDBConnectInfo.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -211,38 +247,56 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="ChekConfig\CheckDialog\FormDomain.resx">
+    <EmbeddedResource Include="CheckConfig\CheckAttr\CheckDialog\FormDomain.resx">
       <DependentUpon>FormDomain.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ChekConfig\CheckDialog\FormLogic.resx">
+    <EmbeddedResource Include="CheckConfig\CheckAttr\CheckDialog\FormLogic.resx">
       <DependentUpon>FormLogic.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ChekConfig\CheckDialog\FormNullValue.resx">
+    <EmbeddedResource Include="CheckConfig\CheckAttr\CheckDialog\FormNullValue.resx">
       <DependentUpon>FormNullValue.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ChekConfig\CheckDialog\FormUnique.resx">
+    <EmbeddedResource Include="CheckConfig\CheckAttr\CheckDialog\FormUnique.resx">
       <DependentUpon>FormUnique.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ChekConfig\FormAttr.resx">
+    <EmbeddedResource Include="CheckConfig\CheckAttr\FormAttr.resx">
       <DependentUpon>FormAttr.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ChekConfig\FormAttrAdd.resx">
+    <EmbeddedResource Include="CheckConfig\CheckAttr\FormAttrAdd.resx">
       <DependentUpon>FormAttrAdd.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ChekConfig\FormChange.resx">
+    <EmbeddedResource Include="CheckConfig\CheckAttr\FormChange.resx">
       <DependentUpon>FormChange.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ChekConfig\FormConfigMain.resx">
+    <EmbeddedResource Include="CheckConfig\CheckTopo\CheckDialog\FormContainPoint.resx">
+      <DependentUpon>FormContainPoint.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CheckConfig\CheckTopo\CheckDialog\FormNoInterLine.resx">
+      <DependentUpon>FormNoInterLine.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CheckConfig\CheckTopo\CheckDialog\FormNoOverlapArea.resx">
+      <DependentUpon>FormNoOverlapArea.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CheckConfig\CheckTopo\CheckDialog\Formxbm.resx">
+      <DependentUpon>Formxbm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CheckConfig\CheckTopo\FormTopo.resx">
+      <DependentUpon>FormTopo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CheckConfig\FormConfigMain.resx">
       <DependentUpon>FormConfigMain.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ChekConfig\FormGroup.resx">
+    <EmbeddedResource Include="CheckConfig\CheckAttr\FormGroup.resx">
       <DependentUpon>FormGroup.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ChekConfig\FormStep.resx">
+    <EmbeddedResource Include="CheckConfig\FormStep.resx">
       <DependentUpon>FormStep.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ChekConfig\FormStructure.resx">
+    <EmbeddedResource Include="CheckConfig\CheckAttr\FormStructure.resx">
       <DependentUpon>FormStructure.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataCheck\FormCheckMain.resx">
+      <DependentUpon>FormCheckMain.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DataRegister\FormDBConnectInfo.resx">
       <DependentUpon>FormDBConnectInfo.cs</DependentUpon>
