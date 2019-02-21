@@ -222,12 +222,6 @@
     <Compile Include="DataCheck\CheckDialog\FormTopoDia.Designer.cs">
       <DependentUpon>FormTopoDia.cs</DependentUpon>
     </Compile>
-    <Compile Include="DataCheck\CheckDialog\FormTree.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="DataCheck\CheckDialog\FormTree.Designer.cs">
-      <DependentUpon>FormTree.cs</DependentUpon>
-    </Compile>
     <Compile Include="DataCheck\FormCheckMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -336,9 +330,6 @@
     <EmbeddedResource Include="DataCheck\CheckDialog\FormTopoDia.resx">
       <DependentUpon>FormTopoDia.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DataCheck\CheckDialog\FormTree.resx">
-      <DependentUpon>FormTree.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="DataCheck\FormCheckMain.resx">
       <DependentUpon>FormCheckMain.cs</DependentUpon>
     </EmbeddedResource>
@@ -363,7 +354,7 @@
     <EmbeddedResource Include="MainMap\FormAttribute.resx">
       <DependentUpon>FormAttribute.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\licenses.licx" />
+    <None Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

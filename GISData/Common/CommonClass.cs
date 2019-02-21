@@ -92,5 +92,49 @@ namespace GISData.Common
             }
 
         }
+        /// <summary>
+        /// 设置CheckBox子节点
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="check"></param>
+        public void SetCheckedChildNodes(DevExpress.XtraTreeList.Nodes.TreeListNode node, CheckState check)
+        {
+            for (int i = 0; i < node.Nodes.Count; i++)
+            {
+                node.Nodes[i].CheckState = check;
+                SetCheckedChildNodes(node.Nodes[i], check);
+            }
+        }
+        /// <summary>
+        /// 设置CheckBox父节点
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="check"></param>
+        public void SetCheckedParentNodes(DevExpress.XtraTreeList.Nodes.TreeListNode node, CheckState check)
+        {
+            if (node.ParentNode != null)
+            {
+                bool b = false;
+                CheckState state;
+                for (int i = 0; i < node.ParentNode.Nodes.Count; i++)
+                {
+                    state = (CheckState)node.ParentNode.Nodes[i].CheckState;
+                    if (!check.Equals(state))
+                    {
+                        b = !b;
+                        break;
+                    }
+                }
+                if (b)
+                {
+                    node.ParentNode.CheckState = CheckState.Indeterminate;
+                }
+                else
+                {
+                    node.ParentNode.CheckState = check;
+                }
+                SetCheckedParentNodes(node.ParentNode, check);
+            }
+        }
     }
 }

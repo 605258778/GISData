@@ -46,12 +46,17 @@ namespace GISData.DataCheck.CheckDialog
         {
             if ((bool)dataGridView1.Rows[e.RowIndex].Cells[0].EditedFormattedValue == true)
             {
-                dataGridView1.Rows[e.RowIndex].Cells[0].Value = false;
+                //dataGridView1.Rows[e.RowIndex].Cells[0].Value = false;
             }
             else
             {
-                dataGridView1.Rows[e.RowIndex].Cells[0].Value = true;
+                //dataGridView1.Rows[e.RowIndex].Cells[0].Value = true;
             }
+        }
+
+        private void FormStructureDia_Load_1(object sender, EventArgs e)
+        {
+
         }
     }
 }
