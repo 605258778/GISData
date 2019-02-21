@@ -32,6 +32,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DevExpress.Data.v18.2, Version=18.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Printing.v18.2.Core, Version=18.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Utils.v18.2, Version=18.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraEditors.v18.2, Version=18.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraLayout.v18.2, Version=18.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraTreeList.v18.2, Version=18.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="ESRI.ArcGIS.3DAnalyst, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86">
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
@@ -125,11 +131,17 @@
     <Compile Include="CheckConfig\CheckAttr\FormAttrAdd.Designer.cs">
       <DependentUpon>FormAttrAdd.cs</DependentUpon>
     </Compile>
-    <Compile Include="CheckConfig\CheckAttr\FormChange.cs">
+    <Compile Include="CheckConfig\CheckChange\FormChange.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CheckConfig\CheckAttr\FormChange.Designer.cs">
+    <Compile Include="CheckConfig\CheckChange\FormChange.Designer.cs">
       <DependentUpon>FormChange.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CheckConfig\CheckStructure\FormStructure.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CheckConfig\CheckStructure\FormStructure.Designer.cs">
+      <DependentUpon>FormStructure.cs</DependentUpon>
     </Compile>
     <Compile Include="CheckConfig\CheckTopo\CheckDialog\FormContainPoint.cs">
       <SubType>Form</SubType>
@@ -179,23 +191,43 @@
     <Compile Include="CheckConfig\FormStep.Designer.cs">
       <DependentUpon>FormStep.cs</DependentUpon>
     </Compile>
-    <Compile Include="CheckConfig\CheckAttr\FormStructure.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="CheckConfig\CheckAttr\FormStructure.Designer.cs">
-      <DependentUpon>FormStructure.cs</DependentUpon>
-    </Compile>
     <Compile Include="Common\ButtonEx.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Common\CommonClass.cs" />
     <Compile Include="Common\ConnectDB.cs" />
     <Compile Include="Common\ExportExcelClass.cs" />
     <Compile Include="Common\GetAllFeature.cs" />
     <Compile Include="Common\OpenAttribute.cs" />
     <Compile Include="Common\RefreshTable.cs" />
     <Compile Include="Common\RemoveLayer.cs" />
+    <Compile Include="Common\TreeDataGridView.cs" />
     <Compile Include="Common\TreeNodeMul.cs" />
     <Compile Include="Common\ZoomToLayer.cs" />
+    <Compile Include="DataCheck\CheckDialog\FormAttrDia.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataCheck\CheckDialog\FormAttrDia.Designer.cs">
+      <DependentUpon>FormAttrDia.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataCheck\CheckDialog\FormStructureDia.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataCheck\CheckDialog\FormStructureDia.Designer.cs">
+      <DependentUpon>FormStructureDia.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataCheck\CheckDialog\FormTopoDia.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataCheck\CheckDialog\FormTopoDia.Designer.cs">
+      <DependentUpon>FormTopoDia.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataCheck\CheckDialog\FormTree.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataCheck\CheckDialog\FormTree.Designer.cs">
+      <DependentUpon>FormTree.cs</DependentUpon>
+    </Compile>
     <Compile Include="DataCheck\FormCheckMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -265,8 +297,11 @@
     <EmbeddedResource Include="CheckConfig\CheckAttr\FormAttrAdd.resx">
       <DependentUpon>FormAttrAdd.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CheckConfig\CheckAttr\FormChange.resx">
+    <EmbeddedResource Include="CheckConfig\CheckChange\FormChange.resx">
       <DependentUpon>FormChange.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CheckConfig\CheckStructure\FormStructure.resx">
+      <DependentUpon>FormStructure.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CheckConfig\CheckTopo\CheckDialog\FormContainPoint.resx">
       <DependentUpon>FormContainPoint.cs</DependentUpon>
@@ -292,8 +327,17 @@
     <EmbeddedResource Include="CheckConfig\FormStep.resx">
       <DependentUpon>FormStep.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CheckConfig\CheckAttr\FormStructure.resx">
-      <DependentUpon>FormStructure.cs</DependentUpon>
+    <EmbeddedResource Include="DataCheck\CheckDialog\FormAttrDia.resx">
+      <DependentUpon>FormAttrDia.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataCheck\CheckDialog\FormStructureDia.resx">
+      <DependentUpon>FormStructureDia.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataCheck\CheckDialog\FormTopoDia.resx">
+      <DependentUpon>FormTopoDia.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataCheck\CheckDialog\FormTree.resx">
+      <DependentUpon>FormTree.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DataCheck\FormCheckMain.resx">
       <DependentUpon>FormCheckMain.cs</DependentUpon>
@@ -319,6 +363,7 @@
     <EmbeddedResource Include="MainMap\FormAttribute.resx">
       <DependentUpon>FormAttribute.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

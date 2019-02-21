@@ -89,5 +89,10 @@ namespace GISData.ChekConfig.CheckTopo
                 }
             }
         }
+
+        private void FormTopo_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

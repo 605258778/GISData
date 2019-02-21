@@ -1,4 +1,5 @@
-﻿using GISData.ChekConfig.CheckTopo;
+﻿using GISData.CheckConfig.CheckStructure;
+using GISData.ChekConfig.CheckTopo;
 using GISData.Common;
 using System;
 using System.Collections.Generic;
@@ -64,7 +65,9 @@ namespace GISData.ChekConfig
             }
             else if (sendButton.AccessibleDescription.ToString() == "结构检查")
             {
-
+                FormStructure fs = new FormStructure(this.click_NO);
+                Panel panel = this.splitContainer2.Panel2;
+                ShowForm(panel, fs);
             }
             else if (sendButton.AccessibleDescription.ToString() == "数据排查")
             {

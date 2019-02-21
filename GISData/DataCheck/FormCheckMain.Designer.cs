@@ -74,11 +74,11 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(637, 13);
+            this.button1.Location = new System.Drawing.Point(637, 9);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(100, 23);
+            this.button1.Size = new System.Drawing.Size(100, 31);
             this.button1.TabIndex = 0;
-            this.button1.Text = "开始检查";
+            this.button1.Text = "开始执行";
             this.button1.UseVisualStyleBackColor = true;
             // 
             // FormCheckMain
@@ -87,6 +87,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(828, 500);
             this.Controls.Add(this.splitContainer1);
+            this.IsMdiContainer = true;
             this.Name = "FormCheckMain";
             this.Text = "数据质检";
             this.Load += new System.EventHandler(this.FormCheckMain_Load);

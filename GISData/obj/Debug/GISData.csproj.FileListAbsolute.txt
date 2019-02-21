@@ -16,7 +16,6 @@ F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.Dictionary.FormDic
 F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.ChekConfig.FormChange.resources
 F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.ChekConfig.FormConfigMain.resources
 F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.ChekConfig.FormStep.resources
-F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.ChekConfig.FormStructure.resources
 F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.DataRegister.FormDBConnectInfo.resources
 F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.DataRegister.FormDomain.resources
 F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.ChekConfig.FormAttr.resources
@@ -32,3 +31,7 @@ F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.CheckConfig.CheckT
 F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.CheckConfig.CheckTopo.CheckDialog.FormNoOverlapArea.resources
 F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.CheckConfig.CheckTopo.CheckDialog.Formxbm.resources
 F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.DataCheck.FormCheckMain.resources
+F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.DataCheck.CheckDialog.FormAttrDia.resources
+F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.DataCheck.CheckDialog.FormTopoDia.resources
+F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.CheckConfig.CheckStructure.FormStructure.resources
+F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.DataCheck.CheckDialog.FormStructureDia.resources
