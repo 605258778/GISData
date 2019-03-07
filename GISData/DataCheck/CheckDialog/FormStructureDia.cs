@@ -37,22 +37,22 @@ namespace GISData.DataCheck.CheckDialog
         {
             ConnectDB db = new ConnectDB();
             DataTable dt = db.GetDataBySql("select REG_NAME as 图层,REG_ALIASNAME as 别名 from GISDATA_REGINFO where IS_CHECK='1' and STEP_NO = '" + stepNo + "'");
-            this.dataGridView1.DataSource = dt;
+            this.gridControl1.DataSource = dt;
             CommonClass common = new CommonClass();
-            common.AddCheckBox(this.dataGridView1);
+            //common.AddCheckBox(this.gridControl1);
         }
 
-        private void dataGridView1_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            if ((bool)dataGridView1.Rows[e.RowIndex].Cells[0].EditedFormattedValue == true)
-            {
-                //dataGridView1.Rows[e.RowIndex].Cells[0].Value = false;
-            }
-            else
-            {
-                //dataGridView1.Rows[e.RowIndex].Cells[0].Value = true;
-            }
-        }
+        //private void dataGridView1_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        //{
+        //    if ((bool)dataGridView1.Rows[e.RowIndex].Cells[0].EditedFormattedValue == true)
+        //    {
+        //        //dataGridView1.Rows[e.RowIndex].Cells[0].Value = false;
+        //    }
+        //    else
+        //    {
+        //        //dataGridView1.Rows[e.RowIndex].Cells[0].Value = true;
+        //    }
+        //}
 
         private void FormStructureDia_Load_1(object sender, EventArgs e)
         {
