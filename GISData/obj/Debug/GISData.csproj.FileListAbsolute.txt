@@ -36,3 +36,4 @@ F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.DataCheck.CheckDia
 F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.CheckConfig.CheckStructure.FormStructure.resources
 F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.DataCheck.CheckDialog.FormStructureDia.resources
 F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.csproj.ResolveComReference.cache
+F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.Parameter.FormSetpara.resources

@@ -21,6 +21,7 @@ using GISData.Dictionary;
 using GISData.DataRegister;
 using GISData.ChekConfig;
 using GISData.DataCheck;
+using GISData.Parameter;
 
 
 namespace GISData
@@ -107,6 +108,58 @@ namespace GISData
         {
             FormCheckMain fcm = new FormCheckMain();
             fcm.Show();
+        }
+
+        private void 工程设置ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormSetpara FormSetparaDig = new FormSetpara();
+            FormSetparaDig.Show();
+            //string strFilePath = "Provider=Microsoft.ACE.OLEDB.12.0;Data source=" + Application.StartupPath + "\\makemoney.mdb";
+            //System.Data.OleDb.OleDbConnection conn = new OleDbConnection(strFilePath);
+            //try
+            //{
+                //FormSetpara FormSetparaDig = new FormSetpara(); 
+                //OleDbDataAdapter adapter = new OleDbDataAdapter();
+                //string sqlstr = "select * from 工程参数表";
+                //DataSet ds = new DataSet();
+                //conn.Open();
+                //adapter.SelectCommand = new OleDbCommand(sqlstr, conn);
+                //adapter.Fill(ds, "工程参数表");
+                //DataTable dt = ds.Tables["工程参数表"];
+                //DataRow[] dr = dt.Select("1=1");
+                //conn.Close();
+                //for (int i = 0; i < dr.Length; i++) 
+                //{
+                //    Label lb = new Label();
+                //    lb.Location = new System.Drawing.Point(75, 60*(i+1)-30);
+                //    lb.Text = dr[i]["参数名称"].ToString()+":";
+                //    lb.Name = "lable" + i.ToString();
+                //    lb.AutoSize = true;
+                //    TextBox tx = new TextBox();
+                //    tx.Location = new System.Drawing.Point(75, 30 * 2 * (i + 1));
+                //    tx.Size = new System.Drawing.Size(400, 25);
+                //    tx.Tag = dr[i]["ID"].ToString();
+                //    tx.Name = dr[i]["参数名称"].ToString();
+                //    Button bt = new Button();
+                //    bt.Location = new System.Drawing.Point(500, 30 * 2 * (i + 1));
+                //    bt.Text = "浏览";
+                //    bt.Name = dr[i]["参数名称"].ToString()+"Add";
+                //    //bt.Click += (se, a) => addFile(tx);
+                //    FormSetparaDig.Controls.Add(lb);
+                //    FormSetparaDig.Controls.Add(tx);
+                //    FormSetparaDig.Controls.Add(bt);
+                //}
+                //Button btok = new Button();
+                //btok.Location = new System.Drawing.Point(500, 30 * 2 * (dr.Length + 1));
+                //btok.Text = "确定";
+                ////btok.Click += (se, a) => SelectOk(FormSetparaDig);
+                //FormSetparaDig.Controls.Add(btok);
+                //FormSetparaDig.ShowDialog();
+            //}
+            //catch (Exception exc)
+            //{
+            //    throw (new Exception(exc.Message));
+            //}
         }
 
     }
