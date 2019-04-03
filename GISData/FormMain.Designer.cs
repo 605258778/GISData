@@ -36,20 +36,20 @@
             this.字典管理ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.质检配置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.数据质检ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.工程设置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.axTOCControl1 = new ESRI.ArcGIS.Controls.AxTOCControl();
             this.axLicenseControl1 = new ESRI.ArcGIS.Controls.AxLicenseControl();
+            this.axTOCControl1 = new ESRI.ArcGIS.Controls.AxTOCControl();
             this.axMapControl1 = new ESRI.ArcGIS.Controls.AxMapControl();
-            this.工程设置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.axToolbarControl1)).BeginInit();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.axTOCControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.axLicenseControl1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.axTOCControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.axMapControl1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -111,6 +111,13 @@
             this.数据质检ToolStripMenuItem.Text = "数据质检";
             this.数据质检ToolStripMenuItem.Click += new System.EventHandler(this.数据质检ToolStripMenuItem_Click);
             // 
+            // 工程设置ToolStripMenuItem
+            // 
+            this.工程设置ToolStripMenuItem.Name = "工程设置ToolStripMenuItem";
+            this.工程设置ToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
+            this.工程设置ToolStripMenuItem.Text = "工程设置";
+            this.工程设置ToolStripMenuItem.Click += new System.EventHandler(this.工程设置ToolStripMenuItem_Click);
+            // 
             // statusStrip1
             // 
             this.statusStrip1.Location = new System.Drawing.Point(0, 575);
@@ -127,15 +134,24 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.axLicenseControl1);
             this.splitContainer1.Panel1.Controls.Add(this.axTOCControl1);
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.axLicenseControl1);
             this.splitContainer1.Panel2.Controls.Add(this.axMapControl1);
             this.splitContainer1.Size = new System.Drawing.Size(1201, 519);
             this.splitContainer1.SplitterDistance = 400;
             this.splitContainer1.TabIndex = 5;
+            // 
+            // axLicenseControl1
+            // 
+            this.axLicenseControl1.Enabled = true;
+            this.axLicenseControl1.Location = new System.Drawing.Point(267, 187);
+            this.axLicenseControl1.Name = "axLicenseControl1";
+            this.axLicenseControl1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axLicenseControl1.OcxState")));
+            this.axLicenseControl1.Size = new System.Drawing.Size(32, 32);
+            this.axLicenseControl1.TabIndex = 1;
             // 
             // axTOCControl1
             // 
@@ -147,15 +163,6 @@
             this.axTOCControl1.TabIndex = 0;
             this.axTOCControl1.OnMouseDown += new ESRI.ArcGIS.Controls.ITOCControlEvents_Ax_OnMouseDownEventHandler(this.axTOCControl1_OnMouseDown);
             // 
-            // axLicenseControl1
-            // 
-            this.axLicenseControl1.Enabled = true;
-            this.axLicenseControl1.Location = new System.Drawing.Point(46, 141);
-            this.axLicenseControl1.Name = "axLicenseControl1";
-            this.axLicenseControl1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axLicenseControl1.OcxState")));
-            this.axLicenseControl1.Size = new System.Drawing.Size(32, 32);
-            this.axLicenseControl1.TabIndex = 1;
-            // 
             // axMapControl1
             // 
             this.axMapControl1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -164,13 +171,6 @@
             this.axMapControl1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axMapControl1.OcxState")));
             this.axMapControl1.Size = new System.Drawing.Size(797, 519);
             this.axMapControl1.TabIndex = 0;
-            // 
-            // 工程设置ToolStripMenuItem
-            // 
-            this.工程设置ToolStripMenuItem.Name = "工程设置ToolStripMenuItem";
-            this.工程设置ToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
-            this.工程设置ToolStripMenuItem.Text = "工程设置";
-            this.工程设置ToolStripMenuItem.Click += new System.EventHandler(this.工程设置ToolStripMenuItem_Click);
             // 
             // FormMain
             // 
@@ -192,8 +192,8 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.axTOCControl1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.axLicenseControl1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.axTOCControl1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.axMapControl1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -211,10 +211,10 @@
         private System.Windows.Forms.SplitContainer splitContainer1;
         private ESRI.ArcGIS.Controls.AxTOCControl axTOCControl1;
         private ESRI.ArcGIS.Controls.AxMapControl axMapControl1;
-        private ESRI.ArcGIS.Controls.AxLicenseControl axLicenseControl1;
         private System.Windows.Forms.ToolStripMenuItem 质检配置ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 数据质检ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 工程设置ToolStripMenuItem;
+        private ESRI.ArcGIS.Controls.AxLicenseControl axLicenseControl1;
     }
 }
 
