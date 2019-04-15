@@ -142,15 +142,16 @@ namespace GISData
             Button btok = new Button();
             btok.Location = new System.Drawing.Point(500, 70 + 30 * 2 * (dr.Length + 1));
             btok.Text = "确定";
-            //btok.Click += (se, a) => SelectOk(FormSetparaDig);
+            btok.Click += (se, a) => SelectOk(FormSetparaDig);
             FormSetparaDig.Controls.Add(btok);
             FormSetparaDig.ShowDialog();
         }
+        //工程设置确定
         private void SelectOk(FormSetpara FormSetparaDig)
         {
             FormSetparaDig.Close();
         }
-
+        //工程设置添加文件
         private void addFile(TextBox tx)
         {
             string GdbPath = Application.StartupPath + "\\GISData.gdb";
@@ -164,9 +165,11 @@ namespace GISData
             if (enumObj != null)
             {
                 enumObj.Reset();
+                int a = 0;
                 IGxObject gxObj = enumObj.Next();
                 while (gxObj != null)
                 {
+                    Console.WriteLine(a++);
                     if (gxObj is IGxDataset)
                     {
                         IGxDataset gxDataset = gxObj as IGxDataset;
@@ -178,6 +181,12 @@ namespace GISData
                                 IWorkspace workspace = fac.OpenFromFile(GdbPath, 0);
                                 IFeatureClass pFc = pDataset as IFeatureClass;
                                 IFeatureWorkspace pFeatureWorkspace = workspace as IFeatureWorkspace;
+                                IEnumDatasetName datasetnames = workspace.get_DatasetNames(esriDatasetType.esriDTFeatureDataset);
+                                IFeatureDatasetName datasetname = datasetnames.Next() as IFeatureDatasetName;
+                                IFeatureDataConverter featureDataConverter = new FeatureDataConverterClass();
+                                featureDataConverter.ConvertFeatureClass(pDataset.FullName as IFeatureClassName, null, datasetname, pDataset.FullName as IFeatureClassName, null, null, "", 0, 0);
+                                tx.Text = pDataset.BrowseName;
+                                tx.Name = pDataset.BrowseName;
                                 break;
                             case esriDatasetType.esriDTFeatureDataset:
                                 IFeatureDataset pFeatureDs = pDataset as IFeatureDataset;
@@ -207,9 +216,10 @@ namespace GISData
                     {
                         IGxLayer gxLayer = gxObj as IGxLayer;
                         ILayer pLayer = gxLayer.Layer;
-
+                        break;
                         //do anything you like
                     }
+                    gxObj = enumObj.Next();
                 }
             }
         }
