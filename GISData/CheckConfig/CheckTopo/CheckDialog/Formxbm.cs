@@ -16,5 +16,17 @@ namespace GISData.CheckConfig.CheckTopo.CheckDialog
         {
             InitializeComponent();
         }
+
+        public string textBoxwhereValue
+        {
+            get { return textBoxwhere.Text; }
+            set { textBoxwhere.Text = value; }
+        }
+
+        public string textBoxinputValue
+        {
+            get { return textBoxinput.Text; }
+            set { textBoxinput.Text = value; }
+        }
     }
 }

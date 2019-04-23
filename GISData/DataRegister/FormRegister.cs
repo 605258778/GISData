@@ -72,12 +72,26 @@ namespace GISData.DataRegister
                 if (regType == "Access数据库")
                 {
                     AccessWorkspaceFactory fac = new AccessWorkspaceFactoryClass();
-                    space = (IFeatureWorkspace)fac.OpenFromFile(regPath, 0);
+                    try
+                    {
+                        space = (IFeatureWorkspace)fac.OpenFromFile(regPath, 0);
+                    }
+                    catch 
+                    {
+                        continue;
+                    }
                 }
                 else
                 {
                     FileGDBWorkspaceFactoryClass fac = new FileGDBWorkspaceFactoryClass();
-                    space = (IFeatureWorkspace)fac.OpenFromFile(regPath, 0);
+                    try
+                    {
+                        space = (IFeatureWorkspace)fac.OpenFromFile(regPath, 0);
+                    }
+                    catch
+                    {
+                        continue;
+                    }
                 }
                 IWorkspace iwk = (IWorkspace)space;
                 List<IDataset> ifcList = gaf.GetAllFeatureClass(iwk);
@@ -114,14 +128,17 @@ namespace GISData.DataRegister
                 if (dr == DialogResult.OK)
                 {
                     ConnectDB cd = new ConnectDB();
-                    Boolean result = cd.Insert("insert into GISDATA_REGINFO (REG_NAME,REG_ALIASNAME) values ('" + treeViewReg.SelectedNode.Tag + "','" + treeViewReg.SelectedNode.Text + "')");
+                    TreeNodeMul node = this.treeViewReg.SelectedNode as TreeNodeMul;
+                    IWorkspaceFactory pWorkspaceFactory = new AccessWorkspaceFactoryClass();
+                    IFeatureWorkspace pFeatureWorkspace = pWorkspaceFactory.OpenFromFile(node.Item1, 0) as IFeatureWorkspace;
+                    //打开数据文件中航路点这个表
+                    IFeatureClass pFeatureClass = pFeatureWorkspace.OpenFeatureClass(node.Tag.ToString());
+                    string FeatureType = pFeatureClass.ShapeType.ToString();
+                    Boolean result = cd.Insert("insert into GISDATA_REGINFO (REG_NAME,REG_ALIASNAME,FEATURE_TYPE) values ('" + treeViewReg.SelectedNode.Tag + "','" + treeViewReg.SelectedNode.Text + "','" + FeatureType + "')");
                     if (result) 
                     {
-                        TreeNodeMul node = this.treeViewReg.SelectedNode as TreeNodeMul;
-                        IWorkspaceFactory pWorkspaceFactory = new AccessWorkspaceFactoryClass();
-                        IFeatureWorkspace pFeatureWorkspace = pWorkspaceFactory.OpenFromFile(node.Item1, 0) as IFeatureWorkspace;
-                        //打开数据文件中航路点这个表
-                        IFeatureClass pFeatureClass = pFeatureWorkspace.OpenFeatureClass(node.Tag.ToString());
+                        
+                        
                         Boolean boolFlag = true;
                         for (int i = 0; i < pFeatureClass.Fields.FieldCount; i++) 
                         {

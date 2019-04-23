@@ -28,25 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.treeViewAttr = new System.Windows.Forms.TreeView();
             this.属性删除 = new System.Windows.Forms.Button();
             this.属性编辑 = new System.Windows.Forms.Button();
             this.添加项 = new System.Windows.Forms.Button();
             this.添加分组 = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.treeList1 = new DevExpress.XtraTreeList.TreeList();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.treeList1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // treeViewAttr
-            // 
-            this.treeViewAttr.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeViewAttr.Location = new System.Drawing.Point(0, 0);
-            this.treeViewAttr.Name = "treeViewAttr";
-            this.treeViewAttr.Size = new System.Drawing.Size(788, 469);
-            this.treeViewAttr.TabIndex = 0;
             // 
             // 属性删除
             // 
@@ -102,10 +95,18 @@
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.treeViewAttr);
+            this.splitContainer1.Panel2.Controls.Add(this.treeList1);
             this.splitContainer1.Size = new System.Drawing.Size(788, 505);
             this.splitContainer1.SplitterDistance = 32;
             this.splitContainer1.TabIndex = 12;
+            // 
+            // treeList1
+            // 
+            this.treeList1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeList1.Location = new System.Drawing.Point(0, 0);
+            this.treeList1.Name = "treeList1";
+            this.treeList1.Size = new System.Drawing.Size(788, 469);
+            this.treeList1.TabIndex = 0;
             // 
             // FormAttr
             // 
@@ -120,17 +121,18 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.treeList1)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TreeView treeViewAttr;
         private System.Windows.Forms.Button 属性删除;
         private System.Windows.Forms.Button 属性编辑;
         private System.Windows.Forms.Button 添加项;
         private System.Windows.Forms.Button 添加分组;
         private System.Windows.Forms.SplitContainer splitContainer1;
+        private DevExpress.XtraTreeList.TreeList treeList1;
     }
 }

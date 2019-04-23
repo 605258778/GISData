@@ -130,11 +130,12 @@ namespace GISData
                 tx.Size = new System.Drawing.Size(400, 25);
                 tx.Tag = dr[i]["ID"].ToString();
                 tx.Name = dr[i]["REG_ALIASNAME"].ToString();
+                string tablename = dr[i]["REG_NAME"].ToString();
                 Button bt = new Button();
                 bt.Location = new System.Drawing.Point(500, 70 + 30 * 2 * (i + 1));
                 bt.Text = "浏览";
                 bt.Name = dr[i]["REG_ALIASNAME"].ToString() + "Add";
-                bt.Click += (se, a) => addFile(tx);
+                bt.Click += (se, a) => addFile(tx, tablename);
                 FormSetparaDig.Controls.Add(lb);
                 FormSetparaDig.Controls.Add(tx);
                 FormSetparaDig.Controls.Add(bt);
@@ -152,7 +153,7 @@ namespace GISData
             FormSetparaDig.Close();
         }
         //工程设置添加文件
-        private void addFile(TextBox tx)
+        private void addFile(TextBox tx,string tablename)
         {
             string GdbPath = Application.StartupPath + "\\GISData.gdb";
             IGxDialog dlg = new GxDialog();
@@ -177,16 +178,31 @@ namespace GISData
                         switch (pDataset.Type)
                         {
                             case esriDatasetType.esriDTFeatureClass:
+                                IFeatureClassName targetFeatureClassName = new FeatureClassNameClass();
+                                IDatasetName targetDatasetName = (IDatasetName)targetFeatureClassName;
+                                targetDatasetName.Name = tablename;
+
                                 FileGDBWorkspaceFactoryClass fac = new FileGDBWorkspaceFactoryClass();
                                 IWorkspace workspace = fac.OpenFromFile(GdbPath, 0);
                                 IFeatureClass pFc = pDataset as IFeatureClass;
-                                IFeatureWorkspace pFeatureWorkspace = workspace as IFeatureWorkspace;
-                                IEnumDatasetName datasetnames = workspace.get_DatasetNames(esriDatasetType.esriDTFeatureDataset);
-                                IFeatureDatasetName datasetname = datasetnames.Next() as IFeatureDatasetName;
-                                IFeatureDataConverter featureDataConverter = new FeatureDataConverterClass();
-                                featureDataConverter.ConvertFeatureClass(pDataset.FullName as IFeatureClassName, null, datasetname, pDataset.FullName as IFeatureClassName, null, null, "", 0, 0);
-                                tx.Text = pDataset.BrowseName;
-                                tx.Name = pDataset.BrowseName;
+                                ISpatialReference pSpatialReference = (pFc as IGeoDataset).SpatialReference;//空间参考
+                                FormSetpara fs = new FormSetpara();
+                                CommonClass common = new CommonClass();
+                                if (pSpatialReference.Name != common.GetConfigValue("SpatialReferenceName"))
+                                {
+                                    MessageBox.Show("空间参考错误");
+                                    break;
+                                }
+                                else 
+                                {
+                                    IFeatureWorkspace pFeatureWorkspace = workspace as IFeatureWorkspace;
+                                    IEnumDatasetName datasetnames = workspace.get_DatasetNames(esriDatasetType.esriDTFeatureDataset);
+                                    IFeatureDatasetName datasetname = datasetnames.Next() as IFeatureDatasetName;
+                                    IFeatureDataConverter featureDataConverter = new FeatureDataConverterClass();
+                                    featureDataConverter.ConvertFeatureClass(pDataset.FullName as IFeatureClassName, null, datasetname, targetFeatureClassName, null, null, "", 0, 0);
+                                    tx.Text = pDataset.BrowseName;
+                                    tx.Name = pDataset.BrowseName;
+                                }
                                 break;
                             case esriDatasetType.esriDTFeatureDataset:
                                 IFeatureDataset pFeatureDs = pDataset as IFeatureDataset;

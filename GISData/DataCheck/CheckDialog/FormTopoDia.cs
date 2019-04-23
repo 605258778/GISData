@@ -27,6 +27,20 @@ namespace GISData.DataCheck.CheckDialog
             this.stepNo = stepNo;
         }
 
+        public void SelectAll() 
+        {
+            this.gridView1.SelectAll();
+        }
+
+        public void UnSelectAll()
+        {
+            int[] rows = this.gridView1.GetSelectedRows();
+            for (int i = 0; i < rows.Count(); i++)
+            {
+                this.gridView1.UnselectRow(rows[i]);
+            }
+        }
+
         private void FormTopoDia_Load(object sender, EventArgs e)
         {
             bindTreeView();
@@ -34,30 +48,18 @@ namespace GISData.DataCheck.CheckDialog
 
         private void bindTreeView()
         {
-            this.treeView1.Nodes.Clear();
-            ConnectDB cdb = new ConnectDB();
-            CommonClass common = new CommonClass();
-            try
-            {
-                DataTable dt = cdb.GetDataBySql("select * from GISDATA_TBTOPO");
-                DataRow[] dr = dt.Select("PARENTID = 0");
-                TreeNode rootNode = new TreeNode();
-                rootNode.Text = "属性检查";
-                rootNode.Tag = "0";
-                treeView1.Nodes.Add(rootNode);
-                for (int i = 0; i < dr.Length; i++)
-                {
-                    TreeNode tn = new TreeNode();
-                    tn.Text = dr[i]["NAME"].ToString();
-                    tn.Tag = dr[i]["ID"].ToString();
-                    common.FillTree(tn, dt);
-                    rootNode.Nodes.Add(tn);
-                }
-            }
-            catch (Exception e)
-            {
-                throw (new Exception("数据库出错:" + e.Message));
-            }
+            ConnectDB db = new ConnectDB();
+            DataTable dt = db.GetDataBySql("select NAME,STATE,ERROR,TYPE,TABLENAME,WHERESTRING,SUPTABLE,INPUTTEXT from GISDATA_TBTOPO");
+            this.gridControl1.DataSource = dt;
+            
+            //this.gridView1.Columns[4].Visible = false;
+            //this.gridView1.Columns[5].Visible = false;
+            //this.gridView1.Columns[6].Visible = false;
+            //this.gridView1.Columns[7].Visible = false;
+            //this.gridView1.Columns[8].Visible = false;
+            //this.gridView1.Columns.Add();
+            this.gridView1.OptionsBehavior.Editable = true;
+            this.gridView1.OptionsSelection.MultiSelect = true;
         }
     }
 }

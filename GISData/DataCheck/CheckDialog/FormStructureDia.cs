@@ -19,6 +19,20 @@ namespace GISData.DataCheck.CheckDialog
         {
             InitializeComponent();
         }
+        public void SelectAll() 
+        {
+            this.gridView1.SelectAll();
+        }
+
+        public void UnSelectAll()
+        {
+            
+            int[] rows = this.gridView1.GetSelectedRows();
+            for (int i = 0; i < rows.Count(); i++) 
+            {
+                this.gridView1.UnselectRow(rows[i]);
+            }
+        }
 
         public FormStructureDia(string stepNo)
         {
@@ -36,7 +50,7 @@ namespace GISData.DataCheck.CheckDialog
         private void bindData() 
         {
             ConnectDB db = new ConnectDB();
-            DataTable dt = db.GetDataBySql("select REG_NAME as 图层,REG_ALIASNAME as 别名 from GISDATA_REGINFO where IS_CHECK='1' and STEP_NO = '" + stepNo + "'");
+            DataTable dt = db.GetDataBySql("select REG_NAME,REG_ALIASNAME,STATE,ERROR from GISDATA_REGINFO where IS_CHECK='1' and STEP_NO = '" + stepNo + "'");
             this.gridControl1.DataSource = dt;
             CommonClass common = new CommonClass();
             //common.AddCheckBox(this.gridControl1);

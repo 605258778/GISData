@@ -146,7 +146,6 @@
             this.ClientSize = new System.Drawing.Size(1164, 543);
             this.Controls.Add(this.splitContainer1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.IsMdiContainer = true;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormConfigMain";

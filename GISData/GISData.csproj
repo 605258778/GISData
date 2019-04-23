@@ -112,6 +112,7 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Xml.Linq" />
@@ -177,6 +178,12 @@
     </Compile>
     <Compile Include="CheckConfig\CheckTopo\CheckDialog\FormContainPoint.Designer.cs">
       <DependentUpon>FormContainPoint.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CheckConfig\CheckTopo\CheckDialog\FormNoGaps.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CheckConfig\CheckTopo\CheckDialog\FormNoGaps.Designer.cs">
+      <DependentUpon>FormNoGaps.cs</DependentUpon>
     </Compile>
     <Compile Include="CheckConfig\CheckTopo\CheckDialog\FormNoInterLine.cs">
       <SubType>Form</SubType>
@@ -335,6 +342,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CheckConfig\CheckTopo\CheckDialog\FormContainPoint.resx">
       <DependentUpon>FormContainPoint.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CheckConfig\CheckTopo\CheckDialog\FormNoGaps.resx">
+      <DependentUpon>FormNoGaps.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CheckConfig\CheckTopo\CheckDialog\FormNoInterLine.resx">
       <DependentUpon>FormNoInterLine.cs</DependentUpon>

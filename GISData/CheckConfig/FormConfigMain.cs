@@ -149,25 +149,12 @@ namespace GISData.ChekConfig
             {
                 try
                 {
-                   
-                    if (this.currentForm != null && this.currentForm == frm)
-                    {
-                        return;
-                    }
-                    else if (this.currentForm != null)
-                    {
-                        if (this.ActiveMdiChild != null)
-                        {
-                            this.ActiveMdiChild.Hide();
-                        }
-                    }
-                    panel.Controls.Clear();
-                    this.currentForm = frm;
-                    frm.TopLevel = true;
-                    frm.MdiParent = this;
-                    frm.Parent = panel;
+                    frm.TopLevel = false;
                     frm.WindowState = FormWindowState.Maximized;
                     frm.FormBorderStyle = FormBorderStyle.None;
+
+                    panel.Controls.Clear();
+                    panel.Controls.Add(frm);
                     frm.Show();
                 }
                 catch (System.Exception ex)

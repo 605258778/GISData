@@ -1,4 +1,5 @@
-﻿using GISData.Common;
+﻿using DevExpress.XtraTreeList.Nodes;
+using GISData.Common;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -20,6 +21,14 @@ namespace GISData.DataCheck.CheckDialog
             InitializeComponent();
         }
 
+        public void SelectAll() 
+        {
+            this.SelectTreeListAll(this.treeList1);
+        }
+        public void UnSelectAll()
+        {
+            this.UnSelectTreeListAll(this.treeList1);
+        }
         public FormAttrDia(string stepNo)
         {
             InitializeComponent();
@@ -35,42 +44,11 @@ namespace GISData.DataCheck.CheckDialog
 
         private void bindTreeView() 
         {
-            
-            //tlOffice.DataMember = "OfficeName"; tlOffice.Columns["OfficeName"].Caption = "局名称"; 
-            //this.treeList1.Nodes.Clear();
             ConnectDB cdb = new ConnectDB();
             DataTable dt = cdb.GetDataBySql("select ID,PARENTID,NAME,ISCHECK,ERROR from GISDATA_TBATTR");
             this.treeList1.DataSource = dt;
-            treeList1.KeyFieldName = "ID";
-            treeList1.ParentFieldName = "PARENTID";
-            treeList1.Columns["NAME"].Caption = "质检名称";
-            treeList1.Columns["ISCHECK"].Caption = "质检状态";
-            treeList1.Columns["ERROR"].Caption = "错误数";
             treeList1.OptionsView.ShowCheckBoxes = true;
-            treeList1.OptionsBehavior.AllowIndeterminateCheckState = true;
-            //CommonClass common = new CommonClass();
-            //try
-            //{
-            //    DataTable dt = cdb.GetDataBySql("select * from GISDATA_TBATTR");
-            //    DataRow[] dr = dt.Select("PARENTID = 0");
-
-            //    TreeNode rootNode = new TreeNode();
-            //    rootNode.Text = "属性检查";
-            //    rootNode.Tag = "0";
-            //    treeList1.Nodes.Add(rootNode);
-            //    for (int i = 0; i < dr.Length; i++)
-            //    {
-            //        TreeNode tn = new TreeNode();
-            //        tn.Text = dr[i]["NAME"].ToString();
-            //        tn.Tag = dr[i]["ID"].ToString();
-            //        common.FillTree(tn, dt);
-            //        rootNode.Nodes.Add(tn);
-            //    }
-            //}
-            //catch (Exception e)
-            //{
-            //    throw (new Exception("数据库出错:" + e.Message));
-            //}
+            //treeList1.OptionsBehavior.AllowIndeterminateCheckState = true;
         }
 
         private void treeView1_AfterCheck(object sender, TreeViewEventArgs e)
@@ -115,6 +93,40 @@ namespace GISData.DataCheck.CheckDialog
             common.SetCheckedParentNodes(e.Node, e.Node.CheckState);
         }
 
+        /// <summary>
+        /// 全选树
+        /// </summary>
+        /// <param name="tree">树控件</param>
+        /// <param name="nodes">节点集合</param>
+        public virtual void SelectTreeListAll(DevExpress.XtraTreeList.TreeList tree, TreeListNodes nodes = null)
+        {
+            nodes = nodes ?? tree.Nodes;
+            foreach (TreeListNode item in nodes)
+            {
+                item.CheckState = CheckState.Checked;
+                if (tree.HasChildren)
+                {
+                    SelectTreeListAll(tree, item.Nodes);
+                }
+            }
+        }
+        /// <summary>
+        /// 全取消选树
+        /// </summary>
+        /// <param name="tree">树控件</param>
+        /// <param name="nodes">节点集合</param>
+        public virtual void UnSelectTreeListAll(DevExpress.XtraTreeList.TreeList tree, TreeListNodes nodes = null)
+        {
+            nodes = nodes ?? tree.Nodes;
+            foreach (TreeListNode item in nodes)
+            {
+                item.CheckState = CheckState.Unchecked;
+                if (tree.HasChildren)
+                {
+                    UnSelectTreeListAll(tree, item.Nodes);
+                }
+            }
+        }
         
     }
 }

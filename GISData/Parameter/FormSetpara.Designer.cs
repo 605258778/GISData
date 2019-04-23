@@ -69,6 +69,7 @@
             this.Controls.Add(this.label1);
             this.Name = "FormSetpara";
             this.Text = "FormSetpara";
+            this.Load += new System.EventHandler(this.FormSetpara_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

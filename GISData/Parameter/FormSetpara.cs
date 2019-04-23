@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using ESRI.ArcGIS.Geodatabase;
 using ESRI.ArcGIS.DataSourcesGDB;
+using GISData.Common;
 
 namespace GISData.Parameter
 {
@@ -24,10 +25,11 @@ namespace GISData.Parameter
         private void SpatialRSelect_Click(object sender, EventArgs e)
         {
             string GdbPath = Application.StartupPath + "\\GISData.gdb";
-            ISpatialReference pSpatialReference;
             ISpatialReferenceDialog2 pSRDialog = new SpatialReferenceDialogClass();
-            pSpatialReference = pSRDialog.DoModalCreate(true, false, false, 0);
-            this.textBox1.Text = pSpatialReference.Name;
+            ISpatialReference iSpatialReference = pSRDialog.DoModalCreate(true, false, false, 0);
+            this.textBox1.Text = iSpatialReference.Name;
+            CommonClass common = new CommonClass();
+            common.SetConfigValue("SpatialReferenceName", iSpatialReference.Name);
             FileGDBWorkspaceFactoryClass fac = new FileGDBWorkspaceFactoryClass();
             IWorkspace workspace = fac.OpenFromFile(GdbPath, 0);
             IFeatureWorkspace pFeatureWorkspace = workspace as IFeatureWorkspace;
@@ -39,10 +41,15 @@ namespace GISData.Parameter
                 if (datasetName.Name.Equals("dataset"))
                 {
                     featureWorkspaceMange.DeleteByName(datasetName);//删除指定要素类
-                    pFeatureWorkspace.CreateFeatureDataset("dataset", pSpatialReference);
+                    pFeatureWorkspace.CreateFeatureDataset("dataset", iSpatialReference);
                     break;
                 }
             }
+        }
+
+        private void FormSetpara_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

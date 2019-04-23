@@ -26,29 +26,19 @@ namespace GISData.ChekConfig
             DelegateRefreshTree RefreshTree = new DelegateRefreshTree(bindtreeViewAttr);
             //FormGroup FormGroupDig = new FormGroup(this.treeViewAttr, RefreshTree);
             //FormGroupDig.Show();
-            this.treeViewAttr.Refresh();
+            this.treeList1.Refresh();
         }
         private void bindtreeViewAttr()
         {
-            this.treeViewAttr.Nodes.Clear();
-            ConnectDB db = new ConnectDB();
-            DataTable dt = db.GetDataBySql("select * from GISDATA_TBATTR");
-            try
-            {
-                DataRow[] dr = dt.Select("PARENTID = 0");
-                for (int i = 0; i < dr.Length; i++)
-                {
-                    TreeNode tn = new TreeNode();
-                    tn.Text = dr[i]["NAME"].ToString();
-                    tn.Tag = dr[i]["id"].ToString();
-                    FillTree(tn, dt);
-                    treeViewAttr.Nodes.Add(tn);
-                }
-            }
-            catch (Exception e)
-            {
-                throw (new Exception("数据库出错:" + e.Message));
-            }
+            ConnectDB cdb = new ConnectDB();
+            DataTable dt = cdb.GetDataBySql("select ID,PARENTID,NAME from GISDATA_TBATTR");
+            this.treeList1.DataSource = dt;
+            treeList1.KeyFieldName = "ID";
+            treeList1.ParentFieldName = "PARENTID";
+            treeList1.Columns["NAME"].Caption = "质检名称";
+            treeList1.OptionsView.ShowCheckBoxes = false;
+            treeList1.OptionsBehavior.AllowIndeterminateCheckState = false;
+            treeList1.Columns["NAME"].OptionsColumn.AllowEdit = false;
         }
         private void FillTree(TreeNode node, DataTable dt)
         {

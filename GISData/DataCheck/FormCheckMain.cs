@@ -19,6 +19,10 @@ namespace GISData.DataCheck
             InitializeComponent();
         }
 
+        private FormStructureDia StructureDia;
+        private FormAttrDia AttrDia;
+        private FormTopoDia TopoDia;
+
         private void splitContainer1_SplitterMoved(object sender, SplitterEventArgs e)
         {
 
@@ -48,16 +52,19 @@ namespace GISData.DataCheck
                 if (stepType == "结构检查")
                 {
                     FormStructureDia fsa = new FormStructureDia(stepNo);
+                    StructureDia = fsa;
                     ShowForm(tp, fsa);
                 }
                 else if (stepType == "属性检查")
                 {
                     FormAttrDia attr = new FormAttrDia(stepNo);
+                    AttrDia = attr;
                     ShowForm(tp, attr);
                 }
                 else if (stepType == "图形检查")
                 {
                     FormTopoDia topo = new FormTopoDia(stepNo);
+                    TopoDia = topo;
                     ShowForm(tp, topo);
                 }
                 tp.Name = stepNo;
@@ -69,11 +76,53 @@ namespace GISData.DataCheck
                 tp.Text = "第" + stepNo + "步(" + stepName + ")";
                 tp.Tag = 1;
                 cb.Tag = 1;
+                cb.Click += (se, a) => checkState(se,a,stepType);
                 this.splitContainer1.Panel2.Controls.Add(cb);
                 this.tabControl1.Controls.Add(tp);
                 cb.BringToFront();
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        private void checkState(object sender, EventArgs e,string type) 
+        {
+            CheckBox CheckBoxSender = (CheckBox)sender;
+            if (type == "结构检查")
+            {
+                if (CheckBoxSender.Checked)
+                {
+                    StructureDia.SelectAll();
+                }
+                else {
+                    StructureDia.UnSelectAll();
+                }
+               
+            }
+            else if (type == "属性检查")
+            {
+                if (CheckBoxSender.Checked)
+                {
+                    AttrDia.SelectAll();
+                }
+                else
+                {
+                    AttrDia.UnSelectAll();
+                }
+            }
+            else if (type == "图形检查")
+            {
+                if (CheckBoxSender.Checked)
+                {
+                    TopoDia.SelectAll();
+                }
+                else
+                {
+                    TopoDia.UnSelectAll();
+                }
+            }
+        }
+
         /// <summary>
         /// 重绘tabControl，使其竖向展示
         /// </summary>
