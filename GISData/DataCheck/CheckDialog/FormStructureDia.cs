@@ -14,7 +14,7 @@ namespace GISData.DataCheck.CheckDialog
     public partial class FormStructureDia : Form
     {
         private string stepNo;
-
+        private CheckBox checkBox;
         public FormStructureDia()
         {
             InitializeComponent();
@@ -34,11 +34,12 @@ namespace GISData.DataCheck.CheckDialog
             }
         }
 
-        public FormStructureDia(string stepNo)
+        public FormStructureDia(string stepNo,CheckBox cb)
         {
             InitializeComponent();
             // TODO: Complete member initialization
             this.stepNo = stepNo;
+            this.checkBox = cb;
             bindData();
         }
 
@@ -71,6 +72,24 @@ namespace GISData.DataCheck.CheckDialog
         private void FormStructureDia_Load_1(object sender, EventArgs e)
         {
 
+        }
+
+        private void gridView1_SelectionChanged(object sender, DevExpress.Data.SelectionChangedEventArgs e)
+        {
+            int[] selectRows = this.gridView1.GetSelectedRows();
+            if (selectRows.Length > 0)
+            {
+                this.checkBox.CheckState = CheckState.Checked;
+            }
+            else
+            {
+                this.checkBox.CheckState = CheckState.Unchecked;
+            }
+        }
+
+        public void doCheckStructure() 
+        {
+        
         }
     }
 }

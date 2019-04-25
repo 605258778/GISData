@@ -15,7 +15,8 @@ namespace GISData.DataCheck.CheckDialog
     public partial class FormAttrDia : Form
     {
         private string stepNo;
-
+        private CheckBox checkBox;
+        Boolean flag = true;
         public FormAttrDia()
         {
             InitializeComponent();
@@ -29,11 +30,12 @@ namespace GISData.DataCheck.CheckDialog
         {
             this.UnSelectTreeListAll(this.treeList1);
         }
-        public FormAttrDia(string stepNo)
+        public FormAttrDia(string stepNo,CheckBox cb)
         {
             InitializeComponent();
             // TODO: Complete member initialization
             this.stepNo = stepNo;
+            this.checkBox = cb;
             bindTreeView();
         }
 
@@ -91,6 +93,34 @@ namespace GISData.DataCheck.CheckDialog
             CommonClass common = new CommonClass();
             common.SetCheckedChildNodes(e.Node, e.Node.CheckState);
             common.SetCheckedParentNodes(e.Node, e.Node.CheckState);
+            flag = true;
+            this.findOrigin(this.treeList1);
+            if (flag) 
+            {
+                this.checkBox.CheckState = CheckState.Unchecked;
+            }
+        }
+
+        private void findOrigin(DevExpress.XtraTreeList.TreeList tree,TreeListNodes nodes = null)
+        {
+            //this.checkBox.CheckState = CheckState.Unchecked;
+            nodes = nodes ?? tree.Nodes;
+            if (flag) 
+            {
+                foreach (TreeListNode item in nodes)
+                {
+                    if (item.CheckState == CheckState.Checked)
+                    {
+                        this.checkBox.CheckState = CheckState.Checked;
+                        flag = false;
+                        break;
+                    }
+                    if (tree.HasChildren)
+                    {
+                        findOrigin(tree, item.Nodes);
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -127,6 +157,14 @@ namespace GISData.DataCheck.CheckDialog
                 }
             }
         }
+
+        private void treeList1_SelectionChanged(object sender, EventArgs e)
+        {
+        }
+
+        public void doCheckAttr() 
+        {
         
+        }
     }
 }

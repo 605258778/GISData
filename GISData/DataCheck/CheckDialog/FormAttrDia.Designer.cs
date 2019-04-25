@@ -52,6 +52,7 @@
             this.treeList1.TabIndex = 0;
             this.treeList1.BeforeCheckNode += new DevExpress.XtraTreeList.CheckNodeEventHandler(this.treeList1_BeforeCheckNode);
             this.treeList1.AfterCheckNode += new DevExpress.XtraTreeList.NodeEventHandler(this.treeList1_AfterCheckNode);
+            this.treeList1.SelectionChanged += new System.EventHandler(this.treeList1_SelectionChanged);
             // 
             // treeListColumn1
             // 

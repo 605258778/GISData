@@ -30,10 +30,15 @@
         {
             this.gridControl1 = new DevExpress.XtraGrid.GridControl();
             this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.NAME = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.STATE = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.ERROR = new DevExpress.XtraGrid.Columns.GridColumn();
             this.repositoryItemCheckEdit1 = new DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit();
-            this.gridColumn2 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColumn3 = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.gridColumn4 = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.TYPE = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.TABLENAME = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.WHERESTRING = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.SUPTABLE = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.gridColumn8 = new DevExpress.XtraGrid.Columns.GridColumn();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).BeginInit();
@@ -55,50 +60,95 @@
             // gridView1
             // 
             this.gridView1.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
-            this.gridColumn2,
-            this.gridColumn3,
-            this.gridColumn4});
+            this.NAME,
+            this.STATE,
+            this.ERROR,
+            this.TYPE,
+            this.TABLENAME,
+            this.WHERESTRING,
+            this.SUPTABLE,
+            this.gridColumn8});
             this.gridView1.GridControl = this.gridControl1;
             this.gridView1.Name = "gridView1";
             this.gridView1.OptionsBehavior.EditorShowMode = DevExpress.Utils.EditorShowMode.Click;
             this.gridView1.OptionsSelection.MultiSelect = true;
             this.gridView1.OptionsSelection.MultiSelectMode = DevExpress.XtraGrid.Views.Grid.GridMultiSelectMode.CheckBoxRowSelect;
             this.gridView1.OptionsView.ShowGroupPanel = false;
+            this.gridView1.SelectionChanged += new DevExpress.Data.SelectionChangedEventHandler(this.gridView1_SelectionChanged);
+            // 
+            // NAME
+            // 
+            this.NAME.Caption = "名称";
+            this.NAME.FieldName = "NAME";
+            this.NAME.MinWidth = 25;
+            this.NAME.Name = "NAME";
+            this.NAME.Visible = true;
+            this.NAME.VisibleIndex = 1;
+            this.NAME.Width = 157;
+            // 
+            // STATE
+            // 
+            this.STATE.Caption = "状态";
+            this.STATE.FieldName = "STATE";
+            this.STATE.MinWidth = 25;
+            this.STATE.Name = "STATE";
+            this.STATE.Visible = true;
+            this.STATE.VisibleIndex = 2;
+            this.STATE.Width = 157;
+            // 
+            // ERROR
+            // 
+            this.ERROR.Caption = "错误数";
+            this.ERROR.FieldName = "ERROR";
+            this.ERROR.MinWidth = 25;
+            this.ERROR.Name = "ERROR";
+            this.ERROR.Visible = true;
+            this.ERROR.VisibleIndex = 3;
+            this.ERROR.Width = 163;
             // 
             // repositoryItemCheckEdit1
             // 
             this.repositoryItemCheckEdit1.AutoHeight = false;
             this.repositoryItemCheckEdit1.Name = "repositoryItemCheckEdit1";
             // 
-            // gridColumn2
+            // TYPE
             // 
-            this.gridColumn2.Caption = "名称";
-            this.gridColumn2.FieldName = "NAME";
-            this.gridColumn2.MinWidth = 25;
-            this.gridColumn2.Name = "gridColumn2";
-            this.gridColumn2.Visible = true;
-            this.gridColumn2.VisibleIndex = 1;
-            this.gridColumn2.Width = 157;
+            this.TYPE.Caption = "TYPE";
+            this.TYPE.FieldName = "TYPE";
+            this.TYPE.MinWidth = 25;
+            this.TYPE.Name = "TYPE";
+            this.TYPE.Width = 94;
             // 
-            // gridColumn3
+            // TABLENAME
             // 
-            this.gridColumn3.Caption = "状态";
-            this.gridColumn3.FieldName = "STATE";
-            this.gridColumn3.MinWidth = 25;
-            this.gridColumn3.Name = "gridColumn3";
-            this.gridColumn3.Visible = true;
-            this.gridColumn3.VisibleIndex = 2;
-            this.gridColumn3.Width = 157;
+            this.TABLENAME.Caption = "TABLENAME";
+            this.TABLENAME.FieldName = "TABLENAME";
+            this.TABLENAME.MinWidth = 25;
+            this.TABLENAME.Name = "TABLENAME";
+            this.TABLENAME.Width = 94;
             // 
-            // gridColumn4
+            // WHERESTRING
             // 
-            this.gridColumn4.Caption = "错误数";
-            this.gridColumn4.FieldName = "ERROR";
-            this.gridColumn4.MinWidth = 25;
-            this.gridColumn4.Name = "gridColumn4";
-            this.gridColumn4.Visible = true;
-            this.gridColumn4.VisibleIndex = 3;
-            this.gridColumn4.Width = 163;
+            this.WHERESTRING.Caption = "WHERESTRING";
+            this.WHERESTRING.FieldName = "WHERESTRING";
+            this.WHERESTRING.MinWidth = 25;
+            this.WHERESTRING.Name = "WHERESTRING";
+            this.WHERESTRING.Width = 94;
+            // 
+            // SUPTABLE
+            // 
+            this.SUPTABLE.Caption = "SUPTABLE";
+            this.SUPTABLE.FieldName = "SUPTABLE";
+            this.SUPTABLE.MinWidth = 25;
+            this.SUPTABLE.Name = "SUPTABLE";
+            this.SUPTABLE.Width = 94;
+            // 
+            // gridColumn8
+            // 
+            this.gridColumn8.Caption = "gridColumn8";
+            this.gridColumn8.MinWidth = 25;
+            this.gridColumn8.Name = "gridColumn8";
+            this.gridColumn8.Width = 94;
             // 
             // FormTopoDia
             // 
@@ -121,9 +171,14 @@
         private DevExpress.XtraGrid.GridControl gridControl1;
         private DevExpress.XtraGrid.Views.Grid.GridView gridView1;
         private DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit repositoryItemCheckEdit1;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn2;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn3;
-        private DevExpress.XtraGrid.Columns.GridColumn gridColumn4;
+        private DevExpress.XtraGrid.Columns.GridColumn NAME;
+        private DevExpress.XtraGrid.Columns.GridColumn STATE;
+        private DevExpress.XtraGrid.Columns.GridColumn ERROR;
+        private DevExpress.XtraGrid.Columns.GridColumn TYPE;
+        private DevExpress.XtraGrid.Columns.GridColumn TABLENAME;
+        private DevExpress.XtraGrid.Columns.GridColumn WHERESTRING;
+        private DevExpress.XtraGrid.Columns.GridColumn SUPTABLE;
+        private DevExpress.XtraGrid.Columns.GridColumn gridColumn8;
 
     }
 }

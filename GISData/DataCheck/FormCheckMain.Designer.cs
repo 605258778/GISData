@@ -30,7 +30,7 @@
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.button1 = new System.Windows.Forms.Button();
+            this.buttonCheckStar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -62,7 +62,7 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.button1);
+            this.splitContainer1.Panel1.Controls.Add(this.buttonCheckStar);
             // 
             // splitContainer1.Panel2
             // 
@@ -72,14 +72,15 @@
             this.splitContainer1.TabIndex = 1;
             this.splitContainer1.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainer1_SplitterMoved);
             // 
-            // button1
+            // buttonCheckStar
             // 
-            this.button1.Location = new System.Drawing.Point(637, 9);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(100, 31);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "开始执行";
-            this.button1.UseVisualStyleBackColor = true;
+            this.buttonCheckStar.Location = new System.Drawing.Point(637, 9);
+            this.buttonCheckStar.Name = "buttonCheckStar";
+            this.buttonCheckStar.Size = new System.Drawing.Size(100, 31);
+            this.buttonCheckStar.TabIndex = 0;
+            this.buttonCheckStar.Text = "开始执行";
+            this.buttonCheckStar.UseVisualStyleBackColor = true;
+            this.buttonCheckStar.Click += new System.EventHandler(this.buttonCheckStar_Click);
             // 
             // FormCheckMain
             // 
@@ -103,7 +104,7 @@
 
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button buttonCheckStar;
 
     }
 }

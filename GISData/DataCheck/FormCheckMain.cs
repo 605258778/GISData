@@ -22,7 +22,7 @@ namespace GISData.DataCheck
         private FormStructureDia StructureDia;
         private FormAttrDia AttrDia;
         private FormTopoDia TopoDia;
-
+        private List<CheckBox> CheckBoxArr = new List<CheckBox>();
         private void splitContainer1_SplitterMoved(object sender, SplitterEventArgs e)
         {
 
@@ -49,37 +49,39 @@ namespace GISData.DataCheck
                 CheckBox cb = new CheckBox();
                 cb.Text = "";
                 TabPage tp = new TabPage();
-                if (stepType == "结构检查")
-                {
-                    FormStructureDia fsa = new FormStructureDia(stepNo);
-                    StructureDia = fsa;
-                    ShowForm(tp, fsa);
-                }
-                else if (stepType == "属性检查")
-                {
-                    FormAttrDia attr = new FormAttrDia(stepNo);
-                    AttrDia = attr;
-                    ShowForm(tp, attr);
-                }
-                else if (stepType == "图形检查")
-                {
-                    FormTopoDia topo = new FormTopoDia(stepNo);
-                    TopoDia = topo;
-                    ShowForm(tp, topo);
-                }
-                tp.Name = stepNo;
-                cb.Name = stepNo;
+
+                tp.Name = stepType;
+                cb.Name = stepType;
                 cb.Location = new Point(7, (i+1)*60-39);
                 cb.Size = new Size(18, 18);
                 tp.AccessibleDescription = stepType;//AccessibleDescription属性暂赋值为质检类型
                 tp.SendToBack();
                 tp.Text = "第" + stepNo + "步(" + stepName + ")";
-                tp.Tag = 1;
-                cb.Tag = 1;
+                tp.Tag = stepNo;
+                cb.Tag = stepNo;
                 cb.Click += (se, a) => checkState(se,a,stepType);
                 this.splitContainer1.Panel2.Controls.Add(cb);
                 this.tabControl1.Controls.Add(tp);
                 cb.BringToFront();
+                this.CheckBoxArr.Add(cb);
+                if (stepType == "结构检查")
+                {
+                    FormStructureDia fsa = new FormStructureDia(stepNo, cb);
+                    StructureDia = fsa;
+                    ShowForm(tp, fsa);
+                }
+                else if (stepType == "属性检查")
+                {
+                    FormAttrDia attr = new FormAttrDia(stepNo, cb);
+                    AttrDia = attr;
+                    ShowForm(tp, attr);
+                }
+                else if (stepType == "图形检查")
+                {
+                    FormTopoDia topo = new FormTopoDia(stepNo, cb);
+                    TopoDia = topo;
+                    ShowForm(tp, topo);
+                }
             }
         }
         /// <summary>
@@ -164,6 +166,29 @@ namespace GISData.DataCheck
                 catch (System.Exception ex)
                 {
                     //
+                }
+            }
+        }
+
+        private void buttonCheckStar_Click(object sender, EventArgs e)
+        {
+            foreach (CheckBox item in CheckBoxArr)
+            {
+                if(item.CheckState == CheckState.Checked)
+                {
+                    if (item.Name == "结构检查")
+                    {
+
+                        StructureDia.doCheckStructure();
+                    }
+                    else if (item.Name == "属性检查")
+                    {
+                        AttrDia.doCheckAttr();
+                    }
+                    else if (item.Name == "图形检查")
+                    {
+                        TopoDia.doCheckTopo();
+                    }
                 }
             }
         }
