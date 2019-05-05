@@ -3,6 +3,7 @@ using DevExpress.XtraEditors.Repository;
 using DevExpress.XtraEditors.ViewInfo;
 using DevExpress.XtraGrid.Views.Grid;
 using DevExpress.XtraTreeList.Nodes;
+using ESRI.ArcGIS.Geodatabase;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -241,6 +242,51 @@ namespace GISData.Common
                 else
                   
                 return string.Empty;
+        }
+        /// <summary>
+        /// 获取dataset
+        /// </summary>
+        /// <returns></returns>
+        public IFeatureDataset getDataset(IWorkspace workspace) 
+        {
+            IEnumDataset datasets = workspace.get_Datasets(esriDatasetType.esriDTFeatureDataset);
+            IFeatureDataset featureDataset = datasets.Next() as IFeatureDataset;
+            while (featureDataset != null)
+            {
+                if (featureDataset.BrowseName == "dataset")
+                {
+                    break;
+                }
+                
+            }
+            return featureDataset;
+        }
+
+        /// <summary>
+        /// //从空间数据库中删除拓扑对象
+        /// </summary>
+        /// <returns></returns>
+        public bool DeleteTopolgyFromGISDB(ITopology top)
+        {
+            //delete top's ITopologyRuleContainer 
+            ITopologyRuleContainer topruleList = top as ITopologyRuleContainer;
+            IEnumRule ER = topruleList.Rules;
+            ER.Reset();
+            IRule r = ER.Next();
+            while (r != null && r is ITopologyRule)
+            {
+                topruleList.DeleteRule(r as ITopologyRule);
+                r = ER.Next();
+            }
+            //delete top's featureclass
+            IFeatureClassContainer topFcList = top as IFeatureClassContainer;
+            for (int d = topFcList.ClassCount - 1; d >= 0; d--)
+            {
+                top.RemoveClass(topFcList.get_Class(d) as IClass);
+            }
+            //delete top object
+            (top as IDataset).Delete();
+            return true;
         }
     }
 }

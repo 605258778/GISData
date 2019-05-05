@@ -36,14 +36,20 @@ namespace GISData.Parameter
             IFeatureWorkspaceManage featureWorkspaceMange = (IFeatureWorkspaceManage)pFeatureWorkspace;
             IEnumDatasetName enumDatasetName = workspace.get_DatasetNames(esriDatasetType.esriDTFeatureDataset);
             IDatasetName datasetName = null;
+            Boolean isCreate = true;
             while ((datasetName = enumDatasetName.Next()) != null)
             {
                 if (datasetName.Name.Equals("dataset"))
                 {
                     featureWorkspaceMange.DeleteByName(datasetName);//删除指定要素类
                     pFeatureWorkspace.CreateFeatureDataset("dataset", iSpatialReference);
+                    isCreate = false;
                     break;
                 }
+            }
+            if (isCreate) 
+            {
+                pFeatureWorkspace.CreateFeatureDataset("dataset", iSpatialReference);
             }
         }
 

@@ -90,23 +90,25 @@ namespace GISData.Common
             try//若不存在同名拓扑则添加
             {
                 Topology = TopoWorkSpace.OpenTopology(IN_TopoName);
-                MessageBox.Show("已存在该拓扑，无法添加！");
+                CommonClass common = new CommonClass();
+                common.DeleteTopolgyFromGISDB(Topology);
             }
             catch
             {
-                CreateTopology Topotool = new CreateTopology();//拓扑GP工具
-                Topotool.in_dataset = FeatureDataset_Main; ;
-                Topotool.out_name = IN_TopoName;
-                Topotool.in_cluster_tolerance = IN_Tolerance;
-                try
-                {
-                    GP_Tool.Execute(Topotool, null);
-                    Topology = TopoWorkSpace.OpenTopology(IN_TopoName);
-                }
-                catch (COMException comExc)
-                {
-                    MessageBox.Show(String.Format("拓扑创建出错: {0} 描述: {1}", comExc.ErrorCode, comExc.Message));
-                }
+                
+            }
+            CreateTopology Topotool = new CreateTopology();//拓扑GP工具
+            Topotool.in_dataset = FeatureDataset_Main; ;
+            Topotool.out_name = IN_TopoName;
+            Topotool.in_cluster_tolerance = IN_Tolerance;
+            try
+            {
+                GP_Tool.Execute(Topotool, null);
+                Topology = TopoWorkSpace.OpenTopology(IN_TopoName);
+            }
+            catch (COMException comExc)
+            {
+                MessageBox.Show(String.Format("拓扑创建出错: {0} 描述: {1}", comExc.ErrorCode, comExc.Message));
             }
         }
 

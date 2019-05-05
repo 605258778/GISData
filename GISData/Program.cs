@@ -16,7 +16,7 @@ namespace GISData
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             ESRI.ArcGIS.RuntimeManager.Bind(ESRI.ArcGIS.ProductCode.Desktop);
-            ESRI.ArcGIS.RuntimeManager.BindLicense(ESRI.ArcGIS.ProductCode.EngineOrDesktop); 
+            //ESRI.ArcGIS.RuntimeManager.BindLicense(ESRI.ArcGIS.ProductCode.EngineOrDesktop); 
             Application.Run(new FormMain());
         }
     }

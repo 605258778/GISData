@@ -240,5 +240,10 @@ namespace GISData
             }
         }
 
+        private void axLicenseControl1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
     }
 }
