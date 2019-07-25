@@ -25,7 +25,11 @@ namespace GISData.DataRegister
         private void buttonAddConnect_Click(object sender, EventArgs e)
         {
             FormDBConnectInfo fdci = new FormDBConnectInfo(this.treeViewReg);
-            fdci.Show();
+            fdci.ShowDialog();
+            if (fdci.DialogResult == DialogResult.OK)
+            {
+                this.refreshTreeViewReg();//重新绑定
+            }
         }
 
         private void FormRegister_Load(object sender, EventArgs e)

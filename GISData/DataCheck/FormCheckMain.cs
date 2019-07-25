@@ -191,6 +191,7 @@ namespace GISData.DataCheck
                     }
                 }
             }
+            MessageBox.Show("检查完成", "提示");
         }
     }
 }

@@ -18,10 +18,14 @@ namespace GISData.Common
     {
         Geoprocessor GP_Tool = new Geoprocessor();//GP运行工具
         ITopology Topology;//生成的拓扑
+        string TP_topoName;
         IFeatureDataset FeatureDataset_Main;//拓扑所属的要素数据集
         List<IFeatureClass> LI_FeatureClass = new List<IFeatureClass>();//要素数据集所包含的所有要素类
+        List<IFeatureClass> LI_TopoErrorFeatureClass = new List<IFeatureClass>();
+        List<ITopologyRule> LI_ITopologyRule = new List<ITopologyRule>();
         List<string> LI_AllErrorInfo = new List<string>();//记录所有错误信息
         ITopologyLayer L_TopoLayer;//记录拓扑的图层
+        int[] selectRows;
         #region 辅助函数
         /// <summary>
         /// 获取拓扑图层
@@ -71,8 +75,27 @@ namespace GISData.Common
                     MessageBox.Show("空数据集！");
                 }
             }
-
             return LI_FeatureClass;
+        }
+        /// <summary>
+        /// 获取数据集中的要素类
+        /// </summary>
+        /// <returns>返回数据集中所有包含的要素类 List<IFeatureClass></returns>
+        public IFeatureClass PUB_GetAllFeatureClassByName(string FeatureName)
+        {
+            IFeatureClass returnFeatureClass = null;
+            if (LI_FeatureClass.Count != 0)
+            {
+                foreach(IFeatureClass itemFeatureClass in LI_FeatureClass )
+                {
+                    if (itemFeatureClass.AliasName == FeatureName)
+                    {
+                        returnFeatureClass = itemFeatureClass;
+                    }
+                }
+                
+            }
+            return returnFeatureClass;
         }
         #endregion
 
@@ -85,6 +108,7 @@ namespace GISData.Common
         /// <param name="IN_Tolerance">拓扑容差，可选，默认0.001</param>
         public void PUB_TopoBuildWithGP(string IN_TopoName, double IN_Tolerance = 0.001)
         {
+            TP_topoName = IN_TopoName;
             IWorkspace FeatureWorkSpace = FeatureDataset_Main.Workspace;
             ITopologyWorkspace TopoWorkSpace = FeatureWorkSpace as ITopologyWorkspace;
             try//若不存在同名拓扑则添加
@@ -92,6 +116,7 @@ namespace GISData.Common
                 Topology = TopoWorkSpace.OpenTopology(IN_TopoName);
                 CommonClass common = new CommonClass();
                 common.DeleteTopolgyFromGISDB(Topology);
+                DeleteFeature(TP_topoName);
             }
             catch
             {
@@ -120,22 +145,26 @@ namespace GISData.Common
         /// <param name="IN_Tolerance">拓扑容差，可选，默认0.001</param>
         public void PUB_TopoBuild(string IN_TopoName, double IN_Tolerance = 0.001)
         {
+            TP_topoName = IN_TopoName;
             ITopologyContainer topologyContainer = (ITopologyContainer)FeatureDataset_Main;
             try//若不存在同名拓扑则添加
             {
                 Topology = topologyContainer.get_TopologyByName(IN_TopoName);
-                MessageBox.Show("已存在该拓扑，无法添加！");
+                CommonClass common = new CommonClass();
+                common.DeleteTopolgyFromGISDB(Topology);
+                DeleteFeature(TP_topoName);
             }
             catch
             {
-                try
-                {
-                    Topology = topologyContainer.CreateTopology(IN_TopoName, IN_Tolerance, -1, "");
-                }
-                catch (COMException comExc)
-                {
-                    MessageBox.Show(String.Format("拓扑创建出错: {0} 描述: {1}", comExc.ErrorCode, comExc.Message));
-                }
+                
+            }
+            try
+            {
+                Topology = topologyContainer.CreateTopology(IN_TopoName, IN_Tolerance, -1, "");
+            }
+            catch (COMException comExc)
+            {
+                MessageBox.Show(String.Format("拓扑创建出错: {0} 描述: {1}", comExc.ErrorCode, comExc.Message));
             }
         }
 
@@ -259,6 +288,7 @@ namespace GISData.Common
                 Temp_TopologyRule.Name = IN_RuleType.ToString();
                 Temp_TopologyRule.OriginClassID = IN_FeatureClass.FeatureClassID;
                 Temp_TopologyRule.AllOriginSubtypes = true;
+                LI_ITopologyRule.Add(Temp_TopologyRule);
                 PRV_AddRuleTool(Temp_TopologyRule);
             }
             else
@@ -285,6 +315,7 @@ namespace GISData.Common
                 Temp_TopologyRule.DestinationClassID = IN_FeatureClassB.FeatureClassID;
                 Temp_TopologyRule.AllOriginSubtypes = true;
                 Temp_TopologyRule.AllDestinationSubtypes = true;
+                LI_ITopologyRule.Add(Temp_TopologyRule);
                 PRV_AddRuleTool(Temp_TopologyRule);
             }
             else
@@ -314,9 +345,34 @@ namespace GISData.Common
             {
                 MessageBox.Show("不支持添加");
             }
-            PRV_ValidateTopologyWithGP();//添加完成后自动检验
-            PUB_GetTopoLayer();//存储创建的拓扑图层
-            PRV_GetError(IN_TopologyRule);//输出错误
+            // PRV_ValidateTopologyWithGP();//添加完成后自动检验
+            //PUB_GetTopoLayer();//存储创建的拓扑图层
+            
+            //PRV_GetError(IN_TopologyRule);//输出错误
+        }
+
+        public void doValidateTopology(int[] selectRows) 
+        {
+            this.selectRows = selectRows;
+            IGeoDataset geoDataset = (IGeoDataset)Topology;
+            IEnvelope envelope = geoDataset.Extent;
+            ValidateTopology(Topology, envelope);
+            PRV_GetErrorFeature();
+        }
+
+        
+        public void ValidateTopology(ITopology topology, IEnvelope envelope)
+        {
+            // Get the dirty area within the provided envelope.
+            IPolygon locationPolygon = new PolygonClass();
+            ISegmentCollection segmentCollection = (ISegmentCollection)locationPolygon;
+            segmentCollection.SetRectangle(envelope);
+            IPolygon polygon = topology.get_DirtyArea(locationPolygon);
+            // If a dirty area exists, validate the topology.    if (!polygon.IsEmpty)
+            {        // Define the area to validate and validate the topology.
+                IEnvelope areaToValidate = polygon.Envelope;
+                IEnvelope areaValidated = topology.ValidateTopology(areaToValidate);
+            }
         }
 
         //获取错误信息
@@ -347,6 +403,91 @@ namespace GISData.Common
             else
             {
                 MessageBox.Show("请先构建拓扑");
+            }
+        }
+
+        private void PRV_GetErrorFeature()
+        {
+            foreach (ITopologyRule IN_RuleType in LI_ITopologyRule)
+            {
+                IEnvelope Temp_Envolope = (this.Topology as IGeoDataset).Extent;
+                IErrorFeatureContainer Temp_ErrorContainer = Topology as IErrorFeatureContainer;
+                //获取该种错误所有的错误要素  
+                IEnumTopologyErrorFeature Temp_EnumErrorFeature = Temp_ErrorContainer.get_ErrorFeatures(((IGeoDataset)FeatureDataset_Main).SpatialReference, IN_RuleType, Temp_Envolope, true, true);
+                //提取一个错误要素  
+                ITopologyErrorFeature Temp_ErrorFeature = Temp_EnumErrorFeature.Next();
+                if (Temp_ErrorFeature != null)
+                {
+                    //作为搭建模型的要素
+                    IFeature Temp_MoudleFeature = Temp_ErrorFeature as IFeature;
+                    //生成要素类需要CLSID和EXCLSID
+                    IFeatureClassDescription Temp_FeatureClassDescription = new FeatureClassDescriptionClass();
+                    IObjectClassDescription Temp_ObjectClassDescription = (IObjectClassDescription)Temp_FeatureClassDescription;
+                    //以模型要素为模板构建一个要素类  
+                    //FeatureDataset_Main.CreateFeatureClass(TP_topoName, Temp_MoudleFeature.Fields, Temp_ObjectClassDescription.InstanceCLSID, Temp_ObjectClassDescription.ClassExtensionCLSID, Temp_MoudleFeature.FeatureType, "Shape", null);
+                    //打开生成的目标要素类并加入集合留待输出时使用  
+                    IFeatureClass Temp_TargetFeatureClass;
+                    string ErrorFeatureName = TP_topoName + "_" + Temp_ErrorFeature.ShapeType.ToString();
+                    try
+                    {
+                        Temp_TargetFeatureClass = (FeatureDataset_Main.Workspace as IFeatureWorkspace).OpenFeatureClass(ErrorFeatureName);
+                    }
+                    catch
+                    {
+                        FeatureDataset_Main.CreateFeatureClass(ErrorFeatureName, Temp_MoudleFeature.Fields, Temp_ObjectClassDescription.InstanceCLSID, Temp_ObjectClassDescription.ClassExtensionCLSID, Temp_MoudleFeature.FeatureType, "Shape", null);
+                        Temp_TargetFeatureClass = (FeatureDataset_Main.Workspace as IFeatureWorkspace).OpenFeatureClass(ErrorFeatureName);
+                    }
+                    LI_TopoErrorFeatureClass.Add(Temp_TargetFeatureClass);
+                    //将所有错误要素添加进目标要素类  
+                    IWorkspaceEdit Temp_WorkspaceEdit = (IWorkspaceEdit)FeatureDataset_Main.Workspace;
+                    Temp_WorkspaceEdit.StartEditing(true);
+                    Temp_WorkspaceEdit.StartEditOperation();
+                    IFeatureBuffer Temp_FeatureBuffer = Temp_TargetFeatureClass.CreateFeatureBuffer();
+                    int tempCount = 0;
+                    int tempNumber;
+                    //在目标要素类中插入所有错误要素  
+                    IFeatureCursor featureCursor = Temp_TargetFeatureClass.Insert(true);
+                    while (Temp_ErrorFeature != null)
+                    {
+                        IFeature Temp_Feature = Temp_ErrorFeature as IFeature;
+                        //给目标要素附属性  
+                        Temp_FeatureBuffer.set_Value(1, Temp_ErrorFeature.OriginClassID);
+                        Temp_FeatureBuffer.set_Value(2, Temp_ErrorFeature.OriginOID);
+                        Temp_FeatureBuffer.set_Value(3, Temp_ErrorFeature.DestinationClassID);
+                        Temp_FeatureBuffer.set_Value(4, Temp_ErrorFeature.DestinationOID);
+                        Temp_FeatureBuffer.set_Value(5, Temp_ErrorFeature.TopologyRuleType);
+                        Temp_FeatureBuffer.set_Value(8, Temp_ErrorFeature.IsException);
+                        Temp_FeatureBuffer.Shape = Temp_Feature.Shape;
+                        object featureOID = featureCursor.InsertFeature(Temp_FeatureBuffer);
+                        featureCursor.Flush();//保存要素  
+                        Temp_ErrorFeature = Temp_EnumErrorFeature.Next();
+                    }
+                    Temp_WorkspaceEdit.StopEditOperation();
+                    Temp_WorkspaceEdit.StopEditing(true);
+                    System.Runtime.InteropServices.Marshal.ReleaseComObject(featureCursor);
+                } 
+            }
+            
+        }
+
+        private void DeleteFeature(string FeatureName) 
+        {
+            IFeatureClassContainer pFeatureclassContainer = (IFeatureClassContainer)FeatureDataset_Main;
+            IEnumFeatureClass pEnumFeatureClass = (IEnumFeatureClass)pFeatureclassContainer.Classes;
+            IFeatureClass pFeatureClass = (IFeatureClass)pEnumFeatureClass.Next();
+            while (pFeatureClass != null)//在每一个数据集中遍历数据层IFeatureClass
+            {
+                if (pFeatureClass.AliasName.Equals(FeatureName))
+                {
+                    //CommonClass common = new CommonClass();
+                    //common.DeleteTopolgyFromGISDB(Topology);
+                    IDataset pds = pFeatureClass as IDataset;
+                    LI_FeatureClass.Remove(pFeatureClass);
+                    pds.Delete();
+                    break;
+                }
+                pFeatureClass = (IFeatureClass)pEnumFeatureClass.Next();
+
             }
         }
 
@@ -460,6 +601,9 @@ namespace GISData.Common
                 case TopoErroType.线必须不相交或内部接触:
                     Temp_TopoRuleType = esriTopologyRuleType.esriTRTLineNoIntersectOrInteriorTouchLine;
                     break;
+                case TopoErroType.面要素无多部件:
+                    Temp_TopoRuleType = esriTopologyRuleType.esriTRTLineNoMultipart;
+                    break;
                 default:
                     Temp_TopoRuleType = esriTopologyRuleType.esriTRTAny;//将此规则赋予拓扑会直接报错
                     break;
@@ -501,7 +645,9 @@ namespace GISData.Common
             面要素内必须包含至少一个点要素 = 43,
             线不能是多段 = 44,
             线要素必须不相交 = 45,
-            线必须不相交或内部接触 = 46
+            线必须不相交或内部接触 = 46,
+            面要素无多部件 = 47
+            
         };
 
         //根据错误ID获取对应描述
@@ -517,6 +663,5 @@ namespace GISData.Common
         #endregion
 
         #endregion
-
     }
 }

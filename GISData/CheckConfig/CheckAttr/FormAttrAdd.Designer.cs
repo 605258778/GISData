@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.label1 = new System.Windows.Forms.Label();
-            this.comboBoxDataSour = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.comboBoxCheckType = new System.Windows.Forms.ComboBox();
             this.buttonCancel = new System.Windows.Forms.Button();
@@ -39,6 +38,9 @@
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
+            this.label3 = new System.Windows.Forms.Label();
+            this.comboBoxDataSour = new System.Windows.Forms.ComboBox();
+            this.textBoxName = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -56,26 +58,16 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(145, 24);
+            this.label1.Location = new System.Drawing.Point(67, 28);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(60, 15);
+            this.label1.Size = new System.Drawing.Size(75, 15);
             this.label1.TabIndex = 0;
-            this.label1.Text = "数据源:";
-            // 
-            // comboBoxDataSour
-            // 
-            this.comboBoxDataSour.FormattingEnabled = true;
-            this.comboBoxDataSour.Location = new System.Drawing.Point(220, 19);
-            this.comboBoxDataSour.Name = "comboBoxDataSour";
-            this.comboBoxDataSour.Size = new System.Drawing.Size(185, 23);
-            this.comboBoxDataSour.TabIndex = 1;
-            this.comboBoxDataSour.SelectedIndexChanged += new System.EventHandler(this.comboBoxDataSour_SelectedIndexChanged);
-            this.comboBoxDataSour.SelectedValueChanged += new System.EventHandler(this.comboBoxDataSour_SelectedValueChanged);
+            this.label1.Text = "质检名称:";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(512, 23);
+            this.label2.Location = new System.Drawing.Point(727, 27);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(75, 15);
             this.label2.TabIndex = 2;
@@ -89,7 +81,7 @@
             "唯一值检查",
             "逻辑关系检查",
             "空值检查"});
-            this.comboBoxCheckType.Location = new System.Drawing.Point(602, 19);
+            this.comboBoxCheckType.Location = new System.Drawing.Point(817, 23);
             this.comboBoxCheckType.Name = "comboBoxCheckType";
             this.comboBoxCheckType.Size = new System.Drawing.Size(183, 23);
             this.comboBoxCheckType.TabIndex = 1;
@@ -134,9 +126,11 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.textBoxName);
             this.splitContainer1.Panel1.Controls.Add(this.comboBoxCheckType);
             this.splitContainer1.Panel1.Controls.Add(this.label2);
             this.splitContainer1.Panel1.Controls.Add(this.comboBoxDataSour);
+            this.splitContainer1.Panel1.Controls.Add(this.label3);
             this.splitContainer1.Panel1.Controls.Add(this.label1);
             // 
             // splitContainer1.Panel2
@@ -191,6 +185,32 @@
             this.splitContainer3.SplitterDistance = 463;
             this.splitContainer3.TabIndex = 18;
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(387, 29);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(60, 15);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "数据源:";
+            // 
+            // comboBoxDataSour
+            // 
+            this.comboBoxDataSour.FormattingEnabled = true;
+            this.comboBoxDataSour.Location = new System.Drawing.Point(462, 24);
+            this.comboBoxDataSour.Name = "comboBoxDataSour";
+            this.comboBoxDataSour.Size = new System.Drawing.Size(185, 23);
+            this.comboBoxDataSour.TabIndex = 1;
+            this.comboBoxDataSour.SelectedIndexChanged += new System.EventHandler(this.comboBoxDataSour_SelectedIndexChanged);
+            this.comboBoxDataSour.SelectedValueChanged += new System.EventHandler(this.comboBoxDataSour_SelectedValueChanged);
+            // 
+            // textBoxName
+            // 
+            this.textBoxName.Location = new System.Drawing.Point(148, 23);
+            this.textBoxName.Name = "textBoxName";
+            this.textBoxName.Size = new System.Drawing.Size(207, 25);
+            this.textBoxName.TabIndex = 3;
+            // 
             // FormAttrAdd
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -224,7 +244,6 @@
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox comboBoxDataSour;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox comboBoxCheckType;
         private System.Windows.Forms.Button buttonCancel;
@@ -234,5 +253,8 @@
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.SplitContainer splitContainer3;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.TextBox textBoxName;
+        private System.Windows.Forms.ComboBox comboBoxDataSour;
+        private System.Windows.Forms.Label label3;
     }
 }

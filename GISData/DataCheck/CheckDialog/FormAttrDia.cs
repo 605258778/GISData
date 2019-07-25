@@ -164,7 +164,7 @@ namespace GISData.DataCheck.CheckDialog
 
         public void doCheckAttr() 
         {
-        
+            
         }
     }
 }

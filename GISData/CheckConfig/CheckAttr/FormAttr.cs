@@ -9,16 +9,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using DevExpress.XtraTreeList.Nodes;
 namespace GISData.ChekConfig
 {
     public partial class FormAttr : Form
     {
         public delegate void DelegateRefreshTree();
         public delegate void DelegateRefreshTopo();
+        private string selectedId;
+        public int checkNo;
         public FormAttr()
         {
             InitializeComponent();
+        }
+        public FormAttr(int No)
+        {
+            InitializeComponent();
+            checkNo = No;
         }
 
         private void 添加分组_Click(object sender, EventArgs e)
@@ -28,7 +35,7 @@ namespace GISData.ChekConfig
             //FormGroupDig.Show();
             this.treeList1.Refresh();
         }
-        private void bindtreeViewAttr()
+        public void bindtreeViewAttr()
         {
             ConnectDB cdb = new ConnectDB();
             DataTable dt = cdb.GetDataBySql("select ID,PARENTID,NAME from GISDATA_TBATTR");
@@ -66,9 +73,14 @@ namespace GISData.ChekConfig
 
         private void 添加项_Click(object sender, EventArgs e)
         {
+            selectedId = treeList1.FocusedNode.GetValue("ID").ToString();
             DelegateRefreshTree RefreshTree = new DelegateRefreshTree(bindtreeViewAttr);
-            FormAttrAdd formAttr = new FormAttrAdd();
-            formAttr.Show();
+            FormAttrAdd formAttr = new FormAttrAdd(checkNo, selectedId);
+            formAttr.ShowDialog();
+            if (formAttr.DialogResult == DialogResult.OK)
+            {
+                this.bindtreeViewAttr();//重新绑定
+            }
         }
     }
 }

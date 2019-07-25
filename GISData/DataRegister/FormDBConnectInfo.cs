@@ -69,8 +69,7 @@ namespace GISData.DataRegister
             bool isInsert = cd.Insert("insert into GISDATA_REGCONNECT (REG_NAME,REG_TYPE,REG_PATH) values ('" + ConName + "','" + ConType + "','" + ConPath + "')");
             if (isInsert) 
             {
-                FormRegister fr = new FormRegister();
-                fr.refreshTreeViewReg();
+                this.DialogResult = DialogResult.OK;
                 this.Close();
             }
         }

@@ -83,7 +83,7 @@ namespace GISData.ChekConfig
             }
             else if (sendButton.AccessibleDescription.ToString() == "属性检查")
             {
-                FormAttr fad = new FormAttr();
+                FormAttr fad = new FormAttr(this.click_NO);
                 Panel panel = this.splitContainer2.Panel2;
                 ShowForm(panel, fad);
             }

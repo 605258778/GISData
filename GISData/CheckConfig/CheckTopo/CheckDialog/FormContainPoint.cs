@@ -38,8 +38,16 @@ namespace GISData.CheckConfig.CheckTopo.CheckDialog
             ConnectDB db = new ConnectDB();
             DataTable dt = db.GetDataBySql("select REG_NAME,REG_ALIASNAME from GISDATA_REGINFO where FEATURE_TYPE = 'esriGeometryPoint'");
             comboBoxPoint.DataSource = dt;
-            comboBoxPoint.DisplayMember = "REG_ALIASNAME";
-            comboBoxPoint.ValueMember = "REG_NAME";
+            try 
+            {
+                comboBoxPoint.DisplayMember = "REG_ALIASNAME";
+                comboBoxPoint.ValueMember = "REG_NAME";
+            }
+            catch 
+            { 
+            
+            }
+            
         }
 
         private void textBoxNumPoint_Validated(object sender, EventArgs e)

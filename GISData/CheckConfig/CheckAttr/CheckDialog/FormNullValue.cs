@@ -19,6 +19,11 @@ namespace GISData.ChekConfig.CheckDialog
         {
             InitializeComponent();
         }
+        public string SelectedValue
+        {
+            get { return this.listBoxField.SelectedValue.ToString(); }
+            set { listBoxField.SelectedItem = value; }
+        }
 
         public FormNullValue(ComboBox comboBoxDataSour)
         {

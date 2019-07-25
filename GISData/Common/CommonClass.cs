@@ -288,5 +288,77 @@ namespace GISData.Common
             (top as IDataset).Delete();
             return true;
         }
+
+        /// <summary>
+        /// //从空间数据库中删除所有拓扑对象
+        /// </summary>
+        /// <returns></returns>
+        public bool DeleteALLTopolgyFromGISDB(IEnumDataset topEnumDataset)
+        {
+            bool rbc = true;
+
+            if (topEnumDataset != null)
+            {
+                topEnumDataset.Reset();
+                IDataset ds = topEnumDataset.Next();
+                while (ds != null)
+                {
+                    switch (ds.Type)
+                    {
+                        case esriDatasetType.esriDTFeatureDataset:
+                            if (ds is ITopologyContainer)
+                            {
+                                ITopologyContainer topContainer = ds as ITopologyContainer;
+                                ISchemaLock schemaLock = (ISchemaLock)ds;
+                                try
+                                {
+                                    schemaLock.ChangeSchemaLock(esriSchemaLock.esriExclusiveSchemaLock);
+                                    int tc = topContainer.TopologyCount;
+                                    for (int i = tc - 1; i >= 0; i--)
+                                    {
+                                        ITopology top = topContainer.get_Topology(i);
+                                        if (top != null && top is IDataset)
+                                        {
+                                            //delete top's ITopologyRuleContainer 
+                                            ITopologyRuleContainer topruleList = top as ITopologyRuleContainer;
+                                            IEnumRule ER = topruleList.Rules;
+                                            ER.Reset();
+                                            IRule r = ER.Next();
+                                            while (r != null && r is ITopologyRule)
+                                            {
+                                                topruleList.DeleteRule(r as ITopologyRule);
+                                                r = ER.Next();
+                                            }
+                                            //delete top's featureclass
+                                            IFeatureClassContainer topFcList = top as IFeatureClassContainer;
+                                            for (int d = topFcList.ClassCount - 1; d >= 0; d--)
+                                            {
+                                                top.RemoveClass(topFcList.get_Class(d) as IClass);
+                                            }
+                                            //delete top object
+                                            (top as IDataset).Delete();
+                                            rbc = true;
+                                        }
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                }
+                                finally
+                                {
+                                    schemaLock.ChangeSchemaLock(esriSchemaLock.esriSharedSchemaLock);
+                                }
+                            }
+                            break;
+                        case esriDatasetType.esriDTFeatureClass:
+                            break;
+                    }
+                    System.Runtime.InteropServices.Marshal.ReleaseComObject(ds);
+                    ds = topEnumDataset.Next();
+                }
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(topEnumDataset);
+            }//
+            return rbc;
+        }
     }
 }

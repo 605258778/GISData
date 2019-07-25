@@ -30,8 +30,8 @@
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.textBoxWhere = new System.Windows.Forms.TextBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.textBoxResult = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -69,6 +69,15 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "条件";
             // 
+            // textBoxWhere
+            // 
+            this.textBoxWhere.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBoxWhere.Location = new System.Drawing.Point(3, 21);
+            this.textBoxWhere.Multiline = true;
+            this.textBoxWhere.Name = "textBoxWhere";
+            this.textBoxWhere.Size = new System.Drawing.Size(287, 393);
+            this.textBoxWhere.TabIndex = 0;
+            // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.textBoxResult);
@@ -79,15 +88,6 @@
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "结果";
-            // 
-            // textBoxWhere
-            // 
-            this.textBoxWhere.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxWhere.Location = new System.Drawing.Point(3, 21);
-            this.textBoxWhere.Multiline = true;
-            this.textBoxWhere.Name = "textBoxWhere";
-            this.textBoxWhere.Size = new System.Drawing.Size(287, 393);
-            this.textBoxWhere.TabIndex = 0;
             // 
             // textBoxResult
             // 
@@ -106,6 +106,7 @@
             this.Controls.Add(this.splitContainer1);
             this.Name = "FormLogic";
             this.Text = "FormLogic";
+            this.Load += new System.EventHandler(this.FormLogic_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
@@ -122,8 +123,8 @@
 
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.TextBox textBoxWhere;
         private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.TextBox textBoxWhere;
         private System.Windows.Forms.TextBox textBoxResult;
     }
 }

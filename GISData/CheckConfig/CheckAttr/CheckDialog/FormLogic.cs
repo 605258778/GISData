@@ -16,5 +16,21 @@ namespace GISData.ChekConfig.CheckDialog
         {
             InitializeComponent();
         }
+
+        public string textBoxWhereValue
+        {
+            get { return textBoxWhere.Text; }
+            set { textBoxWhere.Text = value; }
+        }
+        public string textBoxResultValue
+        {
+            get { return textBoxResult.Text; }
+            set { textBoxResult.Text = value; }
+        }
+
+        private void FormLogic_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
