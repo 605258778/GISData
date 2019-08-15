@@ -30,6 +30,7 @@
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.dataGridViewCheck = new System.Windows.Forms.DataGridView();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.comboBoxCheckType = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -38,16 +39,15 @@
             this.label1 = new System.Windows.Forms.Label();
             this.textBoxName = new System.Windows.Forms.TextBox();
             this.buttonTopoSave = new System.Windows.Forms.Button();
-            this.dataGridViewCheck = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCheck)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCheck)).BeginInit();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -79,6 +79,21 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "检查项";
+            // 
+            // dataGridViewCheck
+            // 
+            this.dataGridViewCheck.AllowUserToAddRows = false;
+            this.dataGridViewCheck.AllowUserToDeleteRows = false;
+            this.dataGridViewCheck.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridViewCheck.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewCheck.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridViewCheck.Location = new System.Drawing.Point(3, 21);
+            this.dataGridViewCheck.Name = "dataGridViewCheck";
+            this.dataGridViewCheck.ReadOnly = true;
+            this.dataGridViewCheck.RowTemplate.Height = 27;
+            this.dataGridViewCheck.Size = new System.Drawing.Size(237, 413);
+            this.dataGridViewCheck.TabIndex = 0;
+            this.dataGridViewCheck.DoubleClick += new System.EventHandler(this.dataGridViewCheck_DoubleClick);
             // 
             // splitContainer2
             // 
@@ -171,20 +186,6 @@
             this.buttonTopoSave.UseVisualStyleBackColor = true;
             this.buttonTopoSave.Click += new System.EventHandler(this.buttonTopoSave_Click);
             // 
-            // dataGridViewCheck
-            // 
-            this.dataGridViewCheck.AllowUserToAddRows = false;
-            this.dataGridViewCheck.AllowUserToDeleteRows = false;
-            this.dataGridViewCheck.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridViewCheck.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewCheck.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridViewCheck.Location = new System.Drawing.Point(3, 21);
-            this.dataGridViewCheck.Name = "dataGridViewCheck";
-            this.dataGridViewCheck.ReadOnly = true;
-            this.dataGridViewCheck.RowTemplate.Height = 27;
-            this.dataGridViewCheck.Size = new System.Drawing.Size(237, 413);
-            this.dataGridViewCheck.TabIndex = 0;
-            // 
             // FormTopo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -199,11 +200,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCheck)).EndInit();
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCheck)).EndInit();
             this.ResumeLayout(false);
 
         }

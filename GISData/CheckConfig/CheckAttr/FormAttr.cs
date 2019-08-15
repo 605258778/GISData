@@ -38,11 +38,26 @@ namespace GISData.ChekConfig
         public void bindtreeViewAttr()
         {
             ConnectDB cdb = new ConnectDB();
-            DataTable dt = cdb.GetDataBySql("select ID,PARENTID,NAME from GISDATA_TBATTR");
+            DataTable dt = cdb.GetDataBySql("select * from GISDATA_TBATTR");
             this.treeList1.DataSource = dt;
             treeList1.KeyFieldName = "ID";
             treeList1.ParentFieldName = "PARENTID";
             treeList1.Columns["NAME"].Caption = "质检名称";
+            treeList1.Columns["JB"].Visible = false;
+            treeList1.Columns["STEP"].Visible = false;
+            treeList1.Columns["CHECKTYPE"].Visible = false;
+            treeList1.Columns["SHOWFIELD"].Visible = false;
+            treeList1.Columns["FIELD"].Visible = false;
+            treeList1.Columns["TABLENAME"].Visible = false;
+            treeList1.Columns["SUPTABLE"].Visible = false;
+            treeList1.Columns["SELECT"].Visible = false;
+            treeList1.Columns["WHERESTRING"].Visible = false;
+            treeList1.Columns["RESULT"].Visible = false;
+            treeList1.Columns["BEIZHU"].Visible = false;
+            treeList1.Columns["DOMAINTYPE"].Visible = false;
+            treeList1.Columns["CUSTOMVALUE"].Visible = false;
+            treeList1.Columns["ISCHECK"].Visible = false;
+            treeList1.Columns["ERROR"].Visible = false;
             treeList1.OptionsView.ShowCheckBoxes = false;
             treeList1.OptionsBehavior.AllowIndeterminateCheckState = false;
             treeList1.Columns["NAME"].OptionsColumn.AllowEdit = false;
@@ -74,13 +89,21 @@ namespace GISData.ChekConfig
         private void 添加项_Click(object sender, EventArgs e)
         {
             selectedId = treeList1.FocusedNode.GetValue("ID").ToString();
+            TreeListNode selectNode = treeList1.FocusedNode;
             DelegateRefreshTree RefreshTree = new DelegateRefreshTree(bindtreeViewAttr);
-            FormAttrAdd formAttr = new FormAttrAdd(checkNo, selectedId);
+            FormAttrAdd formAttr = new FormAttrAdd(checkNo, selectNode,"add");
             formAttr.ShowDialog();
             if (formAttr.DialogResult == DialogResult.OK)
             {
                 this.bindtreeViewAttr();//重新绑定
             }
+        }
+
+        private void 属性编辑_Click(object sender, EventArgs e)
+        {
+             TreeListNode selectNode =  treeList1.FocusedNode;
+             FormAttrAdd formAttr = new FormAttrAdd(checkNo, selectNode, "edit");
+             formAttr.ShowDialog();
         }
     }
 }

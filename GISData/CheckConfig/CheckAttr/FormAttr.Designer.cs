@@ -58,6 +58,7 @@
             this.属性编辑.TabIndex = 9;
             this.属性编辑.Text = "编辑";
             this.属性编辑.UseVisualStyleBackColor = true;
+            this.属性编辑.Click += new System.EventHandler(this.属性编辑_Click);
             // 
             // 添加项
             // 

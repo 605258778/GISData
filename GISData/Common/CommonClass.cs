@@ -360,5 +360,14 @@ namespace GISData.Common
             }//
             return rbc;
         }
+
+        public void setCheckByValue(ComboBox iBox) 
+        {
+            foreach (object iitem in iBox.Items) 
+            {
+                IRasterCatalogItem iiitem = (IRasterCatalogItem)iitem;
+                string a = "werwer";
+            }
+        }
     }
 }
