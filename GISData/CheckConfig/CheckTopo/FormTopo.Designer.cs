@@ -39,6 +39,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.textBoxName = new System.Windows.Forms.TextBox();
             this.buttonTopoSave = new System.Windows.Forms.Button();
+            this.DeleteStep = new System.Windows.Forms.Button();
+            this.newStep = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -105,6 +107,8 @@
             // 
             // splitContainer2.Panel1
             // 
+            this.splitContainer2.Panel1.Controls.Add(this.newStep);
+            this.splitContainer2.Panel1.Controls.Add(this.DeleteStep);
             this.splitContainer2.Panel1.Controls.Add(this.comboBoxCheckType);
             this.splitContainer2.Panel1.Controls.Add(this.label3);
             this.splitContainer2.Panel1.Controls.Add(this.comboBoxDataSource);
@@ -163,7 +167,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(86, 14);
+            this.label1.Location = new System.Drawing.Point(230, 17);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(52, 15);
             this.label1.TabIndex = 1;
@@ -171,7 +175,7 @@
             // 
             // textBoxName
             // 
-            this.textBoxName.Location = new System.Drawing.Point(175, 11);
+            this.textBoxName.Location = new System.Drawing.Point(319, 14);
             this.textBoxName.Name = "textBoxName";
             this.textBoxName.Size = new System.Drawing.Size(263, 25);
             this.textBoxName.TabIndex = 0;
@@ -185,6 +189,26 @@
             this.buttonTopoSave.Text = "保存";
             this.buttonTopoSave.UseVisualStyleBackColor = true;
             this.buttonTopoSave.Click += new System.EventHandler(this.buttonTopoSave_Click);
+            // 
+            // DeleteStep
+            // 
+            this.DeleteStep.Location = new System.Drawing.Point(19, 14);
+            this.DeleteStep.Name = "DeleteStep";
+            this.DeleteStep.Size = new System.Drawing.Size(46, 23);
+            this.DeleteStep.TabIndex = 3;
+            this.DeleteStep.Text = "-";
+            this.DeleteStep.UseVisualStyleBackColor = true;
+            this.DeleteStep.Click += new System.EventHandler(this.DeleteStep_Click);
+            // 
+            // newStep
+            // 
+            this.newStep.Location = new System.Drawing.Point(81, 14);
+            this.newStep.Name = "newStep";
+            this.newStep.Size = new System.Drawing.Size(51, 23);
+            this.newStep.TabIndex = 3;
+            this.newStep.Text = "+";
+            this.newStep.UseVisualStyleBackColor = true;
+            this.newStep.Click += new System.EventHandler(this.newStep_Click);
             // 
             // FormTopo
             // 
@@ -222,6 +246,8 @@
         private System.Windows.Forms.ComboBox comboBoxDataSource;
         private System.Windows.Forms.Button buttonTopoSave;
         private System.Windows.Forms.DataGridView dataGridViewCheck;
+        private System.Windows.Forms.Button newStep;
+        private System.Windows.Forms.Button DeleteStep;
 
     }
 }

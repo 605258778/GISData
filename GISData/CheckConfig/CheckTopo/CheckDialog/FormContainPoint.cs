@@ -24,7 +24,7 @@ namespace GISData.CheckConfig.CheckTopo.CheckDialog
         }
         public string comboBoxPointValue
         {
-            get { return comboBoxPoint.SelectedValue.ToString(); }
+            get { return comboBoxPoint.SelectedValue != null?comboBoxPoint.SelectedValue.ToString():""; }
             set { comboBoxPoint.Text = value; }
         }
         public string textBoxNumPointValue

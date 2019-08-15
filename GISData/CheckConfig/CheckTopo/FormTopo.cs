@@ -169,7 +169,7 @@ namespace GISData.ChekConfig.CheckTopo
                 string supTable = NoOverlapArea.comboBoxOverLayerValue;
                 if (this.SavaType == "edit")
                 {
-                    result = db.Update("insert into GISDATA_TBTOPO (NAME,TYPE,TABLENAME,SUPTABLE) VALUES('" + name + "','" + type + "','" + table + "','" + supTable + "')");
+                    result = db.Update("update GISDATA_TBTOPO set NAME= '" + name + "',TYPE = '" + type + "',TABLENAME = '" + table + "',SUPTABLE='" + supTable + "' where ID = " + this.EditId);
                 }
                 else
                 {
@@ -237,9 +237,7 @@ namespace GISData.ChekConfig.CheckTopo
             string INPUTTEXT = row.Cells["INPUTTEXT"].Value.ToString();
             //string checkType = this.comboBoxCheckType.SelectedItem.ToString();
             textBoxName.Text = NAME;
-            string table = this.comboBoxDataSource.SelectedValue.ToString();
-            string type = this.comboBoxCheckType.Text;
-            this.comboBoxCheckType.SelectedIndex = this.comboBoxCheckType.FindString(NAME);
+            this.comboBoxCheckType.SelectedIndex = this.comboBoxCheckType.FindString(TYPE);
             foreach (DataRowView iTable in this.comboBoxDataSource.Items) 
             {
                 if (TABLENAME == iTable.Row[0].ToString()) 
@@ -278,6 +276,29 @@ namespace GISData.ChekConfig.CheckTopo
             else
             {
             }
+        }
+
+        private void newStep_Click(object sender, EventArgs e)
+        {
+            this.SavaType = "insert";
+            this.splitContainer2.Panel2.Controls.Clear();
+            comboBoxCheckType.SelectedIndex = -1;
+            textBoxName.Text = "";
+            this.comboBoxDataSource.SelectedIndex = -1;
+        }
+
+        private void DeleteStep_Click(object sender, EventArgs e)
+        {
+            DialogResult dr = MessageBox.Show("确定要删除吗?", "删除数据");
+             if (dr == DialogResult.OK)
+             {
+                 DataGridViewRow row = this.dataGridViewCheck.CurrentRow;
+                 string id = row.Cells["ID"].Value.ToString();
+                 ConnectDB db = new ConnectDB();
+                 db.Delete("delete from GISDATA_TBTOPO where id = " + id);
+                 refushTable();
+             }
+            
         }
     }
 }
