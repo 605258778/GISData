@@ -47,12 +47,6 @@ namespace GISData.Common
             OleDbDataAdapter da = new OleDbDataAdapter(cmd);
             da.Fill(ds);
             conn.Close();
-            //SqlConnection connSql = new SqlConnection("Provider=Microsoft.ACE.OLEDB.12.0;Data source=" + Application.StartupPath + "\\GISData.mdb");
-            //connSql.Open();
-            //SqlDataAdapter sda = new SqlDataAdapter(sql, connSql);
-            //DataSet Ds = new DataSet();
-            //sda.Fill(Ds);
-            //connSql.Close();
             return ds;
         }
         //插入

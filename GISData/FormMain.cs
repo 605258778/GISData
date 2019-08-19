@@ -155,7 +155,12 @@ namespace GISData
         //工程设置添加文件
         private void addFile(TextBox tx,string tablename)
         {
+            IWorkspaceFactory workspaceFactory = new AccessWorkspaceFactoryClass();
             string GdbPath = Application.StartupPath + "\\GISData.gdb";
+            string MdbPath = Application.StartupPath + "\\GISData.mdb";
+            IWorkspaceFactory pWks = new AccessWorkspaceFactoryClass();
+            IWorkspace pFwk = pWks.OpenFromFile(MdbPath, 0) as IWorkspace;
+            
             IGxDialog dlg = new GxDialog();
             IGxObjectFilterCollection filterCollection = dlg as IGxObjectFilterCollection;
             filterCollection.AddFilter(new GxFilterFeatureClasses(),true);
@@ -180,11 +185,12 @@ namespace GISData
                             case esriDatasetType.esriDTFeatureClass:
                                 IFeatureClassName targetFeatureClassName = new FeatureClassNameClass();
                                 IDatasetName targetDatasetName = (IDatasetName)targetFeatureClassName;
-                                targetDatasetName.Name = tablename;
+                                targetDatasetName.Name = pDataset.BrowseName;
 
                                 FileGDBWorkspaceFactoryClass fac = new FileGDBWorkspaceFactoryClass();
                                 IWorkspace workspace = fac.OpenFromFile(GdbPath, 0);
                                 IFeatureClass pFc = pDataset as IFeatureClass;
+                                
                                 ISpatialReference pSpatialReference = (pFc as IGeoDataset).SpatialReference;//空间参考
                                 FormSetpara fs = new FormSetpara();
                                 CommonClass common = new CommonClass();
@@ -199,7 +205,52 @@ namespace GISData
                                     IEnumDatasetName datasetnames = workspace.get_DatasetNames(esriDatasetType.esriDTFeatureDataset);
                                     IFeatureDatasetName datasetname = datasetnames.Next() as IFeatureDatasetName;
                                     IFeatureDataConverter featureDataConverter = new FeatureDataConverterClass();
-                                    featureDataConverter.ConvertFeatureClass(pDataset.FullName as IFeatureClassName, null, datasetname, targetFeatureClassName, null, null, "", 0, 0);
+                                    IFeatureClassName inputName = (IFeatureClassName)pDataset.FullName;
+                                    try
+                                    {
+                                        IFeatureClass ifc = pFeatureWorkspace.OpenFeatureClass(pDataset.Name);
+                                        IFeatureWorkspaceManage pWorkspaceManager = pFeatureWorkspace as IFeatureWorkspaceManage;
+                                        IDatasetName pDatasetname =  datasetnames.Next();
+                                        while (pDatasetname != null) {
+                                            if (pDatasetname.Name == pDataset.Name) 
+                                            {
+                                                pWorkspaceManager.DeleteByName(pDatasetname);
+                                                featureDataConverter.ConvertFeatureClass(inputName, null, datasetname, targetFeatureClassName, null, null, "", 0, 0);
+                                            }
+                                        }
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        featureDataConverter.ConvertFeatureClass(inputName, null, datasetname, targetFeatureClassName, null, null, "", 0, 0);
+                                    }
+                                    IEnumDatasetName outdatasetname = pFwk.get_DatasetNames(esriDatasetType.esriDTAny);
+                                    IEnumDatasetName iDatasets = pDataset.Workspace.get_DatasetNames(esriDatasetType.esriDTFeatureClass);
+                                    IDatasetName oDSName = outdatasetname.Next();
+                                    IDatasetName itemName = iDatasets.Next();
+                                    ConnectDB db = new ConnectDB();
+                                    try
+                                    {
+                                        Boolean jg = db.Delete("delete from GDB_Items where Name = '" + pDataset.Name + "_TB" + "'");
+                                        if (jg) 
+                                            db.Delete("drop table " + pDataset.Name+"_TB");
+                                        
+                                    }
+                                    catch (Exception ex)
+                                    {
+
+                                    }
+                                    
+                                    while (itemName != null)
+                                    {
+                                        if (itemName.Name == pDataset.Name)
+                                        {
+                                            IFeatureDataConverter tableDataConverter = new FeatureDataConverterClass();
+                                            oDSName.Name = pDataset.Name+"_TB";
+                                            IFeatureWorkspaceManage pWorkspaceManager = pFeatureWorkspace as IFeatureWorkspaceManage;
+                                            tableDataConverter.ConvertTable(itemName, null, oDSName, null, null, 0, 0);
+                                        }
+                                        itemName = iDatasets.Next();
+                                    }
                                     tx.Text = pDataset.BrowseName;
                                     tx.Name = pDataset.BrowseName;
                                 }
