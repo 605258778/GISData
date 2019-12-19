@@ -58,7 +58,7 @@ namespace GISData.ChekConfig.CheckTopo
                 NoInterLine = formNoInterLine;
                 ShowForm(this.splitContainer2.Panel2, formNoInterLine);
             }
-            else if (checkType == "跨图层面重叠")
+            else if (checkType == "两图层面要素必须互相覆盖")
             {
                 FormNoOverlapArea formNoOverlapArea = new FormNoOverlapArea();
                 NoOverlapArea = formNoOverlapArea;
@@ -70,7 +70,7 @@ namespace GISData.ChekConfig.CheckTopo
                 xbmDig = formxbm;
                 ShowForm(this.splitContainer2.Panel2, formxbm);
             }
-            else if (checkType == "面缝隙")
+            else if (checkType == "面要素之间无空隙")
             {
                 FormNoGaps formgaps = new FormNoGaps();
                 NoGaps = formgaps;

@@ -26,6 +26,8 @@ namespace GISData.Common
         List<string> LI_AllErrorInfo = new List<string>();//记录所有错误信息
         ITopologyLayer L_TopoLayer;//记录拓扑的图层
         int[] selectRows;
+        public Dictionary<string, string> DicTopoData = new Dictionary<string, string>();
+        public Dictionary<string, int> DicTopoError = new Dictionary<string, int>();
         #region 辅助函数
         /// <summary>
         /// 获取拓扑图层
@@ -40,6 +42,12 @@ namespace GISData.Common
             }
             return L_TopoLayer as ILayer;
         }
+
+        public interface ITopologyRule1 : ITopologyRule
+        {
+            string AliasName { get; set; }
+        }
+
 
         /// <summary>
         /// 构造拓扑检验类
@@ -278,7 +286,7 @@ namespace GISData.Common
         /// </summary>
         /// <param name="IN_RuleType">要添加的规则</param>
         /// <param name="IN_FeatureClass">添加规则的要素类</param>
-        public void PUB_AddRuleToTopology(TopoErroType IN_RuleType, IFeatureClass IN_FeatureClass)
+        public void PUB_AddRuleToTopology(string idname ,TopoErroType IN_RuleType, IFeatureClass IN_FeatureClass)
         {
             if (Topology != null)
             {
@@ -289,7 +297,7 @@ namespace GISData.Common
                 Temp_TopologyRule.OriginClassID = IN_FeatureClass.FeatureClassID;
                 Temp_TopologyRule.AllOriginSubtypes = true;
                 LI_ITopologyRule.Add(Temp_TopologyRule);
-                PRV_AddRuleTool(Temp_TopologyRule);
+                PRV_AddRuleTool(Temp_TopologyRule, idname);
             }
             else
             {
@@ -303,7 +311,7 @@ namespace GISData.Common
         /// <param name="IN_RuleType">要添加的双要素规则</param>
         /// <param name="IN_FeatureClassA">第一个要素</param>
         /// <param name="IN_FeatureClassB">第二个要素</param>
-        public void PUB_AddRuleToTopology(TopoErroType IN_RuleType, IFeatureClass IN_FeatureClassA, IFeatureClass IN_FeatureClassB)
+        public void PUB_AddRuleToTopology(string idname,TopoErroType IN_RuleType, IFeatureClass IN_FeatureClassA, IFeatureClass IN_FeatureClassB)
         {
             if (Topology != null)
             {
@@ -316,7 +324,7 @@ namespace GISData.Common
                 Temp_TopologyRule.AllOriginSubtypes = true;
                 Temp_TopologyRule.AllDestinationSubtypes = true;
                 LI_ITopologyRule.Add(Temp_TopologyRule);
-                PRV_AddRuleTool(Temp_TopologyRule);
+                PRV_AddRuleTool(Temp_TopologyRule, idname);
             }
             else
             {
@@ -325,7 +333,7 @@ namespace GISData.Common
         }
 
         //规则添加工具
-        private void PRV_AddRuleTool(ITopologyRule IN_TopologyRule)
+        private void PRV_AddRuleTool(ITopologyRule IN_TopologyRule,string idname)
         {
             ITopologyRuleContainer Temp_TopologyRuleContainer = (ITopologyRuleContainer)Topology;//构建容器
             try
@@ -334,6 +342,7 @@ namespace GISData.Common
                 try
                 {
                     Temp_TopologyRuleContainer.DeleteRule(IN_TopologyRule);//删除已存在的规则后再添加
+                    IN_TopologyRule.OriginSubtype = int.Parse(idname);
                     Temp_TopologyRuleContainer.AddRule(IN_TopologyRule);//规则存在的话直接报错
                 }
                 catch
@@ -351,9 +360,10 @@ namespace GISData.Common
             //PRV_GetError(IN_TopologyRule);//输出错误
         }
 
-        public void doValidateTopology(int[] selectRows) 
+        public void doValidateTopology(int[] selectRows, Dictionary<string, string> DicTopoData) 
         {
-            this.selectRows = selectRows;
+            this.DicTopoData = DicTopoData;
+             this.selectRows = selectRows;
             IGeoDataset geoDataset = (IGeoDataset)Topology;
             IEnvelope envelope = geoDataset.Extent;
             ValidateTopology(Topology, envelope);
@@ -410,10 +420,12 @@ namespace GISData.Common
         {
             foreach (ITopologyRule IN_RuleType in LI_ITopologyRule)
             {
+                int tempCount = 0;
+                DicTopoError.Add(IN_RuleType.OriginSubtype.ToString(), tempCount);
                 IEnvelope Temp_Envolope = (this.Topology as IGeoDataset).Extent;
                 IErrorFeatureContainer Temp_ErrorContainer = Topology as IErrorFeatureContainer;
                 //获取该种错误所有的错误要素  
-                IEnumTopologyErrorFeature Temp_EnumErrorFeature = Temp_ErrorContainer.get_ErrorFeatures(((IGeoDataset)FeatureDataset_Main).SpatialReference, IN_RuleType, Temp_Envolope, true, true);
+                IEnumTopologyErrorFeature Temp_EnumErrorFeature = Temp_ErrorContainer.get_ErrorFeatures(((IGeoDataset)FeatureDataset_Main).SpatialReference, IN_RuleType, Temp_Envolope, true, false);
                 //提取一个错误要素  
                 ITopologyErrorFeature Temp_ErrorFeature = Temp_EnumErrorFeature.Next();
                 if (Temp_ErrorFeature != null)
@@ -443,12 +455,12 @@ namespace GISData.Common
                     Temp_WorkspaceEdit.StartEditing(true);
                     Temp_WorkspaceEdit.StartEditOperation();
                     IFeatureBuffer Temp_FeatureBuffer = Temp_TargetFeatureClass.CreateFeatureBuffer();
-                    int tempCount = 0;
-                    int tempNumber;
+                    
                     //在目标要素类中插入所有错误要素  
-                    IFeatureCursor featureCursor = Temp_TargetFeatureClass.Insert(true);
+                    IFeatureCursor featureCursor = Temp_TargetFeatureClass.Insert(false);
                     while (Temp_ErrorFeature != null)
                     {
+                        
                         IFeature Temp_Feature = Temp_ErrorFeature as IFeature;
                         //给目标要素附属性  
                         Temp_FeatureBuffer.set_Value(1, Temp_ErrorFeature.OriginClassID);
@@ -458,16 +470,34 @@ namespace GISData.Common
                         Temp_FeatureBuffer.set_Value(5, Temp_ErrorFeature.TopologyRuleType);
                         Temp_FeatureBuffer.set_Value(8, Temp_ErrorFeature.IsException);
                         Temp_FeatureBuffer.Shape = Temp_Feature.Shape;
-                        object featureOID = featureCursor.InsertFeature(Temp_FeatureBuffer);
-                        featureCursor.Flush();//保存要素  
+                        if (this.DicTopoData.ContainsKey(IN_RuleType.OriginSubtype.ToString()))
+                        {
+                            if (IN_RuleType.Name == "面要素之间无空隙")
+                            {
+                                IArea pArea = (IArea)Temp_Feature.Shape.Envelope;
+                                if (pArea.Area < System.Convert.ToDouble(this.DicTopoData[IN_RuleType.OriginSubtype.ToString()]))
+                                {
+                                    tempCount++;
+                                    DicTopoError[IN_RuleType.OriginSubtype.ToString()] = tempCount;
+                                    object featureOID = featureCursor.InsertFeature(Temp_FeatureBuffer);
+                                    featureCursor.Flush();//保存要素  
+                                }
+                            }
+                        }
+                        else 
+                        {
+                            tempCount++;
+                            DicTopoError[IN_RuleType.OriginSubtype.ToString()] = tempCount;
+                            object featureOID = featureCursor.InsertFeature(Temp_FeatureBuffer);
+                            featureCursor.Flush();//保存要素  
+                        }
                         Temp_ErrorFeature = Temp_EnumErrorFeature.Next();
                     }
                     Temp_WorkspaceEdit.StopEditOperation();
                     Temp_WorkspaceEdit.StopEditing(true);
                     System.Runtime.InteropServices.Marshal.ReleaseComObject(featureCursor);
-                } 
+                }
             }
-            
         }
 
         private void DeleteFeature(string FeatureName) 

@@ -13,31 +13,30 @@ namespace GISData.ChekConfig
 {
     public partial class FormGroup : Form
     {
-        private TreeView treeView;
+        private string selectedId;
         //private formNewPro.DelegateRefreshTree RefreshTree;
         public FormGroup()
         {
             InitializeComponent();
         }
-        public FormGroup(TreeView treeView)
+        public FormGroup(DevExpress.XtraTreeList.Nodes.TreeListNode node)
         {
-            // TODO: Complete member initialization
             InitializeComponent();
-            this.treeView = treeView;
-            //this.RefreshTree = RefreshTree;
+            this.selectedId = node.GetValue("ID").ToString();
         }
 
         private void buttonGroupOK_Click(object sender, EventArgs e)
         {
-            string level = this.treeView.SelectedNode != null ? this.treeView.SelectedNode.Tag.ToString() : "0";
             string groupText = this.textBoxGroup.Text;
-            string sql = "insert into GISDATA_TBATTR (PARENTID,NAME) VALUES(" + level + ",'" + groupText + "')";
+            string sql = "insert into GISDATA_TBATTR (PARENTID,NAME) VALUES(" + selectedId + ",'" + groupText + "')";
             ConnectDB db = new ConnectDB();
             Boolean result = db.Insert(sql);
             if (result) 
             {
                 MessageBox.Show("添加成功！", "提示");
             }
+            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
     }
 }

@@ -61,6 +61,7 @@
             this.Controls.Add(this.groupBox1);
             this.Name = "FormUnique";
             this.Text = "FormUnique";
+            this.Load += new System.EventHandler(this.FormUnique_Load);
             this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
 

@@ -30,10 +30,14 @@ namespace GISData.ChekConfig
 
         private void 添加分组_Click(object sender, EventArgs e)
         {
-            DelegateRefreshTree RefreshTree = new DelegateRefreshTree(bindtreeViewAttr);
-            //FormGroup FormGroupDig = new FormGroup(this.treeViewAttr, RefreshTree);
-            //FormGroupDig.Show();
-            this.treeList1.Refresh();
+            selectedId = treeList1.FocusedNode.GetValue("ID").ToString();
+            TreeListNode selectNode = treeList1.FocusedNode;
+            FormGroup formGroup = new FormGroup(selectNode);
+            formGroup.ShowDialog();
+            if (formGroup.DialogResult == DialogResult.OK)
+            {
+                this.bindtreeViewAttr();//重新绑定
+            }
         }
         public void bindtreeViewAttr()
         {
@@ -55,7 +59,7 @@ namespace GISData.ChekConfig
             treeList1.Columns["RESULT"].Visible = false;
             treeList1.Columns["BEIZHU"].Visible = false;
             treeList1.Columns["DOMAINTYPE"].Visible = false;
-            treeList1.Columns["CUSTOMVALUE"].Visible = false;
+            treeList1.Columns["DOMAINVALUE"].Visible = false;
             treeList1.Columns["ISCHECK"].Visible = false;
             treeList1.Columns["ERROR"].Visible = false;
             treeList1.OptionsView.ShowCheckBoxes = false;

@@ -32,6 +32,8 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.dataGridViewCheck = new System.Windows.Forms.DataGridView();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.newStep = new System.Windows.Forms.Button();
+            this.DeleteStep = new System.Windows.Forms.Button();
             this.comboBoxCheckType = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.comboBoxDataSource = new System.Windows.Forms.ComboBox();
@@ -39,8 +41,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.textBoxName = new System.Windows.Forms.TextBox();
             this.buttonTopoSave = new System.Windows.Forms.Button();
-            this.DeleteStep = new System.Windows.Forms.Button();
-            this.newStep = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -119,6 +119,26 @@
             this.splitContainer2.SplitterDistance = 95;
             this.splitContainer2.TabIndex = 0;
             // 
+            // newStep
+            // 
+            this.newStep.Location = new System.Drawing.Point(81, 14);
+            this.newStep.Name = "newStep";
+            this.newStep.Size = new System.Drawing.Size(51, 23);
+            this.newStep.TabIndex = 3;
+            this.newStep.Text = "+";
+            this.newStep.UseVisualStyleBackColor = true;
+            this.newStep.Click += new System.EventHandler(this.newStep_Click);
+            // 
+            // DeleteStep
+            // 
+            this.DeleteStep.Location = new System.Drawing.Point(19, 14);
+            this.DeleteStep.Name = "DeleteStep";
+            this.DeleteStep.Size = new System.Drawing.Size(46, 23);
+            this.DeleteStep.TabIndex = 3;
+            this.DeleteStep.Text = "-";
+            this.DeleteStep.UseVisualStyleBackColor = true;
+            this.DeleteStep.Click += new System.EventHandler(this.DeleteStep_Click);
+            // 
             // comboBoxCheckType
             // 
             this.comboBoxCheckType.FormattingEnabled = true;
@@ -127,10 +147,10 @@
             "面多部件检查",
             "面和线不相交",
             "跨边界面不相交",
-            "跨图层面重叠",
+            "两图层面要素必须互相覆盖",
             "面图层自相交",
-            "面缝隙",
-            "面重叠",
+            "面要素之间无空隙",
+            "面要素间无重叠",
             "细碎面"});
             this.comboBoxCheckType.Location = new System.Drawing.Point(385, 55);
             this.comboBoxCheckType.Name = "comboBoxCheckType";
@@ -189,26 +209,6 @@
             this.buttonTopoSave.Text = "保存";
             this.buttonTopoSave.UseVisualStyleBackColor = true;
             this.buttonTopoSave.Click += new System.EventHandler(this.buttonTopoSave_Click);
-            // 
-            // DeleteStep
-            // 
-            this.DeleteStep.Location = new System.Drawing.Point(19, 14);
-            this.DeleteStep.Name = "DeleteStep";
-            this.DeleteStep.Size = new System.Drawing.Size(46, 23);
-            this.DeleteStep.TabIndex = 3;
-            this.DeleteStep.Text = "-";
-            this.DeleteStep.UseVisualStyleBackColor = true;
-            this.DeleteStep.Click += new System.EventHandler(this.DeleteStep_Click);
-            // 
-            // newStep
-            // 
-            this.newStep.Location = new System.Drawing.Point(81, 14);
-            this.newStep.Name = "newStep";
-            this.newStep.Size = new System.Drawing.Size(51, 23);
-            this.newStep.TabIndex = 3;
-            this.newStep.Text = "+";
-            this.newStep.UseVisualStyleBackColor = true;
-            this.newStep.Click += new System.EventHandler(this.newStep_Click);
             // 
             // FormTopo
             // 

@@ -78,10 +78,16 @@ namespace GISData.ChekConfig
             displayChildWindow(CHECKTYPE);
             string showField = this.selectNode.GetValue("SHOWFIELD").ToString();
             string[] FieldArray = showField.Split(',');
-            foreach (string iitem in FieldArray) 
+            foreach (string iitem in FieldArray)
             {
-                int index = int.Parse(iitem);
-                FIeldList.SetItemChecked(index, true);
+                for (int i = 0; i < FIeldList.Items.Count; i++)
+                {
+                    DataRowView item = (DataRowView)FIeldList.Items[i];
+                    if (item.Row[0].ToString() == iitem)
+                    {
+                        FIeldList.SetItemChecked(i, true);
+                    }
+                }
             }
         }
 
@@ -101,20 +107,14 @@ namespace GISData.ChekConfig
                 {
                     if (strCollected == string.Empty)
                     {
-
                         strCollected = FIeldList.GetItemText(FIeldList.Items[i]);
-
                     }
-
                     else
                     {
-
                         strCollected = strCollected + "/" + FIeldList.GetItemText(FIeldList.Items[i]);
 
                     }
-
                 }
-
             }
             return strCollected;
         }
@@ -141,7 +141,10 @@ namespace GISData.ChekConfig
         {
             displayChildWindow("");
         }
-
+        /// <summary>
+        /// 显示下级窗口
+        /// </summary>
+        /// <param name="inputType"></param>
         private void displayChildWindow(string inputType) 
         {
             this.splitContainer3.Panel1.Controls.Clear();
@@ -154,16 +157,17 @@ namespace GISData.ChekConfig
             }
             else if (checkType == "值域检查")
             {
-                FormDomain formDomain = new FormDomain(comboBoxDataSour);
+                FormDomain formDomain = new FormDomain(comboBoxDataSour,this.type,selectedId);
                 formDomainDig = formDomain;
                 ShowForm(this.splitContainer3.Panel1, formDomain);
 
             }
             else if (checkType == "唯一值检查")
             {
-                FormUnique formUnique = new FormUnique();
+                FormUnique formUnique = new FormUnique(comboBoxDataSour);
                 formUniqueDig = formUnique;
                 ShowForm(this.splitContainer3.Panel1, formUnique);
+                formUnique.textCheckedValue = this.selectNode.GetValue("FIELD").ToString();
             }
             else if (checkType == "逻辑关系检查")
             {
@@ -199,17 +203,26 @@ namespace GISData.ChekConfig
         {
             this.Close();
         }
-
+        /// <summary>
+        /// 保存按钮
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void buttonSave_Click(object sender, EventArgs e)
         {
             string checkType = comboBoxCheckType.SelectedItem.ToString();
             string name = textBoxName.Text;
             string table = comboBoxDataSour.SelectedValue.ToString();
             string showfield = "";
-            foreach (object itemChecked in FIeldList.CheckedIndices) 
+            foreach (DataRowView itemChecked in this.FIeldList.CheckedItems)
             {
-                showfield += itemChecked.ToString()+",";
+                showfield += itemChecked.Row[0] + ",";
             }
+            showfield = showfield.Substring(0, showfield.Length - 1);
+            //foreach (object itemChecked in FIeldList.CheckedIndices) 
+            //{
+            //    showfield += itemChecked.ToString()+",";
+            //}
             ConnectDB db = new ConnectDB();
             if (checkType == "空值检查")
             {
@@ -228,11 +241,39 @@ namespace GISData.ChekConfig
             }
             else if (checkType == "值域检查")
             {
+                string domainTable = formDomainDig.domainTable;
+                string wheresSring = formDomainDig.wheresSring;
+                string domainType = formDomainDig.domainType;
+                string DOMAINVALUE = formDomainDig.DOMAINVALUE;
+                string selectField = formDomainDig.listBoxFieldValue.SelectedValue.ToString();
+                Boolean result;
+                if (type == "edit")
+                {
+                    result = db.Update("update GISDATA_TBATTR set NAME = '" + name + "',CHECKTYPE = '值域检查',TABLENAME = '" + table + "',SHOWFIELD = '" + showfield + "',FIELD = '" + selectField + "',SUPTABLE = '" + domainTable + "',WHERESTRING = '" + wheresSring + "',DOMAINTYPE = '" + domainType + "',DOMAINVALUE = '" + DOMAINVALUE + "' where id = " + selectedId);
+                }
+                else
+                {
+                    result = db.Insert("insert into GISDATA_TBATTR (PARENTID,NAME,STEP,CHECKTYPE,TABLENAME,SHOWFIELD,FIELD,SUPTABLE,WHERESTRING,DOMAINTYPE,DOMAINVALUE) VALUES('" + selectedId + "','" + name + "','" + checkNo + "','值域检查','" + table + "','" + showfield + "','" + selectField + "','" + domainTable + "','" + wheresSring + "','" + domainType + "','" + DOMAINVALUE + "')");
+                }
+                this.DialogResult = DialogResult.OK;
+                this.Close();
 
             }
             else if (checkType == "唯一值检查")
             {
-
+                string uniqueField = formUniqueDig.textCheckedValue;
+                Boolean result;
+                if (type == "edit")
+                {
+                    result = db.Update("update GISDATA_TBATTR set NAME ='" + name + "',CHECKTYPE = '唯一值检查',TABLENAME = '" + table + "',SHOWFIELD = '" + showfield + "',FIELD = '" + uniqueField + "' where id = " + selectedId);
+                }
+                else
+                {
+                    result = db.Insert("insert into GISDATA_TBATTR (PARENTID,NAME,STEP,CHECKTYPE,TABLENAME,SHOWFIELD,FIELD) VALUES('" + selectedId + "','" + name + "','" + checkNo + "','唯一值检查','" + table + "','" + showfield + "','" + uniqueField + "')");
+                }
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+                
             }
             else if (checkType == "逻辑关系检查")
             {

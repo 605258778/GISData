@@ -53,7 +53,7 @@ namespace GISData.DataCheck.CheckDialog
         private void bindTreeView()
         {
             ConnectDB db = new ConnectDB();
-            DataTable dt = db.GetDataBySql("select NAME,STATE,ERROR,TYPE,TABLENAME,WHERESTRING,SUPTABLE,INPUTTEXT from GISDATA_TBTOPO");
+            DataTable dt = db.GetDataBySql("select NAME,STATE,ERROR,TYPE,TABLENAME,WHERESTRING,SUPTABLE,INPUTTEXT,ID from GISDATA_TBTOPO");
             this.gridControl1.DataSource = dt;
             this.gridView1.OptionsBehavior.Editable = true;
             this.gridView1.OptionsSelection.MultiSelect = true;
@@ -83,9 +83,11 @@ namespace GISData.DataCheck.CheckDialog
             TopologyChecker topocheck = new TopologyChecker(mainlogyDataSet);//传入要处理的要素数据集  
             topocheck.PUB_TopoBuild("dataset_Topology");//构建拓扑的名字  
             topocheck.PUB_AddFeatureClass(null);//将该要素中全部要素都加入拓扑  
+            Dictionary<string, string> DicTopoData = new Dictionary<string, string>();
             foreach (int itemRow in selectRows)
             {
                 DataRow row = this.gridView1.GetDataRow(itemRow);
+                string ID = row["ID"].ToString();
                 string NAME = row["NAME"].ToString();
                 string STATE = row["STATE"].ToString();
                 string ERROR = row["ERROR"].ToString();
@@ -94,16 +96,30 @@ namespace GISData.DataCheck.CheckDialog
                 string WHERESTRING = row["WHERESTRING"].ToString();
                 string SUPTABLE = row["SUPTABLE"].ToString();
                 string INPUTTEXT = row["INPUTTEXT"].ToString();
+                if (INPUTTEXT!= null && INPUTTEXT!="")
+                {
+                    DicTopoData.Add(ID, INPUTTEXT);
+                }
+                row["STATE"] = "检查中";
+                GISData.Common.TopologyChecker.TopoErroType aa = GetTypeByString(TYPE);
                 if (SUPTABLE == null || SUPTABLE == "")
                 {
-                    topocheck.PUB_AddRuleToTopology(GetTypeByString(TYPE), (topocheck.PUB_GetAllFeatureClassByName(TABLENAME)));
+                    topocheck.PUB_AddRuleToTopology(ID,GetTypeByString(TYPE), (topocheck.PUB_GetAllFeatureClassByName(TABLENAME)));
                 }
                 else 
                 {
-                    topocheck.PUB_AddRuleToTopology(GetTypeByString(TYPE), (topocheck.PUB_GetAllFeatureClassByName(TABLENAME)), (topocheck.PUB_GetAllFeatureClassByName(SUPTABLE)));
+                    topocheck.PUB_AddRuleToTopology(ID,GetTypeByString(TYPE), (topocheck.PUB_GetAllFeatureClassByName(TABLENAME)), (topocheck.PUB_GetAllFeatureClassByName(SUPTABLE)));
                 }
             }
-            topocheck.doValidateTopology(selectRows);
+            topocheck.doValidateTopology(selectRows, DicTopoData);
+            Dictionary<string,int> DicTopoError = topocheck.DicTopoError;
+            foreach (int itemRow in selectRows)
+            {
+                DataRow row = this.gridView1.GetDataRow(itemRow);
+                string ID = row["ID"].ToString();
+                row["ERROR"] = DicTopoError[ID];
+                row["STATE"] = "检查完成";
+            }
         }
 
         public Boolean UpdateGrid() 
