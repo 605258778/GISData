@@ -1,6 +1,7 @@
 ﻿using GISData.CheckConfig.CheckTopo.CheckDialog;
 using GISData.Common;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -106,6 +107,17 @@ namespace GISData.ChekConfig.CheckTopo
             comboBoxDataSource.DataSource = dt;
             comboBoxDataSource.DisplayMember = "REG_ALIASNAME";
             comboBoxDataSource.ValueMember = "REG_NAME";
+            //this.comboBoxCheckType.Items.Add(new DictionaryEntry("面内包含点个数", "面内包含点个数"));
+            this.comboBoxCheckType.Items.Add(new DictionaryEntry("面要素无多部件", "多部件"));
+            this.comboBoxCheckType.Items.Add(new DictionaryEntry("面和线不相交", "面和线不相交"));
+            this.comboBoxCheckType.Items.Add(new DictionaryEntry("跨边界面不相交", "面不相交"));
+            this.comboBoxCheckType.Items.Add(new DictionaryEntry("两图层面要素必须互相覆盖", "两图层面要素必须互相覆盖"));
+            this.comboBoxCheckType.Items.Add(new DictionaryEntry("面图层自相交", "面图层自相交"));
+            this.comboBoxCheckType.Items.Add(new DictionaryEntry("面要素之间无空隙", "面要素之间无空隙"));
+            this.comboBoxCheckType.Items.Add(new DictionaryEntry("面要素间无重叠", "面要素间无重叠"));
+            this.comboBoxCheckType.Items.Add(new DictionaryEntry("细碎面", "细碎面"));
+            this.comboBoxCheckType.DisplayMember = "Value";
+            this.comboBoxCheckType.ValueMember = "Key";
             
         }
 
@@ -190,7 +202,6 @@ namespace GISData.ChekConfig.CheckTopo
                 {
                     result = db.Insert("insert into GISDATA_TBTOPO (NAME,TYPE,TABLENAME,WHERESTRING,INPUTTEXT) VALUES('" + name + "','" + type + "','" + table + "','" + where + "','" + input + "')");
                 }
-                
             }
             else if (checkType == "面缝隙")
             {
@@ -204,7 +215,6 @@ namespace GISData.ChekConfig.CheckTopo
                 {
                     result = db.Insert("insert into GISDATA_TBTOPO (NAME,TYPE,TABLENAME,INPUTTEXT) VALUES('" + name + "','" + type + "','" + table + "','" + input + "')");
                 }
-                
             }
             else 
             {
@@ -216,7 +226,6 @@ namespace GISData.ChekConfig.CheckTopo
                 {
                     result = db.Insert("insert into GISDATA_TBTOPO (NAME,TYPE,TABLENAME) VALUES('" + name + "','" + type + "','" + table + "')");
                 }
-                
             }
             if (result)
             {
@@ -238,7 +247,7 @@ namespace GISData.ChekConfig.CheckTopo
             //string checkType = this.comboBoxCheckType.SelectedItem.ToString();
             textBoxName.Text = NAME;
             this.comboBoxCheckType.SelectedIndex = this.comboBoxCheckType.FindString(TYPE);
-            foreach (DataRowView iTable in this.comboBoxDataSource.Items) 
+            foreach (DataRowView iTable in this.comboBoxDataSource.Items)
             {
                 if (TABLENAME == iTable.Row[0].ToString()) 
                 {

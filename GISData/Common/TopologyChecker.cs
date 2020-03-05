@@ -362,12 +362,15 @@ namespace GISData.Common
 
         public void doValidateTopology(int[] selectRows, Dictionary<string, string> DicTopoData) 
         {
-            this.DicTopoData = DicTopoData;
-             this.selectRows = selectRows;
-            IGeoDataset geoDataset = (IGeoDataset)Topology;
-            IEnvelope envelope = geoDataset.Extent;
-            ValidateTopology(Topology, envelope);
-            PRV_GetErrorFeature();
+            if (LI_ITopologyRule.Count > 0) 
+            {
+                this.DicTopoData = DicTopoData;
+                this.selectRows = selectRows;
+                IGeoDataset geoDataset = (IGeoDataset)Topology;
+                IEnvelope envelope = geoDataset.Extent;
+                ValidateTopology(Topology, envelope);
+                PRV_GetErrorFeature();
+            }
         }
 
         
@@ -517,8 +520,71 @@ namespace GISData.Common
                     break;
                 }
                 pFeatureClass = (IFeatureClass)pEnumFeatureClass.Next();
-
             }
+        }
+
+        public void OtherRule(string idname, string IN_RuleType, IFeatureClass IN_FeatureClass) 
+        {
+            if (IN_RuleType == "面多部件检查")
+            {
+                IFeatureCursor cursor = IN_FeatureClass.Search(null, false); 
+                int tempCount = 0;
+                IFeature pFeature = cursor.NextFeature();
+                while (pFeature != null)
+                {
+                    IGeometry pGeo = pFeature.ShapeCopy;
+                    int iCount = 0;
+                    if (IN_FeatureClass.ShapeType == esriGeometryType.esriGeometryPolygon)
+                    {
+                        iCount = (pGeo as IPolygon).ExteriorRingCount;
+                    }
+                    else if (IN_FeatureClass.ShapeType == esriGeometryType.esriGeometryPolyline)
+                    {
+                        iCount = ((pGeo as IPolyline) as IGeometryCollection).GeometryCount;
+                    }
+                    else if (IN_FeatureClass.ShapeType == esriGeometryType.esriGeometryMultipoint)
+                    {
+                        iCount = ((pGeo as IMultipoint) as IPointCollection).PointCount;
+                    }
+                    if (iCount > 1) 
+                    {
+                        tempCount++;
+                        Console.WriteLine(pFeature.OID);
+                    }
+                    pFeature = cursor.NextFeature();
+                }
+                DicTopoError[idname] = tempCount;
+            }
+            else if (IN_RuleType == "面自相交检查")
+            {
+                IFeatureCursor cursor = IN_FeatureClass.Search(null, false);
+                IFeature pFeature = cursor.NextFeature();
+                int tempCount = 0;
+                while (pFeature != null) 
+                {
+                    IPolygon4 polygon = pFeature.ShapeCopy as IPolygon4;
+                    IGeometryBag bag = polygon.ExteriorRingBag;
+                    IEnumGeometry geo = bag as IEnumGeometry;
+                    geo.Reset();
+                    int iCount = 0;
+                    IRing exRing = geo.Next() as IRing;
+                    while(exRing!= null)
+                    {
+                        if (exRing.IsExterior)
+                        {
+                            iCount++;
+                        }
+                        exRing = geo.Next() as IRing;
+                    }
+                    if (iCount > 1)
+                    {
+                        tempCount++;
+                    }
+                    pFeature = cursor.NextFeature();
+                }
+                DicTopoError[idname] = tempCount;
+            }
+        
         }
 
         /// <summary>

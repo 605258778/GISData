@@ -137,13 +137,16 @@ namespace GISData.ChekConfig.CheckDialog
                 this.listBox1.DisplayMember = "C_CODE";
             }
             this.DOMAINVALUE = "";
-            foreach (DataRowView item in listBox1.Items)
+            if (listBox1.Items.Count > 0) 
             {
-                this.DOMAINVALUE += item[0].ToString() + ",";
+                foreach (DataRowView item in listBox1.Items)
+                {
+                    this.DOMAINVALUE += item[0].ToString() + ",";
+                }
+                this.DOMAINVALUE = this.DOMAINVALUE.Substring(0, this.DOMAINVALUE.Length - 1);
+                this.wheresSring = dt.Rows[0]["CODE_WHERE"].ToString();
+                this.domainType = "own";
             }
-            this.DOMAINVALUE = this.DOMAINVALUE.Substring(0, this.DOMAINVALUE.Length - 1);
-            this.wheresSring = dt.Rows[0]["CODE_WHERE"].ToString();
-            this.domainType = "own";
         }
 
         private void radioButton2_CheckedChanged(object sender, EventArgs e)

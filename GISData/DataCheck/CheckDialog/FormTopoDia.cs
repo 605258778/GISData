@@ -102,7 +102,10 @@ namespace GISData.DataCheck.CheckDialog
                 }
                 row["STATE"] = "检查中";
                 GISData.Common.TopologyChecker.TopoErroType aa = GetTypeByString(TYPE);
-                if (SUPTABLE == null || SUPTABLE == "")
+                if (TYPE == "面多部件检查" || TYPE == "面自相交检查")
+                {
+                    topocheck.OtherRule(ID, TYPE, topocheck.PUB_GetAllFeatureClassByName(TABLENAME));
+                }else if (SUPTABLE == null || SUPTABLE == "")
                 {
                     topocheck.PUB_AddRuleToTopology(ID,GetTypeByString(TYPE), (topocheck.PUB_GetAllFeatureClassByName(TABLENAME)));
                 }
@@ -195,6 +198,8 @@ namespace GISData.DataCheck.CheckDialog
                     return TopologyChecker.TopoErroType.线要素之间不能相交;
                 case "要素大于最小容差":
                     return TopologyChecker.TopoErroType.要素大于最小容差;
+                case "面要素无多部件":
+                    return TopologyChecker.TopoErroType.面要素无多部件;
                 default:
                     return TopologyChecker.TopoErroType.任何规则;
             }

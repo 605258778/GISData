@@ -14,7 +14,8 @@ namespace GISData.ChekConfig.CheckDialog
     public partial class FormNullValue : Form
     {
         private ComboBox comboBoxDataSour;
-
+        private string selectedId;
+        private string type;
         public FormNullValue()
         {
             InitializeComponent();
@@ -25,11 +26,13 @@ namespace GISData.ChekConfig.CheckDialog
             set { listBoxField.SelectedItem = value; }
         }
 
-        public FormNullValue(ComboBox comboBoxDataSour)
+        public FormNullValue(ComboBox comboBoxDataSour, string type, string selectedId)
         {
             // TODO: Complete member initialization
             InitializeComponent();
             this.comboBoxDataSour = comboBoxDataSour;
+            this.type = type;
+            this.selectedId = selectedId;
         }
 
         private void FormNullValue_Load(object sender, EventArgs e)
@@ -40,6 +43,20 @@ namespace GISData.ChekConfig.CheckDialog
             listBoxField.DataSource = dt;
             listBoxField.DisplayMember = "FIELD_ALSNAME";
             listBoxField.ValueMember = "FIELD_NAME";
+            if (this.type == "edit")
+            {
+                DataTable editDB = db.GetDataBySql("select FIELD from GISDATA_TBATTR where id = " + selectedId);
+                DataRow[] drs = editDB.Select("1=1");
+                string field = drs[0]["FIELD"].ToString();
+                for (int i = 0; i < listBoxField.Items.Count; i++)
+                {
+                    DataRowView item = (DataRowView)listBoxField.Items[i];
+                    if (item.Row[0].ToString().Equals(field))
+                    {
+                        this.listBoxField.SelectedIndex = i;
+                    }
+                }
+            }
         }
     }
 }

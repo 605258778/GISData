@@ -52,7 +52,7 @@ namespace GISData.ChekConfig
             FIeldList.DataSource = dtfield;
             FIeldList.DisplayMember = "FIELD_ALSNAME";
             FIeldList.ValueMember = "FIELD_NAME";
-            if (type == "edit") 
+            if (type == "edit")
             {
                 LoadData(dt);
             }
@@ -151,7 +151,7 @@ namespace GISData.ChekConfig
             string checkType = inputType == "" ? comboBoxCheckType.SelectedItem.ToString() : inputType;
             if (checkType == "空值检查")
             {
-                FormNullValue nullValue = new FormNullValue(comboBoxDataSour);
+                FormNullValue nullValue = new FormNullValue(comboBoxDataSour, this.type, selectedId);
                 formNullValueDig = nullValue;
                 ShowForm(this.splitContainer3.Panel1, nullValue);
             }
@@ -164,10 +164,10 @@ namespace GISData.ChekConfig
             }
             else if (checkType == "唯一值检查")
             {
-                FormUnique formUnique = new FormUnique(comboBoxDataSour);
+                FormUnique formUnique = new FormUnique(comboBoxDataSour, this.type, this.selectedId);
                 formUniqueDig = formUnique;
                 ShowForm(this.splitContainer3.Panel1, formUnique);
-                formUnique.textCheckedValue = this.selectNode.GetValue("FIELD").ToString();
+                //formUnique.textCheckedValue = this.selectNode.GetValue("FIELD").ToString();
             }
             else if (checkType == "逻辑关系检查")
             {
@@ -178,7 +178,11 @@ namespace GISData.ChekConfig
                 formLogic.textBoxResultValue = this.selectNode.GetValue("RESULT").ToString();
             }
         }
-
+        /// <summary>
+        /// 弹出窗口
+        /// </summary>
+        /// <param name="panel"></param>
+        /// <param name="frm"></param>
         public void ShowForm(Panel panel,Form frm)
         {
             lock (this)
@@ -198,7 +202,11 @@ namespace GISData.ChekConfig
                 }
             }
         }
-
+        /// <summary>
+        /// 取消按钮
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void buttonCancel_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -230,7 +238,7 @@ namespace GISData.ChekConfig
                 Boolean result;
                 if (type == "edit")
                 {
-                    result = db.Update("update GISDATA_TBATTR set NAME = ','" + name + "',CHECKTYPE = '空值检查',TABLENAME = '" + table + "',SHOWFIELD = '" + showfield + "',FIELD = '" + field + "' where id = " + selectedId);
+                    result = db.Update("update GISDATA_TBATTR set NAME = '" + name + "',CHECKTYPE = '空值检查',TABLENAME = '" + table + "',SHOWFIELD = '" + showfield + "',FIELD = '" + field + "' where id = " + selectedId);
                 }
                 else 
                 {
@@ -293,7 +301,6 @@ namespace GISData.ChekConfig
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }
-            
         }
     }
 }

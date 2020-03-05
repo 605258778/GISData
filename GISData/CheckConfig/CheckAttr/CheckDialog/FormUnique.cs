@@ -14,6 +14,9 @@ namespace GISData.ChekConfig.CheckDialog
     public partial class FormUnique : Form
     {
         private ComboBox comboBoxDataSour;
+        private string type;
+        private string selectedId;
+
         public string textCheckedValue
         {
             get {
@@ -42,10 +45,12 @@ namespace GISData.ChekConfig.CheckDialog
             }
         }
 
-        public FormUnique(ComboBox comboBoxDataSour)
+        public FormUnique(ComboBox comboBoxDataSour,string type1, string selectedId1)
         {
             InitializeComponent();
             this.comboBoxDataSour = comboBoxDataSour;
+            this.type = type1;
+            this.selectedId = selectedId1;
         }
 
         private void FormUnique_Load(object sender, EventArgs e)
@@ -56,6 +61,13 @@ namespace GISData.ChekConfig.CheckDialog
             checkedListBox1.DataSource = dt;
             checkedListBox1.DisplayMember = "FIELD_ALSNAME";
             checkedListBox1.ValueMember = "FIELD_NAME";
+            if (this.type == "edit")
+            {
+                DataTable editDB = db.GetDataBySql("select FIELD from GISDATA_TBATTR where id = " + selectedId);
+                DataRow[] drs = editDB.Select("1=1");
+                string field = drs[0]["FIELD"].ToString();
+                this.textCheckedValue = field;
+            }
         }
     }
 }

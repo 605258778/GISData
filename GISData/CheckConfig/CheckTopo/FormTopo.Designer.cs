@@ -142,16 +142,6 @@
             // comboBoxCheckType
             // 
             this.comboBoxCheckType.FormattingEnabled = true;
-            this.comboBoxCheckType.Items.AddRange(new object[] {
-            "面内包含点个数",
-            "面多部件检查",
-            "面和线不相交",
-            "跨边界面不相交",
-            "两图层面要素必须互相覆盖",
-            "面图层自相交",
-            "面要素之间无空隙",
-            "面要素间无重叠",
-            "细碎面"});
             this.comboBoxCheckType.Location = new System.Drawing.Point(385, 55);
             this.comboBoxCheckType.Name = "comboBoxCheckType";
             this.comboBoxCheckType.Size = new System.Drawing.Size(194, 23);
