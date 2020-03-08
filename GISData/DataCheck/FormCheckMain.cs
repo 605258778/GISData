@@ -187,7 +187,7 @@ namespace GISData.DataCheck
                     }
                     else if (item.Name == "图形检查")
                     {
-                        TopoDia.doCheckTopo();
+                        TopoDia.doCheckTopo1();
                     }
                 }
             }

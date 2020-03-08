@@ -125,6 +125,49 @@ namespace GISData.DataCheck.CheckDialog
             }
         }
 
+        public void doCheckTopo1()
+        {
+            string GdbPath = Application.StartupPath + "\\GISData.gdb";
+            FileGDBWorkspaceFactoryClass fac = new FileGDBWorkspaceFactoryClass();
+            IWorkspace workspace = fac.OpenFromFile(GdbPath, 0);
+            CommonClass common = new CommonClass();
+            IFeatureDataset mainlogyDataSet = common.getDataset(workspace);
+            int[] selectRows = this.gridView1.GetSelectedRows();
+            //主要有添加构建拓扑，拓扑中添加要素，添加规则，输出拓扑错误的功能。  
+            TopoChecker topocheck = new TopoChecker(mainlogyDataSet);//传入要处理的要素数据集  
+            Dictionary<string, string> DicTopoData = new Dictionary<string, string>();
+            foreach (int itemRow in selectRows)
+            {
+                DataRow row = this.gridView1.GetDataRow(itemRow);
+                string ID = row["ID"].ToString();
+                string NAME = row["NAME"].ToString();
+                string STATE = row["STATE"].ToString();
+                string ERROR = row["ERROR"].ToString();
+                string TYPE = row["TYPE"].ToString();
+                string TABLENAME = row["TABLENAME"].ToString();
+                string WHERESTRING = row["WHERESTRING"].ToString();
+                string SUPTABLE = row["SUPTABLE"].ToString();
+                string INPUTTEXT = row["INPUTTEXT"].ToString();
+                if (INPUTTEXT != null && INPUTTEXT != "")
+                {
+                    DicTopoData.Add(ID, INPUTTEXT);
+                }
+                row["STATE"] = "检查中";
+                GISData.Common.TopologyChecker.TopoErroType aa = GetTypeByString(TYPE);
+                topocheck.OtherRule(ID, TYPE, topocheck.PUB_GetAllFeatureClassByName(TABLENAME), topocheck.PUB_GetAllFeatureClassByName(SUPTABLE));
+                //if (TYPE == "面多部件检查" || TYPE == "面自相交检查")
+                //{
+                //    topocheck.OtherRule(ID, TYPE, topocheck.PUB_GetAllFeatureClassByName(TABLENAME), topocheck.PUB_GetAllFeatureClassByName(SUPTABLE));
+                //}
+                //else if (SUPTABLE == null || SUPTABLE == "")
+                //{
+                //}
+                //else
+                //{
+                //}
+            }
+        }
+
         public Boolean UpdateGrid() 
         {
             return true;

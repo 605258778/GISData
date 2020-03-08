@@ -30,13 +30,14 @@ namespace GISData
 {
     public partial class FormMain : Form
     {
-        private ESRI.ArcGIS.Controls.IMapControl3 m_mapControl = null;
+        public ESRI.ArcGIS.Controls.IMapControl3 m_mapControl = null;
         //TOCControl控件变量
         private ITOCControl2 m_tocControl = null;
         //TOCControl中Map菜单
         private IToolbarMenu m_menuMap = null;
         //TOCControl中图层菜单
         private IToolbarMenu m_menuLayer = null;
+        public IHookHelper m_hookHelper = new HookHelperClass(); 
         public FormMain()
         {
             InitializeComponent();
@@ -52,6 +53,8 @@ namespace GISData
             m_tocControl = (ITOCControl2)this.axTOCControl1.Object;
             // 取得 MapControl 和 PageLayoutControl 的引用
             m_mapControl = (IMapControl3)this.axMapControl1.Object;
+            m_hookHelper.Hook = this.axMapControl1.Object;
+            //这样就可以把AxMapControl传递给其它要用到的地方
             //添加“移除图层”菜单项
             m_menuLayer.AddItem(new RemoveLayer(), -1, 0, false, esriCommandStyles.esriCommandStyleTextOnly);
             //添加“放大到整个图层”菜单项

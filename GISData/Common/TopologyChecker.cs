@@ -533,6 +533,7 @@ namespace GISData.Common
                 while (pFeature != null)
                 {
                     IGeometry pGeo = pFeature.ShapeCopy;
+                    ITopologicalOperator pTopoOperator = pGeo as ITopologicalOperator;
                     int iCount = 0;
                     if (IN_FeatureClass.ShapeType == esriGeometryType.esriGeometryPolygon)
                     {
