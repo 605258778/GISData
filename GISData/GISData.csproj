@@ -79,7 +79,7 @@
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="ESRI.ArcGIS.Display, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
-      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="ESRI.ArcGIS.Geodatabase, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
       <EmbedInteropTypes>False</EmbedInteropTypes>
@@ -109,7 +109,7 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="stdole, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -237,7 +237,9 @@
     <Compile Include="Common\OpenAttribute.cs" />
     <Compile Include="Common\RefreshTable.cs" />
     <Compile Include="Common\RemoveLayer.cs" />
-    <Compile Include="Common\TopoChecker.cs" />
+    <Compile Include="Common\TopoChecker.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Common\TopologyChecker.cs" />
     <Compile Include="Common\TreeDataGridView.cs" />
     <Compile Include="Common\TreeNodeMul.cs" />
@@ -290,6 +292,7 @@
     <Compile Include="Dictionary\FormDictionary.Designer.cs">
       <DependentUpon>FormDictionary.cs</DependentUpon>
     </Compile>
+    <Compile Include="Error\ErrManager.cs" />
     <Compile Include="Error\ErrorEntity.cs" />
     <Compile Include="Error\ErrType.cs" />
     <Compile Include="File\CreateNewDocument .cs" />
@@ -323,6 +326,7 @@
     <Compile Include="TopologyCheck\Checker\BoundaryBeyondChecker.cs" />
     <Compile Include="TopologyCheck\Checker\GapErrorEntity.cs" />
     <Compile Include="TopologyCheck\Checker\ITopologyChecker.cs" />
+    <Compile Include="TopologyCheck\Checker\Resources.cs" />
     <Compile Include="TopologyCheck\Checker\SelfIntersectChecker.cs" />
     <EmbeddedResource Include="CheckConfig\CheckAttr\CheckDialog\FormDomain.resx">
       <DependentUpon>FormDomain.cs</DependentUpon>
@@ -503,6 +507,7 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

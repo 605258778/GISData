@@ -1,4 +1,5 @@
-﻿using GISData.Common;
+﻿using ESRI.ArcGIS.Controls;
+using GISData.Common;
 using GISData.DataCheck.CheckDialog;
 using System;
 using System.Collections.Generic;
@@ -14,11 +15,16 @@ namespace GISData.DataCheck
 {
     public partial class FormCheckMain : Form
     {
+        private IHookHelper m_hookHelper = null;
         public FormCheckMain()
         {
             InitializeComponent();
         }
-
+        public FormCheckMain(IHookHelper m_hookHelper)
+        {
+            InitializeComponent();
+            this.m_hookHelper = m_hookHelper;
+        }
         private FormStructureDia StructureDia;
         private FormAttrDia AttrDia;
         private FormTopoDia TopoDia;
@@ -187,7 +193,7 @@ namespace GISData.DataCheck
                     }
                     else if (item.Name == "图形检查")
                     {
-                        TopoDia.doCheckTopo1();
+                        TopoDia.doCheckTopo1(this.m_hookHelper);
                     }
                 }
             }

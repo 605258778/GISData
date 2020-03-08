@@ -53,7 +53,7 @@ namespace GISData
             m_tocControl = (ITOCControl2)this.axTOCControl1.Object;
             // 取得 MapControl 和 PageLayoutControl 的引用
             m_mapControl = (IMapControl3)this.axMapControl1.Object;
-            m_hookHelper.Hook = this.axMapControl1.Object;
+            
             //这样就可以把AxMapControl传递给其它要用到的地方
             //添加“移除图层”菜单项
             m_menuLayer.AddItem(new RemoveLayer(), -1, 0, false, esriCommandStyles.esriCommandStyleTextOnly);
@@ -64,6 +64,7 @@ namespace GISData
             //设置菜单的Hook
             m_menuLayer.SetHook(m_mapControl);
             m_menuMap.SetHook(m_mapControl);
+            m_hookHelper.Hook = this.axMapControl1.Object;
         }
 
         private void axTOCControl1_OnMouseDown(object sender, ITOCControlEvents_OnMouseDownEvent e)
@@ -89,6 +90,8 @@ namespace GISData
                 m_menuMap.PopupMenu(e.x, e.y, m_tocControl.hWnd);
             if (item == esriTOCControlItem.esriTOCControlItemLayer)
                 m_menuLayer.PopupMenu(e.x, e.y, m_tocControl.hWnd);
+
+            
         }
 
         private void 字典管理ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -111,7 +114,7 @@ namespace GISData
 
         private void 数据质检ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FormCheckMain fcm = new FormCheckMain();
+            FormCheckMain fcm = new FormCheckMain(m_hookHelper);
             fcm.Show();
         }
 

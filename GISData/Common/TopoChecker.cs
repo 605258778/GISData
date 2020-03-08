@@ -18,14 +18,15 @@ using ESRI.ArcGIS.Controls;
 
 namespace GISData.Common
 {
-    class TopoChecker//功能：构建拓扑，拓扑检测
+    class TopoChecker : FormMain//功能：构建拓扑，拓扑检测
     {
         private SelfIntersectChecker _sc;
+        
         private Dictionary<int, List<IElement>> elements = new Dictionary<int, List<IElement>>();
+        private Dictionary<string, dynamic> errorDic = new Dictionary<string, dynamic>();
         List<IFeatureClass> LI_FeatureClass = new List<IFeatureClass>();//要素数据集所包含的所有要素类
         IFeatureDataset FeatureDataset_Main;//拓扑所属的要素数据集
-        
-        private IHookHelper m_hookHelper;
+        private IHookHelper m_hookHelper = null;
         /// <summary>
         /// 构造拓扑检验类
         /// </summary>
@@ -36,10 +37,7 @@ namespace GISData.Common
             if (LI_FeatureClass.Count != 0)
                 LI_FeatureClass.Clear();
             PUB_GetAllFeatureClass();//获取数据集中所有包含的要素类
-            FormMain mainWin = new FormMain();
-            this.m_hookHelper = mainWin.m_hookHelper;
         }
-
         /// <summary>
         /// 获取数据集中所有包含的要素类
         /// </summary>
@@ -65,7 +63,7 @@ namespace GISData.Common
             return LI_FeatureClass;
         }
 
-        public void OtherRule(string idname, string IN_RuleType, IFeatureClass IN_FeatureClass,IFeatureClass IN_Sup_FeatureClass)
+        public void OtherRule(string idname, string IN_RuleType, IFeatureClass IN_FeatureClass, IFeatureClass IN_Sup_FeatureClass, IHookHelper m_hookHelper)
         {
             if (IN_RuleType == "面多部件检查")
             {
@@ -100,6 +98,7 @@ namespace GISData.Common
                 //DicTopoError[idname] = tempCount;
             }else if (IN_RuleType == "面自相交检查")
             {
+                this.m_hookHelper = m_hookHelper;
                 IFeatureLayer flay = new FeatureLayer();
                 flay.FeatureClass = IN_FeatureClass;
                 this._sc = new SelfIntersectChecker(flay);
@@ -109,7 +108,7 @@ namespace GISData.Common
                 {
                     List<double[]> list = new List<double[]>();
                     object pErrFeatureInf = list;
-
+                    AxMapControl axMapControl = Control.FromHandle(new IntPtr(this.m_hookHelper.ActiveView.ScreenDisplay.hWnd)) as AxMapControl;
                     IGraphicsContainer focusMap = this.m_hookHelper.ActiveView.FocusMap as IGraphicsContainer;
                     if (!this._sc.CheckFeature(pFeature, ref pErrFeatureInf))
                     {
@@ -133,11 +132,12 @@ namespace GISData.Common
                             double pX = numArray[0];
                             double pY = numArray[1];
                             Console.WriteLine(pX.ToString()+","+pY.ToString());
-                            //IElement item = ErrManager.CreateMarkerElement(this.m_hookHelper.ActiveView, pX, pY, Resources.Err, (this._layer.FeatureClass as IGeoDataset).SpatialReference);
-                            //this.elements[pFeature.OID].Add(item);
-                            //focusMap.AddElement(item, 0);
+                            IElement item = ErrManager.CreateMarkerElement(this.m_hookHelper.ActiveView, pX, pY, (flay.FeatureClass as IGeoDataset).SpatialReference);
+                            this.elements[pFeature.OID].Add(item);
+                            focusMap.AddElement(item, 0);
                         }
-                        //mainWin.m_mapControl.ActiveView.PartialRefresh(esriViewDrawPhase.esriViewGraphics, null, mainWin.m_mapControl.ActiveView.Extent);
+                        this.errorDic.Add("面自相交检查", this.elements);
+                        this.m_hookHelper.ActiveView.PartialRefresh(esriViewDrawPhase.esriViewGraphics, null, this.m_hookHelper.ActiveView.Extent);
                     }
                     else
                     {
@@ -146,10 +146,10 @@ namespace GISData.Common
                             List<IElement> list4 = this.elements[pFeature.OID];
                             foreach (IElement element3 in list4)
                             {
-                                //focusMap.DeleteElement(element3);
+                                focusMap.DeleteElement(element3);
                             }
                             this.elements.Remove(pFeature.OID);
-                            //this.m_hookHelper.ActiveView.PartialRefresh(esriViewDrawPhase.esriViewGraphics, null, this.m_hookHelper.ActiveView.Extent);
+                            this.m_hookHelper.ActiveView.PartialRefresh(esriViewDrawPhase.esriViewGraphics, null, this.m_hookHelper.ActiveView.Extent);
                         }
                         Console.WriteLine("拓扑正确！");
                     }
@@ -300,4 +300,31 @@ namespace GISData.Common
             return returnFeatureClass;
         }
     }
+    class DictionaryDic
+    {
+        public Dictionary<int, List<IElement>> Code 
+        { 
+            get 
+            { 
+                return _Code;
+            } 
+            set 
+            { 
+                _Code = value;
+            }
+        }
+        private Dictionary<int, List<IElement>> _Code;
+        public string Page 
+        { 
+            get 
+            { 
+                return _Page;
+            } 
+            set 
+            { 
+                _Page = value;
+            } 
+        } 
+        private string _Page;
+    } 
 }

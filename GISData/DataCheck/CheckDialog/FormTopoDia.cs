@@ -1,4 +1,5 @@
-﻿using ESRI.ArcGIS.DataSourcesGDB;
+﻿using ESRI.ArcGIS.Controls;
+using ESRI.ArcGIS.DataSourcesGDB;
 using ESRI.ArcGIS.Geodatabase;
 using GISData.Common;
 using System;
@@ -17,7 +18,7 @@ namespace GISData.DataCheck.CheckDialog
     {
         private string stepNo;
         private CheckBox checkBox;
-
+        private IHookHelper m_hookHelper = null;
         public FormTopoDia()
         {
             InitializeComponent();
@@ -55,7 +56,7 @@ namespace GISData.DataCheck.CheckDialog
             ConnectDB db = new ConnectDB();
             DataTable dt = db.GetDataBySql("select NAME,STATE,ERROR,TYPE,TABLENAME,WHERESTRING,SUPTABLE,INPUTTEXT,ID from GISDATA_TBTOPO");
             this.gridControl1.DataSource = dt;
-            this.gridView1.OptionsBehavior.Editable = true;
+            this.gridView1.OptionsBehavior.Editable = false;
             this.gridView1.OptionsSelection.MultiSelect = true;
         }
 
@@ -125,8 +126,9 @@ namespace GISData.DataCheck.CheckDialog
             }
         }
 
-        public void doCheckTopo1()
+        public void doCheckTopo1(IHookHelper m_hookHelper)
         {
+            this.m_hookHelper = m_hookHelper;
             string GdbPath = Application.StartupPath + "\\GISData.gdb";
             FileGDBWorkspaceFactoryClass fac = new FileGDBWorkspaceFactoryClass();
             IWorkspace workspace = fac.OpenFromFile(GdbPath, 0);
@@ -154,7 +156,7 @@ namespace GISData.DataCheck.CheckDialog
                 }
                 row["STATE"] = "检查中";
                 GISData.Common.TopologyChecker.TopoErroType aa = GetTypeByString(TYPE);
-                topocheck.OtherRule(ID, TYPE, topocheck.PUB_GetAllFeatureClassByName(TABLENAME), topocheck.PUB_GetAllFeatureClassByName(SUPTABLE));
+                topocheck.OtherRule(ID, TYPE, topocheck.PUB_GetAllFeatureClassByName(TABLENAME), topocheck.PUB_GetAllFeatureClassByName(SUPTABLE), m_hookHelper);
                 //if (TYPE == "面多部件检查" || TYPE == "面自相交检查")
                 //{
                 //    topocheck.OtherRule(ID, TYPE, topocheck.PUB_GetAllFeatureClassByName(TABLENAME), topocheck.PUB_GetAllFeatureClassByName(SUPTABLE));
