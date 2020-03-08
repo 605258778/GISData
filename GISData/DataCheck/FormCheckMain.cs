@@ -37,6 +37,8 @@ namespace GISData.DataCheck
         private void FormCheckMain_Load(object sender, EventArgs e)
         {
             loadStep();
+            this.Width = this.tabControl1.Width;
+            this.tableLayoutPanel1.ColumnStyles[1].Width = 0;
         }
         /// <summary>
         /// 加载检查项
@@ -68,26 +70,31 @@ namespace GISData.DataCheck
                 cb.Click += (se, a) => checkState(se,a,stepType);
                 this.splitContainer1.Panel2.Controls.Add(cb);
                 this.tabControl1.Controls.Add(tp);
+                this.tabControl1.Dock = DockStyle.Fill; ;
                 cb.BringToFront();
                 this.CheckBoxArr.Add(cb);
                 if (stepType == "结构检查")
                 {
                     FormStructureDia fsa = new FormStructureDia(stepNo, cb);
                     StructureDia = fsa;
+                    fsa.Dock = DockStyle.Fill;
                     ShowForm(tp, fsa);
                 }
                 else if (stepType == "属性检查")
                 {
                     FormAttrDia attr = new FormAttrDia(stepNo, cb);
                     AttrDia = attr;
+                    attr.Dock = DockStyle.Fill;
                     ShowForm(tp, attr);
                 }
                 else if (stepType == "图形检查")
                 {
                     FormTopoDia topo = new FormTopoDia(stepNo, cb);
                     TopoDia = topo;
+                    topo.Dock = DockStyle.Fill;
                     ShowForm(tp, topo);
                 }
+                
             }
         }
         /// <summary>
@@ -162,12 +169,15 @@ namespace GISData.DataCheck
                 try
                 {
                     page.Controls.Clear();
+                    frm.Dock = DockStyle.Fill;
                     frm.TopLevel = true;
                     frm.MdiParent = this;
                     frm.Parent = page;
                     frm.WindowState = FormWindowState.Maximized;
                     frm.FormBorderStyle = FormBorderStyle.None;
                     frm.Show();
+                    
+                    
                 }
                 catch (System.Exception ex)
                 {
@@ -198,6 +208,21 @@ namespace GISData.DataCheck
                 }
             }
             MessageBox.Show("检查完成", "提示");
+        }
+
+        private void checkBox1_CheckStateChanged(object sender, EventArgs e)
+        {
+            if (this.checkBox1.Checked)
+            {
+                this.Width = this.Width * 2;
+                this.tableLayoutPanel1.ColumnStyles[1].Width = this.tableLayoutPanel1.ColumnStyles[0].Width;
+            }
+            else 
+            {
+                this.Width = this.Width / 2;
+                this.tableLayoutPanel1.ColumnStyles[0].Width = this.Width / 2;
+                this.tableLayoutPanel1.ColumnStyles[1].Width = 0;
+            }
         }
     }
 }

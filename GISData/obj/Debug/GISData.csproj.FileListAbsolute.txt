@@ -38,3 +38,4 @@ F:\数据验收平台建设\GISData\GISData\bin\Debug\ESRI.ArcGIS.Version.dll
 F:\数据验收平台建设\GISData\GISData\bin\Debug\ESRI.ArcGIS.ADF.xml
 F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.exe
 F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.pdb
+F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.csprojResolveAssemblyReference.cache
