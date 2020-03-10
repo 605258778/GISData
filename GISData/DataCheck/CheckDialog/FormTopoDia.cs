@@ -1,4 +1,6 @@
-﻿using ESRI.ArcGIS.Controls;
+﻿using DevExpress.XtraGrid;
+using DevExpress.XtraGrid.Views.Grid;
+using ESRI.ArcGIS.Controls;
 using ESRI.ArcGIS.DataSourcesGDB;
 using ESRI.ArcGIS.Geodatabase;
 using GISData.Common;
@@ -11,6 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TopologyCheck.Error;
 
 namespace GISData.DataCheck.CheckDialog
 {
@@ -18,18 +21,23 @@ namespace GISData.DataCheck.CheckDialog
     {
         private string stepNo;
         private CheckBox checkBox;
+        private CheckBox checkBoxCheckMain;
+        private GridControl gridControlError = null;
         private IHookHelper m_hookHelper = null;
+        IFeatureDataset mainlogyDataSet = null;
         public FormTopoDia()
         {
             InitializeComponent();
         }
 
-        public FormTopoDia(string stepNo, CheckBox cb)
+        public FormTopoDia(string stepNo, CheckBox cb, CheckBox cbCheckMain, GridControl gridControlError)
         {
             InitializeComponent();
             // TODO: Complete member initialization
             this.stepNo = stepNo;
             this.checkBox = cb;
+            this.checkBoxCheckMain = cbCheckMain;
+            this.gridControlError = gridControlError;
         }
 
         public void SelectAll() 
@@ -133,7 +141,7 @@ namespace GISData.DataCheck.CheckDialog
             FileGDBWorkspaceFactoryClass fac = new FileGDBWorkspaceFactoryClass();
             IWorkspace workspace = fac.OpenFromFile(GdbPath, 0);
             CommonClass common = new CommonClass();
-            IFeatureDataset mainlogyDataSet = common.getDataset(workspace);
+            this.mainlogyDataSet = common.getDataset(workspace);
             int[] selectRows = this.gridView1.GetSelectedRows();
             //主要有添加构建拓扑，拓扑中添加要素，添加规则，输出拓扑错误的功能。  
             TopoChecker topocheck = new TopoChecker(mainlogyDataSet);//传入要处理的要素数据集  
@@ -248,6 +256,52 @@ namespace GISData.DataCheck.CheckDialog
                 default:
                     return TopologyChecker.TopoErroType.任何规则;
             }
+        }
+
+        private void gridControl1_MouseDown(object sender, MouseEventArgs e)
+        {
+            try
+            {
+                DevExpress.XtraGrid.Views.Grid.ViewInfo.GridHitInfo hInfo = gridView1.CalcHitInfo(new Point(e.X, e.Y));
+                if (e.Button == MouseButtons.Left && e.Clicks == 2)//判断是否左键双击
+                {
+                    //判断光标是否在行范围内 
+                    if (hInfo.InRow)
+                    {
+                        if (this.checkBoxCheckMain.Checked)
+                        {
+                            GridView gridView = this.gridControlError.DefaultView as GridView;
+                            DevExpress.XtraGrid.Columns.GridColumn column = new DevExpress.XtraGrid.Columns.GridColumn();
+                            column.FieldName = "id";
+                            column.Name = "id";
+                            column.Caption = "id";
+                            column.Visible = true;
+                            gridView.Columns.Add(column);
+                            DataTable dt = new DataTable();
+                            DataColumn errorId = new DataColumn("id", typeof(Int32));
+                            dt.Columns.Add(errorId);
+                            //dt.Rows.Clear();
+                            foreach (var item in ErrManager.ErrElements) 
+                            {
+                                DataRow row = dt.NewRow();
+                                row[0] = item.Key;
+                                dt.Rows.Add(row);
+                            }
+                            this.gridControlError.DataSource = dt;
+                            gridView.OptionsBehavior.Editable = false;
+                            gridView.OptionsSelection.MultiSelect = true;
+                            Console.WriteLine("选中");
+                        }
+                        else {
+                            Console.WriteLine("未选中");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("MyException Throw:" + ex.Message);
+            }
         }
     }
 }

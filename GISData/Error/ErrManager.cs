@@ -13,7 +13,7 @@
     public class ErrManager
     {
         public static Dictionary<int, List<IElement>> ErrElements = new Dictionary<int, List<IElement>>();
-
+        public static Dictionary<string, dynamic> errorDic = new Dictionary<string, dynamic>();
         public static void AddErrAreaElement(IActiveView pActiveView, IFeature pFeature, ref List<IElement> pElements)
         {
             IGeometry shapeCopy = pFeature.ShapeCopy;

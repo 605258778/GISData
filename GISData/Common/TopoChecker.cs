@@ -15,18 +15,21 @@ using ESRI.ArcGIS.DataSourcesFile;
 using TopologyCheck.Error;
 using TopologyCheck.Checker;
 using ESRI.ArcGIS.Controls;
+using System.Data;
 
 namespace GISData.Common
 {
     class TopoChecker : FormMain//功能：构建拓扑，拓扑检测
     {
         private SelfIntersectChecker _sc;
-        
-        private Dictionary<int, List<IElement>> elements = new Dictionary<int, List<IElement>>();
-        private Dictionary<string, dynamic> errorDic = new Dictionary<string, dynamic>();
         List<IFeatureClass> LI_FeatureClass = new List<IFeatureClass>();//要素数据集所包含的所有要素类
         IFeatureDataset FeatureDataset_Main;//拓扑所属的要素数据集
-        private IHookHelper m_hookHelper = null;
+        /// <summary>
+        /// 构造拓扑检验类
+        /// </summary>
+        public TopoChecker()
+        {
+        }
         /// <summary>
         /// 构造拓扑检验类
         /// </summary>
@@ -113,19 +116,19 @@ namespace GISData.Common
                     if (!this._sc.CheckFeature(pFeature, ref pErrFeatureInf))
                     {
                         Console.WriteLine("拓扑错误！");
-                        if (this.elements.ContainsKey(pFeature.OID))
+                        if (ErrManager.ErrElements.ContainsKey(pFeature.OID))
                         {
-                            List<IElement> list2 = this.elements[pFeature.OID];
+                            List<IElement> list2 = ErrManager.ErrElements[pFeature.OID];
                             foreach (IElement element in list2)
                             {
                                 Console.WriteLine("error！");
                             }
-                            this.elements[pFeature.OID].Clear();
+                            ErrManager.ErrElements[pFeature.OID].Clear();
                         }
                         else
                         {
                             List<IElement> list3 = new List<IElement>();
-                            this.elements.Add(pFeature.OID, list3);
+                            ErrManager.ErrElements.Add(pFeature.OID, list3);
                         }
                         foreach (double[] numArray in list)
                         {
@@ -133,28 +136,29 @@ namespace GISData.Common
                             double pY = numArray[1];
                             Console.WriteLine(pX.ToString()+","+pY.ToString());
                             IElement item = ErrManager.CreateMarkerElement(this.m_hookHelper.ActiveView, pX, pY, (flay.FeatureClass as IGeoDataset).SpatialReference);
-                            this.elements[pFeature.OID].Add(item);
+                            ErrManager.ErrElements[pFeature.OID].Add(item);
                             focusMap.AddElement(item, 0);
                         }
-                        this.errorDic.Add("面自相交检查", this.elements);
+                        
                         this.m_hookHelper.ActiveView.PartialRefresh(esriViewDrawPhase.esriViewGraphics, null, this.m_hookHelper.ActiveView.Extent);
                     }
                     else
                     {
-                        if (this.elements.ContainsKey(pFeature.OID))
+                        if (ErrManager.ErrElements.ContainsKey(pFeature.OID))
                         {
-                            List<IElement> list4 = this.elements[pFeature.OID];
+                            List<IElement> list4 = ErrManager.ErrElements[pFeature.OID];
                             foreach (IElement element3 in list4)
                             {
                                 focusMap.DeleteElement(element3);
                             }
-                            this.elements.Remove(pFeature.OID);
+                            ErrManager.ErrElements.Remove(pFeature.OID);
                             this.m_hookHelper.ActiveView.PartialRefresh(esriViewDrawPhase.esriViewGraphics, null, this.m_hookHelper.ActiveView.Extent);
                         }
                         Console.WriteLine("拓扑正确！");
                     }
                     pFeature = cursor.NextFeature();
                 }
+                ErrManager.errorDic.Add(idname + IN_RuleType, ErrManager.ErrElements);
             }
             else if (IN_RuleType == "面自相交检查11")
             {
@@ -214,6 +218,7 @@ namespace GISData.Common
                 
             }
         }
+
 
         private void GenerateSHPFile(IGeometry pResultGeometry)
         {
@@ -300,31 +305,4 @@ namespace GISData.Common
             return returnFeatureClass;
         }
     }
-    class DictionaryDic
-    {
-        public Dictionary<int, List<IElement>> Code 
-        { 
-            get 
-            { 
-                return _Code;
-            } 
-            set 
-            { 
-                _Code = value;
-            }
-        }
-        private Dictionary<int, List<IElement>> _Code;
-        public string Page 
-        { 
-            get 
-            { 
-                return _Page;
-            } 
-            set 
-            { 
-                _Page = value;
-            } 
-        } 
-        private string _Page;
-    } 
 }

@@ -39,6 +39,7 @@ namespace GISData.DataCheck
             loadStep();
             this.Width = this.tabControl1.Width;
             this.tableLayoutPanel1.ColumnStyles[1].Width = 0;
+            
         }
         /// <summary>
         /// 加载检查项
@@ -89,7 +90,7 @@ namespace GISData.DataCheck
                 }
                 else if (stepType == "图形检查")
                 {
-                    FormTopoDia topo = new FormTopoDia(stepNo, cb);
+                    FormTopoDia topo = new FormTopoDia(stepNo, cb,this.checkBox1,this.gridControlError);
                     TopoDia = topo;
                     topo.Dock = DockStyle.Fill;
                     ShowForm(tp, topo);
