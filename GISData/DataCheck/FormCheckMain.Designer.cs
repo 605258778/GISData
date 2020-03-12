@@ -130,6 +130,7 @@
             this.gridControlError.TabIndex = 2;
             this.gridControlError.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridViewError});
+            this.gridControlError.DoubleClick += new System.EventHandler(this.gridControlError_DoubleClick);
             // 
             // gridViewError
             // 

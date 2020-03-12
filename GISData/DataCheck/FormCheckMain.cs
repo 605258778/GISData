@@ -1,4 +1,5 @@
-﻿using ESRI.ArcGIS.Controls;
+﻿using ESRI.ArcGIS.Carto;
+using ESRI.ArcGIS.Controls;
 using GISData.Common;
 using GISData.DataCheck.CheckDialog;
 using System;
@@ -10,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TopologyCheck.Error;
 
 namespace GISData.DataCheck
 {
@@ -224,6 +226,42 @@ namespace GISData.DataCheck
                 this.tableLayoutPanel1.ColumnStyles[0].Width = this.Width / 2;
                 this.tableLayoutPanel1.ColumnStyles[1].Width = 0;
             }
+        }
+
+        private void gridControlError_DoubleClick(object sender, EventArgs e)
+        {
+            IActiveView activeView = this.m_hookHelper.ActiveView;
+            ErrManager.ClearElement(activeView);
+            var index = this.gridViewError.GetFocusedDataSourceRowIndex();//获取数据行的索引值，从0开始
+            DataRowView row = (DataRowView)this.gridViewError.GetRow(index);//获取选中行的那个单元格的值
+            ErrType type = (ErrType)int.Parse(row[3].ToString());
+            int oid = int.Parse(row["FeatureID"].ToString());
+            switch (type)
+            {
+                case ErrType.OverLap:
+                    //ErrManager.ZoomToErr(activeView, pFeature);
+                    //ErrManager.AddErrTopoElement(activeView, (IGeometry)row["Geometry"], ref list2);
+                    break;
+
+                case ErrType.Gap:
+                    ErrManager.ZoomToErr(activeView, (ESRI.ArcGIS.Geometry.IGeometry)row["Geometry"]);
+                    ErrManager.AddErrTopoElement(activeView, (ESRI.ArcGIS.Geometry.IGeometry)row["Geometry"], oid);
+                    break;
+
+                default:
+                    //if (type == ErrType.Area)
+                    //{
+                    //    ErrManager.ZoomToErr(activeView, pFeature);
+                    //    ErrManager.AddErrAreaElement(activeView, pFeature, ref list2);
+                    //}
+                    //else
+                    //{
+                    //    ErrManager.ZoomToErr(activeView, pFeature);
+                    //    ErrManager.AddErrPointElement(activeView, row[2].ToString(), (this._layer.FeatureClass as IGeoDataset).SpatialReference, ref list2);
+                    //}
+                    break;
+            }
+            activeView.Refresh();
         }
     }
 }

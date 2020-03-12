@@ -1,0 +1,265 @@
+﻿namespace ShapeEdit
+{
+    using ESRI.ArcGIS.ADF.BaseClasses;
+    using ESRI.ArcGIS.ADF.CATIDs;
+    using ESRI.ArcGIS.Carto;
+    using ESRI.ArcGIS.Controls;
+    using ESRI.ArcGIS.Geodatabase;
+    using ESRI.ArcGIS.Geometry;
+    using ESRI.ArcGIS.SystemUI;
+    using FunFactory;
+    using System;
+    using System.Collections.Generic;
+    using System.Runtime.InteropServices;
+    using System.Windows.Forms;
+    using Utilities;
+
+    /// <summary>
+    /// 合并重叠部分工具类
+    /// </summary>
+    [Guid("9277d994-b170-44d4-9d5b-68458f7ef61a"), ProgId("ShapeEdit.OverlapCombine"), ClassInterface(ClassInterfaceType.None)]
+    public sealed class OverlapCombine : BaseCommand, ITool
+    {
+        private IHookHelper m_hookHelper;
+        private const string mClassName = "ShapeEdit.OverlapCombine";
+        private ErrorOpt mErrOpt = UtilFactory.GetErrorOpt();
+        private string mSubSysName = UtilFactory.GetConfigOpt().GetSystemName();
+
+        /// <summary>
+        /// 合并重叠部分工具类：构造器
+        /// </summary>
+        public OverlapCombine()
+        {
+            base.m_category = "Topo";
+            base.m_caption = "合并重叠部分";
+            base.m_message = "将重叠部分合并到其中一个小班";
+            base.m_toolTip = "合并重叠部分";
+            base.m_name = "Topo_OverlapCombine";
+        }
+
+        private static void ArcGISCategoryRegistration(System.Type registerType)
+        {
+            ControlsCommands.Register(string.Format(@"HKEY_CLASSES_ROOT\CLSID\{{{0}}}", registerType.GUID));
+        }
+
+        private static void ArcGISCategoryUnregistration(System.Type registerType)
+        {
+            ControlsCommands.Unregister(string.Format(@"HKEY_CLASSES_ROOT\CLSID\{{{0}}}", registerType.GUID));
+        }
+
+        public bool Deactivate()
+        {
+            return true;
+        }
+
+        public override void OnClick()
+        {
+        }
+
+        public bool OnContextMenu(int x, int y)
+        {
+            return false;
+        }
+
+        public override void OnCreate(object hook)
+        {
+            if (hook != null)
+            {
+                if (this.m_hookHelper == null)
+                {
+                    this.m_hookHelper = new HookHelperClass();
+                }
+                this.m_hookHelper.Hook = hook;
+            }
+        }
+
+        public void OnDblClick()
+        {
+        }
+
+        public void OnKeyDown(int keyCode, int shift)
+        {
+        }
+
+        public void OnKeyUp(int keyCode, int shift)
+        {
+        }
+
+        public void OnMouseDown(int button, int shift, int x, int y)
+        {
+            if (button != 2)
+            {
+                try
+                {
+                    IFeatureLayer targetLayer = Editor.UniqueInstance.TargetLayer;
+                    if (targetLayer != null)
+                    {
+                        IFeatureClass featureClass = targetLayer.FeatureClass;
+                        if (featureClass != null)
+                        {
+                            IPoint pGeometry = this.m_hookHelper.ActiveView.ScreenDisplay.DisplayTransformation.ToMapPoint(x, y);
+                            ISpatialFilter queryFilter = new SpatialFilterClass {
+                                Geometry = pGeometry,
+                                GeometryField = featureClass.ShapeFieldName,
+                                SubFields = featureClass.ShapeFieldName,
+                                SpatialRel = esriSpatialRelEnum.esriSpatialRelWithin
+                            };
+                            IFeatureCursor o = targetLayer.Search(queryFilter, false);
+                            IFeature feature = o.NextFeature();
+                            IFeature feature2 = o.NextFeature();
+                            Marshal.ReleaseComObject(o);
+                            o = null;
+                            if ((feature != null) && (feature2 != null))
+                            {
+                                feature = featureClass.GetFeature(feature.OID);
+                                feature2 = featureClass.GetFeature(feature2.OID);
+                                ITopologicalOperator2 shape = feature.Shape as ITopologicalOperator2;
+                                IGeometry geometry1 = feature2.Shape;
+                                IGeometry other = shape.Intersect(feature2.Shape, esriGeometryDimension.esriGeometry2Dimension);
+                                if (!other.IsEmpty)
+                                {
+                                    pGeometry = GISFunFactory.UnitFun.ConvertPoject(pGeometry, other.SpatialReference) as IPoint;
+                                    IGeometryCollection geometrys = other as IGeometryCollection;
+                                    if (geometrys.GeometryCount > 1)
+                                    {
+                                        for (int i = 0; i < geometrys.GeometryCount; i++)
+                                        {
+                                            IGeometry inGeometry = geometrys.get_Geometry(i);
+                                            if (!inGeometry.IsEmpty)
+                                            {
+                                                if (inGeometry.GeometryType == esriGeometryType.esriGeometryRing)
+                                                {
+                                                    object missing = System.Type.Missing;
+                                                    IGeometryCollection geometrys2 = new PolygonClass();
+                                                    geometrys2.AddGeometry(inGeometry, ref missing, ref missing);
+                                                    IPolygon polygon = geometrys2 as IPolygon;
+                                                    inGeometry = polygon;
+                                                }
+                                                IRelationalOperator operator2 = inGeometry as IRelationalOperator;
+                                                if ((operator2 != null) && operator2.Contains(pGeometry))
+                                                {
+                                                    other = inGeometry;
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        IRelationalOperator operator3 = other as IRelationalOperator;
+                                        if (!operator3.Contains(pGeometry))
+                                        {
+                                            return;
+                                        }
+                                    }
+                                    if (other != null)
+                                    {
+                                        feature = Editor.UniqueInstance.TargetLayer.FeatureClass.GetFeature(feature.OID);
+                                        feature2 = Editor.UniqueInstance.TargetLayer.FeatureClass.GetFeature(feature2.OID);
+                                        IList<IFeature> pList = new List<IFeature> {
+                                            feature,
+                                            feature2
+                                        };
+                                        OverlapSublot sublot = new OverlapSublot(this.m_hookHelper.Hook, pList) {
+                                            Text = "合并",
+                                            Tip = "请选择要保留重叠部分的小班ID"
+                                        };
+                                        if (sublot.ShowDialog() == DialogResult.OK)
+                                        {
+                                            int selectedIndex = sublot.SelectedIndex;
+                                            IFeature feature3 = null;
+                                            if (selectedIndex == 0)
+                                            {
+                                                feature3 = feature2;
+                                            }
+                                            else
+                                            {
+                                                feature3 = feature;
+                                            }
+                                            if (other.GeometryType != esriGeometryType.esriGeometryPolygon)
+                                            {
+                                                IPolygon polygon2 = new PolygonClass {
+                                                    SpatialReference = other.SpatialReference
+                                                };
+                                                IPointCollection newPoints = other as IPointCollection;
+                                                (polygon2 as IPointCollection).AddPointCollection(newPoints);
+                                                other = polygon2;
+                                            }
+                                            IGeometry geometry3 = (feature3.Shape as ITopologicalOperator2).Difference(other);
+                                            if (geometry3.IsEmpty)
+                                            {
+                                                Editor.UniqueInstance.StartEditOperation();
+                                                feature3.Delete();
+                                                Editor.UniqueInstance.StopEditOperation();
+                                            }
+                                            else
+                                            {
+                                                Editor.UniqueInstance.StartEditOperation();
+                                                feature3.Shape = geometry3;
+                                                feature3.Store();
+                                                Editor.UniqueInstance.StopEditOperation();
+                                                IFeatureSelection selection = Editor.UniqueInstance.TargetLayer as IFeatureSelection;
+                                                selection.Add(feature);
+                                                selection.Add(feature2);
+                                            }
+                                            this.m_hookHelper.ActiveView.PartialRefresh(esriViewDrawPhase.esriViewGeoSelection | esriViewDrawPhase.esriViewGeography, null, this.m_hookHelper.ActiveView.Extent);
+                                        }
+                                        sublot = null;
+                                        MessageBox.Show("修改完成！", "提示");
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (Exception exception)
+                {
+                    Editor.UniqueInstance.AbortEditOperation();
+                    this.mErrOpt.ErrorOperate(this.mSubSysName, "ShapeEdit.OverlapCombine", "OnMouseDown", exception.GetHashCode().ToString(), exception.Source, exception.Message, "", "", "");
+                    MessageBox.Show("修改出错！", "提示");
+                }
+            }
+        }
+
+        public void OnMouseMove(int button, int shift, int x, int y)
+        {
+        }
+
+        public void OnMouseUp(int button, int shift, int x, int y)
+        {
+        }
+
+        public void Refresh(int hdc)
+        {
+        }
+
+        [ComVisible(false), ComRegisterFunction]
+        private static void RegisterFunction(System.Type registerType)
+        {
+            ArcGISCategoryRegistration(registerType);
+        }
+
+        [ComUnregisterFunction, ComVisible(false)]
+        private static void UnregisterFunction(System.Type registerType)
+        {
+            ArcGISCategoryUnregistration(registerType);
+        }
+
+        public int Cursor
+        {
+            get
+            {
+                return ToolCursor.Fix;
+            }
+        }
+
+        public override bool Enabled
+        {
+            get
+            {
+                return ((Editor.UniqueInstance.IsBeingEdited && (Editor.UniqueInstance.TargetLayer != null)) && ((Editor.UniqueInstance.TargetLayer.FeatureClass != null) && (Editor.UniqueInstance.TargetLayer.FeatureClass.ShapeType == esriGeometryType.esriGeometryPolygon)));
+            }
+        }
+    }
+}
+

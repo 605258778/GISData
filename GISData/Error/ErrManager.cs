@@ -42,14 +42,22 @@
             pActiveView.PartialRefresh(esriViewDrawPhase.esriViewGeography, null, pActiveView.Extent);
         }
 
-        public static void AddErrTopoElement(IActiveView pActiveView, IGeometry pGeo, ref List<IElement> pElements)
+        public static void AddErrTopoElement(IActiveView pActiveView, IGeometry pGeo)
         {
-            IElement element = CreatePolygonElement(pActiveView, pGeo);
+            IElement element = CreateElement(pActiveView, pGeo);
             (pActiveView as IGraphicsContainer).AddElement(element, 0);
-            pElements.Add(element);
+            //pElements.Add(element);
             pActiveView.PartialRefresh(esriViewDrawPhase.esriViewGraphics, null, pActiveView.Extent);
         }
-
+        public static void AddErrTopoElement(IActiveView pActiveView, IGeometry pGeo,int OID)
+        {
+            List<IElement> list = new List<IElement>();
+            IElement element = CreateElement(pActiveView, pGeo);
+            list.Add(element);
+            (pActiveView as IGraphicsContainer).AddElement(element, 0);
+            ErrElements.Add(OID,list);
+            pActiveView.PartialRefresh(esriViewDrawPhase.esriViewGraphics, null, pActiveView.Extent);
+        }
         public static void AddErrTopoElement(IActiveView pActiveView, object errs, IFeature pFeature)
         {
             IList<IGeometry> list = (IList<IGeometry>) errs;
@@ -169,10 +177,11 @@
 
         public static IElement CreatePolygonElement(IActiveView pActiveView, IGeometry pGeo)
         {
+            Random rnd = new Random();
             IRgbColor color = new RgbColorClass();
-            color.Blue = 0xff;
-            color.Green = 0;
-            color.Red = 0xc5;
+            color.Blue = rnd.Next(0, 255);
+            color.Green = rnd.Next(0, 255);
+            color.Red = rnd.Next(0, 255);
             IColor color2 = color;
             ISimpleLineSymbol symbol = new SimpleLineSymbolClass();
             symbol.Style = esriSimpleLineStyle.esriSLSSolid;
@@ -181,9 +190,9 @@
             ISimpleFillSymbol symbol2 = new SimpleFillSymbolClass();
             symbol2.Style = esriSimpleFillStyle.esriSFSBackwardDiagonal;
             IRgbColor color3 = new RgbColorClass();
-            color.Blue = 0xc5;
-            color.Green = 0;
-            color.Red = 0xff;
+            color.Blue = rnd.Next(0, 255);
+            color.Green = rnd.Next(0, 255);
+            color.Red = rnd.Next(0, 255);
             symbol2.Color = color3;
             symbol2.Outline = symbol;
             pGeo = ErrManager.ConvertPoject(pGeo, pActiveView.FocusMap.SpatialReference);
@@ -210,6 +219,21 @@
             envelope.Expand(1.3, 1.3, true);
             pActiveView.Extent = envelope;
             pActiveView.PartialRefresh(esriViewDrawPhase.esriViewGeography, null, pActiveView.Extent);
+        }
+
+        public static void ClearElement(IActiveView pActiveView)
+        {
+            IGraphicsContainer focusMap = pActiveView.FocusMap as IGraphicsContainer;
+            foreach (KeyValuePair<int, List<IElement>> pair in ErrManager.ErrElements)
+            {
+                List<IElement> list = pair.Value;
+                foreach (IElement element in list)
+                {
+                    focusMap.DeleteElement(element);
+                }
+                list.Clear();
+            }
+            ErrManager.ErrElements.Clear();
         }
     }
 }

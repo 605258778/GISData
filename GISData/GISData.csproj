@@ -50,6 +50,7 @@
     <Reference Include="ESRI.ArcGIS.ADF, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=x86">
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
+    <Reference Include="ESRI.ArcGIS.AnalysisTools, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL" />
     <Reference Include="ESRI.ArcGIS.ArcCatalogUI, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
@@ -85,6 +86,9 @@
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="ESRI.ArcGIS.Geometry, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="ESRI.ArcGIS.Geoprocessing, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="ESRI.ArcGIS.Geoprocessor, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL">
@@ -294,6 +298,7 @@
     </Compile>
     <Compile Include="Error\ErrManager.cs" />
     <Compile Include="Error\ErrorEntity.cs" />
+    <Compile Include="Error\ErrorTable.cs" />
     <Compile Include="Error\ErrType.cs" />
     <Compile Include="File\CreateNewDocument .cs" />
     <Compile Include="FormMain.cs">
@@ -324,10 +329,21 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TopologyCheck\Checker\AngleChecker.cs" />
     <Compile Include="TopologyCheck\Checker\BoundaryBeyondChecker.cs" />
+    <Compile Include="TopologyCheck\Checker\Editor.cs" />
     <Compile Include="TopologyCheck\Checker\GapErrorEntity.cs" />
+    <Compile Include="TopologyCheck\Checker\GapsChecker.cs" />
+    <Compile Include="TopologyCheck\Checker\GapsCheckTool.cs" />
     <Compile Include="TopologyCheck\Checker\ITopologyChecker.cs" />
     <Compile Include="TopologyCheck\Checker\Resources.cs" />
     <Compile Include="TopologyCheck\Checker\SelfIntersectChecker.cs" />
+    <Compile Include="TopologyCheck\Checker\SpatialAnalysis.cs" />
+    <Compile Include="TopologyCheck\Checker\TopoClassChecker.cs" />
+    <Compile Include="Utilities\ConfigOpt.cs" />
+    <Compile Include="Utilities\ConnectionStringDepository.cs" />
+    <Compile Include="Utilities\ErrorOpt.cs" />
+    <Compile Include="Utilities\UtilFactory.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <EmbeddedResource Include="CheckConfig\CheckAttr\CheckDialog\FormDomain.resx">
       <DependentUpon>FormDomain.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -450,7 +466,7 @@
       <Lcid>0</Lcid>
       <WrapperTool>primary</WrapperTool>
       <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
     </COMReference>
     <COMReference Include="esriDataSourcesNetCDF">
       <Guid>{28ED84CD-FB06-41A0-9A55-E196441D169A}</Guid>

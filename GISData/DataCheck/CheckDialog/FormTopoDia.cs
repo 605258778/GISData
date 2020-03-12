@@ -1,4 +1,5 @@
 ﻿using DevExpress.XtraGrid;
+using DevExpress.XtraGrid.Columns;
 using DevExpress.XtraGrid.Views.Grid;
 using ESRI.ArcGIS.Controls;
 using ESRI.ArcGIS.DataSourcesGDB;
@@ -165,16 +166,13 @@ namespace GISData.DataCheck.CheckDialog
                 row["STATE"] = "检查中";
                 GISData.Common.TopologyChecker.TopoErroType aa = GetTypeByString(TYPE);
                 topocheck.OtherRule(ID, TYPE, topocheck.PUB_GetAllFeatureClassByName(TABLENAME), topocheck.PUB_GetAllFeatureClassByName(SUPTABLE), m_hookHelper);
-                //if (TYPE == "面多部件检查" || TYPE == "面自相交检查")
-                //{
-                //    topocheck.OtherRule(ID, TYPE, topocheck.PUB_GetAllFeatureClassByName(TABLENAME), topocheck.PUB_GetAllFeatureClassByName(SUPTABLE));
-                //}
-                //else if (SUPTABLE == null || SUPTABLE == "")
-                //{
-                //}
-                //else
-                //{
-                //}
+                Dictionary<string, int> DicTopoError = topocheck.DicTopoError;
+                foreach (int itemtemp in selectRows)
+                {
+                    DataRow rowItem = this.gridView1.GetDataRow(itemtemp);
+                    row["ERROR"] = DicTopoError[row["ID"].ToString()];
+                    row["STATE"] = "检查完成";
+                }
             }
         }
 
@@ -271,26 +269,38 @@ namespace GISData.DataCheck.CheckDialog
                         if (this.checkBoxCheckMain.Checked)
                         {
                             GridView gridView = this.gridControlError.DefaultView as GridView;
-                            DevExpress.XtraGrid.Columns.GridColumn column = new DevExpress.XtraGrid.Columns.GridColumn();
-                            column.FieldName = "id";
-                            column.Name = "id";
-                            column.Caption = "id";
-                            column.Visible = true;
-                            gridView.Columns.Add(column);
-                            DataTable dt = new DataTable();
-                            DataColumn errorId = new DataColumn("id", typeof(Int32));
-                            dt.Columns.Add(errorId);
-                            //dt.Rows.Clear();
-                            foreach (var item in ErrManager.ErrElements) 
-                            {
-                                DataRow row = dt.NewRow();
-                                row[0] = item.Key;
-                                dt.Rows.Add(row);
-                            }
-                            this.gridControlError.DataSource = dt;
+                            ErrorTable table = new ErrorTable();
+                            DataTable table2 = table.GetTable(ErrType.Gap);
+                            gridView.Columns.Clear();
+                            GridColumn gridCol_FeatureID = new GridColumn();
+                            gridCol_FeatureID.Caption = "FeatureID";
+                            gridCol_FeatureID.FieldName = "FeatureID";
+                            gridCol_FeatureID.Name = "FeatureID";
+                            gridCol_FeatureID.Visible = true;
+                            gridView.Columns.Add(gridCol_FeatureID);
+                            GridColumn gridCol_ErrDes = new GridColumn();
+                            gridCol_ErrDes.Caption = "ErrDes";
+                            gridCol_ErrDes.FieldName = "ErrDes";
+                            gridCol_ErrDes.Name = "ErrDes";
+                            gridCol_ErrDes.Visible = true;
+                            gridView.Columns.Add(gridCol_ErrDes);
+                            GridColumn gridCol_ErrType = new GridColumn();
+                            gridCol_ErrType.Caption = "ErrType";
+                            gridCol_ErrType.FieldName = "ErrType";
+                            gridCol_ErrType.Name = "ErrType";
+                            gridCol_ErrType.Visible = true;
+                            gridView.Columns.Add(gridCol_ErrType);
+                            GridColumn gridCol_ErrPos = new GridColumn();
+                            gridCol_ErrPos.Caption = "Geometry";
+                            gridCol_ErrPos.FieldName = "Geometry";
+                            gridCol_ErrPos.Name = "Geometry";
+                            gridCol_ErrPos.Visible = true;
+                            gridView.Columns.Add(gridCol_ErrPos);
+
+                            this.gridControlError.DataSource = table2;
                             gridView.OptionsBehavior.Editable = false;
                             gridView.OptionsSelection.MultiSelect = true;
-                            Console.WriteLine("选中");
+                            this.gridControlError.RefreshDataSource();
                         }
                         else {
                             Console.WriteLine("未选中");

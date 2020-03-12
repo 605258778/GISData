@@ -22,8 +22,10 @@ namespace GISData.Common
     class TopoChecker : FormMain//功能：构建拓扑，拓扑检测
     {
         private SelfIntersectChecker _sc;
+        private GapsChecker _gcChecker;
         List<IFeatureClass> LI_FeatureClass = new List<IFeatureClass>();//要素数据集所包含的所有要素类
         IFeatureDataset FeatureDataset_Main;//拓扑所属的要素数据集
+        public Dictionary<string, int> DicTopoError = new Dictionary<string, int>();
         /// <summary>
         /// 构造拓扑检验类
         /// </summary>
@@ -139,7 +141,6 @@ namespace GISData.Common
                             ErrManager.ErrElements[pFeature.OID].Add(item);
                             focusMap.AddElement(item, 0);
                         }
-                        
                         this.m_hookHelper.ActiveView.PartialRefresh(esriViewDrawPhase.esriViewGraphics, null, this.m_hookHelper.ActiveView.Extent);
                     }
                     else
@@ -159,6 +160,33 @@ namespace GISData.Common
                     pFeature = cursor.NextFeature();
                 }
                 ErrManager.errorDic.Add(idname + IN_RuleType, ErrManager.ErrElements);
+            }
+            else if (IN_RuleType == "缝隙检查")
+            {
+                this.m_hookHelper = m_hookHelper;
+                IFeatureLayer flay = new FeatureLayer();
+                flay.FeatureClass = IN_FeatureClass;
+                IFeatureCursor cursor = flay.Search(null, false);
+                IFeature pFeature = cursor.NextFeature();
+                this._gcChecker = new GapsChecker(flay, 0);
+                List<GapErrorEntity> pErrEntity = new List<GapErrorEntity>();
+                int errorCount = 0;
+                while (pFeature != null)
+                {
+                    this._gcChecker = new GapsChecker(flay, 0);
+                    object pErrGeo = this._gcChecker.CheckFeatureGap(pFeature, IN_FeatureClass);
+                    if (pErrGeo as IGeometry != null)
+                    {
+                        errorCount++;
+                        GapErrorEntity item = new GapErrorEntity(pFeature.OID.ToString(), pErrGeo);
+                        pErrEntity.Add(item);
+                    }
+                    pFeature = cursor.NextFeature();
+                }
+                Marshal.ReleaseComObject(cursor);
+                new ErrorTable().AddGapErr(pErrEntity);
+                
+                this.DicTopoError[idname] = errorCount;
             }
             else if (IN_RuleType == "面自相交检查11")
             {
@@ -189,7 +217,7 @@ namespace GISData.Common
                 }
                 //DicTopoError[idname] = tempCount;
             }
-            else if (IN_RuleType == "面重叠检查")
+            else if (IN_RuleType == "面重叠检查11")
             {
                 IFeatureCursor cursor = IN_Sup_FeatureClass.Search(null, false);
                 IFeature pFeature = cursor.NextFeature();
@@ -215,7 +243,6 @@ namespace GISData.Common
                 IGeometry pIntersectGeo = new PolygonClass();
                 pIntersectGeo = pRo.Intersect(pUnionGeo, esriGeometryDimension.esriGeometry2Dimension) as IPolygon;
                 GenerateSHPFile(pIntersectGeo);
-                
             }
         }
 
