@@ -60,13 +60,20 @@
                     string str = ((int) pErrEntity[0].ErrType).ToString();
                     foreach (ErrorEntity entity in pErrEntity)
                     {
-                        ESRI.ArcGIS.Geometry.IGeometry aa = entity.ErrGeo as ESRI.ArcGIS.Geometry.IGeometry;
+                        ESRI.ArcGIS.Geometry.IGeometry geo = entity.ErrGeo as ESRI.ArcGIS.Geometry.IGeometry;
                         DataRow row = _table.NewRow();
                         row["FeatureID"] = entity.FeatureID;
                         row["ErrDes"] = entity.ErrMsg;
                         row["ErrPos"] = entity.ErrPos;
                         row["ErrType"] = str;
-                        row["Geometry"] = aa.SpatialReference;
+                        if (pTy == ErrType.SelfIntersect)
+                        {
+                            row["Geometry"] = geo.SpatialReference;
+                        }
+                        else 
+                        {
+                            row["Geometry"] = geo;
+                        }
                         _table.Rows.Add(row);
                     }
                 }

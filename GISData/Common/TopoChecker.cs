@@ -19,10 +19,11 @@ using System.Data;
 
 namespace GISData.Common
 {
-    class TopoChecker : FormMain//功能：构建拓扑，拓扑检测
+    class TopoChecker//功能：构建拓扑，拓扑检测
     {
         private SelfIntersectChecker _sc;
         private GapsChecker _gcChecker;
+        private IHookHelper m_hookHelper;
         List<IFeatureClass> LI_FeatureClass = new List<IFeatureClass>();//要素数据集所包含的所有要素类
         IFeatureDataset FeatureDataset_Main;//拓扑所属的要素数据集
         public Dictionary<string, int> DicTopoError = new Dictionary<string, int>();
@@ -72,6 +73,7 @@ namespace GISData.Common
         {
             if (IN_RuleType == "面多部件检查")
             {
+                List<ErrorEntity> list = new List<ErrorEntity>();
                 IFeatureCursor cursor = IN_FeatureClass.Search(null, false);
                 int tempCount = 0;
                 IFeature pFeature = cursor.NextFeature();
@@ -95,81 +97,23 @@ namespace GISData.Common
                     if (iCount > 1)
                     {
                         tempCount++;
+                        list.Add(new ErrorEntity(pFeature.OID.ToString(), "多部件", "", ErrType.MultiPart, pFeature.ShapeCopy));
                         Console.WriteLine(pFeature.OID);
                     }
                     pFeature = cursor.NextFeature();
                 }
                 Console.WriteLine(tempCount);
-                //DicTopoError[idname] = tempCount;
+                new ErrorTable().AddErr(list, ErrType.MultiPart);
+                DicTopoError[idname] = tempCount;
             }
             else if (IN_RuleType == "面自相交检查")
             {
                 IFeatureLayer flay = new FeatureLayer();
                 flay.FeatureClass = IN_FeatureClass;
                 this._sc = new SelfIntersectChecker(flay);
-                List<ErrorEntity> pErrEntity = this._sc.AreaSelfIntersect(flay, 2);
+                List<ErrorEntity> pErrEntity = this._sc.AreaSelfIntersect(flay,2);
                 DicTopoError[idname] = pErrEntity.Count;
                 new ErrorTable().AddErr(pErrEntity, ErrType.SelfIntersect);
-            }
-            else if (IN_RuleType == "面自相交检查11")
-            {
-                this.m_hookHelper = m_hookHelper;
-                IFeatureLayer flay = new FeatureLayer();
-                flay.FeatureClass = IN_FeatureClass;
-                this._sc = new SelfIntersectChecker(flay);
-                IFeatureCursor cursor = flay.Search(null, false);
-                IFeature pFeature = cursor.NextFeature();
-                while (pFeature != null)
-                {
-                    List<double[]> list = new List<double[]>();
-                    object pErrFeatureInf = list;
-                    AxMapControl axMapControl = Control.FromHandle(new IntPtr(this.m_hookHelper.ActiveView.ScreenDisplay.hWnd)) as AxMapControl;
-                    IGraphicsContainer focusMap = this.m_hookHelper.ActiveView.FocusMap as IGraphicsContainer;
-                    if (!this._sc.CheckFeature(pFeature, ref pErrFeatureInf))
-                    {
-                        Console.WriteLine("拓扑错误！");
-                        if (ErrManager.ErrElements.ContainsKey(pFeature.OID))
-                        {
-                            List<IElement> list2 = ErrManager.ErrElements[pFeature.OID];
-                            foreach (IElement element in list2)
-                            {
-                                Console.WriteLine("error！");
-                            }
-                            ErrManager.ErrElements[pFeature.OID].Clear();
-                        }
-                        else
-                        {
-                            List<IElement> list3 = new List<IElement>();
-                            ErrManager.ErrElements.Add(pFeature.OID, list3);
-                        }
-                        foreach (double[] numArray in list)
-                        {
-                            double pX = numArray[0];
-                            double pY = numArray[1];
-                            Console.WriteLine(pX.ToString()+","+pY.ToString());
-                            IElement item = ErrManager.CreateMarkerElement(this.m_hookHelper.ActiveView, pX, pY, (flay.FeatureClass as IGeoDataset).SpatialReference);
-                            ErrManager.ErrElements[pFeature.OID].Add(item);
-                            focusMap.AddElement(item, 0);
-                        }
-                        this.m_hookHelper.ActiveView.PartialRefresh(esriViewDrawPhase.esriViewGraphics, null, this.m_hookHelper.ActiveView.Extent);
-                    }
-                    else
-                    {
-                        if (ErrManager.ErrElements.ContainsKey(pFeature.OID))
-                        {
-                            List<IElement> list4 = ErrManager.ErrElements[pFeature.OID];
-                            foreach (IElement element3 in list4)
-                            {
-                                focusMap.DeleteElement(element3);
-                            }
-                            ErrManager.ErrElements.Remove(pFeature.OID);
-                            this.m_hookHelper.ActiveView.PartialRefresh(esriViewDrawPhase.esriViewGraphics, null, this.m_hookHelper.ActiveView.Extent);
-                        }
-                        Console.WriteLine("拓扑正确！");
-                    }
-                    pFeature = cursor.NextFeature();
-                }
-                ErrManager.errorDic.Add(idname + IN_RuleType, ErrManager.ErrElements);
             }
             else if (IN_RuleType == "缝隙检查")
             {
@@ -198,34 +142,60 @@ namespace GISData.Common
                 
                 this.DicTopoError[idname] = errorCount;
             }
-            else if (IN_RuleType == "面自相交检查11")
+            else if (IN_RuleType == "面重叠检查")
             {
-                IFeatureCursor cursor = IN_FeatureClass.Search(null, false);
-                IFeature pFeature = cursor.NextFeature();
-                int tempCount = 0;
+                this.m_hookHelper = m_hookHelper;
+                IFeatureLayer flay = new FeatureLayer();
+                flay.FeatureClass = IN_FeatureClass;
+                OverLapChecker olChecker = new OverLapChecker(flay, 0);
+                List<ErrorEntity> pErrEntity = olChecker.CheckOverLap(flay, 3);
+                DicTopoError[idname] = pErrEntity.Count;
+                new ErrorTable().AddErr(pErrEntity, ErrType.OverLap);
+            }
+            else if (IN_RuleType == "面重叠检查（与其他图层）")
+            {
+                List<ErrorEntity> listErrorEntity = new List<ErrorEntity>();
+                IFeatureLayer pFeatureLayer = new FeatureLayer();
+                pFeatureLayer.FeatureClass = IN_Sup_FeatureClass;
+                IFeatureCursor pFeatureCursor = IN_FeatureClass.Search(null, false);
+                IFeature pFeature = pFeatureCursor.NextFeature();
                 while (pFeature != null)
-                {
-                    IPolygon4 polygon = pFeature.ShapeCopy as IPolygon4;
-                    IGeometryBag bag = polygon.ExteriorRingBag;
-                    IEnumGeometry geo = bag as IEnumGeometry;
-                    geo.Reset();
-                    int iCount = 0;
-                    IRing exRing = geo.Next() as IRing;
-                    while (exRing != null)
+                {//记录集循环
+                    IList<IGeometry> list = new List<IGeometry>();
+                    ISpatialFilter spatialFilter = new SpatialFilterClass();
+                    spatialFilter.Geometry = pFeature.Extent;
+                    spatialFilter.GeometryField = IN_FeatureClass.ShapeFieldName;
+                    spatialFilter.SpatialRel = esriSpatialRelEnum.esriSpatialRelIntersects;
+                    IFeatureCursor featureCursor = pFeatureLayer.Search(spatialFilter, true);
+                    IFeature tFeature = featureCursor.NextFeature();//遍历查询结果
+                    if (tFeature != null) 
                     {
-                        if (exRing.IsExterior)
+                        IGeometry pGeometry = new PolygonClass();
+                        pGeometry = tFeature.ShapeCopy;
+                        while (tFeature != null)
                         {
-                            iCount++;
+                            ITopologicalOperator2 iUnionTopo = pGeometry as ITopologicalOperator2;
+                            pGeometry = iUnionTopo.Union(tFeature.Shape);
+                            tFeature = featureCursor.NextFeature();//移动到下一条记录
                         }
-                        exRing = geo.Next() as IRing;
+                        ITopologicalOperator2 pRo = (ITopologicalOperator2) pFeature.ShapeCopy;
+                        IGeometry pIntersectGeo = new PolygonClass();
+                        pIntersectGeo = pRo.Intersect(pGeometry, esriGeometryDimension.esriGeometry2Dimension) as IPolygon;
+                        if (pIntersectGeo != null)
+                        {
+                            list.Add(pIntersectGeo);
+                        }
                     }
-                    if (iCount > 1)
+                    if (list.Count > 0) 
                     {
-                        tempCount++;
+                        listErrorEntity.Add(new ErrorEntity(pFeature.OID.ToString(), "面重叠检查（与其他图层）", "", ErrType.MultiOverlap, list[0]));
+                        Marshal.ReleaseComObject(featureCursor);
                     }
-                    pFeature = cursor.NextFeature();
+                    pFeature = pFeatureCursor.NextFeature();//移动到下一条记录
                 }
-                //DicTopoError[idname] = tempCount;
+                Marshal.ReleaseComObject(pFeatureCursor);
+                new ErrorTable().AddErr(listErrorEntity, ErrType.MultiOverlap);
+                this.DicTopoError[idname] = listErrorEntity.Count;
             }
             else if (IN_RuleType == "面重叠检查11")
             {
@@ -236,7 +206,9 @@ namespace GISData.Common
                 while (pFeature != null)
                 {
                     ITopologicalOperator pUnionTopo = pUnionGeo as ITopologicalOperator;
-                    pUnionGeo = pUnionTopo.Union(pFeature.Shape);
+
+
+
                     pFeature = cursor.NextFeature();
                 }
                 IGeometry pGeometry = new PolygonClass();
@@ -253,6 +225,7 @@ namespace GISData.Common
                 IGeometry pIntersectGeo = new PolygonClass();
                 pIntersectGeo = pRo.Intersect(pUnionGeo, esriGeometryDimension.esriGeometry2Dimension) as IPolygon;
                 GenerateSHPFile(pIntersectGeo);
+                this.DicTopoError[idname] = 11;
             }
         }
 

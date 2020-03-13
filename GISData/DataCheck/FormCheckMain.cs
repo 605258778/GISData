@@ -242,6 +242,8 @@ namespace GISData.DataCheck
             switch (type)
             {
                 case ErrType.OverLap:
+                    ErrManager.ZoomToErr(activeView, (ESRI.ArcGIS.Geometry.IGeometry)row["Geometry"]);
+                    ErrManager.AddErrTopoElement(activeView, (ESRI.ArcGIS.Geometry.IGeometry)row["Geometry"], oid);
                     //ErrManager.ZoomToErr(activeView, pFeature);
                     //ErrManager.AddErrTopoElement(activeView, (IGeometry)row["Geometry"], ref list2);
                     break;
@@ -250,9 +252,12 @@ namespace GISData.DataCheck
                     ErrManager.ZoomToErr(activeView, (ESRI.ArcGIS.Geometry.IGeometry)row["Geometry"]);
                     ErrManager.AddErrTopoElement(activeView, (ESRI.ArcGIS.Geometry.IGeometry)row["Geometry"], oid);
                     break;
-
-                default:
-                    string[] strArray = ErrPos.Split(new char[] { ';' });
+                case ErrType.MultiPart:
+                    ErrManager.ZoomToErr(activeView, (ESRI.ArcGIS.Geometry.IGeometry)row["Geometry"]);
+                    ErrManager.AddErrTopoElement(activeView, (ESRI.ArcGIS.Geometry.IGeometry)row["Geometry"], oid);
+                    break;
+                case ErrType.SelfIntersect:
+                     string[] strArray = ErrPos.Split(new char[] { ';' });
                     ESRI.ArcGIS.Geometry.IPointCollection pPointCollection1 = new ESRI.ArcGIS.Geometry.MultipointClass();
                     ESRI.ArcGIS.Geometry.IGeometry pGeo = null;
                     foreach (string str in strArray)
@@ -273,16 +278,10 @@ namespace GISData.DataCheck
                     List<IElement> list2 = new List<IElement>();
                     ErrManager.ZoomToErr(activeView, pGeo);
                     ErrManager.AddErrPointElement(activeView, ErrPos, geo, oid);
-                    //if (type == ErrType.Area)
-                    //{
-                    //    ErrManager.ZoomToErr(activeView, pFeature);
-                    //    ErrManager.AddErrAreaElement(activeView, pFeature, ref list2);
-                    //}
-                    //else
-                    //{
-                    //    ErrManager.ZoomToErr(activeView, pFeature);
-                    //    ErrManager.AddErrPointElement(activeView, row[2].ToString(), (this._layer.FeatureClass as IGeoDataset).SpatialReference, ref list2);
-                    //}
+                    break;
+                default:
+                    ErrManager.ZoomToErr(activeView, (ESRI.ArcGIS.Geometry.IGeometry)row["Geometry"]);
+                    ErrManager.AddErrTopoElement(activeView, (ESRI.ArcGIS.Geometry.IGeometry)row["Geometry"], oid);
                     break;
             }
             activeView.Refresh();

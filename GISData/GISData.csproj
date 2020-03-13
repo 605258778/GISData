@@ -241,9 +241,7 @@
     <Compile Include="Common\OpenAttribute.cs" />
     <Compile Include="Common\RefreshTable.cs" />
     <Compile Include="Common\RemoveLayer.cs" />
-    <Compile Include="Common\TopoChecker.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Common\TopoChecker.cs" />
     <Compile Include="Common\TopologyChecker.cs" />
     <Compile Include="Common\TreeDataGridView.cs" />
     <Compile Include="Common\TreeNodeMul.cs" />
@@ -334,6 +332,7 @@
     <Compile Include="TopologyCheck\Checker\GapsChecker.cs" />
     <Compile Include="TopologyCheck\Checker\GapsCheckTool.cs" />
     <Compile Include="TopologyCheck\Checker\ITopologyChecker.cs" />
+    <Compile Include="TopologyCheck\Checker\OverLapChecker.cs" />
     <Compile Include="TopologyCheck\Checker\Resources.cs" />
     <Compile Include="TopologyCheck\Checker\SelfIntersectChecker.cs" />
     <Compile Include="TopologyCheck\Checker\SpatialAnalysis.cs" />

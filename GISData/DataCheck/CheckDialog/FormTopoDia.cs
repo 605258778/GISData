@@ -280,6 +280,18 @@ namespace GISData.DataCheck.CheckDialog
                             {
                                 itemType = ErrType.SelfIntersect;
                             }
+                            else if (errorType == "面多部件检查")
+                            {
+                                itemType = ErrType.MultiPart;
+                            }
+                            else if (errorType == "面重叠检查")
+                            {
+                                itemType = ErrType.OverLap;
+                            }
+                            else if (errorType == "面重叠检查（与其他图层）")
+                            {
+                                itemType = ErrType.MultiOverlap;
+                            }
                             else 
                             {
                                 itemType = ErrType.Gap;
