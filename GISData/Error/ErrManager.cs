@@ -23,8 +23,9 @@
             pActiveView.PartialRefresh(esriViewDrawPhase.esriViewGraphics, null, pActiveView.Extent);
         }
 
-        public static void AddErrPointElement(IActiveView pActiveView, string pPos, ISpatialReference pDataSR, ref List<IElement> pElements)
+        public static void AddErrPointElement(IActiveView pActiveView, string pPos, ISpatialReference pDataSR, int OID)
         {
+            List<IElement> list = new List<IElement>();
             string[] strArray = pPos.Split(new char[] { ';' });
             IGraphicsContainer container = pActiveView as IGraphicsContainer;
             foreach (string str in strArray)
@@ -35,10 +36,12 @@
                     double pX = double.Parse(strArray2[0]);
                     double pY = double.Parse(strArray2[1]);
                     IElement item = CreateMarkerElement(pActiveView, pX, pY, pDataSR);
-                    pElements.Add(item);
+                    list.Add(item);
                     container.AddElement(item, 0);
+                    
                 }
             }
+            ErrElements.Add(OID, list);
             pActiveView.PartialRefresh(esriViewDrawPhase.esriViewGeography, null, pActiveView.Extent);
         }
 
@@ -216,7 +219,7 @@
             IEnvelope envelope = new EnvelopeClass();
             envelope.SpatialReference = pActiveView.FocusMap.SpatialReference;
             envelope.PutCoords(pGeo.Envelope.XMin, pGeo.Envelope.YMin, pGeo.Envelope.XMax, pGeo.Envelope.YMax);
-            envelope.Expand(1.3, 1.3, true);
+            envelope.Expand(1.3, 1.3, false);
             pActiveView.Extent = envelope;
             pActiveView.PartialRefresh(esriViewDrawPhase.esriViewGeography, null, pActiveView.Extent);
         }

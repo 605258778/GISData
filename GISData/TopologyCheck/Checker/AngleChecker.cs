@@ -112,7 +112,7 @@
                 }
                 if (builder.Length > 0)
                 {
-                    list.Add(new ErrorEntity(feature.OID.ToString(), "角度过小", builder.ToString().Substring(1), ErrType.Angle));
+                    //list.Add(new ErrorEntity(feature.OID.ToString(), "角度过小", builder.ToString().Substring(1), ErrType.Angle));
                 }
             }
             return list;

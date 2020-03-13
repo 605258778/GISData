@@ -268,35 +268,37 @@ namespace GISData.DataCheck.CheckDialog
                     {
                         if (this.checkBoxCheckMain.Checked)
                         {
+                            var index = this.gridView1.GetFocusedDataSourceRowIndex();//获取数据行的索引值，从0开始
+                            DataRowView row = (DataRowView)this.gridView1.GetRow(index);
+                            string errorType = row["TYPE"].ToString();
+                            ErrType itemType;
+                            if(errorType == "缝隙检查")
+                            {
+                                itemType = ErrType.Gap;
+                            }
+                            else if (errorType == "面自相交检查")
+                            {
+                                itemType = ErrType.SelfIntersect;
+                            }
+                            else 
+                            {
+                                itemType = ErrType.Gap;
+                            }
                             GridView gridView = this.gridControlError.DefaultView as GridView;
                             ErrorTable table = new ErrorTable();
-                            DataTable table2 = table.GetTable(ErrType.Gap);
+                            DataTable table2 = table.GetTable(itemType);
+                            DataRow[] dr = table2.Select("1=1");
+                            //ESRI.ArcGIS.Geometry.IGeometry igo = (ESRI.ArcGIS.Geometry.IGeometry) dr[0]["Geometry"];
                             gridView.Columns.Clear();
-                            GridColumn gridCol_FeatureID = new GridColumn();
-                            gridCol_FeatureID.Caption = "FeatureID";
-                            gridCol_FeatureID.FieldName = "FeatureID";
-                            gridCol_FeatureID.Name = "FeatureID";
-                            gridCol_FeatureID.Visible = true;
-                            gridView.Columns.Add(gridCol_FeatureID);
-                            GridColumn gridCol_ErrDes = new GridColumn();
-                            gridCol_ErrDes.Caption = "ErrDes";
-                            gridCol_ErrDes.FieldName = "ErrDes";
-                            gridCol_ErrDes.Name = "ErrDes";
-                            gridCol_ErrDes.Visible = true;
-                            gridView.Columns.Add(gridCol_ErrDes);
-                            GridColumn gridCol_ErrType = new GridColumn();
-                            gridCol_ErrType.Caption = "ErrType";
-                            gridCol_ErrType.FieldName = "ErrType";
-                            gridCol_ErrType.Name = "ErrType";
-                            gridCol_ErrType.Visible = true;
-                            gridView.Columns.Add(gridCol_ErrType);
-                            GridColumn gridCol_ErrPos = new GridColumn();
-                            gridCol_ErrPos.Caption = "Geometry";
-                            gridCol_ErrPos.FieldName = "Geometry";
-                            gridCol_ErrPos.Name = "Geometry";
-                            gridCol_ErrPos.Visible = true;
-                            gridView.Columns.Add(gridCol_ErrPos);
-
+                            for (int i = 0; i < table2.Columns.Count; i++) 
+                            {
+                                GridColumn gridCol_FeatureID = new GridColumn();
+                                gridCol_FeatureID.Caption = table2.Columns[i].Caption;
+                                gridCol_FeatureID.FieldName = table2.Columns[i].ColumnName;
+                                gridCol_FeatureID.Name = table2.Columns[i].ColumnName;
+                                gridCol_FeatureID.Visible = true;
+                                gridView.Columns.Add(gridCol_FeatureID);
+                            }
                             this.gridControlError.DataSource = table2;
                             gridView.OptionsBehavior.Editable = false;
                             gridView.OptionsSelection.MultiSelect = true;

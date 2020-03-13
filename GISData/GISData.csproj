@@ -338,6 +338,7 @@
     <Compile Include="TopologyCheck\Checker\SelfIntersectChecker.cs" />
     <Compile Include="TopologyCheck\Checker\SpatialAnalysis.cs" />
     <Compile Include="TopologyCheck\Checker\TopoClassChecker.cs" />
+    <Compile Include="TopologyCheck\Checker\SelfIntersectErrorEntity.cs" />
     <Compile Include="Utilities\ConfigOpt.cs" />
     <Compile Include="Utilities\ConnectionStringDepository.cs" />
     <Compile Include="Utilities\ErrorOpt.cs" />

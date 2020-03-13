@@ -236,6 +236,9 @@ namespace GISData.DataCheck
             DataRowView row = (DataRowView)this.gridViewError.GetRow(index);//获取选中行的那个单元格的值
             ErrType type = (ErrType)int.Parse(row[3].ToString());
             int oid = int.Parse(row["FeatureID"].ToString());
+            string ErrPos = row["ErrPos"].ToString();
+            object ee = row["Geometry"];
+            ESRI.ArcGIS.Geometry.ISpatialReference geo = row["Geometry"] as ESRI.ArcGIS.Geometry.ISpatialReference;
             switch (type)
             {
                 case ErrType.OverLap:
@@ -249,6 +252,27 @@ namespace GISData.DataCheck
                     break;
 
                 default:
+                    string[] strArray = ErrPos.Split(new char[] { ';' });
+                    ESRI.ArcGIS.Geometry.IPointCollection pPointCollection1 = new ESRI.ArcGIS.Geometry.MultipointClass();
+                    ESRI.ArcGIS.Geometry.IGeometry pGeo = null;
+                    foreach (string str in strArray)
+                    {
+                        if (!string.IsNullOrEmpty(str))
+                        {
+                            string[] strArray2 = str.Split(new char[] { ',' });
+                            double pX = double.Parse(strArray2[0]);
+                            double pY = double.Parse(strArray2[1]);
+                            ESRI.ArcGIS.Geometry.IPoint point = new ESRI.ArcGIS.Geometry.PointClass();
+                            point.X = pX;
+                            point.Y = pY;
+                            pPointCollection1.AddPoint(point);
+                        }
+                    }
+                    ESRI.ArcGIS.Geometry.IMultipoint pMuPoint = pPointCollection1 as ESRI.ArcGIS.Geometry.IMultipoint;
+                    pGeo = pMuPoint as ESRI.ArcGIS.Geometry.IGeometry;
+                    List<IElement> list2 = new List<IElement>();
+                    ErrManager.ZoomToErr(activeView, pGeo);
+                    ErrManager.AddErrPointElement(activeView, ErrPos, geo, oid);
                     //if (type == ErrType.Area)
                     //{
                     //    ErrManager.ZoomToErr(activeView, pFeature);

@@ -25,7 +25,7 @@
             this.m_CheckType = iCheckType;
         }
 
-        protected virtual List<ErrorEntity> AreaSelfIntersect(IFeatureLayer pLayer, int iCheckType)
+        public List<ErrorEntity> AreaSelfIntersect(IFeatureLayer pLayer, int iCheckType)
         {
             IFeatureCursor cursor;
             IQueryFilter filter = new QueryFilterClass();
@@ -45,6 +45,7 @@
             object missing = Type.Missing;
             while ((feature = cursor.NextFeature()) != null)
             {
+                IPoint tempPoint = null;
                 StringBuilder builder = new StringBuilder();
                 IGeometryCollection shape = feature.Shape as IGeometryCollection;
                 for (int i = 0; i < shape.GeometryCount; i++)
@@ -69,6 +70,7 @@
                         for (int j = num2; j < newPoints.PointCount; j++)
                         {
                             IPoint point = newPoints.get_Point(j);
+                            tempPoint = point;
                             string item = point.X.ToString() + "," + point.Y.ToString();
                             if (list2.Contains(item))
                             {
@@ -90,7 +92,7 @@
                 }
                 if (builder.Length > 0)
                 {
-                    list.Add(new ErrorEntity(feature.OID.ToString(), "自相交", builder.ToString().Substring(1), ErrType.SelfIntersect));
+                    list.Add(new ErrorEntity(feature.OID.ToString(), "自相交", builder.ToString().Substring(1), ErrType.SelfIntersect, tempPoint));
                 }
             }
             return list;

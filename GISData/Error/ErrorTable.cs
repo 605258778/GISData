@@ -60,11 +60,13 @@
                     string str = ((int) pErrEntity[0].ErrType).ToString();
                     foreach (ErrorEntity entity in pErrEntity)
                     {
+                        ESRI.ArcGIS.Geometry.IGeometry aa = entity.ErrGeo as ESRI.ArcGIS.Geometry.IGeometry;
                         DataRow row = _table.NewRow();
                         row["FeatureID"] = entity.FeatureID;
                         row["ErrDes"] = entity.ErrMsg;
                         row["ErrPos"] = entity.ErrPos;
                         row["ErrType"] = str;
+                        row["Geometry"] = aa.SpatialReference;
                         _table.Rows.Add(row);
                     }
                 }
@@ -82,6 +84,29 @@
                 else if (this.ClearTable(ErrType.Gap))
                 {
                     foreach (GapErrorEntity entity in pErrEntity)
+                    {
+                        DataRow row = _table.NewRow();
+                        row["FeatureID"] = entity.FeatureID;
+                        row["ErrDes"] = "缝隙";
+                        row["ErrType"] = ErrType.Gap;
+                        row["Geometry"] = entity.ErrGeo;
+                        _table.Rows.Add(row);
+                    }
+                }
+            }
+        }
+
+        public void AddSelfIntersectErr(IList<SelfIntersectErrorEntity> pErrEntity)
+        {
+            if (_table != null)
+            {
+                if ((pErrEntity == null) || (pErrEntity.Count < 1))
+                {
+                    this.ClearTable(ErrType.Gap);
+                }
+                else if (this.ClearTable(ErrType.Gap))
+                {
+                    foreach (SelfIntersectErrorEntity entity in pErrEntity)
                     {
                         DataRow row = _table.NewRow();
                         row["FeatureID"] = entity.FeatureID;

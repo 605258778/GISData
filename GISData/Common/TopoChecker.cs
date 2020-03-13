@@ -101,7 +101,17 @@ namespace GISData.Common
                 }
                 Console.WriteLine(tempCount);
                 //DicTopoError[idname] = tempCount;
-            }else if (IN_RuleType == "面自相交检查")
+            }
+            else if (IN_RuleType == "面自相交检查")
+            {
+                IFeatureLayer flay = new FeatureLayer();
+                flay.FeatureClass = IN_FeatureClass;
+                this._sc = new SelfIntersectChecker(flay);
+                List<ErrorEntity> pErrEntity = this._sc.AreaSelfIntersect(flay, 2);
+                DicTopoError[idname] = pErrEntity.Count;
+                new ErrorTable().AddErr(pErrEntity, ErrType.SelfIntersect);
+            }
+            else if (IN_RuleType == "面自相交检查11")
             {
                 this.m_hookHelper = m_hookHelper;
                 IFeatureLayer flay = new FeatureLayer();

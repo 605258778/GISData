@@ -11,7 +11,8 @@
         MultiOverlap = 8,
         OverLap = 3,
         ReportPoint = 1,
-        SelfIntersect = 2
+        SelfIntersect = 2,
+        MultiPart = 9
     }
 }
 

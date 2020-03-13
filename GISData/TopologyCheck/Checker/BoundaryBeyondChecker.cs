@@ -148,7 +148,7 @@
                     }
                     if (builder.Length > 0)
                     {
-                        list.Add(new ErrorEntity(feature2.OID.ToString(), "超过边界", builder.ToString(), ErrType.BeyondBoundary));
+                        //list.Add(new ErrorEntity(feature2.OID.ToString(), "超过边界", builder.ToString(), ErrType.BeyondBoundary));
                         builder.Remove(0, builder.Length);
                     }
                 }
