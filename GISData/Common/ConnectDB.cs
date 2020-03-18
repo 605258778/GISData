@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 using System.Data.OleDb;
 using System.Data.SqlClient;
 using System.Drawing;
@@ -42,6 +43,7 @@ namespace GISData.Common
         }
         public DataSet GetDataSetBySql(string sql) 
         {
+            Console.WriteLine("执行sql:" + sql);
             OleDbCommand cmd = new OleDbCommand(sql, conn);//执行数据连接  
             DataSet ds = new DataSet();
             OleDbDataAdapter da = new OleDbDataAdapter(cmd);
@@ -52,6 +54,7 @@ namespace GISData.Common
         //插入
         public bool Insert(string sql)
         {
+            Console.WriteLine("执行sql:" + sql);
             conn.Open();
             OleDbCommand oleDbCommand = new OleDbCommand(sql, conn);
             int i = oleDbCommand.ExecuteNonQuery(); //返回被修改的数目
@@ -61,6 +64,7 @@ namespace GISData.Common
         //更新
         public bool Update(string sql)
         {
+            Console.WriteLine("执行sql:" + sql);
             conn.Open();
             OleDbCommand oleDbCommand = new OleDbCommand(sql, conn);
             int i = oleDbCommand.ExecuteNonQuery(); //返回被修改的数目
@@ -70,6 +74,7 @@ namespace GISData.Common
         //删除
         public bool Delete(string sql)
         {
+            Console.WriteLine("执行sql:" + sql);
             conn.Open();
             OleDbCommand oleDbCommand = new OleDbCommand(sql, conn);
             int i = oleDbCommand.ExecuteNonQuery(); //返回被修改的数目

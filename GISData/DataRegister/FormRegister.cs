@@ -1,4 +1,5 @@
-﻿using ESRI.ArcGIS.DataSourcesGDB;
+﻿using DevExpress.XtraTreeList.Nodes;
+using ESRI.ArcGIS.DataSourcesGDB;
 using ESRI.ArcGIS.Geodatabase;
 using GISData.Common;
 using System;
@@ -17,6 +18,7 @@ namespace GISData.DataRegister
     public partial class FormRegister : Form
     {
         private string regName;
+        Boolean flag = true;
         public FormRegister()
         {
             InitializeComponent();
@@ -58,20 +60,35 @@ namespace GISData.DataRegister
                 this.dataGridViewDataReg.Columns[0].Visible = false;
             }
         }
-
+        
         //刷新注册连接树
         public void refreshTreeViewReg()
         {
-            this.treeViewReg.Nodes.Clear();
+            this.treeList1.ClearNodes();
             //加载注册数据连接
+            DataTable dtable = new DataTable();
+            dtable.Columns.Add("ParentID", typeof(string));
+            dtable.Columns.Add("ID", typeof(string));
+            dtable.Columns.Add("NAME", typeof(string));
+            dtable.Columns.Add("PATH", typeof(string));
+            dtable.Columns.Add("TYPE", typeof(string));
             ConnectDB cd = new ConnectDB();
             GetAllFeatures gaf = new GetAllFeatures();
             DataTable dt = cd.GetDataBySql("select * from GISDATA_REGCONNECT");
             DataRow[] dr = dt.Select("1=1");
             for (int i = 0; i < dr.Length; i++)
             {
+                DataRow row = dtable.NewRow(); ;
                 string regPath = dr[i]["REG_PATH"].ToString();
                 string regType = dr[i]["REG_TYPE"].ToString();
+                string name = dr[i]["REG_NAME"].ToString();
+                string id = dr[i]["ID"].ToString();
+                row["ParentID"] = "";
+                row["ID"] = id;
+                row["NAME"] = name;
+                row["PATH"] = regPath;
+                row["TYPE"] = regType;
+                dtable.Rows.Add(row);
                 IFeatureWorkspace space;
                 if (regType == "Access数据库")
                 {
@@ -99,21 +116,19 @@ namespace GISData.DataRegister
                 }
                 IWorkspace iwk = (IWorkspace)space;
                 List<IDataset> ifcList = gaf.GetAllFeatureClass(iwk);
-                TreeNodeMul tn = new TreeNodeMul();
-                tn.Text = dr[i]["REG_NAME"].ToString();
-                tn.Tag = dr[i]["ID"].ToString();
                 for(int j = 0; j < ifcList.Count; j++)
                 {
-                    TreeNodeMul tnChildre = new TreeNodeMul();
-                    IFeatureClass ifc = ifcList[j] as IFeatureClass;
-                    tnChildre.Tag = ifcList[j].Name;
-                    tnChildre.Text = ifc.AliasName;
-                    tnChildre.Item1 = regPath;
-                    tnChildre.Item2 = regType;
-                    tn.Nodes.Add(tnChildre);
+                    DataRow rowKid = dtable.NewRow();
+                    rowKid["ParentID"] = id;
+                    rowKid["ID"] = int.Parse(id)*100+j;
+                    rowKid["NAME"] = ifcList[j].Name;
+                    rowKid["PATH"] = regPath;
+                    rowKid["TYPE"] = regType;
+                    dtable.Rows.Add(rowKid);
                 }
-                this.treeViewReg.Nodes.Add(tn);
             }
+            this.treeList1.DataSource = dtable;
+            this.treeList1.OptionsView.ShowCheckBoxes = true;
         }
 
         private void treeViewReg_MouseDown(object sender, MouseEventArgs e)
@@ -126,72 +141,120 @@ namespace GISData.DataRegister
         //添加注册连接
         private void buttonRegister_Click(object sender, EventArgs e)
         {
-            if (this.treeViewReg.SelectedNode.Level == 1) 
+            DialogResult dr = MessageBox.Show("确定注册？", "提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+            if (dr == DialogResult.OK)
             {
-                DialogResult dr = MessageBox.Show("确定注册？", "提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
-                if (dr == DialogResult.OK)
+                TreeListNodes selectNode = this.treeList1.Nodes;
+                Boolean boolFlag = RecursionNodes(selectNode);
+                if (boolFlag)
                 {
-                    ConnectDB cd = new ConnectDB();
-                    TreeNodeMul node = this.treeViewReg.SelectedNode as TreeNodeMul;
-                    IWorkspaceFactory pWorkspaceFactory = new AccessWorkspaceFactoryClass();
-                    IFeatureWorkspace pFeatureWorkspace = pWorkspaceFactory.OpenFromFile(node.Item1, 0) as IFeatureWorkspace;
-                    //打开数据文件中航路点这个表
-                    IFeatureClass pFeatureClass = pFeatureWorkspace.OpenFeatureClass(node.Tag.ToString());
-                    string FeatureType = pFeatureClass.ShapeType.ToString();
-                    Boolean result = cd.Insert("insert into GISDATA_REGINFO (REG_NAME,REG_ALIASNAME,FEATURE_TYPE) values ('" + treeViewReg.SelectedNode.Tag + "','" + treeViewReg.SelectedNode.Text + "','" + FeatureType + "')");
-                    if (result) 
-                    {
-                        
-                        
-                        Boolean boolFlag = true;
-                        for (int i = 0; i < pFeatureClass.Fields.FieldCount; i++) 
-                        {
-                            IField field = pFeatureClass.Fields.get_Field(i);
-                            string REG_NAME = node.Tag.ToString();
-                            string FIELDID = i.ToString();
-                            string FIELD_NAME = field.Name;
-                            string FIELD_ALSNAME = field.AliasName;
-                            string DATA_TYPE = field.Type.ToString();
-                            string MAXLEN = field.Length.ToString();
-                            string MINLEN = field.Length.ToString();
-                            string CODE_PK = "";
-                            string CODE_WHERE = "";
-                            string IS_NULL = field.IsNullable.ToString();
-                            string DEFAULT_VALUE = field.DefaultValue.ToString();
-                            Boolean insertResult = cd.Insert("insert into GISDATA_MATEDATA (REG_NAME,FIELDID,FIELD_NAME,FIELD_ALSNAME,DATA_TYPE,MAXLEN,MINLEN,CODE_PK,CODE_WHERE,IS_NULL,DEFAULT_VALUE) values ('" + REG_NAME + "','" + FIELDID + "','" + FIELD_NAME + "','" + FIELD_ALSNAME + "','" + DATA_TYPE + "','" + MAXLEN + "','" + MINLEN + "','" + CODE_PK + "','" + CODE_WHERE + "','" + IS_NULL + "','" + DEFAULT_VALUE + "')");
-                            if (!insertResult) 
-                            {
-                                boolFlag = false;
-                            }
-                        }
-                        if (boolFlag)
-                        {
-                            MessageBox.Show("注册成功！", "提示");
-                            refreshDataGridReg();
-                        }
-                        else 
-                        {
-                            MessageBox.Show("注册失败！", "提示");
-                        }
-                    }
+                    MessageBox.Show("注册成功！", "提示");
+                    refreshDataGridReg();
+                }
+                else
+                {
+                    MessageBox.Show("注册失败！", "提示");
                 }
             }
         }
-        //删除注册连接
-        private void buttonDelConnecte_Click(object sender, EventArgs e)
+
+        /// <summary>
+        /// 遍历树节点
+        /// </summary>
+        private Boolean RecursionNodes(TreeListNodes Nodes)
         {
-            if (this.treeViewReg.SelectedNode.Level == 0){
-                DialogResult dr = MessageBox.Show("确定删除？", "提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
-                if (dr == DialogResult.OK)
+            ConnectDB cd = new ConnectDB();
+            Boolean boolFlag = true;
+            foreach (TreeListNode node in Nodes)
+            {
+                //// 如果当前节点下还包括子节点，就调用递归
+                if (node.Nodes.Count > 0)
                 {
-                    ConnectDB cd = new ConnectDB();
-                    Boolean result = cd.Delete("DELETE from GISDATA_REGCONNECT WHERE ID = " + this.treeViewReg.SelectedNode.Tag);
-                    if (result)
+                    RecursionNodes(node.Nodes);
+                }
+                else
+                {
+                    if (node.Checked&&!node.HasChildren)
                     {
-                        MessageBox.Show("删除成功！", "提示");
+                        DataRowView nodeData = this.treeList1.GetDataRecordByNode(node) as DataRowView;
+                        
+                        IWorkspaceFactory pWorkspaceFactory = new AccessWorkspaceFactoryClass();
+                        IFeatureWorkspace pFeatureWorkspace = pWorkspaceFactory.OpenFromFile(nodeData["PATH"].ToString(), 0) as IFeatureWorkspace;
+                        //打开数据文件中航路点这个表
+                        IFeatureClass pFeatureClass = pFeatureWorkspace.OpenFeatureClass(nodeData["NAME"].ToString());
+                        string FeatureType = pFeatureClass.ShapeType.ToString();
+                        Boolean result = cd.Insert("insert into GISDATA_REGINFO (REG_NAME,REG_ALIASNAME,FEATURE_TYPE,PATH,DBTYPE) values ('" + nodeData["NAME"].ToString() + "','" + nodeData["NAME"].ToString() + "','" + FeatureType + "','" + nodeData["PATH"].ToString() + "','" + nodeData["TYPE"].ToString() + "')");
+                        if (result)
+                        {
+                            for (int i = 0; i < pFeatureClass.Fields.FieldCount; i++)
+                            {
+                                IField field = pFeatureClass.Fields.get_Field(i);
+                                string REG_NAME = nodeData["NAME"].ToString();
+                                string FIELDID = i.ToString();
+                                string FIELD_NAME = field.Name;
+                                string FIELD_ALSNAME = field.AliasName;
+                                string DATA_TYPE = field.Type.ToString();
+                                string MAXLEN = field.Length.ToString();
+                                string MINLEN = field.Length.ToString();
+                                string CODE_PK = "";
+                                string CODE_WHERE = "";
+                                string IS_NULL = field.IsNullable.ToString();
+                                string DEFAULT_VALUE = field.DefaultValue.ToString();
+                                Boolean insertResult = cd.Insert("insert into GISDATA_MATEDATA (REG_NAME,FIELDID,FIELD_NAME,FIELD_ALSNAME,DATA_TYPE,MAXLEN,MINLEN,CODE_PK,CODE_WHERE,IS_NULL,DEFAULT_VALUE) values ('" + REG_NAME + "','" + FIELDID + "','" + FIELD_NAME + "','" + FIELD_ALSNAME + "','" + DATA_TYPE + "','" + MAXLEN + "','" + MINLEN + "','" + CODE_PK + "','" + CODE_WHERE + "','" + IS_NULL + "','" + DEFAULT_VALUE + "')");
+                                if (!insertResult)
+                                {
+                                    boolFlag = false;
+                                }
+                            }
+                        }
                     }
                 }
             }
+            return boolFlag;
+        }
+
+        //删除注册连接
+        private void buttonDelConnecte_Click(object sender, EventArgs e)
+        {
+            DialogResult dr = MessageBox.Show("确定删除？", "提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+            if (dr == DialogResult.OK)
+            {
+            Boolean result = false;
+            TreeListNodes selectNode = this.treeList1.Nodes;
+            foreach (TreeListNode node in selectNode)
+            {
+                if (node.Checked)
+                {
+                    if (this.treeList1.IsRootNode(node))
+                    {
+                        DataRowView nodeData = this.treeList1.GetDataRecordByNode(node) as DataRowView;
+                        ConnectDB cd = new ConnectDB();
+                        result = cd.Delete("DELETE from GISDATA_REGCONNECT WHERE ID = " + nodeData["ID"]);
+                        if(!result)
+                        {
+                            break;
+                        }
+                    }
+                }
+            }
+            if (result)
+            {
+                MessageBox.Show("删除成功！", "提示");
+                refreshTreeViewReg();
+            }
+            }
+            //if (this.treeViewReg.SelectedNode.Level == 0){
+            //    DialogResult dr = MessageBox.Show("确定删除？", "提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+            //    if (dr == DialogResult.OK)
+            //    {
+            //        ConnectDB cd = new ConnectDB();
+            //        Boolean result = cd.Delete("DELETE from GISDATA_REGCONNECT WHERE ID = " + this.treeViewReg.SelectedNode.Tag);
+            //        if (result)
+            //        {
+            //            MessageBox.Show("删除成功！", "提示");
+            //        }
+            //    }
+            //}
         }
 
         private void dataGridViewDataReg_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -231,6 +294,111 @@ namespace GISData.DataRegister
             DataGridViewRow dgvr = this.dataGridViewFieldView.CurrentRow;
             FormDomain fd = new FormDomain(dgvr, regName);
             fd.Show();
+        }
+
+        private void treeView1_AfterCheck(object sender, TreeViewEventArgs e)
+        {
+            CommonClass common = new CommonClass();
+            if (e.Action == TreeViewAction.ByMouse)
+            {
+                if (e.Node.Checked == true)
+                {
+                    //选中节点之后，选中该节点所有的子节点
+                    common.setChildNodeCheckedState(e.Node, true);
+                }
+                else if (e.Node.Checked == false)
+                {
+                    //取消节点选中状态之后，取消该节点所有子节点选中状态
+                    common.setChildNodeCheckedState(e.Node, false);
+                    //如果节点存在父节点，取消父节点的选中状态
+                    if (e.Node.Parent != null)
+                    {
+                        common.setParentNodeCheckedState(e.Node, false);
+                    }
+                }
+            }
+        }
+
+        private void treeList1_BeforeCheckNode(object sender, DevExpress.XtraTreeList.CheckNodeEventArgs e)
+        {
+            if (e.PrevState == CheckState.Checked)
+            {
+                e.State = CheckState.Unchecked;
+            }
+            else
+            {
+                e.State = CheckState.Checked;
+            }
+        }
+
+        private void treeList1_AfterCheckNode(object sender, DevExpress.XtraTreeList.NodeEventArgs e)
+        {
+            CommonClass common = new CommonClass();
+            common.SetCheckedChildNodes(e.Node, e.Node.CheckState);
+            common.SetCheckedParentNodes(e.Node, e.Node.CheckState);
+            flag = true;
+            this.findOrigin(this.treeList1);
+            if (flag)
+            {
+                //this.checkBox.CheckState = CheckState.Unchecked;
+            }
+        }
+
+        private void findOrigin(DevExpress.XtraTreeList.TreeList tree, TreeListNodes nodes = null)
+        {
+            //this.checkBox.CheckState = CheckState.Unchecked;
+            nodes = nodes ?? tree.Nodes;
+            if (flag)
+            {
+                foreach (TreeListNode item in nodes)
+                {
+                    if (item.CheckState == CheckState.Checked)
+                    {
+                        //this.checkBox.CheckState = CheckState.Checked;
+                        flag = false;
+                        break;
+                    }
+                    if (tree.HasChildren)
+                    {
+                        findOrigin(tree, item.Nodes);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 全选树
+        /// </summary>
+        /// <param name="tree">树控件</param>
+        /// <param name="nodes">节点集合</param>
+        public virtual void SelectTreeListAll(DevExpress.XtraTreeList.TreeList tree, TreeListNodes nodes = null)
+        {
+            nodes = nodes ?? tree.Nodes;
+            foreach (TreeListNode item in nodes)
+            {
+                item.CheckState = CheckState.Checked;
+                if (tree.HasChildren)
+                {
+                    SelectTreeListAll(tree, item.Nodes);
+                }
+            }
+        }
+        /// <summary>
+        /// 全取消选树
+        /// </summary>
+        /// <param name="tree">树控件</param>
+        /// <param name="nodes">节点集合</param>
+        public virtual void UnSelectTreeListAll(DevExpress.XtraTreeList.TreeList tree, TreeListNodes nodes = null)
+        {
+            nodes = nodes ?? tree.Nodes;
+            foreach (TreeListNode item in nodes)
+            {
+                item.CheckState = CheckState.Unchecked;
+                if (tree.HasChildren)
+                {
+                    UnSelectTreeListAll(tree, item.Nodes);
+                }
+            }
         }
     }
 }

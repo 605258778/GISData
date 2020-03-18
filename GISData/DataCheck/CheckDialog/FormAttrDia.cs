@@ -1,4 +1,6 @@
 ﻿using DevExpress.XtraTreeList.Nodes;
+using ESRI.ArcGIS.Carto;
+using ESRI.ArcGIS.Geodatabase;
 using GISData.Common;
 using System;
 using System.Collections.Generic;
@@ -191,6 +193,118 @@ namespace GISData.DataCheck.CheckDialog
                         ConnectDB db = new ConnectDB();
                         if (CHECKTYPE == "空值检查")
                         {
+                            CommonClass conClass = new CommonClass();
+                            IFeatureWorkspace ifw = conClass.GetFeatureWorkspaceByName(TABLENAME);
+                            IQueryDef pQueryDef = ifw.CreateQueryDef();
+                            pQueryDef.Tables = TABLENAME;
+                            pQueryDef.SubFields = "count(*) as errorCount";
+                            pQueryDef.WhereClause = FIELD + " IS NULL OR " + FIELD + " = '' ";
+                            ICursor pCur = pQueryDef.Evaluate();
+                            IRow pRow = pCur.NextRow();
+                            int iInx = pCur.Fields.FindField("errorCount");
+                            string count = pRow.get_Value(iInx).ToString();
+                            nodeData["ERROR"] = count;
+                            nodeData["ISCHECK"] = "已检查";
+                        }
+                        else if (CHECKTYPE == "逻辑关系检查")
+                        {
+                            CommonClass conClass = new CommonClass();
+                            IFeatureWorkspace ifw = conClass.GetFeatureWorkspaceByName(TABLENAME);
+                            IQueryDef pQueryDef = ifw.CreateQueryDef();
+                            pQueryDef.Tables = TABLENAME;
+                            pQueryDef.SubFields = "count(*) as errorCount";
+                            pQueryDef.WhereClause = " (" + WHERESTRING + ") and (" + RESULT + ")";
+                            ICursor pCur = pQueryDef.Evaluate();
+                            IRow pRow = pCur.NextRow();
+                            int iInx = pCur.Fields.FindField("errorCount");
+                            string count = pRow.get_Value(iInx).ToString();
+                            nodeData["ERROR"] = count;
+                            nodeData["ISCHECK"] = "已检查";
+                        }
+                        else if (CHECKTYPE == "唯一值检查")
+                        {
+                            CommonClass conClass = new CommonClass();
+                            IFeatureWorkspace ifw = conClass.GetFeatureWorkspaceByName(TABLENAME);
+                            IQueryDef pQueryDef = ifw.CreateQueryDef();
+                            pQueryDef.Tables = TABLENAME;
+                            pQueryDef.SubFields = "count(*) as errorCount";
+                            pQueryDef.WhereClause = FIELD + " in ( select " + FIELD + " as wyz from  "+TABLENAME+" group by " + FIELD + " having count(" + FIELD + ")>1)";
+                            ICursor pCur = pQueryDef.Evaluate();
+                            IRow pRow = pCur.NextRow();
+                            int iInx = pCur.Fields.FindField("errorCount");
+                            string count = pRow.get_Value(iInx).ToString();
+                            nodeData["ERROR"] = count;
+                            nodeData["ISCHECK"] = "已检查";
+                        }
+                        else if (CHECKTYPE == "值域检查")
+                        {
+                            if (DOMAINTYPE == "own") 
+                            {
+                                DataTable dt = db.GetDataBySql("SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = '"+TABLENAME+"' AND FIELD_NAME = '"+FIELD+"'");
+                                string CODETABLENAME = dt.Rows[0]["CODE_PK"].ToString();
+                                string CODEWHERESTRING = dt.Rows[0]["CODE_WHERE"].ToString();
+                                CommonClass conClass = new CommonClass();
+                                IFeatureWorkspace ifw = conClass.GetFeatureWorkspaceByName(TABLENAME);
+                                IQueryDef pQueryDef = ifw.CreateQueryDef();
+                                pQueryDef.Tables = TABLENAME;
+                                pQueryDef.SubFields = "count(*) as errorCount";
+                                pQueryDef.WhereClause = FIELD + " not in (SELECT C_CODE FROM " + CODETABLENAME + " WHERE " + CODEWHERESTRING + ")";
+                                ICursor pCur = pQueryDef.Evaluate();
+                                IRow pRow = pCur.NextRow();
+                                int iInx = pCur.Fields.FindField("errorCount");
+                                string count = pRow.get_Value(iInx).ToString();
+                                nodeData["ERROR"] = count;
+                                nodeData["ISCHECK"] = "已检查";
+                            }
+                            else if (DOMAINTYPE == "custom")
+                            {
+                                string CUSTOMVALUE = nodeData["CUSTOMVALUE"].ToString();
+                                CommonClass conClass = new CommonClass();
+                                IFeatureWorkspace ifw = conClass.GetFeatureWorkspaceByName(TABLENAME);
+                                IQueryDef pQueryDef = ifw.CreateQueryDef();
+                                pQueryDef.Tables = TABLENAME;
+                                pQueryDef.SubFields = "count(*) as errorCount";
+                                pQueryDef.WhereClause = FIELD + " not in (" + CUSTOMVALUE + ")";
+                                ICursor pCur = pQueryDef.Evaluate();
+                                IRow pRow = pCur.NextRow();
+                                int iInx = pCur.Fields.FindField("errorCount");
+                                string count = pRow.get_Value(iInx).ToString();
+                                nodeData["ERROR"] = count;
+                                nodeData["ISCHECK"] = "已检查";
+                            }
+                        }
+                    }
+                    if (node.Nodes.Count != 0)
+                    {
+                        loopCheck(node.Nodes);
+                    }
+                }
+            }
+        }
+
+        public void loopCheck11(TreeListNodes selectNode)
+        {
+            foreach (TreeListNode node in selectNode)
+            {
+                DataRowView nodeData = this.treeList1.GetDataRecordByNode(node) as DataRowView;
+                nodeData["ERROR"] = "";
+                nodeData["ISCHECK"] = "";
+                if (node.Checked || node.CheckState == CheckState.Indeterminate)
+                {
+                    if (!node.HasChildren)
+                    {
+                        string NAME = nodeData["NAME"].ToString();
+                        string CHECKTYPE = nodeData["CHECKTYPE"].ToString();
+                        string FIELD = nodeData["FIELD"].ToString();
+                        string TABLENAME = nodeData["TABLENAME"].ToString();
+                        string SUPTABLE = nodeData["SUPTABLE"].ToString();
+                        string SELECT = nodeData["SELECT"].ToString();
+                        string WHERESTRING = nodeData["WHERESTRING"].ToString();
+                        string RESULT = nodeData["RESULT"].ToString();
+                        string DOMAINTYPE = nodeData["DOMAINTYPE"].ToString();
+                        ConnectDB db = new ConnectDB();
+                        if (CHECKTYPE == "空值检查")
+                        {
                             DataTable dt = db.GetDataBySql("select count(*) as nullValue from " + TABLENAME + "_TB where " + FIELD + " IS NULL OR " + FIELD + " = '' ");
                             string count = dt.Rows[0]["nullValue"].ToString();
                             nodeData["ERROR"] = count;
@@ -212,7 +326,7 @@ namespace GISData.DataCheck.CheckDialog
                         }
                         else if (CHECKTYPE == "值域检查")
                         {
-                            if (DOMAINTYPE == "own") 
+                            if (DOMAINTYPE == "own")
                             {
                                 DataTable dt = db.GetDataBySql("SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_ZLYSXB' AND FIELD_NAME = 'XIAN'");
                                 string CODETABLENAME = dt.Rows[0]["CODE_PK"].ToString();

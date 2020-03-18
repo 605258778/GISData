@@ -3,6 +3,8 @@ using DevExpress.XtraEditors.Repository;
 using DevExpress.XtraEditors.ViewInfo;
 using DevExpress.XtraGrid.Views.Grid;
 using DevExpress.XtraTreeList.Nodes;
+using ESRI.ArcGIS.Carto;
+using ESRI.ArcGIS.DataSourcesGDB;
 using ESRI.ArcGIS.Geodatabase;
 using System;
 using System.Collections.Generic;
@@ -18,6 +20,80 @@ namespace GISData.Common
 {
     public class CommonClass
     {
+        private static Dictionary<string, IFeatureLayer> DicLayer = new Dictionary<string, IFeatureLayer>();
+        private static Dictionary<string, IFeatureWorkspace> DicWF = new Dictionary<string, IFeatureWorkspace>();
+        /// <summary>
+        /// 获取IFeatureLayer
+        /// </summary>
+        /// <param name="tablename"></param>
+        /// <returns></returns>
+        public IFeatureLayer GetLayerByName(string tablename) 
+        {
+            if (DicLayer.ContainsKey(tablename))
+            {
+                return DicLayer[tablename];
+            }
+            else 
+            {
+                ConnectDB db = new ConnectDB();
+                DataTable dt = db.GetDataBySql("select * from GISDATA_REGINF where REG_NAME = '" + tablename + "'");
+                DataRow[] dr = dt.Select("1=1");
+                string path = dr[0]["PATH"].ToString();
+                string dbtype = dr[0]["DBTYPE"].ToString();
+                IFeatureWorkspace space;
+                if (dbtype == "Access数据库")
+                {
+                    AccessWorkspaceFactory fac = new AccessWorkspaceFactoryClass();
+                    space = (IFeatureWorkspace)fac.OpenFromFile(path, 0);
+
+                }
+                else
+                {
+                    FileGDBWorkspaceFactoryClass fac = new FileGDBWorkspaceFactoryClass();
+                    space = (IFeatureWorkspace)fac.OpenFromFile(path, 0);
+
+                }
+                IFeatureLayer _Layer = new FeatureLayer();
+                _Layer.FeatureClass = space.OpenFeatureClass(tablename);
+                DicLayer.Add(tablename, _Layer);
+                return _Layer;
+            }
+        }
+        /// <summary>
+        /// 获取IFeatureWorkspace
+        /// </summary>
+        /// <param name="tablename"></param>
+        /// <returns></returns>
+        public IFeatureWorkspace GetFeatureWorkspaceByName(string tablename)
+        {
+            if (DicWF.ContainsKey(tablename))
+            {
+                return DicWF[tablename];
+            }
+            else
+            {
+                ConnectDB db = new ConnectDB();
+                DataTable dt = db.GetDataBySql("select * from GISDATA_REGINFO where REG_NAME = '" + tablename + "'");
+                DataRow[] dr = dt.Select("1=1");
+                string path = dr[0]["PATH"].ToString();
+                string dbtype = dr[0]["DBTYPE"].ToString();
+                IFeatureWorkspace space;
+                if (dbtype == "Access数据库")
+                {
+                    AccessWorkspaceFactory fac = new AccessWorkspaceFactoryClass();
+                    space = (IFeatureWorkspace)fac.OpenFromFile(path, 0);
+
+                }
+                else
+                {
+                    FileGDBWorkspaceFactoryClass fac = new FileGDBWorkspaceFactoryClass();
+                    space = (IFeatureWorkspace)fac.OpenFromFile(path, 0);
+
+                }
+                DicWF.Add(tablename, space);
+                return space;
+            }
+        }
         /// <summary>
         /// 填充树形结构
         /// </summary>

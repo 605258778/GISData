@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.groupBoxDataReg = new System.Windows.Forms.GroupBox();
@@ -42,6 +42,7 @@
             this.groupBoxLoadReg = new System.Windows.Forms.GroupBox();
             this.treeViewReg = new System.Windows.Forms.TreeView();
             this.dataGridViewFieldView = new System.Windows.Forms.DataGridView();
+            this.treeList1 = new DevExpress.XtraTreeList.TreeList();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -59,6 +60,7 @@
             this.panel1.SuspendLayout();
             this.groupBoxLoadReg.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewFieldView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.treeList1)).BeginInit();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -131,14 +133,14 @@
             this.dataGridViewDataReg.AllowUserToAddRows = false;
             this.dataGridViewDataReg.AllowUserToDeleteRows = false;
             this.dataGridViewDataReg.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewDataReg.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewDataReg.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.dataGridViewDataReg.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewDataReg.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridViewDataReg.Location = new System.Drawing.Point(0, 0);
@@ -202,6 +204,7 @@
             // 
             // groupBoxLoadReg
             // 
+            this.groupBoxLoadReg.Controls.Add(this.treeList1);
             this.groupBoxLoadReg.Controls.Add(this.treeViewReg);
             this.groupBoxLoadReg.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBoxLoadReg.Location = new System.Drawing.Point(0, 0);
@@ -213,10 +216,9 @@
             // 
             // treeViewReg
             // 
-            this.treeViewReg.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeViewReg.Location = new System.Drawing.Point(3, 21);
+            this.treeViewReg.Location = new System.Drawing.Point(3, 126);
             this.treeViewReg.Name = "treeViewReg";
-            this.treeViewReg.Size = new System.Drawing.Size(271, 245);
+            this.treeViewReg.Size = new System.Drawing.Size(271, 140);
             this.treeViewReg.TabIndex = 0;
             this.treeViewReg.MouseDown += new System.Windows.Forms.MouseEventHandler(this.treeViewReg_MouseDown);
             // 
@@ -234,6 +236,17 @@
             this.dataGridViewFieldView.Size = new System.Drawing.Size(781, 537);
             this.dataGridViewFieldView.TabIndex = 0;
             this.dataGridViewFieldView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewFieldView_CellDoubleClick);
+            // 
+            // treeList1
+            // 
+            this.treeList1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeList1.Location = new System.Drawing.Point(3, 21);
+            this.treeList1.Name = "treeList1";
+            this.treeList1.OptionsBehavior.Editable = false;
+            this.treeList1.Size = new System.Drawing.Size(271, 245);
+            this.treeList1.TabIndex = 1;
+            this.treeList1.BeforeCheckNode += new DevExpress.XtraTreeList.CheckNodeEventHandler(this.treeList1_BeforeCheckNode);
+            this.treeList1.AfterCheckNode += new DevExpress.XtraTreeList.NodeEventHandler(this.treeList1_AfterCheckNode);
             // 
             // FormRegister
             // 
@@ -261,6 +274,7 @@
             this.panel1.ResumeLayout(false);
             this.groupBoxLoadReg.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewFieldView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.treeList1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -280,5 +294,6 @@
         private System.Windows.Forms.Button buttonRegister;
         private System.Windows.Forms.SplitContainer splitContainer3;
         private System.Windows.Forms.Button buttonDelReg;
+        private DevExpress.XtraTreeList.TreeList treeList1;
     }
 }
