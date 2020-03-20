@@ -164,8 +164,7 @@ namespace GISData.DataCheck.CheckDialog
                     DicTopoData.Add(ID, INPUTTEXT);
                 }
                 row["STATE"] = "检查中";
-                GISData.Common.TopologyChecker.TopoErroType aa = GetTypeByString(TYPE);
-                topocheck.OtherRule(ID, TYPE, topocheck.PUB_GetAllFeatureClassByName(TABLENAME), topocheck.PUB_GetAllFeatureClassByName(SUPTABLE), m_hookHelper);
+                topocheck.OtherRule(ID, TYPE, common.GetLayerByName(TABLENAME).FeatureClass, common.GetLayerByName(TABLENAME).FeatureClass, m_hookHelper);
                 Dictionary<string, int> DicTopoError = topocheck.DicTopoError;
                 foreach (int itemtemp in selectRows)
                 {
@@ -271,6 +270,7 @@ namespace GISData.DataCheck.CheckDialog
                             var index = this.gridView1.GetFocusedDataSourceRowIndex();//获取数据行的索引值，从0开始
                             DataRowView row = (DataRowView)this.gridView1.GetRow(index);
                             string errorType = row["TYPE"].ToString();
+                            string TABLENAME = row["TABLENAME"].ToString();
                             ErrType itemType;
                             if(errorType == "缝隙检查")
                             {
@@ -314,6 +314,8 @@ namespace GISData.DataCheck.CheckDialog
                             this.gridControlError.DataSource = table2;
                             gridView.OptionsBehavior.Editable = false;
                             gridView.OptionsSelection.MultiSelect = true;
+                            gridView.ViewCaption = "拓扑检查";
+                            gridView.NewItemRowText = TABLENAME;
                             this.gridControlError.RefreshDataSource();
                         }
                         else {

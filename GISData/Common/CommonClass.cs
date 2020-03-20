@@ -36,7 +36,7 @@ namespace GISData.Common
             else 
             {
                 ConnectDB db = new ConnectDB();
-                DataTable dt = db.GetDataBySql("select * from GISDATA_REGINF where REG_NAME = '" + tablename + "'");
+                DataTable dt = db.GetDataBySql("select * from GISDATA_REGINFO where REG_NAME = '" + tablename + "'");
                 DataRow[] dr = dt.Select("1=1");
                 string path = dr[0]["PATH"].ToString();
                 string dbtype = dr[0]["DBTYPE"].ToString();
@@ -55,6 +55,7 @@ namespace GISData.Common
                 }
                 IFeatureLayer _Layer = new FeatureLayer();
                 _Layer.FeatureClass = space.OpenFeatureClass(tablename);
+                _Layer.Name = tablename;
                 DicLayer.Add(tablename, _Layer);
                 return _Layer;
             }

@@ -1,4 +1,8 @@
-﻿using DevExpress.XtraTreeList.Nodes;
+﻿using DevExpress.XtraGrid;
+using DevExpress.XtraGrid.Columns;
+using DevExpress.XtraGrid.Views.Base;
+using DevExpress.XtraGrid.Views.Grid;
+using DevExpress.XtraTreeList.Nodes;
 using ESRI.ArcGIS.Carto;
 using ESRI.ArcGIS.Geodatabase;
 using GISData.Common;
@@ -19,6 +23,8 @@ namespace GISData.DataCheck.CheckDialog
         private string stepNo;
         private CheckBox checkBox;
         Boolean flag = true;
+        private CheckBox checkBoxCheckMain;
+        private GridControl gridControlError = null;
         public FormAttrDia()
         {
             InitializeComponent();
@@ -32,12 +38,14 @@ namespace GISData.DataCheck.CheckDialog
         {
             this.UnSelectTreeListAll(this.treeList1);
         }
-        public FormAttrDia(string stepNo,CheckBox cb)
+        public FormAttrDia(string stepNo, CheckBox cb, CheckBox cbCheckMain, GridControl gridControlError)
         {
             InitializeComponent();
             // TODO: Complete member initialization
             this.stepNo = stepNo;
             this.checkBox = cb;
+            this.checkBoxCheckMain = cbCheckMain;
+            this.gridControlError = gridControlError;
             bindTreeView();
         }
 
@@ -351,6 +359,133 @@ namespace GISData.DataCheck.CheckDialog
                         loopCheck(node.Nodes);
                     }
                 }
+            }
+        }
+
+        private void treeList1_MouseDown(object sender, MouseEventArgs e)
+        {
+            try
+            {
+                TreeListNode node = this.treeList1.FocusedNode;
+                if (!node.HasChildren)
+                {
+                    string NAME = node["NAME"].ToString();
+                    string CHECKTYPE = node["CHECKTYPE"].ToString();
+                    string FIELD = node["FIELD"].ToString();
+                    string TABLENAME = node["TABLENAME"].ToString();
+                    string SUPTABLE = node["SUPTABLE"].ToString();
+                    string SELECT = node["SELECT"].ToString();
+                    string WHERESTRING = node["WHERESTRING"].ToString();
+                    string RESULT = node["RESULT"].ToString();
+                    string DOMAINTYPE = node["DOMAINTYPE"].ToString();
+                    string SHOWFIELD = node["SHOWFIELD"].ToString();
+                    DataTable dt = new DataTable();
+                    CommonClass conClass = new CommonClass();
+                    IFeatureCursor pFeatureCuror = null;
+                    IFeatureLayer pFLayer = conClass.GetLayerByName(TABLENAME);
+                    IFeatureClass pFeatureClass = pFLayer.FeatureClass;
+                    
+                    ConnectDB db = new ConnectDB();
+                    if (CHECKTYPE == "空值检查")
+                    {
+                        IQueryFilter pQuery = new QueryFilterClass();
+                        pQuery.WhereClause = FIELD + " IS NULL OR " + FIELD + " = '' ";
+                        pFeatureCuror = pFeatureClass.Search(pQuery, false);
+                    }
+                    else if (CHECKTYPE == "逻辑关系检查")
+                    {
+                        IQueryFilter pQuery = new QueryFilterClass();
+                        pQuery.WhereClause = " (" + WHERESTRING + ") and (" + RESULT + ")";
+                        pFeatureCuror = pFeatureClass.Search(pQuery, false);
+                    }
+                    else if (CHECKTYPE == "唯一值检查")
+                    {
+                        IQueryFilter pQuery = new QueryFilterClass();
+                        pQuery.WhereClause = FIELD + " in ( select " + FIELD + " as wyz from  " + TABLENAME + " group by " + FIELD + " having count(" + FIELD + ")>1)";
+                        pFeatureCuror = pFeatureClass.Search(pQuery, false);
+                    }
+                    else if (CHECKTYPE == "值域检查")
+                    {
+                        if (DOMAINTYPE == "own")
+                        {
+                            DataTable dt1 = db.GetDataBySql("SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = '" + TABLENAME + "' AND FIELD_NAME = '" + FIELD + "'");
+                            string CODETABLENAME = dt1.Rows[0]["CODE_PK"].ToString();
+                            string CODEWHERESTRING = dt1.Rows[0]["CODE_WHERE"].ToString();
+                            IQueryFilter pQuery = new QueryFilterClass();
+                            pQuery.WhereClause = FIELD + " not in (SELECT C_CODE FROM " + CODETABLENAME + " WHERE " + CODEWHERESTRING + ")";
+                            pFeatureCuror = pFeatureClass.Search(pQuery, false);
+                        }
+                        else if (DOMAINTYPE == "custom")
+                        {
+                            string CUSTOMVALUE = node["CUSTOMVALUE"].ToString();
+                            IQueryFilter pQuery = new QueryFilterClass();
+                            pQuery.WhereClause = FIELD + " not in (" + CUSTOMVALUE + ")";
+                            pFeatureCuror = pFeatureClass.Search(pQuery, false);
+                        }
+                    }
+                    if (pFeatureClass == null) return;
+                    DataColumn dc = null;
+                    for (int i = 0; i < pFeatureClass.Fields.FieldCount; i++)
+                    {
+                        IField field = pFeatureClass.Fields.get_Field(i);
+                        dc = new DataColumn(field.Name);
+                        dc.Caption = field.AliasName;
+                        dt.Columns.Add(dc);
+                        if (SHOWFIELD.Contains(field.Name))
+                        {
+                            dc.SetOrdinal(0);
+                        }
+                    }
+                    IFeature pFeature = pFeatureCuror.NextFeature();
+                    DataRow dr = null;
+                    while (pFeature != null)
+                    {
+                        dr = dt.NewRow();
+                        int colIndex = 0;
+                        foreach (DataColumn itemColumns in dt.Columns)
+                        {
+                            int index = pFeatureClass.FindField(itemColumns.ColumnName);
+                            if (pFeatureClass.FindField(pFeatureClass.ShapeFieldName) == index)
+                            {
+                                dr[colIndex] = pFeatureClass.ShapeType.ToString();
+                            }
+                            else
+                            {
+                                dr[colIndex] = pFeature.get_Value(index).ToString();
+                            }
+                            colIndex++;
+                        }
+                        dt.Rows.Add(dr);
+                        pFeature = pFeatureCuror.NextFeature();
+                    }
+                    GridView gridView = this.gridControlError.DefaultView as GridView;
+                    this.gridControlError.DataSource = dt;
+                    gridView.OptionsBehavior.Editable = false;
+                    gridView.OptionsSelection.MultiSelect = true;
+                    gridView.ScrollStyle = ScrollStyleFlags.LiveHorzScroll | ScrollStyleFlags.LiveVertScroll;
+                    gridView.HorzScrollVisibility = ScrollVisibility.Always;
+                    gridView.OptionsView.ColumnAutoWidth = false;
+                    for (int I = 0; I < gridView.Columns.Count; I++)
+                    {
+                        gridView.BestFitColumns();
+                        gridView.Columns[I].BestFit();//自动列宽
+                    }
+                    gridView.ViewCaption = "属性检查";
+                    gridView.NewItemRowText = TABLENAME;
+                    this.gridControlError.RefreshDataSource();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("MyException Throw:" + ex.Message);
+            }
+        }
+
+        private void treeList1_DoubleClick(object sender, EventArgs e)
+        {
+            if (checkBoxCheckMain.Checked) 
+            {
+                
             }
         }
     }

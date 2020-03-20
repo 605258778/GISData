@@ -1,6 +1,7 @@
 ﻿namespace TopologyCheck.Checker
 {
     using ESRI.ArcGIS.Carto;
+    using ESRI.ArcGIS.esriSystem;
     using ESRI.ArcGIS.Geodatabase;
     using ESRI.ArcGIS.Geometry;
     using System;
@@ -242,89 +243,51 @@
 
         public List<ErrorEntity> CheckOverLap(IFeatureLayer pLayer, int iCheckType)
         {
+            
+
             IFeatureCursor cursor = pLayer.Search(null, true);
-            IFieldEdit edit = pLayer.FeatureClass.Fields.get_Field(pLayer.FeatureClass.Fields.FindField(pLayer.FeatureClass.ShapeFieldName)) as IFieldEdit;
-            ISpatialReference spatialReference = edit.GeometryDef.SpatialReference;
             List<ErrorEntity> listErrorEntity = new List<ErrorEntity>();
             IFeature pFeature = null;
-            object missing = Type.Missing;
+
+            //IGeometryCollection pGeometryCollection = new GeometryBagClass();
+            
+
             while ((pFeature = cursor.NextFeature()) != null)
             {
-                IGeometry shapeCopy = pFeature.ShapeCopy;
-                ITopologicalOperator2 @operator = null;
-                if (shapeCopy.GeometryType != esriGeometryType.esriGeometryPoint)
+                //pGeometryCollection.AddGeometry(pFeature.ShapeCopy);
+                ITopologicalOperator2 @operator = (ITopologicalOperator2)pFeature.ShapeCopy;
+                @operator.IsKnownSimple_2 = false;
+                @operator.Simplify();
+
+                IFeature feature;
+
+                IIdentify pIdentify = pLayer as IIdentify;
+                IArray pIDs = pIdentify.Identify((IGeometry)pFeature.ShapeCopy);
+                if (pIDs != null && pIDs.Count > 1)
                 {
-                    @operator = (ITopologicalOperator2) shapeCopy;
-                    @operator.IsKnownSimple_2 = false;
-                    @operator.Simplify();
-                }
-                IFeatureClass featureClass = pLayer.FeatureClass;
-                if (this._errType == TopologyCheck.Error.ErrType.OverLap)
-                {
-                    IFeature feature;
-                    IList<IGeometry> list = new List<IGeometry>();
-                    ISpatialFilter filter = new SpatialFilterClass();
-                    filter.Geometry = shapeCopy;
-                    filter.SpatialRel = esriSpatialRelEnum.esriSpatialRelOverlaps;
-                    IFeatureCursor o = featureClass.Search(filter, false);
-                    for (feature = o.NextFeature(); feature != null; feature = o.NextFeature())
+                    //取第一个实体
+                    for (int i = 0; i < pIDs.Count; i++)
                     {
-                        IGeometry item = feature.ShapeCopy;
-                        if (@operator == null)
+                        feature = (pIDs.get_Element(i) as IRowIdentifyObject).Row as IFeature;
+                        if (feature != null && pFeature.OID != feature.OID)
                         {
-                            list.Add(item);
-                        }
-                        else
-                        {
+                            
+                            IGeometry item = feature.ShapeCopy;
                             IGeometry geometry3 = @operator.Intersect(item, esriGeometryDimension.esriGeometry2Dimension);
-                            list.Add(geometry3);
-                        }
-                    }
-                    Marshal.ReleaseComObject(o);
-                    filter.SpatialRel = esriSpatialRelEnum.esriSpatialRelContains;
-                    o = featureClass.Search(filter, false);
-                    for (feature = o.NextFeature(); feature != null; feature = o.NextFeature())
-                    {
-                        if (feature.OID != pFeature.OID)
-                        {
-                            IGeometry geometry4 = feature.ShapeCopy;
-                            if (@operator == null)
+                            if (!geometry3.IsEmpty) 
                             {
-                                list.Add(geometry4);
-                            }
-                            else
-                            {
-                                IGeometry geometry5 = @operator.Intersect(geometry4, esriGeometryDimension.esriGeometry2Dimension);
-                                list.Add(geometry5);
+                                Console.WriteLine(pFeature.OID + "-" + feature.OID);
+                                listErrorEntity.Add(new ErrorEntity(pFeature.OID.ToString(), "自重叠", feature.OID.ToString(), ErrType.OverLap, geometry3));
                             }
                         }
                     }
-                    Marshal.ReleaseComObject(o);
-                    filter.SpatialRel = esriSpatialRelEnum.esriSpatialRelWithin;
-                    o = featureClass.Search(filter, false);
-                    for (feature = o.NextFeature(); feature != null; feature = o.NextFeature())
-                    {
-                        if (feature.OID != pFeature.OID)
-                        {
-                            IGeometry geometry6 = feature.ShapeCopy;
-                            if (@operator == null)
-                            {
-                                list.Add(geometry6);
-                            }
-                            else
-                            {
-                                IGeometry geometry7 = @operator.Intersect(geometry6, esriGeometryDimension.esriGeometry2Dimension);
-                                list.Add(geometry7);
-                            }
-                        }
-                    }
-                    Marshal.ReleaseComObject(o);
-                    if (list.Count > 0)
-                    {
-                        listErrorEntity.Add(new ErrorEntity(pFeature.OID.ToString(), "自重叠", "", ErrType.OverLap, list[0]));
-                    }
+
                 }
+                
             }
+            //ISpatialIndex pSpatialIndex = pGeometryCollection as ISpatialIndex;
+            //pSpatialIndex.AllowIndexing = true;
+            //pSpatialIndex.Invalidate();
             return listErrorEntity;
         }
 
