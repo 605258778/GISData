@@ -189,21 +189,24 @@ namespace GISData.DataRegister
                             for (int i = 0; i < pFeatureClass.Fields.FieldCount; i++)
                             {
                                 IField field = pFeatureClass.Fields.get_Field(i);
-                                string REG_NAME = nodeData["NAME"].ToString();
-                                string FIELDID = i.ToString();
-                                string FIELD_NAME = field.Name;
-                                string FIELD_ALSNAME = field.AliasName;
-                                string DATA_TYPE = field.Type.ToString();
-                                string MAXLEN = field.Length.ToString();
-                                string MINLEN = field.Length.ToString();
-                                string CODE_PK = "";
-                                string CODE_WHERE = "";
-                                string IS_NULL = field.IsNullable.ToString();
-                                string DEFAULT_VALUE = field.DefaultValue.ToString();
-                                Boolean insertResult = cd.Insert("insert into GISDATA_MATEDATA (REG_NAME,FIELDID,FIELD_NAME,FIELD_ALSNAME,DATA_TYPE,MAXLEN,MINLEN,CODE_PK,CODE_WHERE,IS_NULL,DEFAULT_VALUE) values ('" + REG_NAME + "','" + FIELDID + "','" + FIELD_NAME + "','" + FIELD_ALSNAME + "','" + DATA_TYPE + "','" + MAXLEN + "','" + MINLEN + "','" + CODE_PK + "','" + CODE_WHERE + "','" + IS_NULL + "','" + DEFAULT_VALUE + "')");
-                                if (!insertResult)
+                                if (field.Name != pFeatureClass.ShapeFieldName && field.Name != pFeatureClass.OIDFieldName)
                                 {
-                                    boolFlag = false;
+                                    string REG_NAME = nodeData["NAME"].ToString();
+                                    string FIELDID = i.ToString();
+                                    string FIELD_NAME = field.Name;
+                                    string FIELD_ALSNAME = field.AliasName;
+                                    string DATA_TYPE = field.Type.ToString();
+                                    string MAXLEN = field.Length.ToString();
+                                    string MINLEN = field.Length.ToString();
+                                    string CODE_PK = "";
+                                    string CODE_WHERE = "";
+                                    string IS_NULL = field.IsNullable.ToString();
+                                    string DEFAULT_VALUE = field.DefaultValue.ToString();
+                                    Boolean insertResult = cd.Insert("insert into GISDATA_MATEDATA (REG_NAME,FIELDID,FIELD_NAME,FIELD_ALSNAME,DATA_TYPE,MAXLEN,MINLEN,CODE_PK,CODE_WHERE,IS_NULL,DEFAULT_VALUE) values ('" + REG_NAME + "','" + FIELDID + "','" + FIELD_NAME + "','" + FIELD_ALSNAME + "','" + DATA_TYPE + "','" + MAXLEN + "','" + MINLEN + "','" + CODE_PK + "','" + CODE_WHERE + "','" + IS_NULL + "','" + DEFAULT_VALUE + "')");
+                                    if (!insertResult)
+                                    {
+                                        boolFlag = false;
+                                    }
                                 }
                             }
                         }

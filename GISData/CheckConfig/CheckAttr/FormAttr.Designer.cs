@@ -49,6 +49,7 @@
             this.属性删除.TabIndex = 8;
             this.属性删除.Text = "删除";
             this.属性删除.UseVisualStyleBackColor = true;
+            this.属性删除.Click += new System.EventHandler(this.属性删除_Click);
             // 
             // 属性编辑
             // 

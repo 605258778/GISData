@@ -1,3 +1,9 @@
+F:\数据验收平台建设\GISData\GISData\bin\Debug\GISData.exe.config
+F:\数据验收平台建设\GISData\GISData\bin\Debug\GISData.exe
+F:\数据验收平台建设\GISData\GISData\bin\Debug\GISData.pdb
+F:\数据验收平台建设\GISData\GISData\bin\Debug\ESRI.ArcGIS.ADF.dll
+F:\数据验收平台建设\GISData\GISData\bin\Debug\ESRI.ArcGIS.Version.dll
+F:\数据验收平台建设\GISData\GISData\bin\Debug\ESRI.ArcGIS.ADF.xml
 F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.csproj.ResolveComReference.cache
 F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.ChekConfig.CheckDialog.FormDomain.resources
 F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.ChekConfig.CheckDialog.FormLogic.resources
@@ -30,12 +36,7 @@ F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.MainMap.FormAttrib
 F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.Parameter.FormSetpara.resources
 F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.Properties.Resources.resources
 F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.csproj.GenerateResource.Cache
-F:\数据验收平台建设\GISData\GISData\bin\Debug\GISData.exe.config
-F:\数据验收平台建设\GISData\GISData\bin\Debug\GISData.exe
-F:\数据验收平台建设\GISData\GISData\bin\Debug\GISData.pdb
-F:\数据验收平台建设\GISData\GISData\bin\Debug\ESRI.ArcGIS.ADF.dll
-F:\数据验收平台建设\GISData\GISData\bin\Debug\ESRI.ArcGIS.Version.dll
-F:\数据验收平台建设\GISData\GISData\bin\Debug\ESRI.ArcGIS.ADF.xml
 F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.exe
 F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.pdb
 F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.csprojResolveAssemblyReference.cache
+F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.TaskManage.FormTaskDia.resources

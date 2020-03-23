@@ -109,5 +109,22 @@ namespace GISData.ChekConfig
              FormAttrAdd formAttr = new FormAttrAdd(checkNo, selectNode, "edit");
              formAttr.ShowDialog();
         }
+
+        private void 属性删除_Click(object sender, EventArgs e)
+        {
+            DialogResult dr = MessageBox.Show("确定要删除吗?", "删除数据");
+            if (dr == DialogResult.OK)
+            {
+                string selectedId = treeList1.FocusedNode.GetValue("ID").ToString();
+                ConnectDB db = new ConnectDB();
+                Boolean result = db.Delete("delete from GISDATA_TBATTR where id = " + selectedId + " or PARENTID = '" + selectedId+"'");
+                if (result)
+                {
+                    this.bindtreeViewAttr();//重新绑定
+                    MessageBox.Show("删除成功！");
+                }
+            }
+            
+        }
     }
 }

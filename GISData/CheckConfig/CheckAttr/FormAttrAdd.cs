@@ -32,7 +32,7 @@ namespace GISData.ChekConfig
         public FormAttrAdd(int No, TreeListNode node,string type)
         {
             InitializeComponent();
-            selectNode = node;
+            this.selectNode = node;
             this.checkNo = No;
             this.selectedId = node.GetValue("ID").ToString();
             this.type = type;
@@ -296,7 +296,7 @@ namespace GISData.ChekConfig
                 }
                 else
                 {
-                    result = db.Insert("insert into GISDATA_TBATTR (PARENTID,NAME,STEP,CHECKTYPE,TABLENAME,SHOWFIELD,WHERESTRING,RESULT) VALUES('" + selectedId + "','" + name + "','" + checkNo + "','逻辑关系检查','" + table + "','" + showfield + "','" + whereString + "','" + resultString + "')");
+                    result = db.Insert("insert into GISDATA_TBATTR (PARENTID,NAME,STEP,CHECKTYPE,TABLENAME,SHOWFIELD,WHERESTRING,RESULT) VALUES('" + selectedId + "','" + name + "','" + checkNo + "','逻辑关系检查','" + table + "','" + showfield + "','" + whereString.Replace("'", "\"") + "','" + resultString.Replace("'", "\"") + "')");
                 }
                 this.DialogResult = DialogResult.OK;
                 this.Close();

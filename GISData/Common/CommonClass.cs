@@ -47,11 +47,15 @@ namespace GISData.Common
                     space = (IFeatureWorkspace)fac.OpenFromFile(path, 0);
 
                 }
-                else
+                else if (dbtype == "文件夹数据库")
                 {
                     FileGDBWorkspaceFactoryClass fac = new FileGDBWorkspaceFactoryClass();
                     space = (IFeatureWorkspace)fac.OpenFromFile(path, 0);
-
+                }
+                else 
+                {
+                    FileGDBWorkspaceFactoryClass fac = new FileGDBWorkspaceFactoryClass();
+                    space = (IFeatureWorkspace)fac.OpenFromFile(path, 0);
                 }
                 IFeatureLayer _Layer = new FeatureLayer();
                 _Layer.FeatureClass = space.OpenFeatureClass(tablename);
@@ -85,11 +89,16 @@ namespace GISData.Common
                     space = (IFeatureWorkspace)fac.OpenFromFile(path, 0);
 
                 }
-                else
+                else if (dbtype == "文件夹数据库")
                 {
                     FileGDBWorkspaceFactoryClass fac = new FileGDBWorkspaceFactoryClass();
                     space = (IFeatureWorkspace)fac.OpenFromFile(path, 0);
 
+                }
+                else 
+                {
+                    FileGDBWorkspaceFactoryClass fac = new FileGDBWorkspaceFactoryClass();
+                    space = (IFeatureWorkspace)fac.OpenFromFile(path, 0);
                 }
                 DicWF.Add(tablename, space);
                 return space;
@@ -334,7 +343,6 @@ namespace GISData.Common
                 {
                     break;
                 }
-                
             }
             return featureDataset;
         }

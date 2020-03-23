@@ -17,7 +17,6 @@ namespace GISData.ChekConfig
     {
         public int dbSTEP_NO;
         public int click_NO;
-        private Form currentForm;
         public FormConfigMain()
         {
             InitializeComponent();

@@ -1,5 +1,8 @@
-﻿using GISData.Common;
+﻿using ESRI.ArcGIS.Carto;
+using ESRI.ArcGIS.Geodatabase;
+using GISData.Common;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -89,7 +92,70 @@ namespace GISData.DataCheck.CheckDialog
 
         public void doCheckStructure() 
         {
-        
+            CommonClass common = new CommonClass();
+            int[] selectRows = this.gridView1.GetSelectedRows();
+            foreach (int itemRow in selectRows)
+            {
+                DataRow row = this.gridView1.GetDataRow(itemRow);
+                string tablename = row["REG_NAME"].ToString();
+                IFeatureLayer _layer = common.GetLayerByName(tablename);
+                IFields fields = _layer.FeatureClass.Fields;
+                Dictionary<string, List<string>> dicCustom = new Dictionary<string, List<string>>();
+                Dictionary<string, List<string>> dicSys = new Dictionary<string, List<string>>();
+
+                ConnectDB db = new ConnectDB();
+                DataTable dt = db.GetDataBySql("select FIELD_NAME,DATA_TYPE,MAXLEN from GISDATA_MATEDATA where REG_NAME  = '" + tablename + "'");
+                DataRow[] dr = dt.Select(null);
+
+                string errorString = "";
+
+                for (int i = 0; i < dr.Length; i++)
+                {
+                    string FIELD_NAME = dr[i]["FIELD_NAME"].ToString();
+                    string DATA_TYPE = dr[i]["DATA_TYPE"].ToString();
+                    string MAXLEN = dr[i]["MAXLEN"].ToString();
+                    List<string> list1 = new List<string>();
+                    list1.Add(DATA_TYPE);
+                    list1.Add(MAXLEN);
+                    dicSys.Add(FIELD_NAME, list1);
+                }
+
+                for(int i = 0; i < fields.FieldCount; i++)
+                {
+                    IField field = fields.get_Field(i);
+                    if (field.Name != _layer.FeatureClass.ShapeFieldName && field.Name != _layer.FeatureClass.OIDFieldName)
+                    {
+                        List<string> list1 = new List<string>();
+                        list1.Add(field.Type.ToString());
+                        list1.Add(field.Length.ToString());
+                        dicCustom.Add(field.Name.ToString(), list1);
+                        if (dicSys.ContainsKey(field.Name))
+                        {
+                            if (dicSys[field.Name][0] != field.Type.ToString()) 
+                            {
+                                errorString += "字段类型错误：" + field.Name + "(" + dicSys[field.Name][0] + ")；";
+                            }
+                            else if (dicSys[field.Name][1] != field.Length.ToString())
+                            {
+                                errorString += "字段长度错误：" + field.Name + "(" + dicSys[field.Name][0] + ")；";
+                            }
+                        }
+                        else 
+                        {
+                            errorString += "多余字段：" + field.Name + "；";
+                        }
+                    }
+                }
+
+                foreach (KeyValuePair<string,List<string>> itemList in dicSys) 
+                {
+                    if (!dicCustom.ContainsKey(itemList.Key))
+                    {
+                        errorString += "缺少字段：" + itemList.Key + "；";
+                    }
+                }
+
+            }
         }
     }
 }

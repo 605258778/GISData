@@ -24,6 +24,7 @@ using GISData.DataCheck;
 using GISData.Parameter;
 using ESRI.ArcGIS.CatalogUI;
 using ESRI.ArcGIS.Catalog;
+using GISData.TaskManage;
 
 
 namespace GISData
@@ -162,14 +163,145 @@ namespace GISData
         private void addFile(TextBox tx,string tablename)
         {
             IWorkspaceFactory workspaceFactory = new AccessWorkspaceFactoryClass();
-            string GdbPath = Application.StartupPath + "\\GISData.gdb";
-            string MdbPath = Application.StartupPath + "\\GISData.mdb";
-            IWorkspaceFactory pWks = new AccessWorkspaceFactoryClass();
-            IWorkspace pFwk = pWks.OpenFromFile(MdbPath, 0) as IWorkspace;
             
             IGxDialog dlg = new GxDialog();
             IGxObjectFilterCollection filterCollection = dlg as IGxObjectFilterCollection;
             filterCollection.AddFilter(new GxFilterFeatureClasses(),true);
+            IEnumGxObject enumObj;
+            dlg.AllowMultiSelect = true;
+            dlg.Title = "添加数据";
+            dlg.DoModalOpen(0, out enumObj);
+            if (enumObj != null)
+            {
+                enumObj.Reset();
+                int a = 0;
+                IGxObject gxObj = enumObj.Next();
+                while (gxObj != null)
+                {
+                    Console.WriteLine(a++);
+                    if (gxObj is IGxDataset)
+                    {
+                        IGxDataset gxDataset = gxObj as IGxDataset;
+                        IDataset pDataset = gxDataset.Dataset;
+                        switch (pDataset.Type)
+                        {
+                            case esriDatasetType.esriDTFeatureClass:
+                                IFeatureClass pFc = pDataset as IFeatureClass;
+                                
+                                ISpatialReference pSpatialReference = (pFc as IGeoDataset).SpatialReference;//空间参考
+                                CommonClass common = new CommonClass();
+                                if (pSpatialReference.Name != common.GetConfigValue("SpatialReferenceName"))
+                                {
+                                    MessageBox.Show("空间参考错误");
+                                    break;
+                                }
+                                else 
+                                {
+                                    string layerType = "";
+                                    if(pDataset.Category.Contains("个人地理数据库"))
+                                    {
+                                        layerType = "Access数据库";
+                                    }
+                                    else if (pDataset.Category.Contains("文件地理数据库"))
+                                    {
+                                        layerType = "文件夹数据库";
+                                    }
+
+                                    IFields fields = pFc.Fields;
+                                    Dictionary<string, List<string>> dicCustom = new Dictionary<string, List<string>>();
+                                    Dictionary<string, List<string>> dicSys = new Dictionary<string, List<string>>();
+
+                                    ConnectDB db = new ConnectDB();
+                                    DataTable dt = db.GetDataBySql("select FIELD_NAME,DATA_TYPE,MAXLEN from GISDATA_MATEDATA where REG_NAME  = '" + tablename + "'");
+                                    DataRow[] dr = dt.Select(null);
+
+                                    string errorString = "";
+
+                                    for (int i = 0; i < dr.Length; i++)
+                                    {
+                                        string FIELD_NAME = dr[i]["FIELD_NAME"].ToString();
+                                        string DATA_TYPE = dr[i]["DATA_TYPE"].ToString();
+                                        string MAXLEN = dr[i]["MAXLEN"].ToString();
+                                        List<string> list1 = new List<string>();
+                                        list1.Add(DATA_TYPE);
+                                        list1.Add(MAXLEN);
+                                        dicSys.Add(FIELD_NAME, list1);
+                                    }
+
+                                    for (int i = 0; i < fields.FieldCount; i++)
+                                    {
+                                        IField field = fields.get_Field(i);
+                                        if (field.Name != pFc.ShapeFieldName && field.Name != pFc.OIDFieldName)
+                                        {
+                                            List<string> list1 = new List<string>();
+                                            list1.Add(field.Type.ToString());
+                                            list1.Add(field.Length.ToString());
+                                            dicCustom.Add(field.Name.ToString(), list1);
+                                            if (dicSys.ContainsKey(field.Name))
+                                            {
+                                                if (dicSys[field.Name][0] != field.Type.ToString())
+                                                {
+                                                    errorString += "字段类型错误：" + field.Name + "(" + dicSys[field.Name][0] + ")；\r\n";
+                                                }
+                                                else if (dicSys[field.Name][1] != field.Length.ToString())
+                                                {
+                                                    errorString += "字段长度错误：" + field.Name + "(" + dicSys[field.Name][0] + ")；\r\n";
+                                                }
+                                            }
+                                            else
+                                            {
+                                                errorString += "多余字段：" + field.Name + "；\r\n";
+                                            }
+                                        }
+                                    }
+
+                                    foreach (KeyValuePair<string, List<string>> itemList in dicSys)
+                                    {
+                                        if (!dicCustom.ContainsKey(itemList.Key))
+                                        {
+                                            errorString += "缺少字段：" + itemList.Key + "；\r\n";
+                                        }
+                                    }
+
+                                    if (errorString != "")
+                                    {
+                                        MessageBox.Show(errorString);
+                                    }
+                                    else 
+                                    {
+                                        Boolean result = db.Update("update GISDATA_REGINFO set PATH= '" + pDataset.Workspace.PathName + "',DBTYPE = '" + layerType + "',TABLENAME = '" + pDataset.Name + "' where REG_NAME = '" + tablename + "'");
+                                        tx.Text = pDataset.BrowseName;
+                                        tx.Name = pDataset.BrowseName;
+                                    }
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    else if (gxObj is IGxLayer)
+                    {
+                        IGxLayer gxLayer = gxObj as IGxLayer;
+                        ILayer pLayer = gxLayer.Layer;
+                        break;
+                        //do anything you like
+                    }
+                    gxObj = enumObj.Next();
+                }
+            }
+        }
+        //工程设置添加文件
+        private void addFile11(TextBox tx, string tablename)
+        {
+            IWorkspaceFactory workspaceFactory = new AccessWorkspaceFactoryClass();
+            string GdbPath = Application.StartupPath + "\\GISData.gdb";
+            string MdbPath = Application.StartupPath + "\\GISData.mdb";
+            IWorkspaceFactory pWks = new AccessWorkspaceFactoryClass();
+            IWorkspace pFwk = pWks.OpenFromFile(MdbPath, 0) as IWorkspace;
+
+            IGxDialog dlg = new GxDialog();
+            IGxObjectFilterCollection filterCollection = dlg as IGxObjectFilterCollection;
+            filterCollection.AddFilter(new GxFilterFeatureClasses(), true);
             IEnumGxObject enumObj;
             dlg.AllowMultiSelect = true;
             dlg.Title = "添加数据";
@@ -196,7 +328,7 @@ namespace GISData
                                 FileGDBWorkspaceFactoryClass fac = new FileGDBWorkspaceFactoryClass();
                                 IWorkspace workspace = fac.OpenFromFile(GdbPath, 0);
                                 IFeatureClass pFc = pDataset as IFeatureClass;
-                                
+
                                 ISpatialReference pSpatialReference = (pFc as IGeoDataset).SpatialReference;//空间参考
                                 FormSetpara fs = new FormSetpara();
                                 CommonClass common = new CommonClass();
@@ -205,7 +337,7 @@ namespace GISData
                                     MessageBox.Show("空间参考错误");
                                     break;
                                 }
-                                else 
+                                else
                                 {
                                     IFeatureWorkspace pFeatureWorkspace = workspace as IFeatureWorkspace;
                                     IEnumDatasetName datasetnames = workspace.get_DatasetNames(esriDatasetType.esriDTFeatureDataset);
@@ -216,9 +348,10 @@ namespace GISData
                                     {
                                         IFeatureClass ifc = pFeatureWorkspace.OpenFeatureClass(pDataset.Name);
                                         IFeatureWorkspaceManage pWorkspaceManager = pFeatureWorkspace as IFeatureWorkspaceManage;
-                                        IDatasetName pDatasetname =  datasetnames.Next();
-                                        while (pDatasetname != null) {
-                                            if (pDatasetname.Name == pDataset.Name) 
+                                        IDatasetName pDatasetname = datasetnames.Next();
+                                        while (pDatasetname != null)
+                                        {
+                                            if (pDatasetname.Name == pDataset.Name)
                                             {
                                                 pWorkspaceManager.DeleteByName(pDatasetname);
                                                 featureDataConverter.ConvertFeatureClass(inputName, null, datasetname, targetFeatureClassName, null, null, "", 0, 0);
@@ -237,21 +370,21 @@ namespace GISData
                                     try
                                     {
                                         Boolean jg = db.Delete("delete from GDB_Items where Name = '" + pDataset.Name + "_TB" + "'");
-                                        if (jg) 
-                                            db.Delete("drop table " + pDataset.Name+"_TB");
-                                        
+                                        if (jg)
+                                            db.Delete("drop table " + pDataset.Name + "_TB");
+
                                     }
                                     catch (Exception ex)
                                     {
 
                                     }
-                                    
+
                                     while (itemName != null)
                                     {
                                         if (itemName.Name == pDataset.Name)
                                         {
                                             IFeatureDataConverter tableDataConverter = new FeatureDataConverterClass();
-                                            oDSName.Name = pDataset.Name+"_TB";
+                                            oDSName.Name = pDataset.Name + "_TB";
                                             IFeatureWorkspaceManage pWorkspaceManager = pFeatureWorkspace as IFeatureWorkspaceManage;
                                             tableDataConverter.ConvertTable(itemName, null, oDSName, null, null, 0, 0);
                                         }
@@ -296,10 +429,15 @@ namespace GISData
                 }
             }
         }
-
         private void axLicenseControl1_Enter(object sender, EventArgs e)
         {
 
+        }
+
+        private void 任务管理ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormTaskDia task = new FormTaskDia();
+            task.ShowDialog();
         }
 
     }
