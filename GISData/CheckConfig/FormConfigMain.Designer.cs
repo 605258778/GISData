@@ -32,7 +32,7 @@
             this.DelScheme = new System.Windows.Forms.Button();
             this.EditScheme = new System.Windows.Forms.Button();
             this.AddScheme = new System.Windows.Forms.Button();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.comboBoxScheme = new System.Windows.Forms.ComboBox();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.buttonAddStep = new System.Windows.Forms.Button();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
@@ -59,7 +59,7 @@
             this.splitContainer1.Panel1.Controls.Add(this.DelScheme);
             this.splitContainer1.Panel1.Controls.Add(this.EditScheme);
             this.splitContainer1.Panel1.Controls.Add(this.AddScheme);
-            this.splitContainer1.Panel1.Controls.Add(this.comboBox1);
+            this.splitContainer1.Panel1.Controls.Add(this.comboBoxScheme);
             // 
             // splitContainer1.Panel2
             // 
@@ -94,14 +94,16 @@
             this.AddScheme.TabIndex = 1;
             this.AddScheme.Text = "添加方案";
             this.AddScheme.UseVisualStyleBackColor = true;
+            this.AddScheme.Click += new System.EventHandler(this.AddScheme_Click);
             // 
-            // comboBox1
+            // comboBoxScheme
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(12, 7);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(328, 23);
-            this.comboBox1.TabIndex = 0;
+            this.comboBoxScheme.FormattingEnabled = true;
+            this.comboBoxScheme.Location = new System.Drawing.Point(12, 7);
+            this.comboBoxScheme.Name = "comboBoxScheme";
+            this.comboBoxScheme.Size = new System.Drawing.Size(328, 23);
+            this.comboBoxScheme.TabIndex = 0;
+            this.comboBoxScheme.SelectedIndexChanged += new System.EventHandler(this.comboBoxScheme_SelectedIndexChanged);
             // 
             // splitContainer2
             // 
@@ -170,7 +172,7 @@
         private System.Windows.Forms.Button DelScheme;
         private System.Windows.Forms.Button EditScheme;
         private System.Windows.Forms.Button AddScheme;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox comboBoxScheme;
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.Button buttonAddStep;
         private System.Windows.Forms.SplitContainer splitContainer3;

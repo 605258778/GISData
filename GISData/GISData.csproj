@@ -213,6 +213,12 @@
     <Compile Include="CheckConfig\CheckTopo\FormTopo.Designer.cs">
       <DependentUpon>FormTopo.cs</DependentUpon>
     </Compile>
+    <Compile Include="CheckConfig\FormAddScheme.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CheckConfig\FormAddScheme.Designer.cs">
+      <DependentUpon>FormAddScheme.cs</DependentUpon>
+    </Compile>
     <Compile Include="CheckConfig\FormConfigMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -392,6 +398,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CheckConfig\CheckTopo\FormTopo.resx">
       <DependentUpon>FormTopo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CheckConfig\FormAddScheme.resx">
+      <DependentUpon>FormAddScheme.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CheckConfig\FormConfigMain.resx">
       <DependentUpon>FormConfigMain.cs</DependentUpon>

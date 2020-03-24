@@ -26,6 +26,7 @@ namespace GISData.DataCheck
         public FormCheckMain(IHookHelper m_hookHelper)
         {
             InitializeComponent();
+            BindScheme();
             this.m_hookHelper = m_hookHelper;
         }
         private FormStructureDia StructureDia;
@@ -35,6 +36,18 @@ namespace GISData.DataCheck
         private void splitContainer1_SplitterMoved(object sender, SplitterEventArgs e)
         {
 
+        }
+
+        /// <summary>
+        /// 加载质检方案数据源
+        /// </summary>
+        private void BindScheme()
+        {
+            ConnectDB db = new ConnectDB();
+            DataTable result = db.GetDataBySql("select * from GISDATA_SCHEME order by IS_DEFAULT desc");
+            comboBoxScheme.DataSource = result;
+            comboBoxScheme.DisplayMember = "SCHEME_NAME";
+            comboBoxScheme.ValueMember = "SCHEME_NAME";
         }
 
         private void FormCheckMain_Load(object sender, EventArgs e)
@@ -50,7 +63,7 @@ namespace GISData.DataCheck
         public void loadStep()
         {
             ConnectDB db = new ConnectDB();
-            DataTable result = db.GetDataBySql("select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' order by STEP_NO");
+            DataTable result = db.GetDataBySql("select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = '"+this.comboBoxScheme.Text.ToString()+"' order by STEP_NO");
             DataRow[] dr = result.Select("1=1");
             for (int i = 0; i < dr.Length; i++)
             {
@@ -180,8 +193,6 @@ namespace GISData.DataCheck
                     frm.WindowState = FormWindowState.Maximized;
                     frm.FormBorderStyle = FormBorderStyle.None;
                     frm.Show();
-                    
-                    
                 }
                 catch (System.Exception ex)
                 {
@@ -345,6 +356,11 @@ namespace GISData.DataCheck
                 activeView.Refresh();
             }
             
+        }
+
+        private void comboBoxScheme_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            loadStep();
         }
     }
 }

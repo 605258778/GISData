@@ -62,6 +62,7 @@ namespace GISData.ChekConfig
             treeList1.Columns["DOMAINVALUE"].Visible = false;
             treeList1.Columns["ISCHECK"].Visible = false;
             treeList1.Columns["ERROR"].Visible = false;
+            treeList1.Columns["SCHEME"].Visible = false;
             treeList1.OptionsView.ShowCheckBoxes = false;
             treeList1.OptionsBehavior.AllowIndeterminateCheckState = false;
             treeList1.Columns["NAME"].OptionsColumn.AllowEdit = false;

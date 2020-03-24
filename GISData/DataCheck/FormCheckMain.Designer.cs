@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.comboBoxScheme = new System.Windows.Forms.ComboBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.buttonCheckStar = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -54,6 +55,7 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.comboBoxScheme);
             this.splitContainer1.Panel1.Controls.Add(this.checkBox1);
             this.splitContainer1.Panel1.Controls.Add(this.buttonCheckStar);
             // 
@@ -65,6 +67,15 @@
             this.splitContainer1.SplitterDistance = 53;
             this.splitContainer1.TabIndex = 1;
             this.splitContainer1.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainer1_SplitterMoved);
+            // 
+            // comboBoxScheme
+            // 
+            this.comboBoxScheme.FormattingEnabled = true;
+            this.comboBoxScheme.Location = new System.Drawing.Point(7, 15);
+            this.comboBoxScheme.Name = "comboBoxScheme";
+            this.comboBoxScheme.Size = new System.Drawing.Size(277, 23);
+            this.comboBoxScheme.TabIndex = 2;
+            this.comboBoxScheme.SelectedIndexChanged += new System.EventHandler(this.comboBoxScheme_SelectedIndexChanged);
             // 
             // checkBox1
             // 
@@ -171,6 +182,7 @@
         private DevExpress.XtraGrid.GridControl gridControlError;
         private DevExpress.XtraGrid.Views.Grid.GridView gridViewError;
         public System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.ComboBox comboBoxScheme;
 
 
     }

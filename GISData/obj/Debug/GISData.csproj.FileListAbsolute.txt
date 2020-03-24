@@ -40,3 +40,4 @@ F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.exe
 F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.pdb
 F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.csprojResolveAssemblyReference.cache
 F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.TaskManage.FormTaskDia.resources
+F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.CheckConfig.FormAddScheme.resources

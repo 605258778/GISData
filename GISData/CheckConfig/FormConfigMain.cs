@@ -1,4 +1,5 @@
-﻿using GISData.CheckConfig.CheckStructure;
+﻿using GISData.CheckConfig;
+using GISData.CheckConfig.CheckStructure;
 using GISData.ChekConfig.CheckTopo;
 using GISData.Common;
 using System;
@@ -20,35 +21,63 @@ namespace GISData.ChekConfig
         public FormConfigMain()
         {
             InitializeComponent();
+            BindScheme();
+        }
+
+        private void FormConfigMain_Load(object sender, EventArgs e)
+        {
+            setMaxNO();
+            loadStep();
+        }
+
+        private void setMaxNO() 
+        {
+            string scheme = this.comboBoxScheme.Text.ToString();
             ConnectDB db = new ConnectDB();
-            DataTable result = db.GetDataBySql("select max(STEP_NO) as STEPNO from GISDATA_CONFIGSTEP");
+            DataTable result = db.GetDataBySql("select max(STEP_NO) as STEPNO from GISDATA_CONFIGSTEP where SCHEME = '"+scheme+"'");
             DataRow[] dr = result.Select("1=1");
             string a = dr[0]["STEPNO"].ToString();
             if (a == "")
             {
-                dbSTEP_NO = 1;
+                dbSTEP_NO = 0;
             }
             else
             {
                 dbSTEP_NO = int.Parse(a);
             }
         }
+
+        /// <summary>
+        /// 加载质检方案数据源
+        /// </summary>
+        private void BindScheme() 
+        {
+            ConnectDB db = new ConnectDB();
+            DataTable result = db.GetDataBySql("select * from GISDATA_SCHEME order by IS_DEFAULT desc");
+            comboBoxScheme.DataSource = result;
+            comboBoxScheme.DisplayMember = "SCHEME_NAME";
+            comboBoxScheme.ValueMember = "SCHEME_NAME";
+        }
+
         //新增步骤
         private void buttonAddStep_Click(object sender, EventArgs e)
         {
-            ButtonEx btn = new ButtonEx();
-            dbSTEP_NO += 1;
-            btn.Name = dbSTEP_NO.ToString();
-            btn.Text = "第" + dbSTEP_NO.ToString() + "步";
-            ConnectDB db = new ConnectDB();
-            Boolean result = db.Insert("insert into GISDATA_CONFIGSTEP (STEP_NO) values (" + dbSTEP_NO + ")");
-            if (result)
+            if (this.comboBoxScheme.Text.ToString() != "") 
             {
-                btn.Size = new Size(this.splitContainer2.Panel1.Width - 5, 40);
-                btn.Location = new Point(2, 20 + (dbSTEP_NO - 1) * 40);
-                btn.DoubleClick += new EventHandler(aBtn_DbClick);
-                btn.Tag = 0;
-                this.splitContainer3.Panel2.Controls.Add(btn);
+                ButtonEx btn = new ButtonEx();
+                dbSTEP_NO += 1;
+                btn.Name = dbSTEP_NO.ToString();
+                btn.Text = "第" + dbSTEP_NO.ToString() + "步";
+                ConnectDB db = new ConnectDB();
+                Boolean result = db.Insert("insert into GISDATA_CONFIGSTEP (STEP_NO,SCHEME) values (" + dbSTEP_NO + ",'" + this.comboBoxScheme.Text.ToString() + "')");
+                if (result)
+                {
+                    btn.Size = new Size(this.splitContainer2.Panel1.Width - 5, 40);
+                    btn.Location = new Point(2, 20 + (dbSTEP_NO - 1) * 40);
+                    btn.DoubleClick += new EventHandler(aBtn_DbClick);
+                    btn.Tag = 0;
+                    this.splitContainer3.Panel2.Controls.Add(btn);
+                }
             }
         }
 
@@ -98,10 +127,7 @@ namespace GISData.ChekConfig
             }
         }
 
-        private void FormConfigMain_Load(object sender, EventArgs e)
-        {
-            loadStep();
-        }
+        
         /// <summary>
         /// 加载质检步骤
         /// </summary>
@@ -109,7 +135,7 @@ namespace GISData.ChekConfig
         {
             this.splitContainer3.Panel2.Controls.Clear();
             ConnectDB db = new ConnectDB();
-            DataTable result = db.GetDataBySql("select * from GISDATA_CONFIGSTEP order by STEP_NO");
+            DataTable result = db.GetDataBySql("select * from GISDATA_CONFIGSTEP where SCHEME ='"+this.comboBoxScheme.Text.ToString()+"' order by STEP_NO");
             DataRow[] dr = result.Select("1=1");
             for (int i = 0; i < dr.Length; i++)
             {
@@ -161,6 +187,23 @@ namespace GISData.ChekConfig
                     //
                 }
             }
+        }
+
+        private void AddScheme_Click(object sender, EventArgs e)
+        {
+            FormAddScheme schem = new FormAddScheme();
+            schem.ShowDialog();
+            if (schem.DialogResult == DialogResult.OK)
+            {
+                BindScheme();
+                //this.bindtreeViewAttr();//重新绑定
+            }
+        }
+
+        private void comboBoxScheme_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            setMaxNO();
+            loadStep();
         }
     }
 }
