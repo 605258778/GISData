@@ -25,6 +25,8 @@ using GISData.Parameter;
 using ESRI.ArcGIS.CatalogUI;
 using ESRI.ArcGIS.Catalog;
 using GISData.TaskManage;
+using GISData.Report;
+using GISData.CheckBegin;
 
 
 namespace GISData
@@ -121,6 +123,11 @@ namespace GISData
 
         private void 工程设置ToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            ShowSetpara();
+        }
+
+        public void ShowSetpara() 
+        {
             FormSetpara FormSetparaDig = new FormSetpara();
             ConnectDB db = new ConnectDB();
             DataTable dt = db.GetDataBySql("select * from GISDATA_REGINFO");
@@ -148,16 +155,27 @@ namespace GISData
                 FormSetparaDig.Controls.Add(bt);
             }
             Button btok = new Button();
-            btok.Location = new System.Drawing.Point(500, 70 + 30 * 2 * (dr.Length + 1));
+            btok.Location = new System.Drawing.Point(410, 70 + 30 * 2 * (dr.Length + 1));
             btok.Text = "确定";
             btok.Click += (se, a) => SelectOk(FormSetparaDig);
+            Button btok1 = new Button();
+            btok1.Location = new System.Drawing.Point(500, 70 + 30 * 2 * (dr.Length + 1));
+            btok1.Text = "下一步";
+            btok1.Click += (se, a) => SelectNext(FormSetparaDig);
             FormSetparaDig.Controls.Add(btok);
+            FormSetparaDig.Controls.Add(btok1);
             FormSetparaDig.ShowDialog();
         }
         //工程设置确定
         private void SelectOk(FormSetpara FormSetparaDig)
         {
             FormSetparaDig.Close();
+        }//工程设置确定
+        private void SelectNext(FormSetpara FormSetparaDig)
+        {
+            FormSetparaDig.Close();
+            FormCheckMain fcm = new FormCheckMain(m_hookHelper);
+            fcm.Show();
         }
         //工程设置添加文件
         private void addFile(TextBox tx,string tablename)
@@ -438,6 +456,18 @@ namespace GISData
         {
             FormTaskDia task = new FormTaskDia();
             task.ShowDialog();
+        }
+
+        private void 报表设计ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormReportDesign report = new FormReportDesign();
+            report.Show();
+        }
+
+        private void 开始ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormBegin begin = new FormBegin();
+            begin.Show();
         }
 
     }

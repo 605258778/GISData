@@ -1,4 +1,5 @@
 ﻿using GISData.CheckConfig;
+using GISData.CheckConfig.CheckReport;
 using GISData.CheckConfig.CheckStructure;
 using GISData.ChekConfig.CheckTopo;
 using GISData.Common;
@@ -123,7 +124,9 @@ namespace GISData.ChekConfig
             }
             else if (sendButton.AccessibleDescription.ToString() == "统计报表")
             {
-
+                FormReportDia report = new FormReportDia();
+                Panel panel = this.splitContainer2.Panel2;
+                ShowForm(panel, report);
             }
         }
 
