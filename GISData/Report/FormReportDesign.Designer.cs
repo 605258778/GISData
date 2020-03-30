@@ -39,8 +39,8 @@
             DevExpress.XtraReports.UserDesigner.XRDesignPanelListener xrDesignPanelListener6 = new DevExpress.XtraReports.UserDesigner.XRDesignPanelListener();
             DevExpress.XtraReports.UserDesigner.XRDesignPanelListener xrDesignPanelListener7 = new DevExpress.XtraReports.UserDesigner.XRDesignPanelListener();
             DevExpress.XtraReports.UserDesigner.XRDesignPanelListener xrDesignPanelListener8 = new DevExpress.XtraReports.UserDesigner.XRDesignPanelListener();
-            this.xrDesignBarManager1 = new DevExpress.XtraReports.UserDesigner.XRDesignBarManager(this.components);
             this.bar2 = new DevExpress.XtraBars.Bar();
+            this.xrDesignBarManager1 = new DevExpress.XtraReports.UserDesigner.XRDesignBarManager(this.components);
             this.designBar1 = new DevExpress.XtraReports.UserDesigner.DesignBar();
             this.msiFile = new DevExpress.XtraBars.BarSubItem();
             this.commandBarItem1 = new DevExpress.XtraReports.UserDesigner.CommandBarItem();
@@ -147,10 +147,7 @@
             this.groupAndSortDockPanel1_Container = new DevExpress.XtraReports.UserDesigner.DesignControlContainer();
             this.errorListDockPanel1 = new DevExpress.XtraReports.UserDesigner.ErrorListDockPanel();
             this.errorListDockPanel1_Container = new DevExpress.XtraReports.UserDesigner.DesignControlContainer();
-            this.dockPanel1 = new DevExpress.XtraBars.Docking.DockPanel();
-            this.dockPanel1_Container = new DevExpress.XtraBars.Docking.ControlContainer();
             this.reportDesigner1 = new DevExpress.XtraReports.UserDesigner.XRDesignMdiController(this.components);
-            this.comboBoxDataSoure = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.xrDesignBarManager1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.recentlyUsedItemsComboBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.designRepositoryItemComboBox1)).BeginInit();
@@ -166,9 +163,16 @@
             this.panelContainer4.SuspendLayout();
             this.groupAndSortDockPanel1.SuspendLayout();
             this.errorListDockPanel1.SuspendLayout();
-            this.dockPanel1.SuspendLayout();
-            this.dockPanel1_Container.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // bar2
+            // 
+            this.bar2.BarName = "Toolbox";
+            this.bar2.DockCol = 0;
+            this.bar2.DockRow = 0;
+            this.bar2.DockStyle = DevExpress.XtraBars.BarDockStyle.Left;
+            this.bar2.OptionsBar.AllowQuickCustomization = false;
+            this.bar2.Text = "Standard Controls";
             // 
             // xrDesignBarManager1
             // 
@@ -288,15 +292,6 @@
             "Toolbox"});
             this.xrDesignBarManager1.ZoomItem = this.bbiZoom;
             // 
-            // bar2
-            // 
-            this.bar2.BarName = "Toolbox";
-            this.bar2.DockCol = 0;
-            this.bar2.DockRow = 0;
-            this.bar2.DockStyle = DevExpress.XtraBars.BarDockStyle.Left;
-            this.bar2.OptionsBar.AllowQuickCustomization = false;
-            this.bar2.Text = "Standard Controls";
-            // 
             // designBar1
             // 
             this.designBar1.BarName = "Main Menu";
@@ -367,6 +362,7 @@
             this.bbiSaveFile.Id = 36;
             this.bbiSaveFile.ItemShortcut = new DevExpress.XtraBars.BarShortcut((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S));
             this.bbiSaveFile.Name = "bbiSaveFile";
+            this.bbiSaveFile.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.bbiSaveFile_ItemClick);
             // 
             // commandBarItem3
             // 
@@ -1205,8 +1201,7 @@
             this.xrDesignDockManager1.MenuManager = this.xrDesignBarManager1;
             this.xrDesignDockManager1.RootPanels.AddRange(new DevExpress.XtraBars.Docking.DockPanel[] {
             this.panelContainer1,
-            this.panelContainer4,
-            this.dockPanel1});
+            this.panelContainer4});
             this.xrDesignDockManager1.TopZIndexControls.AddRange(new string[] {
             "DevExpress.XtraBars.BarDockControl",
             "DevExpress.XtraBars.StandaloneBarDockControl",
@@ -1382,25 +1377,6 @@
             this.errorListDockPanel1_Container.Size = new System.Drawing.Size(451, 183);
             this.errorListDockPanel1_Container.TabIndex = 0;
             // 
-            // dockPanel1
-            // 
-            this.dockPanel1.Controls.Add(this.dockPanel1_Container);
-            this.dockPanel1.Dock = DevExpress.XtraBars.Docking.DockingStyle.Left;
-            this.dockPanel1.ID = new System.Guid("8a107c34-42b7-490e-871c-a33ad1b61ce2");
-            this.dockPanel1.Location = new System.Drawing.Point(31, 103);
-            this.dockPanel1.Name = "dockPanel1";
-            this.dockPanel1.OriginalSize = new System.Drawing.Size(200, 200);
-            this.dockPanel1.Size = new System.Drawing.Size(200, 277);
-            this.dockPanel1.Text = "dockPanel1";
-            // 
-            // dockPanel1_Container
-            // 
-            this.dockPanel1_Container.Controls.Add(this.comboBoxDataSoure);
-            this.dockPanel1_Container.Location = new System.Drawing.Point(5, 27);
-            this.dockPanel1_Container.Name = "dockPanel1_Container";
-            this.dockPanel1_Container.Size = new System.Drawing.Size(188, 245);
-            this.dockPanel1_Container.TabIndex = 0;
-            // 
             // reportDesigner1
             // 
             this.reportDesigner1.ContainerControl = null;
@@ -1423,20 +1399,11 @@
             xrDesignPanelListener8});
             this.reportDesigner1.Form = this;
             // 
-            // comboBoxDataSoure
-            // 
-            this.comboBoxDataSoure.FormattingEnabled = true;
-            this.comboBoxDataSoure.Location = new System.Drawing.Point(12, 40);
-            this.comboBoxDataSoure.Name = "comboBoxDataSoure";
-            this.comboBoxDataSoure.Size = new System.Drawing.Size(157, 23);
-            this.comboBoxDataSoure.TabIndex = 0;
-            // 
             // FormReportDesign
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(961, 661);
-            this.Controls.Add(this.dockPanel1);
             this.Controls.Add(this.panelContainer4);
             this.Controls.Add(this.panelContainer1);
             this.Controls.Add(this.barDockControlLeft);
@@ -1461,8 +1428,6 @@
             this.panelContainer4.ResumeLayout(false);
             this.groupAndSortDockPanel1.ResumeLayout(false);
             this.errorListDockPanel1.ResumeLayout(false);
-            this.dockPanel1.ResumeLayout(false);
-            this.dockPanel1_Container.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1563,8 +1528,6 @@
         private DevExpress.XtraBars.BarDockControl barDockControlLeft;
         private DevExpress.XtraBars.BarDockControl barDockControlRight;
         private DevExpress.XtraReports.UserDesigner.XRDesignDockManager xrDesignDockManager1;
-        private DevExpress.XtraBars.Docking.DockPanel dockPanel1;
-        private DevExpress.XtraBars.Docking.ControlContainer dockPanel1_Container;
         private DevExpress.XtraBars.Docking.DockPanel panelContainer4;
         private DevExpress.XtraReports.UserDesigner.GroupAndSortDockPanel groupAndSortDockPanel1;
         private DevExpress.XtraReports.UserDesigner.DesignControlContainer groupAndSortDockPanel1_Container;
@@ -1581,7 +1544,6 @@
         private DevExpress.XtraReports.UserDesigner.DesignControlContainer propertyGridDockPanel1_Container;
         private DevExpress.XtraReports.UserDesigner.ReportGalleryDockPanel reportGalleryDockPanel1;
         private DevExpress.XtraReports.UserDesigner.DesignControlContainer reportGalleryDockPanel1_Container;
-        private System.Windows.Forms.ComboBox comboBoxDataSoure;
 
     }
 }

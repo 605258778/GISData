@@ -30,7 +30,7 @@ namespace GISData.CheckBegin
         private void bindZqTree() 
         {
             ConnectDB cdb = new ConnectDB();
-            DataTable dt = cdb.GetDataBySql("select ID,L_PARID,C_NAME from GISDATA_ZQSJZD");
+            DataTable dt = cdb.GetDataBySql("select ID,L_PARID,C_NAME,C_CODE from GISDATA_ZQSJZD");
             this.treeList1.DataSource = dt;
             treeList1.OptionsView.ShowCheckBoxes = true;
         }
@@ -48,6 +48,8 @@ namespace GISData.CheckBegin
             string lxr = this.textBoxlxr.Text;
             string lxdh = this.textBoxlxdh.Text;
 
+            CommonClass common = new CommonClass();
+            common.SetConfigValue("GLDW", gldwstr);
             string datanow = DateTime.Now.ToLocalTime().ToString();
             ConnectDB cdb = new ConnectDB();
             DataTable dt = cdb.GetDataBySql("select count(*) as isexists from GISDATA_CHECKTASK WHERE GLDW = '"+gldwstr+"'");
@@ -70,7 +72,7 @@ namespace GISData.CheckBegin
                 if (node.Checked) 
                 {
                     DataRowView nodeData = this.treeList1.GetDataRecordByNode(node) as DataRowView;
-                    this.gldw = nodeData["C_NAME"].ToString();
+                    this.gldw = nodeData["C_CODE"].ToString();
                     break;
                 }else if (node.Nodes.Count != 0)
                 {

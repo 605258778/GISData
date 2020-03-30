@@ -32,6 +32,7 @@ namespace GISData.DataCheck
         private FormStructureDia StructureDia;
         private FormAttrDia AttrDia;
         private FormTopoDia TopoDia;
+        private FormReportDia ReportDia;
         private List<CheckBox> CheckBoxArr = new List<CheckBox>();
         private void splitContainer1_SplitterMoved(object sender, SplitterEventArgs e)
         {
@@ -55,13 +56,14 @@ namespace GISData.DataCheck
             loadStep();
             this.Width = this.tabControl1.Width;
             this.tableLayoutPanel1.ColumnStyles[1].Width = 0;
-            
         }
         /// <summary>
         /// 加载检查项
         /// </summary>
         public void loadStep()
         {
+            //this.splitContainer1.Panel2.Controls.RemoveByKey("");
+            this.tabControl1.Controls.Clear();
             ConnectDB db = new ConnectDB();
             DataTable result = db.GetDataBySql("select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = '"+this.comboBoxScheme.Text.ToString()+"' order by STEP_NO");
             DataRow[] dr = result.Select("1=1");
@@ -92,10 +94,10 @@ namespace GISData.DataCheck
                 this.CheckBoxArr.Add(cb);
                 if (stepType == "结构检查")
                 {
-                    FormStructureDia fsa = new FormStructureDia(stepNo, cb);
-                    StructureDia = fsa;
-                    fsa.Dock = DockStyle.Fill;
-                    ShowForm(tp, fsa);
+                    //FormStructureDia fsa = new FormStructureDia(stepNo, cb);
+                    //StructureDia = fsa;
+                    //fsa.Dock = DockStyle.Fill;
+                    //ShowForm(tp, fsa);
                 }
                 else if (stepType == "属性检查")
                 {
@@ -110,6 +112,13 @@ namespace GISData.DataCheck
                     TopoDia = topo;
                     topo.Dock = DockStyle.Fill;
                     ShowForm(tp, topo);
+                }
+                else if (stepType == "统计报表")
+                {
+                    FormReportDia report = new FormReportDia(stepNo, cb);
+                    ReportDia = report;
+                    report.Dock = DockStyle.Fill;
+                    ShowForm(tp, report);
                 }
                 
             }
@@ -151,6 +160,17 @@ namespace GISData.DataCheck
                 else
                 {
                     TopoDia.UnSelectAll();
+                }
+            }
+            else if (type == "统计报表")
+            {
+                if (CheckBoxSender.Checked)
+                {
+                    ReportDia.SelectAll();
+                }
+                else
+                {
+                    ReportDia.UnSelectAll();
                 }
             }
         }
@@ -219,6 +239,10 @@ namespace GISData.DataCheck
                     else if (item.Name == "图形检查")
                     {
                         TopoDia.doCheckTopo1(this.m_hookHelper);
+                    }
+                    else if (item.Name == "统计报表")
+                    {
+                        ReportDia.DoReport();
                     }
                 }
             }

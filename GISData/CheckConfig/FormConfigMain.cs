@@ -124,7 +124,7 @@ namespace GISData.ChekConfig
             }
             else if (sendButton.AccessibleDescription.ToString() == "统计报表")
             {
-                FormReportDia report = new FormReportDia();
+                FormReportConfig report = new FormReportConfig();
                 Panel panel = this.splitContainer2.Panel2;
                 ShowForm(panel, report);
             }

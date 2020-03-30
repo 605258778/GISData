@@ -37,6 +37,7 @@
             this.textBoxlxdh = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.treeListColumn2 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             ((System.ComponentModel.ISupportInitialize)(this.treeList1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -52,7 +53,8 @@
             // treeList1
             // 
             this.treeList1.Columns.AddRange(new DevExpress.XtraTreeList.Columns.TreeListColumn[] {
-            this.treeListColumn1});
+            this.treeListColumn1,
+            this.treeListColumn2});
             this.treeList1.Location = new System.Drawing.Point(42, 67);
             this.treeList1.Name = "treeList1";
             this.treeList1.ParentFieldName = "L_PARID";
@@ -119,6 +121,14 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
+            // treeListColumn2
+            // 
+            this.treeListColumn2.Caption = "管理单位代码";
+            this.treeListColumn2.FieldName = "C_CODE";
+            this.treeListColumn2.Name = "treeListColumn2";
+            this.treeListColumn2.Visible = true;
+            this.treeListColumn2.VisibleIndex = 1;
+            // 
             // FormBegin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -152,5 +162,6 @@
         private System.Windows.Forms.Button button1;
         private DevExpress.XtraTreeList.Columns.TreeListColumn treeListColumn1;
         private System.Windows.Forms.Button button2;
+        private DevExpress.XtraTreeList.Columns.TreeListColumn treeListColumn2;
     }
 }

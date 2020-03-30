@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GISData.Common;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -32,10 +33,19 @@ namespace GISData.TaskManage
                 // 取得文件路径及文件名
                 filePath = openFileDialog.FileName;
                 DataTable excelDataTable = ReadExcelToTable(filePath);      // 读出excel并放入datatable
-                DataRow row = excelDataTable.Rows[0];
-                for (int i = 0; i < excelDataTable.Columns.Count; i++)
+                DataRow[] dr = excelDataTable.Select(null);
+
+       
+                ConnectDB db = new ConnectDB();
+                db.Delete("delete from GISDATA_TASK");
+                for (int i = 1; i < dr.Length; i++)
                 {
-                    Console.WriteLine(excelDataTable.Columns[i]);
+                    string YZLGLDW = dr[i]["YZLGLDW"].ToString();
+                    string ZCSBND = dr[i]["ZCSBND"].ToString();
+                    string YZLFS = dr[i]["YZLFS"].ToString();
+                    string XMMC = dr[i]["XMMC"].ToString();
+                    string RWMJ = dr[i]["RWMJ"].ToString();
+                    db.Insert("INSERT INTO GISDATA_TASK (YZLGLDW,ZCSBND,YZLFS,RWMJ,XMMC) values ('" + YZLGLDW + "','" + ZCSBND + "','" + YZLFS + "','" + RWMJ + "','" + XMMC + "')");
                 }
                 gridControl1.DataSource = excelDataTable;        // 测试用, 输出到dataGridView
             }

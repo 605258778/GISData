@@ -202,11 +202,11 @@
     <Compile Include="CheckConfig\CheckChange\FormChange.Designer.cs">
       <DependentUpon>FormChange.cs</DependentUpon>
     </Compile>
-    <Compile Include="CheckConfig\CheckReport\FormReportDia.cs">
+    <Compile Include="CheckConfig\CheckReport\FormReportConfig.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CheckConfig\CheckReport\FormReportDia.Designer.cs">
-      <DependentUpon>FormReportDia.cs</DependentUpon>
+    <Compile Include="CheckConfig\CheckReport\FormReportConfig.Designer.cs">
+      <DependentUpon>FormReportConfig.cs</DependentUpon>
     </Compile>
     <Compile Include="CheckConfig\CheckStructure\FormStructure.cs">
       <SubType>Form</SubType>
@@ -294,6 +294,12 @@
     </Compile>
     <Compile Include="DataCheck\CheckDialog\FormAttrDia.Designer.cs">
       <DependentUpon>FormAttrDia.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataCheck\CheckDialog\FormReportDia.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataCheck\CheckDialog\FormReportDia.Designer.cs">
+      <DependentUpon>FormReportDia.cs</DependentUpon>
     </Compile>
     <Compile Include="DataCheck\CheckDialog\FormStructureDia.cs">
       <SubType>Form</SubType>
@@ -424,8 +430,8 @@
     <EmbeddedResource Include="CheckConfig\CheckChange\FormChange.resx">
       <DependentUpon>FormChange.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CheckConfig\CheckReport\FormReportDia.resx">
-      <DependentUpon>FormReportDia.cs</DependentUpon>
+    <EmbeddedResource Include="CheckConfig\CheckReport\FormReportConfig.resx">
+      <DependentUpon>FormReportConfig.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CheckConfig\CheckStructure\FormStructure.resx">
       <DependentUpon>FormStructure.cs</DependentUpon>
@@ -462,6 +468,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DataCheck\CheckDialog\FormAttrDia.resx">
       <DependentUpon>FormAttrDia.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataCheck\CheckDialog\FormReportDia.resx">
+      <DependentUpon>FormReportDia.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DataCheck\CheckDialog\FormStructureDia.resx">
       <DependentUpon>FormStructureDia.cs</DependentUpon>
