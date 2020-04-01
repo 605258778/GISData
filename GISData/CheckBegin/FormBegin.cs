@@ -38,30 +38,50 @@ namespace GISData.CheckBegin
         private void button2_Click(object sender, EventArgs e)
         {
             saveFun();
-            this.Close();
         }
 
         private void saveFun() 
         {
             TreeListNodes selectNode = this.treeList1.Nodes;
             string gldwstr = this.GetGldw(selectNode);
-            string lxr = this.textBoxlxr.Text;
-            string lxdh = this.textBoxlxdh.Text;
-
-            CommonClass common = new CommonClass();
-            common.SetConfigValue("GLDW", gldwstr);
-            string datanow = DateTime.Now.ToLocalTime().ToString();
-            ConnectDB cdb = new ConnectDB();
-            DataTable dt = cdb.GetDataBySql("select count(*) as isexists from GISDATA_CHECKTASK WHERE GLDW = '"+gldwstr+"'");
-            DataRow[] dr = dt.Select(null);
-            string exists = dr[0]["isexists"].ToString();
-            if (exists == "0")
+            if (gldwstr == "" || gldwstr == null)
             {
-                cdb.Insert("insert into GISDATA_CHECKTASK (GLDW,LXR,LXDH,INSERTDATA) VALUES ('" + gldwstr + "','" + lxr + "','" + lxdh + "','"+datanow+"')");
+                MessageBox.Show("请选择管理单位！");
+            }
+            else if (this.textBoxlxr.Text == "" || this.textBoxlxr.Text == null)
+            {
+                MessageBox.Show("请填写联系人！");
             }
             else 
             {
-                cdb.Update("Update GISDATA_CHECKTASK set LXR = '" + lxr + "',UPDATEDATA='" + datanow + "',LXDH='" + lxdh + "' where GLDW = '" + gldwstr + "'");
+                Boolean dhhm = System.Text.RegularExpressions.Regex.IsMatch(this.textBoxlxdh.Text, @"^(\d{3,4}-)?\d{6,8}$");
+                Boolean sjhm = System.Text.RegularExpressions.Regex.IsMatch(this.textBoxlxdh.Text, @"^[1]+[3,5]+\d{9}");
+                if (dhhm || sjhm)
+                {
+                    string lxr = this.textBoxlxr.Text;
+                    string lxdh = this.textBoxlxdh.Text;
+
+                    CommonClass common = new CommonClass();
+                    common.SetConfigValue("GLDW", gldwstr);
+                    string datanow = DateTime.Now.ToLocalTime().ToString();
+                    ConnectDB cdb = new ConnectDB();
+                    DataTable dt = cdb.GetDataBySql("select count(*) as isexists from GISDATA_CHECKTASK WHERE GLDW = '" + gldwstr + "'");
+                    DataRow[] dr = dt.Select(null);
+                    string exists = dr[0]["isexists"].ToString();
+                    if (exists == "0")
+                    {
+                        cdb.Insert("insert into GISDATA_CHECKTASK (GLDW,LXR,LXDH,INSERTDATA) VALUES ('" + gldwstr + "','" + lxr + "','" + lxdh + "','" + datanow + "')");
+                    }
+                    else
+                    {
+                        cdb.Update("Update GISDATA_CHECKTASK set LXR = '" + lxr + "',UPDATEDATA='" + datanow + "',LXDH='" + lxdh + "' where GLDW = '" + gldwstr + "'");
+                    }
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("电话号码填写有误！");
+                }
             }
         }
 
@@ -85,7 +105,6 @@ namespace GISData.CheckBegin
         private void button1_Click(object sender, EventArgs e)
         {
             saveFun();
-            this.Close();
             FormMain main = new FormMain();
             main.ShowSetpara();
         }

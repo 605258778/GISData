@@ -48,6 +48,7 @@ namespace GISData.TaskManage
                     db.Insert("INSERT INTO GISDATA_TASK (YZLGLDW,ZCSBND,YZLFS,RWMJ,XMMC) values ('" + YZLGLDW + "','" + ZCSBND + "','" + YZLFS + "','" + RWMJ + "','" + XMMC + "')");
                 }
                 gridControl1.DataSource = excelDataTable;        // 测试用, 输出到dataGridView
+                MessageBox.Show("导入成功");
             }
         }
         private static DataTable ReadExcelToTable(string path)
@@ -85,6 +86,15 @@ namespace GISData.TaskManage
             {
                 return null;
             }
+        }
+
+        private void FormTaskDia_Load(object sender, EventArgs e)
+        {
+            ConnectDB db = new ConnectDB();
+            DataTable dt = db.GetDataBySql("select * from GISDATA_TASK");
+            gridControl1.DataSource = dt;
+            this.gridView1.OptionsBehavior.Editable = false;
+            this.gridView1.OptionsSelection.MultiSelect = true;
         }
     }
 }

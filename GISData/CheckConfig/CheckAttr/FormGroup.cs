@@ -14,21 +14,25 @@ namespace GISData.ChekConfig
     public partial class FormGroup : Form
     {
         private string selectedId;
+        private string scheme;
+        private int checkNo;
         //private formNewPro.DelegateRefreshTree RefreshTree;
         public FormGroup()
         {
             InitializeComponent();
         }
-        public FormGroup(DevExpress.XtraTreeList.Nodes.TreeListNode node)
+        public FormGroup(string nodeId, string scheme,int checkNo)
         {
             InitializeComponent();
-            this.selectedId = node.GetValue("ID").ToString();
+            this.selectedId = nodeId;
+            this.scheme = scheme;
+            this.checkNo = checkNo;
         }
 
         private void buttonGroupOK_Click(object sender, EventArgs e)
         {
             string groupText = this.textBoxGroup.Text;
-            string sql = "insert into GISDATA_TBATTR (PARENTID,NAME) VALUES(" + selectedId + ",'" + groupText + "')";
+            string sql = "insert into GISDATA_TBATTR (PARENTID,NAME,SCHEME,STEP_NO) VALUES(" + selectedId + ",'" + groupText + "','" + this.scheme + "'," + this.checkNo + ")";
             ConnectDB db = new ConnectDB();
             Boolean result = db.Insert(sql);
             if (result) 

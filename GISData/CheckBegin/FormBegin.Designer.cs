@@ -31,13 +31,13 @@
             this.label1 = new System.Windows.Forms.Label();
             this.treeList1 = new DevExpress.XtraTreeList.TreeList();
             this.treeListColumn1 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
+            this.treeListColumn2 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.textBoxlxr = new System.Windows.Forms.TextBox();
             this.textBoxlxdh = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.treeListColumn2 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             ((System.ComponentModel.ISupportInitialize)(this.treeList1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -69,6 +69,14 @@
             this.treeListColumn1.Visible = true;
             this.treeListColumn1.VisibleIndex = 0;
             // 
+            // treeListColumn2
+            // 
+            this.treeListColumn2.Caption = "管理单位代码";
+            this.treeListColumn2.FieldName = "C_CODE";
+            this.treeListColumn2.Name = "treeListColumn2";
+            this.treeListColumn2.Visible = true;
+            this.treeListColumn2.VisibleIndex = 1;
+            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -96,7 +104,7 @@
             // 
             // textBoxlxdh
             // 
-            this.textBoxlxdh.Location = new System.Drawing.Point(127, 324);
+            this.textBoxlxdh.Location = new System.Drawing.Point(127, 327);
             this.textBoxlxdh.Name = "textBoxlxdh";
             this.textBoxlxdh.Size = new System.Drawing.Size(278, 25);
             this.textBoxlxdh.TabIndex = 5;
@@ -120,14 +128,6 @@
             this.button2.Text = "确定";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
-            // treeListColumn2
-            // 
-            this.treeListColumn2.Caption = "管理单位代码";
-            this.treeListColumn2.FieldName = "C_CODE";
-            this.treeListColumn2.Name = "treeListColumn2";
-            this.treeListColumn2.Visible = true;
-            this.treeListColumn2.VisibleIndex = 1;
             // 
             // FormBegin
             // 

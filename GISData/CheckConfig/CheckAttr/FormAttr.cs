@@ -18,21 +18,23 @@ namespace GISData.ChekConfig
         public delegate void DelegateRefreshTopo();
         private string selectedId;
         public int checkNo;
+        public string scheme;
         public FormAttr()
         {
             InitializeComponent();
         }
-        public FormAttr(int No)
+        public FormAttr(int No,string scheme)
         {
             InitializeComponent();
-            checkNo = No;
+            this.checkNo = No;
+            this.scheme = scheme;
         }
 
         private void 添加分组_Click(object sender, EventArgs e)
         {
-            selectedId = treeList1.FocusedNode.GetValue("ID").ToString();
+            selectedId = (treeList1.FocusedNode != null  && treeList1.FocusedNode.Checked) ? treeList1.FocusedNode.GetValue("ID").ToString(): "0";
             TreeListNode selectNode = treeList1.FocusedNode;
-            FormGroup formGroup = new FormGroup(selectNode);
+            FormGroup formGroup = new FormGroup(selectedId, this.scheme, this.checkNo);
             formGroup.ShowDialog();
             if (formGroup.DialogResult == DialogResult.OK)
             {
@@ -46,26 +48,29 @@ namespace GISData.ChekConfig
             this.treeList1.DataSource = dt;
             treeList1.KeyFieldName = "ID";
             treeList1.ParentFieldName = "PARENTID";
-            treeList1.Columns["NAME"].Caption = "质检名称";
-            treeList1.Columns["JB"].Visible = false;
-            treeList1.Columns["STEP"].Visible = false;
-            treeList1.Columns["CHECKTYPE"].Visible = false;
-            treeList1.Columns["SHOWFIELD"].Visible = false;
-            treeList1.Columns["FIELD"].Visible = false;
-            treeList1.Columns["TABLENAME"].Visible = false;
-            treeList1.Columns["SUPTABLE"].Visible = false;
-            treeList1.Columns["SELECT"].Visible = false;
-            treeList1.Columns["WHERESTRING"].Visible = false;
-            treeList1.Columns["RESULT"].Visible = false;
-            treeList1.Columns["BEIZHU"].Visible = false;
-            treeList1.Columns["DOMAINTYPE"].Visible = false;
-            treeList1.Columns["DOMAINVALUE"].Visible = false;
-            treeList1.Columns["ISCHECK"].Visible = false;
-            treeList1.Columns["ERROR"].Visible = false;
-            treeList1.Columns["SCHEME"].Visible = false;
-            treeList1.OptionsView.ShowCheckBoxes = false;
+            if (treeList1.Columns.Count > 0) 
+            {
+                treeList1.Columns["NAME"].Caption = "质检名称";
+                treeList1.Columns["JB"].Visible = false;
+                treeList1.Columns["STEP_NO"].Visible = false;
+                treeList1.Columns["CHECKTYPE"].Visible = false;
+                treeList1.Columns["SHOWFIELD"].Visible = false;
+                treeList1.Columns["FIELD"].Visible = false;
+                treeList1.Columns["TABLENAME"].Visible = false;
+                treeList1.Columns["SUPTABLE"].Visible = false;
+                treeList1.Columns["SELECT"].Visible = false;
+                treeList1.Columns["WHERESTRING"].Visible = false;
+                treeList1.Columns["RESULT"].Visible = false;
+                treeList1.Columns["BEIZHU"].Visible = false;
+                treeList1.Columns["DOMAINTYPE"].Visible = false;
+                treeList1.Columns["DOMAINVALUE"].Visible = false;
+                treeList1.Columns["ISCHECK"].Visible = false;
+                treeList1.Columns["ERROR"].Visible = false;
+                treeList1.Columns["SCHEME"].Visible = false;
+                treeList1.Columns["NAME"].OptionsColumn.AllowEdit = false;
+            }
+            treeList1.OptionsView.ShowCheckBoxes = true;
             treeList1.OptionsBehavior.AllowIndeterminateCheckState = false;
-            treeList1.Columns["NAME"].OptionsColumn.AllowEdit = false;
         }
         private void FillTree(TreeNode node, DataTable dt)
         {
@@ -96,7 +101,7 @@ namespace GISData.ChekConfig
             selectedId = treeList1.FocusedNode.GetValue("ID").ToString();
             TreeListNode selectNode = treeList1.FocusedNode;
             DelegateRefreshTree RefreshTree = new DelegateRefreshTree(bindtreeViewAttr);
-            FormAttrAdd formAttr = new FormAttrAdd(checkNo, selectNode,"add");
+            FormAttrAdd formAttr = new FormAttrAdd(checkNo, selectNode,"add",this.scheme);
             formAttr.ShowDialog();
             if (formAttr.DialogResult == DialogResult.OK)
             {
@@ -107,14 +112,14 @@ namespace GISData.ChekConfig
         private void 属性编辑_Click(object sender, EventArgs e)
         {
              TreeListNode selectNode =  treeList1.FocusedNode;
-             FormAttrAdd formAttr = new FormAttrAdd(checkNo, selectNode, "edit");
+             FormAttrAdd formAttr = new FormAttrAdd(checkNo, selectNode, "edit",this.scheme);
              formAttr.ShowDialog();
         }
 
         private void 属性删除_Click(object sender, EventArgs e)
         {
-            DialogResult dr = MessageBox.Show("确定要删除吗?", "删除数据");
-            if (dr == DialogResult.OK)
+            DialogResult dr = MessageBox.Show("确定要删除吗?", "删除数据",MessageBoxButtons.YesNo);
+            if (dr == DialogResult.Yes)
             {
                 string selectedId = treeList1.FocusedNode.GetValue("ID").ToString();
                 ConnectDB db = new ConnectDB();

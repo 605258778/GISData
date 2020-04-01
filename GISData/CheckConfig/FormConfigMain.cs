@@ -112,13 +112,13 @@ namespace GISData.ChekConfig
             }
             else if (sendButton.AccessibleDescription.ToString() == "属性检查")
             {
-                FormAttr fad = new FormAttr(this.click_NO);
+                FormAttr fad = new FormAttr(this.click_NO,this.comboBoxScheme.Text.ToString());
                 Panel panel = this.splitContainer2.Panel2;
                 ShowForm(panel, fad);
             }
             else if (sendButton.AccessibleDescription.ToString() == "图形检查")
             {
-                FormTopo fad = new FormTopo();
+                FormTopo fad = new FormTopo(this.click_NO, this.comboBoxScheme.Text.ToString());
                 Panel panel = this.splitContainer2.Panel2;
                 ShowForm(panel, fad);
             }
@@ -128,6 +128,17 @@ namespace GISData.ChekConfig
                 Panel panel = this.splitContainer2.Panel2;
                 ShowForm(panel, report);
             }
+        }
+        /// <summary>
+        /// 步骤按钮点击
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void aBtn_Click(object sender, EventArgs e)
+        {
+            //ShowForm();
+            ButtonEx sendButton = (ButtonEx)sender;
+            this.click_NO = int.Parse(sendButton.Name);
         }
 
         
@@ -162,6 +173,7 @@ namespace GISData.ChekConfig
                 btn.Size = new Size(this.splitContainer2.Panel1.Width - 5, 40);
                 btn.Location = new Point(2, 20 + (int.Parse(stepNo) - 1) * 40);
                 btn.DoubleClick += new EventHandler(aBtn_DbClick);
+                btn.Click += new EventHandler(aBtn_Click);
                 this.splitContainer3.Panel2.Controls.Add(btn);
             }
         }
@@ -207,6 +219,28 @@ namespace GISData.ChekConfig
         {
             setMaxNO();
             loadStep();
+        }
+        /// <summary>
+        /// 删除步骤
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void buttonRemove_Click(object sender, EventArgs e)
+        {
+            DialogResult dr = MessageBox.Show("确定要删除吗?", "删除数据", MessageBoxButtons.YesNo);
+            if (dr == DialogResult.Yes)
+            {
+                ConnectDB db = new ConnectDB();
+                db.Delete("delete from GISDATA_CONFIGSTEP  where STEP_NO = " + this.click_NO + " AND SCHEME ='" + this.comboBoxScheme.Text.ToString() + "'");
+                db.Delete("delete from GISDATA_TBATTR  where STEP_NO = " + this.click_NO + " AND SCHEME ='" + this.comboBoxScheme.Text.ToString() + "'");
+                db.Delete("delete from GISDATA_TBTOPO  where STEP_NO = " + this.click_NO + " AND SCHEME ='" + this.comboBoxScheme.Text.ToString() + "'");
+                db.Update("update GISDATA_CONFIGSTEP SET STEP_NO = STEP_NO -1 WHERE STEP_NO > " + this.click_NO + " AND SCHEME ='" + this.comboBoxScheme.Text.ToString() + "'");
+                db.Update("update GISDATA_TBATTR SET STEP_NO = STEP_NO -1 WHERE STEP_NO > " + this.click_NO + " AND SCHEME ='" + this.comboBoxScheme.Text.ToString() + "'");
+                db.Update("update GISDATA_TBTOPO SET STEP_NO = STEP_NO -1 WHERE STEP_NO > " + this.click_NO + " AND SCHEME ='" + this.comboBoxScheme.Text.ToString() + "'");
+                setMaxNO();
+                this.loadStep();
+                MessageBox.Show("删除成功！");
+            }
         }
     }
 }

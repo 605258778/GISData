@@ -32,5 +32,10 @@ namespace GISData.CheckConfig.CheckTopo.CheckDialog
             comboBoxOverLayer.DisplayMember = "REG_ALIASNAME";
             comboBoxOverLayer.ValueMember = "REG_NAME";
         }
+
+        private void comboBoxOverLayer_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

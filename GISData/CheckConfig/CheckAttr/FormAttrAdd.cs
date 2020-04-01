@@ -24,18 +24,20 @@ namespace GISData.ChekConfig
         private string selectedId;
         private TreeListNode selectNode;
         private string type;
+        private string scheme;
         public FormAttrAdd()
         {
             InitializeComponent();
         }
 
-        public FormAttrAdd(int No, TreeListNode node,string type)
+        public FormAttrAdd(int No, TreeListNode node,string type,string scheme)
         {
             InitializeComponent();
             this.selectNode = node;
             this.checkNo = No;
             this.selectedId = node.GetValue("ID").ToString();
             this.type = type;
+            this.scheme = scheme;
         }
 
         private void FormAttrDig_Load(object sender, EventArgs e)
@@ -242,7 +244,7 @@ namespace GISData.ChekConfig
                 }
                 else 
                 {
-                    result = db.Insert("insert into GISDATA_TBATTR (PARENTID,NAME,STEP,CHECKTYPE,TABLENAME,SHOWFIELD,FIELD) VALUES('" + selectedId + "','" + name + "','" + checkNo + "','空值检查','" + table + "','" + showfield + "','" + field + "')");
+                    result = db.Insert("insert into GISDATA_TBATTR (PARENTID,NAME,STEP_NO,CHECKTYPE,TABLENAME,SHOWFIELD,FIELD,SCHEME) VALUES('" + selectedId + "','" + name + "'," + checkNo + ",'空值检查','" + table + "','" + showfield + "','" + field + "','" + this.scheme + "')");
                 }
                 this.DialogResult = DialogResult.OK;
                 this.Close();
@@ -261,7 +263,7 @@ namespace GISData.ChekConfig
                 }
                 else
                 {
-                    result = db.Insert("insert into GISDATA_TBATTR (PARENTID,NAME,STEP,CHECKTYPE,TABLENAME,SHOWFIELD,FIELD,SUPTABLE,WHERESTRING,DOMAINTYPE,DOMAINVALUE) VALUES('" + selectedId + "','" + name + "','" + checkNo + "','值域检查','" + table + "','" + showfield + "','" + selectField + "','" + domainTable + "','" + wheresSring + "','" + domainType + "','" + DOMAINVALUE + "')");
+                    result = db.Insert("insert into GISDATA_TBATTR (PARENTID,NAME,STEP_NO,SCHEME,CHECKTYPE,TABLENAME,SHOWFIELD,FIELD,SUPTABLE,WHERESTRING,DOMAINTYPE,DOMAINVALUE) VALUES('" + selectedId + "','" + name + "'," + checkNo + ",'" + this.scheme + "','值域检查','" + table + "','" + showfield + "','" + selectField + "','" + domainTable + "','" + wheresSring + "','" + domainType + "','" + DOMAINVALUE + "')");
                 }
                 this.DialogResult = DialogResult.OK;
                 this.Close();
@@ -277,7 +279,7 @@ namespace GISData.ChekConfig
                 }
                 else
                 {
-                    result = db.Insert("insert into GISDATA_TBATTR (PARENTID,NAME,STEP,CHECKTYPE,TABLENAME,SHOWFIELD,FIELD) VALUES('" + selectedId + "','" + name + "','" + checkNo + "','唯一值检查','" + table + "','" + showfield + "','" + uniqueField + "')");
+                    result = db.Insert("insert into GISDATA_TBATTR (PARENTID,NAME,STEP_NO,SCHEME,CHECKTYPE,TABLENAME,SHOWFIELD,FIELD) VALUES('" + selectedId + "','" + name + "'," + checkNo + ",'" + this.scheme + "','唯一值检查','" + table + "','" + showfield + "','" + uniqueField + "')");
                 }
                 this.DialogResult = DialogResult.OK;
                 this.Close();
@@ -296,7 +298,7 @@ namespace GISData.ChekConfig
                 }
                 else
                 {
-                    result = db.Insert("insert into GISDATA_TBATTR (PARENTID,NAME,STEP,CHECKTYPE,TABLENAME,SHOWFIELD,WHERESTRING,RESULT) VALUES('" + selectedId + "','" + name + "','" + checkNo + "','逻辑关系检查','" + table + "','" + showfield + "','" + whereString.Replace("'", "\"") + "','" + resultString.Replace("'", "\"") + "')");
+                    result = db.Insert("insert into GISDATA_TBATTR (PARENTID,NAME,STEP_NO,SCHEME,CHECKTYPE,TABLENAME,SHOWFIELD,WHERESTRING,RESULT) VALUES('" + selectedId + "','" + name + "'," + checkNo + ",'" + this.scheme + "','逻辑关系检查','" + table + "','" + showfield + "','" + whereString.Replace("'", "\"") + "','" + resultString.Replace("'", "\"") + "')");
                 }
                 this.DialogResult = DialogResult.OK;
                 this.Close();

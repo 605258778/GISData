@@ -36,6 +36,7 @@
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.buttonAddStep = new System.Windows.Forms.Button();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
+            this.buttonRemove = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -44,6 +45,7 @@
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
+            this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -114,7 +116,6 @@
             // 
             // splitContainer2.Panel1
             // 
-            this.splitContainer2.Panel1.Controls.Add(this.buttonAddStep);
             this.splitContainer2.Panel1.Controls.Add(this.splitContainer3);
             this.splitContainer2.Size = new System.Drawing.Size(1164, 502);
             this.splitContainer2.SplitterDistance = 240;
@@ -122,7 +123,7 @@
             // 
             // buttonAddStep
             // 
-            this.buttonAddStep.Location = new System.Drawing.Point(80, 17);
+            this.buttonAddStep.Location = new System.Drawing.Point(32, 14);
             this.buttonAddStep.Name = "buttonAddStep";
             this.buttonAddStep.Size = new System.Drawing.Size(75, 38);
             this.buttonAddStep.TabIndex = 0;
@@ -137,9 +138,24 @@
             this.splitContainer3.Location = new System.Drawing.Point(0, 0);
             this.splitContainer3.Name = "splitContainer3";
             this.splitContainer3.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer3.Panel1
+            // 
+            this.splitContainer3.Panel1.Controls.Add(this.buttonRemove);
+            this.splitContainer3.Panel1.Controls.Add(this.buttonAddStep);
             this.splitContainer3.Size = new System.Drawing.Size(240, 502);
             this.splitContainer3.SplitterDistance = 70;
             this.splitContainer3.TabIndex = 1;
+            // 
+            // buttonRemove
+            // 
+            this.buttonRemove.Location = new System.Drawing.Point(114, 14);
+            this.buttonRemove.Name = "buttonRemove";
+            this.buttonRemove.Size = new System.Drawing.Size(75, 38);
+            this.buttonRemove.TabIndex = 1;
+            this.buttonRemove.Text = "删除";
+            this.buttonRemove.UseVisualStyleBackColor = true;
+            this.buttonRemove.Click += new System.EventHandler(this.buttonRemove_Click);
             // 
             // FormConfigMain
             // 
@@ -160,6 +176,7 @@
             this.splitContainer2.Panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
+            this.splitContainer3.Panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -176,6 +193,7 @@
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.Button buttonAddStep;
         private System.Windows.Forms.SplitContainer splitContainer3;
+        private System.Windows.Forms.Button buttonRemove;
 
     }
 }

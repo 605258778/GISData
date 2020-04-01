@@ -1168,7 +1168,7 @@
             this.barDockControlTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.barDockControlTop.Location = new System.Drawing.Point(0, 0);
             this.barDockControlTop.Manager = this.xrDesignBarManager1;
-            this.barDockControlTop.Size = new System.Drawing.Size(961, 103);
+            this.barDockControlTop.Size = new System.Drawing.Size(1161, 103);
             // 
             // barDockControlBottom
             // 
@@ -1176,7 +1176,7 @@
             this.barDockControlBottom.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.barDockControlBottom.Location = new System.Drawing.Point(0, 630);
             this.barDockControlBottom.Manager = this.xrDesignBarManager1;
-            this.barDockControlBottom.Size = new System.Drawing.Size(961, 31);
+            this.barDockControlBottom.Size = new System.Drawing.Size(1161, 31);
             // 
             // barDockControlLeft
             // 
@@ -1190,7 +1190,7 @@
             // 
             this.barDockControlRight.CausesValidation = false;
             this.barDockControlRight.Dock = System.Windows.Forms.DockStyle.Right;
-            this.barDockControlRight.Location = new System.Drawing.Point(961, 103);
+            this.barDockControlRight.Location = new System.Drawing.Point(1161, 103);
             this.barDockControlRight.Manager = this.xrDesignBarManager1;
             this.barDockControlRight.Size = new System.Drawing.Size(0, 527);
             // 
@@ -1221,7 +1221,7 @@
             this.panelContainer1.Controls.Add(this.panelContainer3);
             this.panelContainer1.Dock = DevExpress.XtraBars.Docking.DockingStyle.Right;
             this.panelContainer1.ID = new System.Guid("f36b9018-5e1d-4936-85e9-921d4110c5ff");
-            this.panelContainer1.Location = new System.Drawing.Point(492, 103);
+            this.panelContainer1.Location = new System.Drawing.Point(692, 103);
             this.panelContainer1.Name = "panelContainer1";
             this.panelContainer1.OriginalSize = new System.Drawing.Size(469, 200);
             this.panelContainer1.Size = new System.Drawing.Size(469, 527);
@@ -1337,7 +1337,7 @@
             this.panelContainer4.Location = new System.Drawing.Point(31, 380);
             this.panelContainer4.Name = "panelContainer4";
             this.panelContainer4.OriginalSize = new System.Drawing.Size(200, 250);
-            this.panelContainer4.Size = new System.Drawing.Size(461, 250);
+            this.panelContainer4.Size = new System.Drawing.Size(661, 250);
             this.panelContainer4.Tabbed = true;
             this.panelContainer4.Text = "panelContainer4";
             // 
@@ -1348,15 +1348,15 @@
             this.groupAndSortDockPanel1.ID = new System.Guid("4bab159e-c495-4d67-87dc-f4e895da443e");
             this.groupAndSortDockPanel1.Location = new System.Drawing.Point(5, 29);
             this.groupAndSortDockPanel1.Name = "groupAndSortDockPanel1";
-            this.groupAndSortDockPanel1.OriginalSize = new System.Drawing.Size(200, 200);
-            this.groupAndSortDockPanel1.Size = new System.Drawing.Size(451, 183);
+            this.groupAndSortDockPanel1.OriginalSize = new System.Drawing.Size(451, 183);
+            this.groupAndSortDockPanel1.Size = new System.Drawing.Size(651, 183);
             this.groupAndSortDockPanel1.Text = "Group and Sort";
             // 
             // groupAndSortDockPanel1_Container
             // 
             this.groupAndSortDockPanel1_Container.Location = new System.Drawing.Point(0, 0);
             this.groupAndSortDockPanel1_Container.Name = "groupAndSortDockPanel1_Container";
-            this.groupAndSortDockPanel1_Container.Size = new System.Drawing.Size(451, 183);
+            this.groupAndSortDockPanel1_Container.Size = new System.Drawing.Size(651, 183);
             this.groupAndSortDockPanel1_Container.TabIndex = 0;
             // 
             // errorListDockPanel1
@@ -1366,15 +1366,15 @@
             this.errorListDockPanel1.ID = new System.Guid("5a9a01fd-6e95-4e81-a8c4-ac63153d7488");
             this.errorListDockPanel1.Location = new System.Drawing.Point(5, 29);
             this.errorListDockPanel1.Name = "errorListDockPanel1";
-            this.errorListDockPanel1.OriginalSize = new System.Drawing.Size(200, 200);
-            this.errorListDockPanel1.Size = new System.Drawing.Size(451, 183);
+            this.errorListDockPanel1.OriginalSize = new System.Drawing.Size(451, 183);
+            this.errorListDockPanel1.Size = new System.Drawing.Size(651, 183);
             this.errorListDockPanel1.Text = "Scripts Errors";
             // 
             // errorListDockPanel1_Container
             // 
             this.errorListDockPanel1_Container.Location = new System.Drawing.Point(0, 0);
             this.errorListDockPanel1_Container.Name = "errorListDockPanel1_Container";
-            this.errorListDockPanel1_Container.Size = new System.Drawing.Size(451, 183);
+            this.errorListDockPanel1_Container.Size = new System.Drawing.Size(651, 183);
             this.errorListDockPanel1_Container.TabIndex = 0;
             // 
             // reportDesigner1
@@ -1403,7 +1403,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(961, 661);
+            this.ClientSize = new System.Drawing.Size(1161, 661);
             this.Controls.Add(this.panelContainer4);
             this.Controls.Add(this.panelContainer1);
             this.Controls.Add(this.barDockControlLeft);

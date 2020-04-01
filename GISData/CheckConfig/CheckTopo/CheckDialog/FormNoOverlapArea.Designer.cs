@@ -39,6 +39,7 @@
             this.comboBoxOverLayer.Name = "comboBoxOverLayer";
             this.comboBoxOverLayer.Size = new System.Drawing.Size(249, 23);
             this.comboBoxOverLayer.TabIndex = 0;
+            this.comboBoxOverLayer.SelectedIndexChanged += new System.EventHandler(this.comboBoxOverLayer_SelectedIndexChanged);
             // 
             // label1
             // 

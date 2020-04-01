@@ -22,9 +22,17 @@ namespace GISData.ChekConfig.CheckTopo
         private FormNoGaps NoGaps;
         private string SavaType;
         private string EditId;
+        public int checkNo;
+        public string scheme;
         public FormTopo()
         {
             InitializeComponent();
+        }
+        public FormTopo(int No, string scheme)
+        {
+            InitializeComponent();
+            this.checkNo = No;
+            this.scheme = scheme;
         }
         /// <summary>
         ///    面内包含点个数
@@ -46,7 +54,7 @@ namespace GISData.ChekConfig.CheckTopo
             {
                 return;
             }
-            string checkType = comboBoxCheckType.SelectedItem.ToString();
+            string checkType = comboBoxCheckType.Text.ToString();
             if (checkType == "面内包含点个数")
             {
                 FormContainPoint formContainPoint = new FormContainPoint();
@@ -59,7 +67,7 @@ namespace GISData.ChekConfig.CheckTopo
                 NoInterLine = formNoInterLine;
                 ShowForm(this.splitContainer2.Panel2, formNoInterLine);
             }
-            else if (checkType == "两图层面要素必须互相覆盖")
+            else if (checkType == "面重叠检查（与其他图层）")
             {
                 FormNoOverlapArea formNoOverlapArea = new FormNoOverlapArea();
                 NoOverlapArea = formNoOverlapArea;
@@ -71,7 +79,7 @@ namespace GISData.ChekConfig.CheckTopo
                 xbmDig = formxbm;
                 ShowForm(this.splitContainer2.Panel2, formxbm);
             }
-            else if (checkType == "面要素之间无空隙")
+            else if (checkType == "缝隙检查")
             {
                 FormNoGaps formgaps = new FormNoGaps();
                 NoGaps = formgaps;
@@ -108,13 +116,14 @@ namespace GISData.ChekConfig.CheckTopo
             comboBoxDataSource.DisplayMember = "REG_ALIASNAME";
             comboBoxDataSource.ValueMember = "REG_NAME";
             //this.comboBoxCheckType.Items.Add(new DictionaryEntry("面内包含点个数", "面内包含点个数"));
-            this.comboBoxCheckType.Items.Add(new DictionaryEntry("面要素无多部件", "多部件"));
-            this.comboBoxCheckType.Items.Add(new DictionaryEntry("面和线不相交", "面和线不相交"));
-            this.comboBoxCheckType.Items.Add(new DictionaryEntry("跨边界面不相交", "面不相交"));
-            this.comboBoxCheckType.Items.Add(new DictionaryEntry("两图层面要素必须互相覆盖", "两图层面要素必须互相覆盖"));
-            this.comboBoxCheckType.Items.Add(new DictionaryEntry("面图层自相交", "面图层自相交"));
-            this.comboBoxCheckType.Items.Add(new DictionaryEntry("面要素之间无空隙", "面要素之间无空隙"));
-            this.comboBoxCheckType.Items.Add(new DictionaryEntry("面要素间无重叠", "面要素间无重叠"));
+            this.comboBoxCheckType.Items.Add(new DictionaryEntry("面多部件检查", "面多部件检查"));
+            //this.comboBoxCheckType.Items.Add(new DictionaryEntry("面和线不相交", "面和线不相交"));
+            //this.comboBoxCheckType.Items.Add(new DictionaryEntry("跨边界面不相交", "面不相交"));
+            //this.comboBoxCheckType.Items.Add(new DictionaryEntry("两图层面要素必须互相覆盖", "两图层面要素必须互相覆盖"));
+            this.comboBoxCheckType.Items.Add(new DictionaryEntry("面自相交检查", "面自相交检查"));
+            this.comboBoxCheckType.Items.Add(new DictionaryEntry("缝隙检查", "缝隙检查"));
+            this.comboBoxCheckType.Items.Add(new DictionaryEntry("面重叠检查", "面重叠检查"));
+            this.comboBoxCheckType.Items.Add(new DictionaryEntry("面重叠检查（与其他图层）", "面重叠检查（与其他图层）"));
             this.comboBoxCheckType.Items.Add(new DictionaryEntry("细碎面", "细碎面"));
             this.comboBoxCheckType.DisplayMember = "Value";
             this.comboBoxCheckType.ValueMember = "Key";
@@ -140,12 +149,12 @@ namespace GISData.ChekConfig.CheckTopo
         private void buttonTopoSave_Click(object sender, EventArgs e)
         {
             ConnectDB db = new ConnectDB();
-            string checkType = comboBoxCheckType.SelectedItem.ToString();
+            string checkType = comboBoxCheckType.Text.ToString();
             string name = textBoxName.Text;
             string table = comboBoxDataSource.SelectedValue.ToString();
             string type = comboBoxCheckType.Text;
             
-            Boolean result;
+            Boolean result = true;
             if (checkType == "面内包含点个数")
             {
                 FormContainPoint formContainPoint = new FormContainPoint();
@@ -154,11 +163,11 @@ namespace GISData.ChekConfig.CheckTopo
                 string inputText = ContainPoint.textBoxNumPointValue;
                 if (this.SavaType == "edit")
                 {
-                    result = db.Update("update GISDATA_TBTOPO set NAME= '" + name + "',TYPE = '" + type + "',TABLENAME = '" + table + "',WHERESTRING = '" + where + "',SUPTABLE='" + supTable + "',INPUTTEXT = '" + inputText + "' where ID = "+ this.EditId);
+                    result = db.Update("update GISDATA_TBTOPO set NAME= '" + name + "',TYPE = '" + type + "',TABLENAME = '" + table + "',WHERESTRING = '" + where + "',SUPTABLE='" + supTable + "',INPUTTEXT = '" + inputText + "',SCHEME = '" + this.scheme + "',STEP_NO = " + this.checkNo + " where ID = " + this.EditId);
                 }
                 else 
                 {
-                    result = db.Insert("insert into GISDATA_TBTOPO (NAME,TYPE,TABLENAME,WHERESTRING,SUPTABLE,INPUTTEXT) VALUES('" + name + "','" + type + "','" + table + "','" + where + "','" + supTable + "','" + inputText + "')");
+                    result = db.Insert("insert into GISDATA_TBTOPO (NAME,TYPE,TABLENAME,WHERESTRING,SUPTABLE,INPUTTEXT,SCHEME,STEP_NO) VALUES('" + name + "','" + type + "','" + table + "','" + where + "','" + supTable + "','" + inputText + "','" + this.scheme + "'," + this.checkNo + ")");
                 }
             }
             else if (checkType == "面和线不相交")
@@ -167,27 +176,48 @@ namespace GISData.ChekConfig.CheckTopo
                 string supTable = NoInterLine.comboBoxLineValue;
                 if (this.SavaType == "edit")
                 {
-                    result = db.Update("update GISDATA_TBTOPO set NAME= '" + name + "',TYPE = '" + type + "',TABLENAME = '" + table + "',SUPTABLE='" + supTable + "' where ID = " + this.EditId);
+                    result = db.Update("update GISDATA_TBTOPO set NAME= '" + name + "',TYPE = '" + type + "',TABLENAME = '" + table + "',SUPTABLE='" + supTable + "',SCHEME = '" + this.scheme + "',STEP_NO = " + this.checkNo + " where ID = " + this.EditId);
                 }
                 else
                 {
-                    result = db.Insert("insert into GISDATA_TBTOPO (NAME,TYPE,TABLENAME,SUPTABLE) VALUES('" + name + "','" + type + "','" + table + "','" + supTable + "')");
+                    result = db.Insert("insert into GISDATA_TBTOPO (NAME,TYPE,TABLENAME,SUPTABLE,SCHEME,STEP_NO) VALUES('" + name + "','" + type + "','" + table + "','" + supTable + "','" + this.scheme + "'," + this.checkNo + ")");
                 }
                 
             }
-            else if (checkType == "跨图层面重叠")
+            else if (checkType == "面重叠检查（与其他图层）")
             {
                 FormNoOverlapArea formNoOverlapArea = new FormNoOverlapArea();
                 string supTable = NoOverlapArea.comboBoxOverLayerValue;
-                if (this.SavaType == "edit")
+                if (supTable == table)
                 {
-                    result = db.Update("update GISDATA_TBTOPO set NAME= '" + name + "',TYPE = '" + type + "',TABLENAME = '" + table + "',SUPTABLE='" + supTable + "' where ID = " + this.EditId);
+                    DialogResult dr = MessageBox.Show("主表和附表一样，是否继续?", "提示", MessageBoxButtons.YesNo);
+                    if (dr == DialogResult.Yes)
+                    {
+                        if (this.SavaType == "edit")
+                        {
+                            result = db.Update("update GISDATA_TBTOPO set NAME= '" + name + "',TYPE = '" + type + "',TABLENAME = '" + table + "',SUPTABLE='" + supTable + "',SCHEME = '" + this.scheme + "',STEP_NO = " + this.checkNo + " where ID = " + this.EditId);
+                        }
+                        else
+                        {
+                            result = db.Insert("insert into GISDATA_TBTOPO (NAME,TYPE,TABLENAME,SUPTABLE,SCHEME,STEP_NO) VALUES('" + name + "','" + type + "','" + table + "','" + supTable + "','" + this.scheme + "'," + this.checkNo + ")");
+                        }
+                    }
+                    else 
+                    {
+                        return;
+                    }
                 }
-                else
+                else 
                 {
-                    result = db.Insert("insert into GISDATA_TBTOPO (NAME,TYPE,TABLENAME,SUPTABLE) VALUES('" + name + "','" + type + "','" + table + "','" + supTable + "')");
+                    if (this.SavaType == "edit")
+                    {
+                        result = db.Update("update GISDATA_TBTOPO set NAME= '" + name + "',TYPE = '" + type + "',TABLENAME = '" + table + "',SUPTABLE='" + supTable + "',SCHEME = '" + this.scheme + "',STEP_NO = " + this.checkNo + " where ID = " + this.EditId);
+                    }
+                    else
+                    {
+                        result = db.Insert("insert into GISDATA_TBTOPO (NAME,TYPE,TABLENAME,SUPTABLE,SCHEME,STEP_NO) VALUES('" + name + "','" + type + "','" + table + "','" + supTable + "','" + this.scheme + "'," + this.checkNo + ")");
+                    }
                 }
-                
             }
             else if (checkType == "细碎面")
             {
@@ -196,35 +226,35 @@ namespace GISData.ChekConfig.CheckTopo
                 string input = xbmDig.textBoxinputValue;
                 if (this.SavaType == "edit")
                 {
-                    result = db.Update("update GISDATA_TBTOPO set NAME= '" + name + "',TYPE = '" + type + "',TABLENAME = '" + table + "',WHERESTRING='" + where + "',INPUTTEXT='" + input + "' where ID = " + this.EditId);
+                    result = db.Update("update GISDATA_TBTOPO set NAME= '" + name + "',TYPE = '" + type + "',TABLENAME = '" + table + "',WHERESTRING='" + where + "',INPUTTEXT='" + input + "',SCHEME = '" + this.scheme + "',STEP_NO = " + this.checkNo + " where ID = " + this.EditId);
                 }
                 else
                 {
-                    result = db.Insert("insert into GISDATA_TBTOPO (NAME,TYPE,TABLENAME,WHERESTRING,INPUTTEXT) VALUES('" + name + "','" + type + "','" + table + "','" + where + "','" + input + "')");
+                    result = db.Insert("insert into GISDATA_TBTOPO (NAME,TYPE,TABLENAME,WHERESTRING,INPUTTEXT,SCHEME,STEP_NO) VALUES('" + name + "','" + type + "','" + table + "','" + where + "','" + input + "','" + this.scheme + "'," + this.checkNo + ")");
                 }
             }
-            else if (checkType == "面缝隙")
+            else if (checkType == "缝隙检查")
             {
                 FormNoGaps formgaps = new FormNoGaps();
                 string input = NoGaps.textBoxareaValue;
                 if (this.SavaType == "edit")
                 {
-                    result = db.Update("update GISDATA_TBTOPO set NAME= '" + name + "',TYPE = '" + type + "',TABLENAME = '" + table + "',INPUTTEXT='" + input + "' where ID = " + this.EditId);
+                    result = db.Update("update GISDATA_TBTOPO set NAME= '" + name + "',TYPE = '" + type + "',TABLENAME = '" + table + "',INPUTTEXT='" + input + "',SCHEME = '" + this.scheme + "',STEP_NO = " + this.checkNo + " where ID = " + this.EditId);
                 }
                 else
                 {
-                    result = db.Insert("insert into GISDATA_TBTOPO (NAME,TYPE,TABLENAME,INPUTTEXT) VALUES('" + name + "','" + type + "','" + table + "','" + input + "')");
+                    result = db.Insert("insert into GISDATA_TBTOPO (NAME,TYPE,TABLENAME,INPUTTEXT,SCHEME,STEP_NO) VALUES('" + name + "','" + type + "','" + table + "','" + input + "','" + this.scheme + "'," + this.checkNo + ")");
                 }
             }
             else 
             {
                 if (this.SavaType == "edit")
                 {
-                    result = db.Update("update GISDATA_TBTOPO set NAME= '" + name + "',TYPE = '" + type + "',TABLENAME = '" + table  + "' where ID = " + this.EditId);
+                    result = db.Update("update GISDATA_TBTOPO set NAME= '" + name + "',TYPE = '" + type + "',TABLENAME = '" + table + "',SCHEME = '" + this.scheme + "',STEP_NO = " + this.checkNo + " where ID = " + this.EditId);
                 }
                 else
                 {
-                    result = db.Insert("insert into GISDATA_TBTOPO (NAME,TYPE,TABLENAME) VALUES('" + name + "','" + type + "','" + table + "')");
+                    result = db.Insert("insert into GISDATA_TBTOPO (NAME,TYPE,TABLENAME,SCHEME,STEP_NO) VALUES('" + name + "','" + type + "','" + table + "','" + this.scheme + "'," + this.checkNo + ")");
                 }
             }
             if (result)
@@ -266,7 +296,7 @@ namespace GISData.ChekConfig.CheckTopo
                 FormNoInterLine formNoInterLine = new FormNoInterLine();
                 NoInterLine.comboBoxLineValue = SUPTABLE;
             }
-            else if (TYPE == "跨图层面重叠")
+            else if (TYPE == "面重叠检查（与其他图层）")
             {
                 FormNoOverlapArea formNoOverlapArea = new FormNoOverlapArea();
                 NoOverlapArea.comboBoxOverLayerValue = SUPTABLE;
@@ -277,7 +307,7 @@ namespace GISData.ChekConfig.CheckTopo
                 xbmDig.textBoxwhereValue = WHERESTRING;
                 xbmDig.textBoxinputValue = INPUTTEXT;
             }
-            else if (TYPE == "面缝隙")
+            else if (TYPE == "缝隙检查")
             {
                 FormNoGaps formgaps = new FormNoGaps();
                 NoGaps.textBoxareaValue = INPUTTEXT;
@@ -298,16 +328,18 @@ namespace GISData.ChekConfig.CheckTopo
 
         private void DeleteStep_Click(object sender, EventArgs e)
         {
-            DialogResult dr = MessageBox.Show("确定要删除吗?", "删除数据");
-             if (dr == DialogResult.OK)
+            DialogResult dr = MessageBox.Show("确定要删除吗?", "删除数据", MessageBoxButtons.YesNo);
+            if (dr == DialogResult.Yes)
              {
                  DataGridViewRow row = this.dataGridViewCheck.CurrentRow;
-                 string id = row.Cells["ID"].Value.ToString();
-                 ConnectDB db = new ConnectDB();
-                 db.Delete("delete from GISDATA_TBTOPO where id = " + id);
-                 refushTable();
+                 if (row != null) 
+                 {
+                     string id = row.Cells["ID"].Value.ToString();
+                     ConnectDB db = new ConnectDB();
+                     db.Delete("delete from GISDATA_TBTOPO where id = " + id);
+                     refushTable();
+                 }
              }
-            
         }
     }
 }
