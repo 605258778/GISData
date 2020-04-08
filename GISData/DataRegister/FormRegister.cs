@@ -1,4 +1,6 @@
-﻿using DevExpress.XtraTreeList.Nodes;
+﻿using DevExpress.XtraGrid.Views.Base;
+using DevExpress.XtraGrid.Views.Grid;
+using DevExpress.XtraTreeList.Nodes;
 using ESRI.ArcGIS.DataSourcesGDB;
 using ESRI.ArcGIS.Geodatabase;
 using GISData.Common;
@@ -42,11 +44,15 @@ namespace GISData.DataRegister
         public void refreshDataGridField(string regName)
         {
             ConnectDB cd = new ConnectDB();
-            DataTable dt = cd.GetDataBySql("select ID,FIELD_NAME AS 字段名,FIELD_ALSNAME AS 别名,DATA_TYPE AS 数据类型,IS_AUTO AS 是否自称,IS_KEY AS 是否主键,MAXLEN AS 字段长度,IS_NULL AS 是否为空,IS_READONLY AS 是否只读,CAN_SHOW AS 是否显示,CODE_PK AS 字典域,CODE_WHERE AS 字典域条件 from GISDATA_MATEDATA where REG_NAME = '" + regName+"'");
+            DataTable dt = cd.GetDataBySql("select ID,FIELD_NAME AS 字段名,FIELD_ALSNAME AS 别名,DATA_TYPE AS 数据类型,MAXLEN AS 字段长度,CODE_PK AS 字典域,CODE_WHERE AS 字典域条件 from GISDATA_MATEDATA where REG_NAME = '" + regName+"'");
             this.dataGridViewFieldView.DataSource = dt;
-            if (this.dataGridViewFieldView.Columns.Count > 0)
+            this.gridView1.OptionsBehavior.Editable = false;
+            this.gridView1.OptionsView.ColumnAutoWidth = false;
+            this.gridView1.ScrollStyle = ScrollStyleFlags.LiveHorzScroll | ScrollStyleFlags.LiveVertScroll;
+            this.gridView1.HorzScrollVisibility = ScrollVisibility.Always;
+            if (this.gridView1.Columns.Count > 0)
             {
-                this.dataGridViewFieldView.Columns[0].Visible = false;
+                this.gridView1.Columns[0].Visible = false;
             }
         }
 
@@ -55,9 +61,10 @@ namespace GISData.DataRegister
             ConnectDB cd = new ConnectDB();
             DataTable dt = cd.GetDataBySql("select REG_NAME,REG_ALIASNAME AS 注册名称 from GISDATA_REGINFO");
             this.dataGridViewDataReg.DataSource = dt;
-            if (this.dataGridViewDataReg.Columns.Count > 0)
+            this.gridView2.OptionsBehavior.Editable = false;
+            if (this.gridView2.Columns.Count > 0)
             {
-                this.dataGridViewDataReg.Columns[0].Visible = false;
+                this.gridView2.Columns[0].Visible = false;
             }
         }
         
@@ -260,18 +267,12 @@ namespace GISData.DataRegister
             //}
         }
 
-        private void dataGridViewDataReg_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-            DataGridViewRow dgvr = dataGridViewDataReg.CurrentRow;
-            string val = dgvr.Cells["REG_NAME"].Value.ToString();
-            this.regName = val;
-            refreshDataGridField(val);
-        }
         //删除注册信息
         private void buttonDelReg_Click(object sender, EventArgs e)
         {
-            DataGridViewRow dgvr = dataGridViewDataReg.CurrentRow;
-            string val = dgvr.Cells["REG_NAME"].Value.ToString();
+            var index = this.gridView2.GetFocusedDataSourceRowIndex();
+            DataRowView row = (DataRowView)this.gridView2.GetRow(index);
+            string val = row["REG_NAME"].ToString();
             if (val != "") 
             {
                 DialogResult dr = MessageBox.Show("确定删除？", "提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
@@ -290,13 +291,6 @@ namespace GISData.DataRegister
                     }
                 }
             }
-        }
-
-        private void dataGridViewFieldView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-            DataGridViewRow dgvr = this.dataGridViewFieldView.CurrentRow;
-            FormDomain fd = new FormDomain(dgvr, regName);
-            fd.Show();
         }
 
         private void treeView1_AfterCheck(object sender, TreeViewEventArgs e)
@@ -402,6 +396,23 @@ namespace GISData.DataRegister
                     UnSelectTreeListAll(tree, item.Nodes);
                 }
             }
+        }
+
+        private void dataGridViewFieldView_DoubleClick(object sender, EventArgs e)
+        {
+            var index = gridView1.GetFocusedDataSourceRowIndex();
+            DataRowView row = (DataRowView)this.gridView1.GetRow(index);
+            FormDomain fd = new FormDomain(row, regName);
+            fd.Show();
+        }
+
+        private void dataGridViewDataReg_DoubleClick(object sender, EventArgs e)
+        {
+            var index = this.gridView2.GetFocusedDataSourceRowIndex();
+            DataRowView row = (DataRowView)this.gridView2.GetRow(index);
+            string val = row["REG_NAME"].ToString();
+            this.regName = val;
+            refreshDataGridField(val);
         }
     }
 }

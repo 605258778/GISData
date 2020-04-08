@@ -45,6 +45,7 @@
     <Reference Include="DevExpress.RichEdit.v18.2.Core, Version=18.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.RichEdit.v18.2.Export, Version=18.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Sparkline.v18.2.Core, Version=18.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Spreadsheet.v18.2.Core, Version=18.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Utils.v18.2, Version=18.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Utils.v18.2.UI, Version=18.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.XtraBars.v18.2, Version=18.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
@@ -63,6 +64,7 @@
     <Reference Include="DevExpress.XtraRichEdit.v18.2, Version=18.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.XtraScheduler.v18.2, Version=18.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraScheduler.v18.2.Core, Version=18.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraSpreadsheet.v18.2, Version=18.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraTreeList.v18.2, Version=18.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraVerticalGrid.v18.2, Version=18.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="ESRI.ArcGIS.3DAnalyst, Version=10.2.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86">
@@ -183,6 +185,12 @@
     </Compile>
     <Compile Include="CheckConfig\CheckAttr\CheckDialog\FormUnique.Designer.cs">
       <DependentUpon>FormUnique.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CheckConfig\CheckAttr\CheckDialog\FormXmmc.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CheckConfig\CheckAttr\CheckDialog\FormXmmc.Designer.cs">
+      <DependentUpon>FormXmmc.cs</DependentUpon>
     </Compile>
     <Compile Include="CheckConfig\CheckAttr\FormAttr.cs">
       <SubType>Form</SubType>
@@ -420,6 +428,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CheckConfig\CheckAttr\CheckDialog\FormUnique.resx">
       <DependentUpon>FormUnique.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CheckConfig\CheckAttr\CheckDialog\FormXmmc.resx">
+      <DependentUpon>FormXmmc.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CheckConfig\CheckAttr\FormAttr.resx">
       <DependentUpon>FormAttr.cs</DependentUpon>

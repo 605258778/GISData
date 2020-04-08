@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using DevExpress.XtraTreeList.Nodes;
+using DevExpress.XtraTreeList;
 namespace GISData.ChekConfig
 {
     public partial class FormAttr : Form
@@ -19,6 +20,8 @@ namespace GISData.ChekConfig
         private string selectedId;
         public int checkNo;
         public string scheme;
+        private List<string> DeleteList = new List<string>();
+        List<TreeListNode> DeleteNodes = new List<TreeListNode>();
         public FormAttr()
         {
             InitializeComponent();
@@ -98,21 +101,21 @@ namespace GISData.ChekConfig
 
         private void 添加项_Click(object sender, EventArgs e)
         {
-            selectedId = treeList1.FocusedNode.GetValue("ID").ToString();
+            selectedId = treeList1.FocusedNode == null ? "0" : treeList1.FocusedNode.GetValue("ID").ToString();
             TreeListNode selectNode = treeList1.FocusedNode;
             DelegateRefreshTree RefreshTree = new DelegateRefreshTree(bindtreeViewAttr);
-            FormAttrAdd formAttr = new FormAttrAdd(checkNo, selectNode,"add",this.scheme);
+            FormAttrAdd formAttr = new FormAttrAdd(checkNo, selectNode,"add",this.scheme,this.treeList1);
             formAttr.ShowDialog();
             if (formAttr.DialogResult == DialogResult.OK)
             {
-                this.bindtreeViewAttr();//重新绑定
+                //this.bindtreeViewAttr();//重新绑定
             }
         }
 
         private void 属性编辑_Click(object sender, EventArgs e)
         {
              TreeListNode selectNode =  treeList1.FocusedNode;
-             FormAttrAdd formAttr = new FormAttrAdd(checkNo, selectNode, "edit",this.scheme);
+             FormAttrAdd formAttr = new FormAttrAdd(checkNo, selectNode, "edit", this.scheme,this.treeList1);
              formAttr.ShowDialog();
         }
 
@@ -121,16 +124,84 @@ namespace GISData.ChekConfig
             DialogResult dr = MessageBox.Show("确定要删除吗?", "删除数据",MessageBoxButtons.YesNo);
             if (dr == DialogResult.Yes)
             {
-                string selectedId = treeList1.FocusedNode.GetValue("ID").ToString();
+                DeleteNodes.Clear();
+                DeleteList.Clear();
                 ConnectDB db = new ConnectDB();
-                Boolean result = db.Delete("delete from GISDATA_TBATTR where id = " + selectedId + " or PARENTID = '" + selectedId+"'");
-                if (result)
+                TreeListNodes selectNode = this.treeList1.Nodes;
+                deleteNode(selectNode);
+                string idstr = string.Join(",", DeleteList.ToArray());
+                Boolean result = db.Delete("delete from GISDATA_TBATTR where id in (" + idstr+")");
+                if (result) 
                 {
-                    this.bindtreeViewAttr();//重新绑定
-                    MessageBox.Show("删除成功！");
+                    foreach (TreeListNode itemNode in DeleteNodes)
+                    {
+                        this.treeList1.DeleteNode(itemNode);
+                    }
                 }
             }
-            
         }
+
+        private void deleteNode(TreeListNodes selectNode) 
+        {
+            ConnectDB db = new ConnectDB();
+            foreach (TreeListNode node in selectNode)
+            {
+                DataRowView nodeData = this.treeList1.GetDataRecordByNode(node) as DataRowView;
+                if (node.Checked || node.CheckState == CheckState.Indeterminate)
+                {
+                    if (node.Checked) 
+                    {
+                        DataRowView itemNodeRow = this.treeList1.GetDataRecordByNode(node) as DataRowView;
+                        DeleteList.Add(itemNodeRow["ID"].ToString());
+                        DeleteNodes.Add(node);
+                    }
+                    if (node.Nodes.Count != 0)
+                    {
+                        deleteNode(node.Nodes);
+                    }
+                }
+            }
+        }
+
+
+        private void treeList1_AfterCheckNode(object sender, DevExpress.XtraTreeList.NodeEventArgs e)
+        {
+            CommonClass common = new CommonClass();
+            common.SetCheckedChildNodes(e.Node, e.Node.CheckState);
+            common.SetCheckedParentNodes(e.Node, e.Node.CheckState);
+        }
+
+        private void treeList1_BeforeCheckNode(object sender, DevExpress.XtraTreeList.CheckNodeEventArgs e)
+        {
+            if (e.PrevState == CheckState.Checked)
+            {
+                e.State = CheckState.Unchecked;
+            }
+            else
+            {
+                e.State = CheckState.Checked;
+            }
+        }
+
+        private void treeList1_DragDrop(object sender, DragEventArgs e)
+        {
+            TreeListNode targetNode = GetNodeByLocation(this.treeList1, new Point(e.X, e.Y));
+            TreeListNode dragNode = this.treeList1.FocusedNode;
+            DataRowView targetNodeRow = this.treeList1.GetDataRecordByNode(targetNode) as DataRowView;
+            DataRowView dragNodeRow = this.treeList1.GetDataRecordByNode(dragNode) as DataRowView;
+            ConnectDB db = new ConnectDB();
+            db.Update("update   GISDATA_TBATTR SET PARENTID =" + targetNodeRow["id"] + " where ID =" + dragNodeRow["id"]);
+        }
+         /// <summary>
+        ///  根据鼠标位置获取节点
+        /// </summary>
+        /// <param name="treeList">节点所在的treelist</param>
+        /// <param name="location">节点位置</param>
+        /// <returns></returns>
+        private TreeListNode GetNodeByLocation(TreeList treeList, Point location)
+        {
+            TreeListHitInfo hitInfo = treeList.CalcHitInfo(treeList.PointToClient(location));
+            return hitInfo.Node;
+        }
     }
 }

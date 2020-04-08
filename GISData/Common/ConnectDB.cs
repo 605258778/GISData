@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
 using System.Data.SqlClient;
@@ -51,6 +52,31 @@ namespace GISData.Common
             conn.Close();
             return ds;
         }
+
+
+        /// <summary>
+        /// 获取指定表名的列名与描述注释
+        /// </summary>
+        /// <param name="mdbFilePath"></param>
+        /// <param name="tableName"></param>
+        /// <returns></returns>
+        public List<string> GetTableFieldsDisFromMdb(string tableName)
+        {
+            conn.Open();
+            List<string> list = new List<string>();
+            using (OleDbCommand cmd = new OleDbCommand())
+            {
+                cmd.CommandText = "SELECT TOP 1 * FROM [" + tableName + "]";
+                cmd.Connection = conn;
+                OleDbDataReader dr = cmd.ExecuteReader();
+                for (int i = 0; i < dr.FieldCount; i++)
+                {
+                    list.Add(dr.GetName(i));
+                }
+            }
+            conn.Close();
+            return list;
+        }
         //插入
         public bool Insert(string sql)
         {
@@ -61,6 +87,23 @@ namespace GISData.Common
             conn.Close();
             return i > 0;
         }
+        //插入
+        public int InsertReturnId(string sql)
+        {
+            Console.WriteLine("执行sql:" + sql);
+            conn.Open();
+            OleDbCommand oleDbCommand = new OleDbCommand(sql, conn);
+            int i = oleDbCommand.ExecuteNonQuery(); //返回被修改的数目
+            int ii = 0;
+            if (i > 0) 
+            {
+                oleDbCommand = new OleDbCommand("select @@identity as id", conn);
+                ii = Convert.ToInt32(oleDbCommand.ExecuteScalar()); //返回被修改的数目
+            }
+            conn.Close();
+            return ii;
+        }
+        
         //更新
         public bool Update(string sql)
         {

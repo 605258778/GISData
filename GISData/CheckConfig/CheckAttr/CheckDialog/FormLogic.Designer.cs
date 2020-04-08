@@ -54,8 +54,8 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.groupBox2);
-            this.splitContainer1.Size = new System.Drawing.Size(561, 417);
-            this.splitContainer1.SplitterDistance = 293;
+            this.splitContainer1.Size = new System.Drawing.Size(569, 415);
+            this.splitContainer1.SplitterDistance = 297;
             this.splitContainer1.TabIndex = 0;
             // 
             // groupBox1
@@ -64,7 +64,7 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(293, 417);
+            this.groupBox1.Size = new System.Drawing.Size(297, 415);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "条件";
@@ -75,7 +75,7 @@
             this.textBoxWhere.Location = new System.Drawing.Point(3, 21);
             this.textBoxWhere.Multiline = true;
             this.textBoxWhere.Name = "textBoxWhere";
-            this.textBoxWhere.Size = new System.Drawing.Size(287, 393);
+            this.textBoxWhere.Size = new System.Drawing.Size(291, 391);
             this.textBoxWhere.TabIndex = 0;
             // 
             // groupBox2
@@ -84,7 +84,7 @@
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox2.Location = new System.Drawing.Point(0, 0);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(264, 417);
+            this.groupBox2.Size = new System.Drawing.Size(268, 415);
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "结果";
@@ -95,14 +95,14 @@
             this.textBoxResult.Location = new System.Drawing.Point(3, 21);
             this.textBoxResult.Multiline = true;
             this.textBoxResult.Name = "textBoxResult";
-            this.textBoxResult.Size = new System.Drawing.Size(258, 393);
+            this.textBoxResult.Size = new System.Drawing.Size(262, 391);
             this.textBoxResult.TabIndex = 1;
             // 
             // FormLogic
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(561, 417);
+            this.ClientSize = new System.Drawing.Size(569, 415);
             this.Controls.Add(this.splitContainer1);
             this.Name = "FormLogic";
             this.Text = "FormLogic";

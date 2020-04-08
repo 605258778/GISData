@@ -206,7 +206,7 @@ namespace GISData.DataCheck.CheckDialog
                             IQueryDef pQueryDef = ifw.CreateQueryDef();
                             pQueryDef.Tables = TABLENAME;
                             pQueryDef.SubFields = "count(*) as errorCount";
-                            pQueryDef.WhereClause = FIELD + " IS NULL OR " + FIELD + " = '' ";
+                            pQueryDef.WhereClause = FIELD + " IS NULL OR  format(" + FIELD + ") = '' ";
                             ICursor pCur = pQueryDef.Evaluate();
                             IRow pRow = pCur.NextRow();
                             int iInx = pCur.Fields.FindField("errorCount");
@@ -216,18 +216,27 @@ namespace GISData.DataCheck.CheckDialog
                         }
                         else if (CHECKTYPE == "逻辑关系检查")
                         {
-                            CommonClass conClass = new CommonClass();
-                            IFeatureWorkspace ifw = conClass.GetFeatureWorkspaceByName(TABLENAME);
-                            IQueryDef pQueryDef = ifw.CreateQueryDef();
-                            pQueryDef.Tables = TABLENAME;
-                            pQueryDef.SubFields = "count(*) as errorCount";
-                            pQueryDef.WhereClause = " (" + WHERESTRING + ") and (" + RESULT + ")";
-                            ICursor pCur = pQueryDef.Evaluate();
-                            IRow pRow = pCur.NextRow();
-                            int iInx = pCur.Fields.FindField("errorCount");
-                            string count = pRow.get_Value(iInx).ToString();
-                            nodeData["ERROR"] = count;
-                            nodeData["ISCHECK"] = "已检查";
+                            if (WHERESTRING == "" || RESULT == "")
+                            {
+                                nodeData["ERROR"] = "";
+                                nodeData["ISCHECK"] = "未检查";
+                            }
+                            else 
+                            {
+                                CommonClass conClass = new CommonClass();
+                                IFeatureWorkspace ifw = conClass.GetFeatureWorkspaceByName(TABLENAME);
+                                IQueryDef pQueryDef = ifw.CreateQueryDef();
+                                pQueryDef.Tables = TABLENAME;
+                                pQueryDef.SubFields = "count(*) as errorCount";
+                                pQueryDef.WhereClause = " (" + WHERESTRING + ") and (" + RESULT + ")";
+                                ICursor pCur = pQueryDef.Evaluate();
+                                IRow pRow = pCur.NextRow();
+                                int iInx = pCur.Fields.FindField("errorCount");
+                                string count = pRow.get_Value(iInx).ToString();
+                                nodeData["ERROR"] = count;
+                                nodeData["ISCHECK"] = "已检查";
+                            }
+                            
                         }
                         else if (CHECKTYPE == "唯一值检查")
                         {
@@ -251,18 +260,40 @@ namespace GISData.DataCheck.CheckDialog
                                 DataTable dt = db.GetDataBySql("SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = '"+TABLENAME+"' AND FIELD_NAME = '"+FIELD+"'");
                                 string CODETABLENAME = dt.Rows[0]["CODE_PK"].ToString();
                                 string CODEWHERESTRING = dt.Rows[0]["CODE_WHERE"].ToString();
-                                CommonClass conClass = new CommonClass();
-                                IFeatureWorkspace ifw = conClass.GetFeatureWorkspaceByName(TABLENAME);
-                                IQueryDef pQueryDef = ifw.CreateQueryDef();
-                                pQueryDef.Tables = TABLENAME;
-                                pQueryDef.SubFields = "count(*) as errorCount";
-                                pQueryDef.WhereClause = FIELD + " not in (SELECT C_CODE FROM " + CODETABLENAME + " WHERE " + CODEWHERESTRING + ")";
-                                ICursor pCur = pQueryDef.Evaluate();
-                                IRow pRow = pCur.NextRow();
-                                int iInx = pCur.Fields.FindField("errorCount");
-                                string count = pRow.get_Value(iInx).ToString();
-                                nodeData["ERROR"] = count;
-                                nodeData["ISCHECK"] = "已检查";
+                                if (CODETABLENAME != "" && CODEWHERESTRING != "")
+                                {
+                                    DataTable codeArr = null;
+                                    if (CODETABLENAME == "GISDATA_ZQSJZD")
+                                    {
+                                        CommonClass common = new CommonClass();
+                                        string gldwstr = common.GetConfigValue("GLDW");
+                                        codeArr = db.GetDataBySql("SELECT C_CODE FROM " + CODETABLENAME + " WHERE " + CODEWHERESTRING + " AND LEFT(C_CODE,6)='" + gldwstr + "'");
+                                    }
+                                    else 
+                                    {
+                                        codeArr = db.GetDataBySql("SELECT C_CODE FROM " + CODETABLENAME + " WHERE " + CODEWHERESTRING);
+                                    }
+                                    string[] idInts = codeArr.AsEnumerable().Select(d => d.Field<string>("C_CODE")).ToArray();
+                                    string codesString = String.Join("','", idInts);
+                                    CommonClass conClass = new CommonClass();
+                                    IFeatureWorkspace ifw = conClass.GetFeatureWorkspaceByName(TABLENAME);
+                                    IQueryDef pQueryDef = ifw.CreateQueryDef();
+                                    pQueryDef.Tables = TABLENAME;
+                                    pQueryDef.SubFields = "count(*) as errorCount";
+                                    pQueryDef.WhereClause = FIELD + " IS NOT NULL AND " + FIELD + " not in ('" + codesString + "')";
+                                    ICursor pCur = pQueryDef.Evaluate();
+                                    IRow pRow = pCur.NextRow();
+                                    int iInx = pCur.Fields.FindField("errorCount");
+                                    string count = pRow.get_Value(iInx).ToString();
+                                    nodeData["ERROR"] = count;
+                                    nodeData["ISCHECK"] = "已检查";
+                                }
+                                else 
+                                {
+                                    nodeData["ERROR"] = "";
+                                    nodeData["ISCHECK"] = "未检查";
+                                }
+                                
                             }
                             else if (DOMAINTYPE == "custom")
                             {
@@ -280,6 +311,31 @@ namespace GISData.DataCheck.CheckDialog
                                 nodeData["ERROR"] = count;
                                 nodeData["ISCHECK"] = "已检查";
                             }
+                        }
+                        else if (CHECKTYPE == "项目名称检查")
+                        {
+                            string[] arrStr = FIELD.Split('#');
+                            string fieldStr = arrStr[0];
+                            string taskfieldStr = arrStr[1];
+                            CommonClass common = new CommonClass();
+                            string gldwstr = common.GetConfigValue("GLDW");
+                            DataTable xmmcArr = db.GetDataBySql("SELECT " + taskfieldStr + " AS XMMCARR FROM GISDATA_TASK WHERE YZLGLDW ='" + gldwstr + "'");
+                            string[] idInts = xmmcArr.AsEnumerable().Select(d => d.Field<string>("XMMCARR")).ToArray();
+                            string codesString = String.Join("','", idInts);
+                            
+                            
+                            CommonClass conClass = new CommonClass();
+                            IFeatureWorkspace ifw = conClass.GetFeatureWorkspaceByName(TABLENAME);
+                            IQueryDef pQueryDef = ifw.CreateQueryDef();
+                            pQueryDef.Tables = TABLENAME;
+                            pQueryDef.SubFields = "count(*) as errorCount";
+                            pQueryDef.WhereClause = fieldStr + " not in ('" + codesString + "')";
+                            ICursor pCur = pQueryDef.Evaluate();
+                            IRow pRow = pCur.NextRow();
+                            int iInx = pCur.Fields.FindField("errorCount");
+                            string count = pRow.get_Value(iInx).ToString();
+                            nodeData["ERROR"] = count;
+                            nodeData["ISCHECK"] = "已检查";
                         }
                     }
                     if (node.Nodes.Count != 0)

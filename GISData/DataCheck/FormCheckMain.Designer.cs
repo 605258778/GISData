@@ -63,7 +63,7 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tabControl1);
             this.splitContainer1.Panel2MinSize = 500;
-            this.splitContainer1.Size = new System.Drawing.Size(613, 557);
+            this.splitContainer1.Size = new System.Drawing.Size(978, 557);
             this.splitContainer1.SplitterDistance = 53;
             this.splitContainer1.TabIndex = 1;
             this.splitContainer1.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainer1_SplitterMoved);
@@ -81,7 +81,7 @@
             // 
             this.checkBox1.AutoSize = true;
             this.checkBox1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.checkBox1.Location = new System.Drawing.Point(424, 0);
+            this.checkBox1.Location = new System.Drawing.Point(789, 0);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(89, 53);
             this.checkBox1.TabIndex = 1;
@@ -92,7 +92,7 @@
             // buttonCheckStar
             // 
             this.buttonCheckStar.Dock = System.Windows.Forms.DockStyle.Right;
-            this.buttonCheckStar.Location = new System.Drawing.Point(513, 0);
+            this.buttonCheckStar.Location = new System.Drawing.Point(878, 0);
             this.buttonCheckStar.Name = "buttonCheckStar";
             this.buttonCheckStar.Size = new System.Drawing.Size(100, 53);
             this.buttonCheckStar.TabIndex = 0;
@@ -111,7 +111,7 @@
             this.tabControl1.Multiline = true;
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(613, 500);
+            this.tabControl1.Size = new System.Drawing.Size(978, 500);
             this.tabControl1.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.tabControl1.TabIndex = 0;
             this.tabControl1.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.tabControl1_DrawItem);
@@ -119,8 +119,8 @@
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 44.79016F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 55.20984F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 71.27351F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 28.72648F));
             this.tableLayoutPanel1.Controls.Add(this.splitContainer1, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.gridControlError, 1, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -134,10 +134,10 @@
             // gridControlError
             // 
             this.gridControlError.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gridControlError.Location = new System.Drawing.Point(622, 3);
+            this.gridControlError.Location = new System.Drawing.Point(987, 3);
             this.gridControlError.MainView = this.gridViewError;
             this.gridControlError.Name = "gridControlError";
-            this.gridControlError.Size = new System.Drawing.Size(757, 557);
+            this.gridControlError.Size = new System.Drawing.Size(392, 557);
             this.gridControlError.TabIndex = 2;
             this.gridControlError.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridViewError});

@@ -28,21 +28,22 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.groupBoxDataReg = new System.Windows.Forms.GroupBox();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
-            this.dataGridViewDataReg = new System.Windows.Forms.DataGridView();
+            this.dataGridViewDataReg = new DevExpress.XtraGrid.GridControl();
+            this.gridView2 = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.buttonDelReg = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.buttonAddConnect = new System.Windows.Forms.Button();
             this.buttonRegister = new System.Windows.Forms.Button();
             this.buttonDelConnecte = new System.Windows.Forms.Button();
             this.groupBoxLoadReg = new System.Windows.Forms.GroupBox();
-            this.treeViewReg = new System.Windows.Forms.TreeView();
-            this.dataGridViewFieldView = new System.Windows.Forms.DataGridView();
             this.treeList1 = new DevExpress.XtraTreeList.TreeList();
+            this.treeViewReg = new System.Windows.Forms.TreeView();
+            this.dataGridViewFieldView = new DevExpress.XtraGrid.GridControl();
+            this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -57,10 +58,12 @@
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewDataReg)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView2)).BeginInit();
             this.panel1.SuspendLayout();
             this.groupBoxLoadReg.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewFieldView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.treeList1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewFieldView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -130,26 +133,21 @@
             // 
             // dataGridViewDataReg
             // 
-            this.dataGridViewDataReg.AllowUserToAddRows = false;
-            this.dataGridViewDataReg.AllowUserToDeleteRows = false;
-            this.dataGridViewDataReg.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewDataReg.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
-            this.dataGridViewDataReg.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewDataReg.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridViewDataReg.Location = new System.Drawing.Point(0, 0);
+            this.dataGridViewDataReg.MainView = this.gridView2;
             this.dataGridViewDataReg.Name = "dataGridViewDataReg";
-            this.dataGridViewDataReg.ReadOnly = true;
-            this.dataGridViewDataReg.RowTemplate.Height = 27;
             this.dataGridViewDataReg.Size = new System.Drawing.Size(271, 202);
             this.dataGridViewDataReg.TabIndex = 0;
-            this.dataGridViewDataReg.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewDataReg_CellDoubleClick);
+            this.dataGridViewDataReg.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.gridView2});
+            this.dataGridViewDataReg.DoubleClick += new System.EventHandler(this.dataGridViewDataReg_DoubleClick);
+            // 
+            // gridView2
+            // 
+            this.gridView2.GridControl = this.dataGridViewDataReg;
+            this.gridView2.Name = "gridView2";
+            this.gridView2.OptionsView.ShowGroupPanel = false;
             // 
             // buttonDelReg
             // 
@@ -214,29 +212,6 @@
             this.groupBoxLoadReg.TabStop = false;
             this.groupBoxLoadReg.Text = "加载数据";
             // 
-            // treeViewReg
-            // 
-            this.treeViewReg.Location = new System.Drawing.Point(3, 126);
-            this.treeViewReg.Name = "treeViewReg";
-            this.treeViewReg.Size = new System.Drawing.Size(271, 140);
-            this.treeViewReg.TabIndex = 0;
-            this.treeViewReg.MouseDown += new System.Windows.Forms.MouseEventHandler(this.treeViewReg_MouseDown);
-            // 
-            // dataGridViewFieldView
-            // 
-            this.dataGridViewFieldView.AllowUserToAddRows = false;
-            this.dataGridViewFieldView.AllowUserToDeleteRows = false;
-            this.dataGridViewFieldView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridViewFieldView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewFieldView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridViewFieldView.Location = new System.Drawing.Point(0, 0);
-            this.dataGridViewFieldView.Name = "dataGridViewFieldView";
-            this.dataGridViewFieldView.ReadOnly = true;
-            this.dataGridViewFieldView.RowTemplate.Height = 27;
-            this.dataGridViewFieldView.Size = new System.Drawing.Size(781, 537);
-            this.dataGridViewFieldView.TabIndex = 0;
-            this.dataGridViewFieldView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewFieldView_CellDoubleClick);
-            // 
             // treeList1
             // 
             this.treeList1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -247,6 +222,32 @@
             this.treeList1.TabIndex = 1;
             this.treeList1.BeforeCheckNode += new DevExpress.XtraTreeList.CheckNodeEventHandler(this.treeList1_BeforeCheckNode);
             this.treeList1.AfterCheckNode += new DevExpress.XtraTreeList.NodeEventHandler(this.treeList1_AfterCheckNode);
+            // 
+            // treeViewReg
+            // 
+            this.treeViewReg.Location = new System.Drawing.Point(3, 126);
+            this.treeViewReg.Name = "treeViewReg";
+            this.treeViewReg.Size = new System.Drawing.Size(271, 140);
+            this.treeViewReg.TabIndex = 0;
+            this.treeViewReg.MouseDown += new System.Windows.Forms.MouseEventHandler(this.treeViewReg_MouseDown);
+            // 
+            // dataGridViewFieldView
+            // 
+            this.dataGridViewFieldView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridViewFieldView.Location = new System.Drawing.Point(0, 0);
+            this.dataGridViewFieldView.MainView = this.gridView1;
+            this.dataGridViewFieldView.Name = "dataGridViewFieldView";
+            this.dataGridViewFieldView.Size = new System.Drawing.Size(781, 537);
+            this.dataGridViewFieldView.TabIndex = 0;
+            this.dataGridViewFieldView.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.gridView1});
+            this.dataGridViewFieldView.DoubleClick += new System.EventHandler(this.dataGridViewFieldView_DoubleClick);
+            // 
+            // gridView1
+            // 
+            this.gridView1.GridControl = this.dataGridViewFieldView;
+            this.gridView1.Name = "gridView1";
+            this.gridView1.OptionsView.ShowGroupPanel = false;
             // 
             // FormRegister
             // 
@@ -271,10 +272,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewDataReg)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView2)).EndInit();
             this.panel1.ResumeLayout(false);
             this.groupBoxLoadReg.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewFieldView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.treeList1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewFieldView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -285,15 +288,17 @@
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.GroupBox groupBoxLoadReg;
         private System.Windows.Forms.GroupBox groupBoxDataReg;
-        private System.Windows.Forms.DataGridView dataGridViewDataReg;
         private System.Windows.Forms.Button buttonDelConnecte;
         private System.Windows.Forms.Button buttonAddConnect;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.TreeView treeViewReg;
-        private System.Windows.Forms.DataGridView dataGridViewFieldView;
         private System.Windows.Forms.Button buttonRegister;
         private System.Windows.Forms.SplitContainer splitContainer3;
         private System.Windows.Forms.Button buttonDelReg;
         private DevExpress.XtraTreeList.TreeList treeList1;
+        private DevExpress.XtraGrid.GridControl dataGridViewFieldView;
+        private DevExpress.XtraGrid.Views.Grid.GridView gridView1;
+        private DevExpress.XtraGrid.GridControl dataGridViewDataReg;
+        private DevExpress.XtraGrid.Views.Grid.GridView gridView2;
     }
 }

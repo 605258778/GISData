@@ -1,4 +1,6 @@
-﻿using DevExpress.XtraTreeList.Nodes;
+﻿using DevExpress.XtraTreeList;
+using DevExpress.XtraTreeList.Nodes;
+using GISData.CheckConfig.CheckAttr.CheckDialog;
 using GISData.ChekConfig.CheckDialog;
 using GISData.Common;
 using System;
@@ -20,17 +22,20 @@ namespace GISData.ChekConfig
         private FormDomain formDomainDig;
         private FormNullValue formNullValueDig;
         private FormUnique formUniqueDig;
+        private FormXmmc formXmmc;
         private int checkNo;
         private string selectedId;
         private TreeListNode selectNode;
         private string type;
         private string scheme;
+        private TreeList treeList1;
+        Boolean flag = true;
         public FormAttrAdd()
         {
             InitializeComponent();
         }
 
-        public FormAttrAdd(int No, TreeListNode node,string type,string scheme)
+        public FormAttrAdd(int No, TreeListNode node, string type, string scheme, TreeList treeList)
         {
             InitializeComponent();
             this.selectNode = node;
@@ -38,6 +43,7 @@ namespace GISData.ChekConfig
             this.selectedId = node.GetValue("ID").ToString();
             this.type = type;
             this.scheme = scheme;
+            this.treeList1 = treeList;
         }
 
         private void FormAttrDig_Load(object sender, EventArgs e)
@@ -179,6 +185,12 @@ namespace GISData.ChekConfig
                 formLogic.textBoxWhereValue = this.selectNode.GetValue("WHERESTRING").ToString();
                 formLogic.textBoxResultValue = this.selectNode.GetValue("RESULT").ToString();
             }
+            else if (checkType == "项目名称检查")
+            {
+                FormXmmc formXmmc = new FormXmmc(comboBoxDataSour, this.type, this.selectedId);
+                this.formXmmc = formXmmc;
+                ShowForm(this.splitContainer3.Panel1, formXmmc);
+            }
         }
         /// <summary>
         /// 弹出窗口
@@ -220,6 +232,7 @@ namespace GISData.ChekConfig
         /// <param name="e"></param>
         private void buttonSave_Click(object sender, EventArgs e)
         {
+            TreeListNodes newNodes = new TreeListNodes(this.treeList1);
             string checkType = comboBoxCheckType.SelectedItem.ToString();
             string name = textBoxName.Text;
             string table = comboBoxDataSour.SelectedValue.ToString();
@@ -229,11 +242,8 @@ namespace GISData.ChekConfig
                 showfield += itemChecked.Row[0] + ",";
             }
             showfield = showfield.Substring(0, showfield.Length - 1);
-            //foreach (object itemChecked in FIeldList.CheckedIndices) 
-            //{
-            //    showfield += itemChecked.ToString()+",";
-            //}
             ConnectDB db = new ConnectDB();
+            TreeListNode itemnode = treeList1.AppendNode(this.selectNode, int.Parse(selectedId));
             if (checkType == "空值检查")
             {
                 string field = formNullValueDig.SelectedValue.ToString();
@@ -241,13 +251,21 @@ namespace GISData.ChekConfig
                 if (type == "edit")
                 {
                     result = db.Update("update GISDATA_TBATTR set NAME = '" + name + "',CHECKTYPE = '空值检查',TABLENAME = '" + table + "',SHOWFIELD = '" + showfield + "',FIELD = '" + field + "' where id = " + selectedId);
+                    this.selectNode.SetValue("NAME", name);
                 }
                 else 
                 {
-                    result = db.Insert("insert into GISDATA_TBATTR (PARENTID,NAME,STEP_NO,CHECKTYPE,TABLENAME,SHOWFIELD,FIELD,SCHEME) VALUES('" + selectedId + "','" + name + "'," + checkNo + ",'空值检查','" + table + "','" + showfield + "','" + field + "','" + this.scheme + "')");
+                    int insertID = db.InsertReturnId("insert into GISDATA_TBATTR (PARENTID,NAME,STEP_NO,CHECKTYPE,TABLENAME,SHOWFIELD,FIELD,SCHEME) VALUES('" + selectedId + "','" + name + "'," + checkNo + ",'空值检查','" + table + "','" + showfield + "','" + field + "','" + this.scheme + "')");
+                    itemnode.SetValue("ID", insertID);
+                    itemnode.SetValue("PARENTID", selectedId);
+                    itemnode.SetValue("NAME", name);
+                    itemnode.SetValue("STEP_NO", checkNo);
+                    itemnode.SetValue("CHECKTYPE", "空值检查");
+                    itemnode.SetValue("TABLENAME", table);
+                    itemnode.SetValue("SHOWFIELD", showfield);
+                    itemnode.SetValue("FIELD", field);
+                    itemnode.SetValue("SCHEME", this.scheme);
                 }
-                this.DialogResult = DialogResult.OK;
-                this.Close();
             }
             else if (checkType == "值域检查")
             {
@@ -259,50 +277,123 @@ namespace GISData.ChekConfig
                 Boolean result;
                 if (type == "edit")
                 {
-                    result = db.Update("update GISDATA_TBATTR set NAME = '" + name + "',CHECKTYPE = '值域检查',TABLENAME = '" + table + "',SHOWFIELD = '" + showfield + "',FIELD = '" + selectField + "',SUPTABLE = '" + domainTable + "',WHERESTRING = '" + wheresSring + "',DOMAINTYPE = '" + domainType + "',DOMAINVALUE = '" + DOMAINVALUE + "' where id = " + selectedId);
+                    if (domainType == "own")
+                    {
+                        result = db.Update("update GISDATA_TBATTR set NAME = '" + name + "',CHECKTYPE = '值域检查',TABLENAME = '" + table + "',SHOWFIELD = '" + showfield + "',FIELD = '" + selectField + "',SUPTABLE = '" + domainTable + "',WHERESTRING = '" + wheresSring + "',DOMAINTYPE = '" + domainType + "' where id = " + selectedId);
+                    }
+                    else if (domainType == "custom")
+                    {
+                        result = db.Update("update GISDATA_TBATTR set NAME = '" + name + "',CHECKTYPE = '值域检查',TABLENAME = '" + table + "',SHOWFIELD = '" + showfield + "',FIELD = '" + selectField + "',SUPTABLE = '" + domainTable + "',WHERESTRING = '" + wheresSring + "',DOMAINTYPE = '" + domainType + "',DOMAINVALUE = '" + DOMAINVALUE + "' where id = " + selectedId);
+                    }
+                    this.selectNode.SetValue("NAME", name);
                 }
                 else
                 {
-                    result = db.Insert("insert into GISDATA_TBATTR (PARENTID,NAME,STEP_NO,SCHEME,CHECKTYPE,TABLENAME,SHOWFIELD,FIELD,SUPTABLE,WHERESTRING,DOMAINTYPE,DOMAINVALUE) VALUES('" + selectedId + "','" + name + "'," + checkNo + ",'" + this.scheme + "','值域检查','" + table + "','" + showfield + "','" + selectField + "','" + domainTable + "','" + wheresSring + "','" + domainType + "','" + DOMAINVALUE + "')");
+                    int insertID = 0;
+                    if (domainType == "own")
+                    {
+                        insertID = db.InsertReturnId("insert into GISDATA_TBATTR (PARENTID,NAME,STEP_NO,SCHEME,CHECKTYPE,TABLENAME,SHOWFIELD,FIELD,SUPTABLE,WHERESTRING,DOMAINTYPE) VALUES('" + selectedId + "','" + name + "'," + checkNo + ",'" + this.scheme + "','值域检查','" + table + "','" + showfield + "','" + selectField + "','" + domainTable + "','" + wheresSring + "','" + domainType + "')");
+                    }
+                    else if (domainType == "custom")
+                    {
+                        insertID = db.InsertReturnId("insert into GISDATA_TBATTR (PARENTID,NAME,STEP_NO,SCHEME,CHECKTYPE,TABLENAME,SHOWFIELD,FIELD,SUPTABLE,WHERESTRING,DOMAINTYPE,DOMAINVALUE) VALUES('" + selectedId + "','" + name + "'," + checkNo + ",'" + this.scheme + "','值域检查','" + table + "','" + showfield + "','" + selectField + "','" + domainTable + "','" + wheresSring + "','" + domainType + "','" + DOMAINVALUE + "')");
+                    }
+                    itemnode.SetValue("ID", insertID);
+                    itemnode.SetValue("PARENTID", selectedId);
+                    itemnode.SetValue("NAME", name);
+                    itemnode.SetValue("STEP_NO", checkNo);
+                    itemnode.SetValue("CHECKTYPE", "空值检查");
+                    itemnode.SetValue("TABLENAME", table);
+                    itemnode.SetValue("SHOWFIELD", showfield);
+                    itemnode.SetValue("SCHEME", this.scheme);
                 }
-                this.DialogResult = DialogResult.OK;
-                this.Close();
-
             }
             else if (checkType == "唯一值检查")
             {
                 string uniqueField = formUniqueDig.textCheckedValue;
                 Boolean result;
+                int insertID = 0;
                 if (type == "edit")
                 {
                     result = db.Update("update GISDATA_TBATTR set NAME ='" + name + "',CHECKTYPE = '唯一值检查',TABLENAME = '" + table + "',SHOWFIELD = '" + showfield + "',FIELD = '" + uniqueField + "' where id = " + selectedId);
+                    this.selectNode.SetValue("NAME", name);
                 }
                 else
                 {
-                    result = db.Insert("insert into GISDATA_TBATTR (PARENTID,NAME,STEP_NO,SCHEME,CHECKTYPE,TABLENAME,SHOWFIELD,FIELD) VALUES('" + selectedId + "','" + name + "'," + checkNo + ",'" + this.scheme + "','唯一值检查','" + table + "','" + showfield + "','" + uniqueField + "')");
+                    insertID = db.InsertReturnId("insert into GISDATA_TBATTR (PARENTID,NAME,STEP_NO,SCHEME,CHECKTYPE,TABLENAME,SHOWFIELD,FIELD) VALUES('" + selectedId + "','" + name + "'," + checkNo + ",'" + this.scheme + "','唯一值检查','" + table + "','" + showfield + "','" + uniqueField + "')");
+                    itemnode.SetValue("ID", insertID);
+                    itemnode.SetValue("PARENTID", selectedId);
+                    itemnode.SetValue("NAME", name);
+                    itemnode.SetValue("STEP_NO", checkNo);
+                    itemnode.SetValue("CHECKTYPE", "空值检查");
+                    itemnode.SetValue("TABLENAME", table);
+                    itemnode.SetValue("SHOWFIELD", showfield);
+                    itemnode.SetValue("SCHEME", this.scheme);
                 }
-                this.DialogResult = DialogResult.OK;
-                this.Close();
-                
             }
             else if (checkType == "逻辑关系检查")
             {
-                FormLogic formLogic = new FormLogic();
                 string whereString = formLogicDig.textBoxWhereValue;
                 string resultString = formLogicDig.textBoxResultValue;
                 string fieldList = this.FIeldList.SelectedItems.ToString();
+                int insertID = 0;
                 Boolean result;
                 if (type == "edit")
                 {
                     result = db.Update("update GISDATA_TBATTR set NAME ='" + name + "',CHECKTYPE = '逻辑关系检查',TABLENAME = '" + table + "',SHOWFIELD = '" + showfield + "',WHERESTRING = '" + whereString + "',RESULT = '" + resultString + "' where id = " + selectedId);
+                    this.selectNode.SetValue("NAME", name);
                 }
                 else
                 {
-                    result = db.Insert("insert into GISDATA_TBATTR (PARENTID,NAME,STEP_NO,SCHEME,CHECKTYPE,TABLENAME,SHOWFIELD,WHERESTRING,RESULT) VALUES('" + selectedId + "','" + name + "'," + checkNo + ",'" + this.scheme + "','逻辑关系检查','" + table + "','" + showfield + "','" + whereString.Replace("'", "\"") + "','" + resultString.Replace("'", "\"") + "')");
+                    insertID = db.InsertReturnId("insert into GISDATA_TBATTR (PARENTID,NAME,STEP_NO,SCHEME,CHECKTYPE,TABLENAME,SHOWFIELD,WHERESTRING,RESULT) VALUES('" + selectedId + "','" + name + "'," + checkNo + ",'" + this.scheme + "','逻辑关系检查','" + table + "','" + showfield + "','" + whereString.Replace("'", "\"") + "','" + resultString.Replace("'", "\"") + "')");
+                    itemnode.SetValue("ID", insertID);
+                    itemnode.SetValue("PARENTID", selectedId);
+                    itemnode.SetValue("NAME", name);
+                    itemnode.SetValue("STEP_NO", checkNo);
+                    itemnode.SetValue("CHECKTYPE", "空值检查");
+                    itemnode.SetValue("TABLENAME", table);
+                    itemnode.SetValue("SHOWFIELD", showfield);
+                    itemnode.SetValue("SCHEME", this.scheme);
                 }
-                this.DialogResult = DialogResult.OK;
-                this.Close();
             }
+            else if (checkType == "项目名称检查")
+            {
+                DataTable FieldDT = formXmmc.FieldDTValue;
+                DataRow[] drs = FieldDT.Select(null);
+                List<string> fields = new List<string>();
+                List<string> taskfields = new List<string>();
+                foreach (DataRow dr in drs)
+                {
+                    fields.Add(dr["FIELD"].ToString());
+                    taskfields.Add(dr["TASKFIELD"].ToString());
+                }
+                string fieldStr = string.Join("&", fields);
+                string taskfieldStr = string.Join("&", taskfields); 
+                int insertID = 0;
+                Boolean result;
+                if (type == "edit")
+                {
+                    result = db.Update("update GISDATA_TBATTR set NAME ='" + name + "',CHECKTYPE = '项目名称检查',TABLENAME = '" + table + "',SHOWFIELD = '" + showfield + "',FIELD = '" + fieldStr +"#"+taskfieldStr + "' where id = " + selectedId);
+                    this.selectNode.SetValue("NAME", name);
+                }
+                else
+                {
+                    insertID = db.InsertReturnId("insert into GISDATA_TBATTR (PARENTID,NAME,STEP_NO,SCHEME,CHECKTYPE,TABLENAME,SHOWFIELD,FIELD) VALUES('" + selectedId + "','" + name + "'," + checkNo + ",'" + this.scheme + "','项目名称检查','" + table + "','" + showfield + "','" + fieldStr + "#" + taskfieldStr + "')");
+                    itemnode.SetValue("ID", insertID);
+                    itemnode.SetValue("PARENTID", selectedId);
+                    itemnode.SetValue("NAME", name);
+                    itemnode.SetValue("STEP_NO", checkNo);
+                    itemnode.SetValue("CHECKTYPE", "空值检查");
+                    itemnode.SetValue("TABLENAME", table);
+                    itemnode.SetValue("SHOWFIELD", showfield);
+                    itemnode.SetValue("FIELD", fieldStr + "#" + taskfieldStr);
+                    itemnode.SetValue("SCHEME", this.scheme);
+                }
+            }
+            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
+
+        
     }
 }

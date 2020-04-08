@@ -35,12 +35,12 @@
             this.buttonSave = new System.Windows.Forms.Button();
             this.FIeldList = new System.Windows.Forms.CheckedListBox();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.textBoxName = new System.Windows.Forms.TextBox();
+            this.comboBoxDataSour = new System.Windows.Forms.ComboBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
-            this.label3 = new System.Windows.Forms.Label();
-            this.comboBoxDataSour = new System.Windows.Forms.ComboBox();
-            this.textBoxName = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -80,7 +80,8 @@
             "值域检查",
             "唯一值检查",
             "逻辑关系检查",
-            "空值检查"});
+            "空值检查",
+            "项目名称检查"});
             this.comboBoxCheckType.Location = new System.Drawing.Point(817, 23);
             this.comboBoxCheckType.Name = "comboBoxCheckType";
             this.comboBoxCheckType.Size = new System.Drawing.Size(183, 23);
@@ -140,6 +141,32 @@
             this.splitContainer1.SplitterDistance = 67;
             this.splitContainer1.TabIndex = 19;
             // 
+            // textBoxName
+            // 
+            this.textBoxName.Location = new System.Drawing.Point(148, 23);
+            this.textBoxName.Name = "textBoxName";
+            this.textBoxName.Size = new System.Drawing.Size(207, 25);
+            this.textBoxName.TabIndex = 3;
+            // 
+            // comboBoxDataSour
+            // 
+            this.comboBoxDataSour.FormattingEnabled = true;
+            this.comboBoxDataSour.Location = new System.Drawing.Point(462, 24);
+            this.comboBoxDataSour.Name = "comboBoxDataSour";
+            this.comboBoxDataSour.Size = new System.Drawing.Size(185, 23);
+            this.comboBoxDataSour.TabIndex = 1;
+            this.comboBoxDataSour.SelectedIndexChanged += new System.EventHandler(this.comboBoxDataSour_SelectedIndexChanged);
+            this.comboBoxDataSour.SelectedValueChanged += new System.EventHandler(this.comboBoxDataSour_SelectedValueChanged);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(387, 29);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(60, 15);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "数据源:";
+            // 
             // splitContainer2
             // 
             this.splitContainer2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -184,32 +211,6 @@
             this.splitContainer3.Size = new System.Drawing.Size(837, 524);
             this.splitContainer3.SplitterDistance = 463;
             this.splitContainer3.TabIndex = 18;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(387, 29);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(60, 15);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "数据源:";
-            // 
-            // comboBoxDataSour
-            // 
-            this.comboBoxDataSour.FormattingEnabled = true;
-            this.comboBoxDataSour.Location = new System.Drawing.Point(462, 24);
-            this.comboBoxDataSour.Name = "comboBoxDataSour";
-            this.comboBoxDataSour.Size = new System.Drawing.Size(185, 23);
-            this.comboBoxDataSour.TabIndex = 1;
-            this.comboBoxDataSour.SelectedIndexChanged += new System.EventHandler(this.comboBoxDataSour_SelectedIndexChanged);
-            this.comboBoxDataSour.SelectedValueChanged += new System.EventHandler(this.comboBoxDataSour_SelectedValueChanged);
-            // 
-            // textBoxName
-            // 
-            this.textBoxName.Location = new System.Drawing.Point(148, 23);
-            this.textBoxName.Name = "textBoxName";
-            this.textBoxName.Size = new System.Drawing.Size(207, 25);
-            this.textBoxName.TabIndex = 3;
             // 
             // FormAttrAdd
             // 
