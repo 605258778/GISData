@@ -1,5 +1,7 @@
-﻿using DevExpress.XtraReports.UI;
+﻿using DevExpress.Spreadsheet;
+using DevExpress.XtraReports.UI;
 using DevExpress.XtraReports.UserDesigner;
+using DevExpress.XtraSpreadsheet;
 using ESRI.ArcGIS.Geodatabase;
 using GISData.Common;
 using System;
@@ -7,7 +9,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -78,8 +82,10 @@ namespace GISData.DataCheck.CheckDialog
             foreach (int itemRow in selectRows)
             {
                 DataRow row = this.gridView1.GetDataRow(itemRow);
-                string gldw = common.GetConfigValue("GLDW");
-                DataTable dtTask = db.GetDataBySql("select YZLGLDW,YZLFS,ZCSBND,XMMC,RWMJ from GISDATA_TASK where YZLGLDW = '" + gldw + "'");
+                string gldw = common.GetConfigValue("GLDW") == "" ? "520121" : common.GetConfigValue("GLDW");
+                DataTable dtTaskDb = db.GetDataBySql("select YZLGLDW,YZLFS,ZCSBND,XMMC,RWMJ from GISDATA_TASK where YZLGLDW = '" + gldw + "'");
+                dtTaskDb.TableName = "GISDATA_TASK";
+                DataTable dtTask = common.TranslateDataTable(dtTaskDb);
                 DataRow[] drTask = dtTask.Select(null);
                 DataTable dtDs = new DataTable();
                 dtTask.Columns.Add("SBMJ");
@@ -89,14 +95,21 @@ namespace GISData.DataCheck.CheckDialog
                 dtDs.Columns.Add("XMMC");
                 dtDs.Columns.Add("RWMJ");
                 dtDs.Columns.Add("SBMJ");
-                
-                ITable table = common.GetLayerByName(row["DATASOURCE"].ToString()).FeatureClass as ITable;
-                DataTable dt = ToDataTable(table);
 
+                string[] dataSourceArr = row["DATASOURCE"].ToString().Split(',');
+                DataTable dt = new DataTable();
+                for(int i = 0 ;i < dataSourceArr.Length;i++)
+                {
+                    DataTable itemDt = common.GetTableByName(dataSourceArr[i].Trim());
+                    //DataTable itemDt = ToDataTable(table);
+                    dt.Merge(itemDt);
+                }
+                
                 for (int i = 0; i < drTask.Length; i++)
                 {
                     DataRow rowItem = drTask[i];
                     string zcsbnd = rowItem["ZCSBND"].ToString();
+                    gldw = rowItem["YZLGLDW"].ToString();
                     string yzlfs = rowItem["YZLFS"].ToString();
                     string xmmc = rowItem["XMMC"].ToString();
                     string sbmj = "";
@@ -119,23 +132,81 @@ namespace GISData.DataCheck.CheckDialog
                             sbmj = q.sbmjItem.ToString();
                         });
                     } 
-
-                    //DataRow[] drItem = dt.Select("YZLGLDW = '" + gldw + "' and ZCSBND= '" + zcsbnd + "' AND YZLFS = '" + yzlfs + "' AND XMMC ='" + xmmc + "'");
-                    //if (drItem.Length > 0) 
-                    //{
-                    //    sbmj = drItem[0]["SBMJ"].ToString();
-                    //}
                     rowItem["SBMJ"] = sbmj;
                     dtDs.ImportRow(rowItem);
                 }
-
-                XtraReport report = new XtraReport();
-                report.LoadLayout(Application.StartupPath +"\\Report\\"+ row["REPORTMOULD"].ToString());
-                report.DataSource = dtDs;
+                SpreadsheetControl sheet = new SpreadsheetControl();
+                //sheet.LoadDocument(Application.StartupPath + "\\Report\\" + row["REPORTMOULD"].ToString());
+                IWorkbook book = sheet.Document;
+                book.LoadDocument(Application.StartupPath + "\\Report\\" + row["REPORTMOULD"].ToString());
+                book.MailMergeDataSource = dtDs;
+                IWorkbook resultBook = book.GenerateMailMergeDocuments()[0];
                 string time = DateTime.Now.ToString("yyyyMMddHHmmss");
-                report.ExportToXlsx("D:\\report\\" + row["REPORTNAME"].ToString() + time + ".xlsx");
+                if (resultBook != null)
+                {
+                    using (MemoryStream result = new MemoryStream())
+                    {
+                        resultBook.SaveDocument("D:\\report\\" + row["REPORTNAME"].ToString() + time + ".xlsx");
+                        result.Seek(0, SeekOrigin.Begin);
+                    }
+                }
+                //book.SaveDocument("D:\\report\\" + row["REPORTNAME"].ToString() + time + ".xlsx");
+                //XtraReport report = new XtraReport();
+                //report.LoadLayout(Application.StartupPath +"\\Report\\"+ row["REPORTMOULD"].ToString());
+                //report.DataSource = dtDs;
+                //string time = DateTime.Now.ToString("yyyyMMddHHmmss");
+                //report.ExportToXlsx("D:\\report\\" + row["REPORTNAME"].ToString() + time + ".xlsx");
             }
         }
+
+         /// <summary>
+        /// DataTable转成List
+        /// </summary>
+        public static List<T> ToDataList<T>(DataTable dt)
+        {
+            var list = new List<T>();
+            var plist = new List<PropertyInfo>(typeof(T).GetProperties());
+
+            if (dt == null || dt.Rows.Count == 0)
+            {
+                return null;
+            }
+
+            foreach (DataRow item in dt.Rows)
+            {
+                T s = Activator.CreateInstance<T>();
+                for (int i = 0; i < dt.Columns.Count; i++)
+                {
+                    PropertyInfo info = plist.Find(p => p.Name == dt.Columns[i].ColumnName);
+                    if (info != null)
+                    {
+                        try
+                        {
+                            if (!Convert.IsDBNull(item[i]))
+                            {
+                                object v = null;
+                                if (info.PropertyType.ToString().Contains("System.Nullable"))
+                                {
+                                    v = Convert.ChangeType(item[i], Nullable.GetUnderlyingType(info.PropertyType));
+                                }
+                                else
+                                {
+                                    v = Convert.ChangeType(item[i], info.PropertyType);
+                                }
+                                info.SetValue(s, v, null);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exception("字段[" + info.Name + "]转换出错," + ex.Message);
+                        }
+                    }
+                }
+                list.Add(s);
+            }
+            return list;
+        }
+
         private void BindingFields(DataTable ds, XRTableCellCollection cc)
         {
             for (int i = 0; i < ds.Columns.Count - 1; i++)

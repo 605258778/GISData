@@ -31,7 +31,7 @@ namespace GISData.CheckConfig.CheckReport
         private void getFile() 
         {
             DirectoryInfo folder = new DirectoryInfo(Application.StartupPath+"\\Report");
-            foreach (FileInfo file in folder.GetFiles("*.repx"))
+            foreach (FileInfo file in folder.GetFiles("*.xlsx"))
             {
                 this.comboBox1.Items.Add(file.Name);
             }
@@ -45,7 +45,7 @@ namespace GISData.CheckConfig.CheckReport
         {
             string reportname = this.textBox1.Text;
             string reportmould = this.comboBox1.Text;
-            string datasource = this.comboBoxDataSource.SelectedValue.ToString();
+            string datasource = this.checkedComboBoxEdit1.EditValue.ToString().Trim();
 
             ConnectDB db = new ConnectDB();
             Boolean result = db.Insert("insert into GISDATA_REPORT (REPORTNAME,REPORTMOULD,DATASOURCE) VALUES ('" + reportname + "','" + reportmould + "','" + datasource + "')");
@@ -74,9 +74,9 @@ namespace GISData.CheckConfig.CheckReport
         {
             ConnectDB db = new ConnectDB();
             DataTable dt = db.GetDataBySql("select REG_NAME,REG_ALIASNAME from GISDATA_REGINFO");
-            comboBoxDataSource.DataSource = dt;
-            comboBoxDataSource.DisplayMember = "REG_ALIASNAME";
-            comboBoxDataSource.ValueMember = "REG_NAME";
+            checkedComboBoxEdit1.Properties.DataSource = dt;
+            checkedComboBoxEdit1.Properties.DisplayMember = "REG_ALIASNAME";
+            checkedComboBoxEdit1.Properties.ValueMember = "REG_NAME";
         }
 
         private void button1_Click(object sender, EventArgs e)

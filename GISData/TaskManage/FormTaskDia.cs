@@ -1,4 +1,7 @@
-﻿using GISData.Common;
+﻿using DevExpress.Utils.Menu;
+using DevExpress.XtraGrid.Columns;
+using DevExpress.XtraGrid.Menu;
+using GISData.Common;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -95,6 +98,36 @@ namespace GISData.TaskManage
             gridControl1.DataSource = dt;
             this.gridView1.OptionsBehavior.Editable = false;
             this.gridView1.OptionsSelection.MultiSelect = true;
+        }
+
+        private void gridView1_PopupMenuShowing(object sender, DevExpress.XtraGrid.Views.Grid.PopupMenuShowingEventArgs e)
+        {
+            if (e.MenuType == DevExpress.XtraGrid.Views.Grid.GridMenuType.Column)//判断是否是列标题的右键菜单
+            {
+                GridViewColumnMenu menu = e.Menu as GridViewColumnMenu;
+                //menu.Items.RemoveAt(6);//移除右键菜单中的第7个功能，从0开始
+                //menu.Items.Clear();//清除所有功能
+                DXMenuItem dxm = new DXMenuItem();
+                dxm.Caption = "字段注册";
+                dxm.Tag = menu.Column;
+                dxm.Click += new EventHandler(DevIncludeM_Click);  
+                menu.Items.Add(dxm);                 
+            }
+        }
+
+        private void DevIncludeM_Click(object sender, EventArgs e)
+        {
+            DXMenuItem meanuItem = (DXMenuItem)sender;
+            TaskFieldRegister register = new TaskFieldRegister(meanuItem.Tag,"GISDATA_TASK");
+            register.ShowDialog();
+        }
+    }
+    class MenuInfo
+    {
+        public GridColumn Column;
+        public MenuInfo(GridColumn column)
+        {
+            this.Column = column;
         }
     }
 }

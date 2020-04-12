@@ -460,7 +460,8 @@ namespace GISData
 
         private void 报表设计ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FormReportDesign report = new FormReportDesign();
+            //FormReportDesign report = new FormReportDesign();
+            FormReportDes report = new FormReportDes();
             report.Show();
         }
 
@@ -468,6 +469,12 @@ namespace GISData
         {
             FormBegin begin = new FormBegin();
             begin.Show();
+        }
+
+        private void testToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CommonClass common = new CommonClass();
+            common.GetTableByName("YZL_PY_ZLYSXB");
         }
 
     }

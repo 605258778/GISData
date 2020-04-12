@@ -53,7 +53,7 @@
             this.textBoxFieldName.Enabled = false;
             this.textBoxFieldName.Location = new System.Drawing.Point(105, 16);
             this.textBoxFieldName.Name = "textBoxFieldName";
-            this.textBoxFieldName.Size = new System.Drawing.Size(138, 25);
+            this.textBoxFieldName.Size = new System.Drawing.Size(171, 25);
             this.textBoxFieldName.TabIndex = 1;
             // 
             // label2
@@ -87,7 +87,7 @@
             this.comboBoxDomain.FormattingEnabled = true;
             this.comboBoxDomain.Location = new System.Drawing.Point(105, 83);
             this.comboBoxDomain.Name = "comboBoxDomain";
-            this.comboBoxDomain.Size = new System.Drawing.Size(138, 23);
+            this.comboBoxDomain.Size = new System.Drawing.Size(171, 23);
             this.comboBoxDomain.TabIndex = 2;
             // 
             // label4

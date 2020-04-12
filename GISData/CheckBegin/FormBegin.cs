@@ -80,7 +80,7 @@ namespace GISData.CheckBegin
                 }
                 else
                 {
-                    MessageBox.Show("电话号码填写有误！");
+                    MessageBox.Show("dcTel号码填写有误！");
                 }
             }
         }
