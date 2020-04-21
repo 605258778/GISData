@@ -98,9 +98,9 @@ namespace GISData.DataCheck.CheckDialog
                 String reportType = row["REPORTTYPE"].ToString();
                 String sheetname = row["SHEETNAME"].ToString();
                 String sqlstr = row["SQLSTR"].ToString();
-                String rowname = row["ROWNAME"].ToString();
-                String columnsname = row["COLUMNSNAME"].ToString();
-                String valuestring = row["VALUESTRING"].ToString();
+                String rowname = row["ROWNAME"].ToString().Trim();
+                String columnsname = row["COLUMNSNAME"].ToString().Trim();
+                String valuestring = row["VALUESTRING"].ToString().Trim();
                 string[] dataSourceArr = row["DATASOURCE"].ToString().Split(',');
 
                 SpreadsheetControl sheet = new SpreadsheetControl();
@@ -172,26 +172,32 @@ namespace GISData.DataCheck.CheckDialog
                     }
                 }else if(reportType == "透视表")
                 {
+                    DataTable dt = new DataTable();
+                    for (int i = 0; i < dataSourceArr.Length; i++)
+                    {
+                        DataTable itemDt = common.GetTableByName(dataSourceArr[i].Trim());
+                        //DataTable itemDt = ToDataTable(table);
+                        dt.Merge(itemDt);
+                    }
 
-                    string sql = "(" + sqlstr + ")";
-                    CommonClass conClass = new CommonClass();
-                    IFeatureWorkspace ifw = conClass.GetFeatureWorkspaceByName(dataSourceArr[0]);
-                    ESRI.ArcGIS.Geodatabase.IWorkspace iw = conClass.GetWorkspaceByName(dataSourceArr[0]);
-                    IQueryDef pQueryDef = ifw.CreateQueryDef();
-                    pQueryDef.Tables = sql;
-                    pQueryDef.SubFields = "*";
-                    try
-                    {
-                        ICursor pCur = pQueryDef.Evaluate();
-                        dtDs = common.ToDataTable(pCur);
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(ex.Message);
-                    }
-                    string totalColumn = "XIANG";
+                    //string sql = "(" + sqlstr + ")";
+                    //CommonClass conClass = new CommonClass();
+                    //IFeatureWorkspace ifw = conClass.GetFeatureWorkspaceByName(dataSourceArr[0]);
+                    //ESRI.ArcGIS.Geodatabase.IWorkspace iw = conClass.GetWorkspaceByName(dataSourceArr[0]);
+                    //IQueryDef pQueryDef = ifw.CreateQueryDef();
+                    //pQueryDef.Tables = sql;
+                    //pQueryDef.SubFields = "*";
+                    //try
+                    //{
+                    //    ICursor pCur = pQueryDef.Evaluate();
+                    //    dtDs = common.ToDataTable(pCur);
+                    //}
+                    //catch (Exception ex)
+                    //{
+                    //    Console.WriteLine(ex.Message);
+                    //}
                     ConvertPivotTable conver = new ConvertPivotTable();
-                    DataTable dtPivot = conver.CreatePivotTable(dtDs, totalColumn, "SBMJ", "", "YZLGLDW,YZLFS,ZCSBND,GCLB");
+                    DataTable dtPivot = conver.CreatePivotTable(dt, columnsname.Trim(), "SBMJ", "", rowname.Trim());
 
                     Spread.Worksheet Spreadsheet = book.Worksheets[sheetname];
 
@@ -206,8 +212,8 @@ namespace GISData.DataCheck.CheckDialog
                     Model.CellRangeBase detail = option.DetailRange;
                     Model.CellRangeBase header = option.HeaderRange;
 
-                    IEnumerable<Spread.Cell> dynamiccolArr = Spreadsheet.Search("=DYNAMICCOL(\""+totalColumn+"\")");
-                    IEnumerable<Spread.Cell> dynamicfieldArr = Spreadsheet.Search("=DYNAMICFIELD(\"" + totalColumn + "\")");
+                    IEnumerable<Spread.Cell> dynamiccolArr = Spreadsheet.Search("=DYNAMICCOL(\"" + columnsname + "\")");
+                    IEnumerable<Spread.Cell> dynamicfieldArr = Spreadsheet.Search("=DYNAMICFIELD(\"" + columnsname + "\")");
                     Spread.Cell dynamiccol = null;
                     foreach (Spread.Cell str in dynamiccolArr) 
                     {
@@ -225,7 +231,7 @@ namespace GISData.DataCheck.CheckDialog
                     for (int i = 0; i < dtPivot.Columns.Count; i++)
                     {
                         DataColumn itemColumn = dtPivot.Columns[i];
-                        if(itemColumn.Namespace ==totalColumn)
+                        if (itemColumn.Namespace == columnsname)
                         {
                             Spread.Cell rangeHeader = Spreadsheet.Cells[dynamiccol.RowIndex,dynamiccol.ColumnIndex+ColumnIndexItem];
                             Spread.Cell rangeDetail = Spreadsheet.Cells[dynamicFiled.RowIndex, dynamiccol.ColumnIndex + ColumnIndexItem];

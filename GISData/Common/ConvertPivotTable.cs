@@ -90,7 +90,7 @@ namespace GISData.Common
             columns = new List<DataColumn>();
             for (i =0; i < groupColumns.Length; i++)
             {
-                col = new DataColumn(groupColumns[i],dataSource.Columns[groupColumns[i]].DataType);
+                col = new DataColumn(groupColumns[i],dataSource.Columns[groupColumns[i].Trim()].DataType);
                 col.Namespace = groupColumns[i];
                 result.Columns.Add(col);
                 columns.Add(col);
