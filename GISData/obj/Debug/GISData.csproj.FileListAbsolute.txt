@@ -45,7 +45,16 @@ F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.pdb
 F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.CheckConfig.CheckReport.FormReportConfig.resources
 F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.DataCheck.CheckDialog.FormReportDia.resources
 F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.CheckConfig.CheckAttr.CheckDialog.FormXmmc.resources
-F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.csprojResolveAssemblyReference.cache
 F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.TaskManage.TaskFieldRegister.resources
 F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.Report.Formdes.resources
 F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.Report.FormReportDes.resources
+F:\数据验收平台建设\GISData\GISData\bin\Debug\Microsoft.Office.Tools.Excel.v4.0.Utilities.dll
+F:\数据验收平台建设\GISData\GISData\bin\Debug\Microsoft.Office.Tools.Excel.v4.0.Utilities.xml
+F:\数据验收平台建设\GISData\GISData\bin\Debug\Spire.XLS.dll
+F:\数据验收平台建设\GISData\GISData\bin\Debug\Spire.License.dll
+F:\数据验收平台建设\GISData\GISData\bin\Debug\Spire.Pdf.dll
+F:\数据验收平台建设\GISData\GISData\bin\Debug\Spire.XLS.xml
+F:\数据验收平台建设\GISData\GISData\bin\Debug\Spire.License.xml
+F:\数据验收平台建设\GISData\GISData\bin\Debug\Spire.Pdf.xml
+F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.csprojResolveAssemblyReference.cache
+F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.CheckConfig.CheckReport.FormPivotConfig.resources

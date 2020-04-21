@@ -1,4 +1,5 @@
-﻿using GISData.Common;
+﻿using ESRI.ArcGIS.Geodatabase;
+using GISData.Common;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,6 +15,9 @@ namespace GISData.CheckConfig.CheckReport
 {
     public partial class FormReportConfig : Form
     {
+        private Dictionary<string, string> DicPivot = new Dictionary<string, string>();
+        private DataTable dtSource = new DataTable();
+
         public FormReportConfig()
         {
             InitializeComponent();
@@ -24,6 +28,8 @@ namespace GISData.CheckConfig.CheckReport
             getFile();
             bindData();
             bindDataSource();
+            this.labelpivot.Visible = false;
+            this.textBoxpivot.Visible = false;
         }
         /// <summary>
         /// 获取所有模板文件
@@ -44,11 +50,27 @@ namespace GISData.CheckConfig.CheckReport
         private void button2_Click(object sender, EventArgs e)
         {
             string reportname = this.textBox1.Text;
+            string sqlstr = this.textBoxSql.Text;
             string reportmould = this.comboBox1.Text;
+            string reporttype = this.comboBox2.Text;
             string datasource = this.checkedComboBoxEdit1.EditValue.ToString().Trim();
-
+            string sheetname = this.checkedComboBoxEdit3.EditValue.ToString().Trim();
+            string valuestring = "";
+            DataRow[] drs = this.dtSource.Select(null);
+            foreach (DataRow dr in drs)
+            {
+                valuestring += dr[0].ToString() + "@" + dr[1].ToString() + "#";
+            }
             ConnectDB db = new ConnectDB();
-            Boolean result = db.Insert("insert into GISDATA_REPORT (REPORTNAME,REPORTMOULD,DATASOURCE) VALUES ('" + reportname + "','" + reportmould + "','" + datasource + "')");
+            Boolean result = true;
+            if (reporttype == "透视表")
+            {
+                result = db.Insert("insert into GISDATA_REPORT (REPORTNAME,REPORTMOULD,DATASOURCE,REPORTTYPE,SHEETNAME,SQLSTR,ROWNAME,COLUMNSNAME,VALUESTRING) VALUES ('" + reportname + "','" + reportmould + "','" + datasource + "','" + reporttype + "','" + sheetname + "','" + sqlstr + "','" + this.DicPivot["ROW"].Trim() + "','" + this.DicPivot["COLUMNS"].Trim() + "','" + valuestring.Trim() + "')");
+            }
+            else 
+            {
+                result = db.Insert("insert into GISDATA_REPORT (REPORTNAME,REPORTMOULD,DATASOURCE,REPORTTYPE,SHEETNAME,SQLSTR) VALUES ('" + reportname + "','" + reportmould + "','" + datasource + "','" + reporttype + "','" + sheetname + "','" + sqlstr + "')");
+            }
             if (result) 
             {
                 bindData();
@@ -91,5 +113,66 @@ namespace GISData.CheckConfig.CheckReport
             }
             bindData();
         }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string stringPath = Application.StartupPath + "\\Report";
+            CommonClass common = new CommonClass();
+            List<string> listSource = common.GetExcelSheetNames(stringPath + "\\" + this.comboBox1.Text);
+            this.checkedComboBoxEdit3.Properties.DataSource = listSource;
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            string[] dataSourceArr = this.checkedComboBoxEdit1.EditValue.ToString().Split(',');
+            string sql = "("+this.textBoxSql.Text.ToString()+")";
+            CommonClass conClass = new CommonClass();
+            IFeatureWorkspace ifw = conClass.GetFeatureWorkspaceByName(dataSourceArr[0]);
+            IWorkspace iw = conClass.GetWorkspaceByName(dataSourceArr[0]);
+            IQueryDef pQueryDef = ifw.CreateQueryDef();
+            pQueryDef.Tables = sql;
+            pQueryDef.SubFields = "*";
+            try 
+            {
+                ICursor pCur = pQueryDef.Evaluate();
+                MessageBox.Show("SQL通过检查");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                MessageBox.Show("SQL没有通过检查");
+            }
+        }
+
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (this.comboBox2.Text == "透视表")
+            {
+                this.labelpivot.Visible = true;
+                this.textBoxpivot.Visible = true;
+                FormPivotConfig pivot = new FormPivotConfig(DicPivot,this.checkedComboBoxEdit1.EditValue.ToString().Split(','));
+                pivot.ShowDialog();
+                if (pivot.DialogResult == DialogResult.OK) 
+                {
+                    this.DicPivot = pivot.DicPivotValue;
+                    this.dtSource = pivot.dtSourceValue;
+                    textBoxpivot.Text = "行：" + this.DicPivot["ROW"] + "\r\n";
+                    textBoxpivot.Text += "列：" + this.DicPivot["COLUMNS"] + "\r\n";
+                    textBoxpivot.Text += "值："+ "\r\n";
+                    DataRow[] drs = this.dtSource.Select(null);
+                    foreach (DataRow dr in drs) 
+                    {
+                        textBoxpivot.Text += dr[0].ToString()+"--"+dr[1].ToString() + "\r\n";
+                    }
+                }
+            }
+            else
+            {
+                this.labelpivot.Visible = false;
+                this.textBoxpivot.Visible = false;
+            }
+        }
+
+
     }
 }

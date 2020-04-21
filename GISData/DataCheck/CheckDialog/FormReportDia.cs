@@ -1,6 +1,5 @@
-﻿using DevExpress.Spreadsheet;
-using DevExpress.XtraReports.UI;
-using DevExpress.XtraReports.UserDesigner;
+﻿using ADODB;
+using Spread = DevExpress.Spreadsheet;
 using DevExpress.XtraSpreadsheet;
 using ESRI.ArcGIS.Geodatabase;
 using GISData.Common;
@@ -15,6 +14,19 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DevExpress.Office;
+using DevExpress.Utils;
+//using DevExpress.XtraSpreadsheet.Utils;
+using Model = DevExpress.XtraSpreadsheet.Model;
+using Excel = Microsoft.Office.Interop.Excel;
+using DevExpress.XtraRichEdit;
+using System.Collections;
+using DevExpress.XtraSpreadsheet.Commands;
+using DevExpress.XtraSpreadsheet.Services;
+using DevExpress.XtraSpreadsheet.Services.Implementation;
+using DevExpress.XtraSpreadsheet.Internal;
+//using DevExpress.XtraSpreadsheet.API.Native.Implementation;
+//using DevExpress.Xpf.Spreadsheet;
 
 namespace GISData.DataCheck.CheckDialog
 {
@@ -74,91 +86,304 @@ namespace GISData.DataCheck.CheckDialog
             }
         }
 
-        public void DoReport() 
+        public void DoReport()
         {
             CommonClass common = new CommonClass();
             ConnectDB db = new ConnectDB();
             int[] selectRows = this.gridView1.GetSelectedRows();
-            foreach (int itemRow in selectRows)
+            DataTable dtDs = new DataTable();
+            foreach(int itemRow in selectRows)
             {
                 DataRow row = this.gridView1.GetDataRow(itemRow);
-                string gldw = common.GetConfigValue("GLDW") == "" ? "520121" : common.GetConfigValue("GLDW");
-                DataTable dtTaskDb = db.GetDataBySql("select YZLGLDW,YZLFS,ZCSBND,XMMC,RWMJ from GISDATA_TASK where YZLGLDW = '" + gldw + "'");
-                dtTaskDb.TableName = "GISDATA_TASK";
-                DataTable dtTask = common.TranslateDataTable(dtTaskDb);
-                DataRow[] drTask = dtTask.Select(null);
-                DataTable dtDs = new DataTable();
-                dtTask.Columns.Add("SBMJ");
-                dtDs.Columns.Add("YZLGLDW");
-                dtDs.Columns.Add("YZLFS");
-                dtDs.Columns.Add("ZCSBND");
-                dtDs.Columns.Add("XMMC");
-                dtDs.Columns.Add("RWMJ");
-                dtDs.Columns.Add("SBMJ");
-
+                String reportType = row["REPORTTYPE"].ToString();
+                String sheetname = row["SHEETNAME"].ToString();
+                String sqlstr = row["SQLSTR"].ToString();
+                String rowname = row["ROWNAME"].ToString();
+                String columnsname = row["COLUMNSNAME"].ToString();
+                String valuestring = row["VALUESTRING"].ToString();
                 string[] dataSourceArr = row["DATASOURCE"].ToString().Split(',');
-                DataTable dt = new DataTable();
-                for(int i = 0 ;i < dataSourceArr.Length;i++)
-                {
-                    DataTable itemDt = common.GetTableByName(dataSourceArr[i].Trim());
-                    //DataTable itemDt = ToDataTable(table);
-                    dt.Merge(itemDt);
-                }
-                
-                for (int i = 0; i < drTask.Length; i++)
-                {
-                    DataRow rowItem = drTask[i];
-                    string zcsbnd = rowItem["ZCSBND"].ToString();
-                    gldw = rowItem["YZLGLDW"].ToString();
-                    string yzlfs = rowItem["YZLFS"].ToString();
-                    string xmmc = rowItem["XMMC"].ToString();
-                    string sbmj = "";
 
-                    var query = from t in dt.AsEnumerable()
-                                where (t.Field<string>("YZLGLDW") == gldw && t.Field<string>("ZCSBND") == zcsbnd && t.Field<string>("YZLFS") == yzlfs &&t.Field<string>("XMMC") == xmmc)
-                                group t by new { t1 = t.Field<string>("YZLGLDW"), t2 = t.Field<string>("ZCSBND"), t3 = t.Field<string>("YZLFS"), t4 = t.Field<string>("XMMC") } into m
-                                select new
-                                {
-                                    gldwItem = m.Key.t1,
-                                    zcsbndItem = m.Key.t2,
-                                    yzlfsItem = m.Key.t3,
-                                    xmmcItem = m.Key.t4,
-                                    sbmjItem = m.Sum(n => Convert.ToDouble(n["SBMJ"]))
-                                };
-                    if (query.ToList().Count > 0)
-                    {
-                        query.ToList().ForEach(q =>
-                        {
-                            sbmj = q.sbmjItem.ToString();
-                        });
-                    } 
-                    rowItem["SBMJ"] = sbmj;
-                    dtDs.ImportRow(rowItem);
-                }
                 SpreadsheetControl sheet = new SpreadsheetControl();
-                //sheet.LoadDocument(Application.StartupPath + "\\Report\\" + row["REPORTMOULD"].ToString());
-                IWorkbook book = sheet.Document;
-                book.LoadDocument(Application.StartupPath + "\\Report\\" + row["REPORTMOULD"].ToString());
-                book.MailMergeDataSource = dtDs;
-                IWorkbook resultBook = book.GenerateMailMergeDocuments()[0];
-                string time = DateTime.Now.ToString("yyyyMMddHHmmss");
-                if (resultBook != null)
+                Spread.IWorkbook book = sheet.Document;
+                book.LoadDocument(Application.StartupPath + "\\Report\\" + row["REPORTMOULD"].ToString(), Spread.DocumentFormat.OpenXml);
+                if (reportType == "任务完成统计表")
                 {
-                    using (MemoryStream result = new MemoryStream())
+                    string gldw = common.GetConfigValue("GLDW") == "" ? "520121" : common.GetConfigValue("GLDW");
+                    DataTable dtTaskDb = db.GetDataBySql("select YZLGLDW,YZLFS,ZCSBND,XMMC,RWMJ from GISDATA_TASK where YZLGLDW = '" + gldw + "'");
+                    dtTaskDb.TableName = "GISDATA_TASK";
+                    DataTable dtTask = common.TranslateDataTable(dtTaskDb);
+                    DataRow[] drTask = dtTask.Select(null);
+                    dtTask.Columns.Add("SBMJ");
+                    dtDs.Columns.Add("YZLGLDW");
+                    dtDs.Columns.Add("YZLFS");
+                    dtDs.Columns.Add("ZCSBND");
+                    dtDs.Columns.Add("XMMC");
+                    dtDs.Columns.Add("RWMJ");
+                    dtDs.Columns.Add("SBMJ");
+
+                    DataTable dt = new DataTable();
+                    for (int i = 0; i < dataSourceArr.Length; i++)
                     {
-                        resultBook.SaveDocument("D:\\report\\" + row["REPORTNAME"].ToString() + time + ".xlsx");
-                        result.Seek(0, SeekOrigin.Begin);
+                        DataTable itemDt = common.GetTableByName(dataSourceArr[i].Trim());
+                        //DataTable itemDt = ToDataTable(table);
+                        dt.Merge(itemDt);
+                    }
+
+                    for (int i = 0; i < drTask.Length; i++)
+                    {
+                        DataRow rowItem = drTask[i];
+                        string zcsbnd = rowItem["ZCSBND"].ToString();
+                        gldw = rowItem["YZLGLDW"].ToString();
+                        string yzlfs = rowItem["YZLFS"].ToString();
+                        string xmmc = rowItem["XMMC"].ToString();
+                        string sbmj = "";
+
+                        var query = from t in dt.AsEnumerable()
+                                    where (t.Field<string>("YZLGLDW") == gldw && t.Field<string>("ZCSBND") == zcsbnd && t.Field<string>("YZLFS") == yzlfs && t.Field<string>("XMMC") == xmmc)
+                                    group t by new { t1 = t.Field<string>("YZLGLDW"), t2 = t.Field<string>("ZCSBND"), t3 = t.Field<string>("YZLFS"), t4 = t.Field<string>("XMMC") } into m
+                                    select new
+                                    {
+                                        gldwItem = m.Key.t1,
+                                        zcsbndItem = m.Key.t2,
+                                        yzlfsItem = m.Key.t3,
+                                        xmmcItem = m.Key.t4,
+                                        sbmjItem = m.Sum(n => Convert.ToDouble(n["SBMJ"]))
+                                    };
+                        if (query.ToList().Count > 0)
+                        {
+                            query.ToList().ForEach(q =>
+                            {
+                                sbmj = q.sbmjItem.ToString();
+                            });
+                        }
+                        rowItem["SBMJ"] = sbmj;
+                        dtDs.ImportRow(rowItem);
+                    }
+                    book.MailMergeDataSource = dtDs;
+                    Spread.IWorkbook resultBook = book.GenerateMailMergeDocuments()[0];
+                    string time = DateTime.Now.ToString("yyyyMMddHHmmss");
+                    if (resultBook != null)
+                    {
+                        using (MemoryStream result = new MemoryStream())
+                        {
+                            resultBook.SaveDocument("D:\\report\\" + row["REPORTNAME"].ToString() + time + ".xlsx");
+                            result.Seek(0, SeekOrigin.Begin);
+                        }
+                    }
+                }else if(reportType == "透视表")
+                {
+
+                    string sql = "(" + sqlstr + ")";
+                    CommonClass conClass = new CommonClass();
+                    IFeatureWorkspace ifw = conClass.GetFeatureWorkspaceByName(dataSourceArr[0]);
+                    ESRI.ArcGIS.Geodatabase.IWorkspace iw = conClass.GetWorkspaceByName(dataSourceArr[0]);
+                    IQueryDef pQueryDef = ifw.CreateQueryDef();
+                    pQueryDef.Tables = sql;
+                    pQueryDef.SubFields = "*";
+                    try
+                    {
+                        ICursor pCur = pQueryDef.Evaluate();
+                        dtDs = common.ToDataTable(pCur);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+                    string totalColumn = "XIANG";
+                    ConvertPivotTable conver = new ConvertPivotTable();
+                    DataTable dtPivot = conver.CreatePivotTable(dtDs, totalColumn, "SBMJ", "", "YZLGLDW,YZLFS,ZCSBND,GCLB");
+
+                    Spread.Worksheet Spreadsheet = book.Worksheets[sheetname];
+
+                    Model.DocumentModel documentModel = new Model.DocumentModel();
+                    FileInfo xlxsFile =new FileInfo(Application.StartupPath + "\\Report\\" + row["REPORTMOULD"].ToString());
+                    System.IO.Stream stream = xlxsFile.OpenRead();
+                    Spread.DocumentFormat format = documentModel.AutodetectDocumentFormat(xlxsFile.Name);
+                    documentModel.LoadDocument(stream, format,string.Empty);
+
+                    MailMergeOptions option = new MailMergeOptions(documentModel);
+
+                    Model.CellRangeBase detail = option.DetailRange;
+                    Model.CellRangeBase header = option.HeaderRange;
+
+                    IEnumerable<Spread.Cell> dynamiccolArr = Spreadsheet.Search("=DYNAMICCOL(\""+totalColumn+"\")");
+                    IEnumerable<Spread.Cell> dynamicfieldArr = Spreadsheet.Search("=DYNAMICFIELD(\"" + totalColumn + "\")");
+                    Spread.Cell dynamiccol = null;
+                    foreach (Spread.Cell str in dynamiccolArr) 
+                    {
+                        dynamiccol = str;
+                        break;
+                    }
+                    Spread.Cell dynamicFiled = null;
+
+                    foreach (Spread.Cell str in dynamicfieldArr)
+                    {
+                        dynamicFiled = str;
+                        break;
+                    }
+                    int ColumnIndexItem = 0;
+                    for (int i = 0; i < dtPivot.Columns.Count; i++)
+                    {
+                        DataColumn itemColumn = dtPivot.Columns[i];
+                        if(itemColumn.Namespace ==totalColumn)
+                        {
+                            Spread.Cell rangeHeader = Spreadsheet.Cells[dynamiccol.RowIndex,dynamiccol.ColumnIndex+ColumnIndexItem];
+                            Spread.Cell rangeDetail = Spreadsheet.Cells[dynamicFiled.RowIndex, dynamiccol.ColumnIndex + ColumnIndexItem];
+                            rangeHeader.CopyFrom(dynamiccol);
+                            rangeDetail.CopyFrom(dynamicFiled);
+                            rangeHeader.Value = itemColumn.Caption.ToString();
+                            rangeDetail.Calculate();
+                            rangeHeader.Calculate();
+                            rangeDetail.Value = "=FIELD(\""+itemColumn.ColumnName.ToString()+"\")";
+                            rangeDetail.Formula = "=FIELD(\"" + itemColumn.ColumnName.ToString() + "\")";
+                            ColumnIndexItem++;
+                        }
+                    }
+
+                    //标题range
+                    if (Spreadsheet.DefinedNames.GetDefinedName("TITLESTRING") != null) 
+                    {
+                        Spread.Range titleRange = Spreadsheet.DefinedNames.GetDefinedName("TITLESTRING").Range;
+                        Model.CellPosition TitleStarPosition = new Model.CellPosition(titleRange.LeftColumnIndex, titleRange.TopRowIndex);
+                        Model.CellPosition TitleEndPosition = new Model.CellPosition(titleRange.RightColumnIndex + ColumnIndexItem - 1, titleRange.BottomRowIndex);
+                        Model.CellRange newTitle = new Model.CellRange(header.Worksheet, TitleStarPosition, TitleEndPosition);
+                        titleRange = Spreadsheet.Range[newTitle.ToString()];
+                        Spreadsheet.MergeCells(titleRange);
+                    }
+                    
+                    //单位Range
+                    if (Spreadsheet.DefinedNames.GetDefinedName("UNITSTRING") != null) 
+                    {
+                        Spread.Range unitRange = Spreadsheet.DefinedNames.GetDefinedName("UNITSTRING").Range;
+                        Model.CellPosition UnitStarPosition = new Model.CellPosition(unitRange.LeftColumnIndex, unitRange.TopRowIndex);
+                        Model.CellPosition UnitEndPosition = new Model.CellPosition(unitRange.RightColumnIndex + ColumnIndexItem - 1, unitRange.BottomRowIndex);
+                        Model.CellRange newUnit = new Model.CellRange(header.Worksheet, UnitStarPosition, UnitEndPosition);
+                        unitRange = Spreadsheet.Range[newUnit.ToString()];
+                        Spreadsheet.MergeCells(unitRange);
+                        Spread.Style unitStyle = unitRange.Style;
+                        unitStyle.Alignment.Horizontal = Spread.SpreadsheetHorizontalAlignment.Right;
+                    }
+                    
+                    //Detail Range
+                    Model.CellRange newDetail = new Model.CellRange(header.Worksheet, detail.TopLeft.Column, detail.TopLeft.Row, detail.TopRight.Column + ColumnIndexItem, detail.BottomRight.Row);
+                    Spread.Range detailRange = Spreadsheet.Range[newDetail.ToString()];
+                    Spreadsheet.DefinedNames.GetDefinedName("DETAILRANGE").Range = detailRange;
+                    //Header Range
+                    Model.CellRange newHeader = new Model.CellRange(header.Worksheet, header.TopLeft.Column, header.TopLeft.Row, header.TopRight.Column + ColumnIndexItem, header.BottomRight.Row);
+                    Spread.Range headerRange = Spreadsheet.Range[newHeader.ToString()];
+                    Spreadsheet.DefinedNames.GetDefinedName("HEADERRANGE").Range = headerRange;
+                    
+                    
+
+
+                    string time = DateTime.Now.ToString("yyyyMMddHHmmss");
+                    book.MailMergeDataSource = dtPivot;
+                    Spread.IWorkbook resultBook = book.GenerateMailMergeDocuments()[0];
+                    if (resultBook != null)
+                    {
+                        using (MemoryStream result = new MemoryStream())
+                        {
+                            resultBook.SaveDocument("D:\\report\\" + row["REPORTNAME"].ToString() + time + ".xlsx");
+                            result.Seek(0, SeekOrigin.Begin);
+                        }
+                    }
+                }else 
+                {
+                    string sql = "(" + sqlstr + ")";
+                    CommonClass conClass = new CommonClass();
+                    IFeatureWorkspace ifw = conClass.GetFeatureWorkspaceByName(dataSourceArr[0]);
+                    ESRI.ArcGIS.Geodatabase.IWorkspace iw = conClass.GetWorkspaceByName(dataSourceArr[0]);
+                    IQueryDef pQueryDef = ifw.CreateQueryDef();
+                    pQueryDef.Tables = sql;
+                    pQueryDef.SubFields = "*";
+                    try
+                    {
+                        ICursor pCur = pQueryDef.Evaluate();
+                        dtDs = common.ToDataTable(pCur);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+                    book.MailMergeDataSource = dtDs;
+                    Spread.IWorkbook resultBook = book.GenerateMailMergeDocuments()[0];
+                    string time = DateTime.Now.ToString("yyyyMMddHHmmss");
+                    if (resultBook != null)
+                    {
+                        using (MemoryStream result = new MemoryStream())
+                        {
+                            resultBook.SaveDocument("D:\\report\\" + row["REPORTNAME"].ToString() + time + ".xlsx");
+                            result.Seek(0, SeekOrigin.Begin);
+                        }
                     }
                 }
-                //book.SaveDocument("D:\\report\\" + row["REPORTNAME"].ToString() + time + ".xlsx");
-                //XtraReport report = new XtraReport();
-                //report.LoadLayout(Application.StartupPath +"\\Report\\"+ row["REPORTMOULD"].ToString());
-                //report.DataSource = dtDs;
-                //string time = DateTime.Now.ToString("yyyyMMddHHmmss");
-                //report.ExportToXlsx("D:\\report\\" + row["REPORTNAME"].ToString() + time + ".xlsx");
             }
         }
 
+
+        private void GetFileInfo(string strFilePath)
+        {
+            StringBuilder sb = new StringBuilder();
+            if (System.IO.File.Exists(strFilePath))
+            {
+                FileInfo fif = new FileInfo(strFilePath);
+                sb.AppendLine(string.Format("文件创建时间：{0}", fif.CreationTime.ToString()));
+                sb.AppendLine(string.Format("文件最后一次读取时间：{0}", fif.LastAccessTime.ToString()));
+                sb.AppendLine(string.Format("文件最后一次修改时间：{0}", fif.LastWriteTime.ToString()));
+                sb.AppendLine(string.Format("文件创建时间(UTC)：{0}", fif.CreationTimeUtc.ToString()));
+                sb.AppendLine(string.Format("文件最后一次读取时间(UTC)：{0}", fif.LastAccessTimeUtc.ToString()));
+                sb.AppendLine(string.Format("文件最后一次修改时间(UTC)：{0}", fif.LastWriteTimeUtc.ToString()));
+                sb.AppendLine(string.Format("文件目录：{0}", fif.Directory));
+                sb.AppendLine(string.Format("文件目录名称：{0}", fif.DirectoryName));
+                sb.AppendLine(string.Format("文件扩展名：{0}", fif.Extension));
+                sb.AppendLine(string.Format("文件完整名称：{0}", fif.FullName));
+                sb.AppendLine(string.Format("文件名：{0}", fif.Name));
+                sb.AppendLine(string.Format("文件字节长度：{0}", fif.Length));
+                Console.WriteLine(sb.ToString());
+            }
+        }
+        //Missing的命名空间using System.Reflection;
+        public Recordset ConvertDataTableToRecordset(DataTable table)
+        {
+            Recordset rs = new RecordsetClass();
+            foreach (DataColumn dc in table.Columns)
+            {
+                rs.Fields._Append(dc.ColumnName, GetDataType(dc.DataType), -1, FieldAttributeEnum.adFldIsNullable);
+            }
+            rs.Open(Missing.Value, Missing.Value, CursorTypeEnum.adOpenUnspecified, LockTypeEnum.adLockUnspecified, -1);
+            foreach (DataRow dr in table.Rows)
+            {
+                rs.AddNew(Missing.Value, Missing.Value); object o;
+                for (int i = 0; i < table.Columns.Count; i++)
+                {
+                    rs.Fields[i].Value = dr[i];
+                    o = rs.Fields[i].Value;
+                }
+            }
+            return rs;
+        }
+        public static DataTypeEnum GetDataType(Type dataType)
+        {
+            switch (dataType.ToString())
+            {
+                case "System.Boolean": return DataTypeEnum.adBoolean;
+                case "System.Byte": return DataTypeEnum.adUnsignedTinyInt;
+                case "System.Char": return DataTypeEnum.adChar;
+                case "System.DateTime": return DataTypeEnum.adDate;
+                case "System.Decimal": return DataTypeEnum.adDecimal;
+                case "System.Double": return DataTypeEnum.adDouble;
+                case "System.Int16": return DataTypeEnum.adSmallInt;
+                case "System.Int32": return DataTypeEnum.adInteger;
+                case "System.Int64": return DataTypeEnum.adBigInt;
+                case "System.SByte": return DataTypeEnum.adTinyInt;
+                case "System.Single": return DataTypeEnum.adSingle;
+                case "System.String": return DataTypeEnum.adVarChar;
+                case "System.UInt16": return DataTypeEnum.adUnsignedSmallInt;
+                case "System.UInt32": return DataTypeEnum.adUnsignedInt;
+                case "System.UInt64": return DataTypeEnum.adUnsignedBigInt;
+                default: throw new Exception("没有对应的数据类型");
+            }
+        }
          /// <summary>
         /// DataTable转成List
         /// </summary>
@@ -205,14 +430,6 @@ namespace GISData.DataCheck.CheckDialog
                 list.Add(s);
             }
             return list;
-        }
-
-        private void BindingFields(DataTable ds, XRTableCellCollection cc)
-        {
-            for (int i = 0; i < ds.Columns.Count - 1; i++)
-            {
-                cc[i].DataBindings.Add("Text", ds, ds.Columns[i].Caption);
-             }
         }
 
         /// <summary>  

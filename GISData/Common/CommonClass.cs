@@ -3,6 +3,7 @@ using DevExpress.XtraEditors.Repository;
 using DevExpress.XtraEditors.ViewInfo;
 using DevExpress.XtraGrid.Views.Grid;
 using DevExpress.XtraTreeList.Nodes;
+using ESRI.ArcGIS.ADF;
 using ESRI.ArcGIS.Carto;
 using ESRI.ArcGIS.DataSourcesGDB;
 using ESRI.ArcGIS.Geodatabase;
@@ -10,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Data.OleDb;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -22,6 +24,7 @@ namespace GISData.Common
     {
         private static Dictionary<string, IFeatureLayer> DicLayer = new Dictionary<string, IFeatureLayer>();
         private static Dictionary<string, IFeatureWorkspace> DicWF = new Dictionary<string, IFeatureWorkspace>();
+        private static Dictionary<string, IWorkspace> DicW = new Dictionary<string, IWorkspace>();
         /// <summary>
         /// 获取IFeatureLayer
         /// </summary>
@@ -64,6 +67,69 @@ namespace GISData.Common
                 return _Layer;
             }
         }
+        /// <summary> 
+        /// 获取Excel工作薄中Sheet页(工作表)名集合
+        /// </summary> 
+        /// <param name="excelFile">Excel文件名及路径,EG:C:\Users\JK\Desktop\导入测试.xls</param> 
+        /// <returns>Sheet页名称集合</returns> 
+        public List<string> GetExcelSheetNames(string fileName)
+        {
+            OleDbConnection objConn = null;
+            System.Data.DataTable dt = null;
+            try
+            {
+                string connString=string.Empty;
+                string FileType =fileName.Substring(fileName.LastIndexOf("."));
+                if (FileType == ".xls")  
+                 connString = "Provider=Microsoft.Jet.OLEDB.4.0;" +
+                    "Data Source=" + fileName + ";Extended Properties=Excel 8.0;";
+                else//.xlsx
+                    connString = "Provider=Microsoft.ACE.OLEDB.12.0;" + "Data Source=" + fileName + ";" + ";Extended Properties=\"Excel 12.0;HDR=YES;IMEX=1\"";  
+                // 创建连接对象 
+                objConn = new OleDbConnection(connString);
+                // 打开数据库连接 
+                objConn.Open();
+                // 得到包含数据架构的数据表 
+                dt = objConn.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
+                if (dt == null)
+                {
+                    return null;
+                }
+                List<string> excelSheets = new List<string>();
+                int i = 0;
+                // 添加工作表名称到字符串数组 
+                foreach (DataRow row in dt.Rows)
+                {
+                    string strSheetTableName = row["TABLE_NAME"].ToString();
+                    //过滤无效SheetName
+                    if (strSheetTableName.Contains("$")&&strSheetTableName.Replace("'", "").EndsWith("$"))
+                    {
+                        excelSheets.Add(strSheetTableName.Substring(0, strSheetTableName.Length - 1));
+                    }                   
+                    i++;
+                }
+                return excelSheets;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+                return null;
+            }
+            finally
+            {
+                // 清理 
+                if (objConn != null)
+                {
+                    objConn.Close();
+                    objConn.Dispose();
+                }
+                if (dt != null)
+                {
+                    dt.Dispose();
+                }
+            }
+        }
+
         /// <summary>
         /// 获取DataTable
         /// </summary>
@@ -167,7 +233,7 @@ namespace GISData.Common
         /// </summary>  
         /// <param name="mTable"></param>  
         /// <returns></returns>  
-        public static DataTable ToDataTable(ITable mTable)
+        public DataTable ToDataTable(ITable mTable)
         {
             try
             {
@@ -195,6 +261,51 @@ namespace GISData.Common
                             StrRow[i] = pFeature.get_Value(i).ToString();
                         }
                         
+                        //StrRow[i] = ValueFromCode(pFeature);
+                    }
+                    pRow.ItemArray = StrRow;
+                    pTable.Rows.Add(pRow);
+                    pFeature = cursor.NextRow();
+                }
+
+                return pTable;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }/// <summary>  
+        /// 将ITable转换为DataTable  
+        /// </summary>  
+        /// <param name="mTable"></param>  
+        /// <returns></returns>  
+        public DataTable ToDataTable(ICursor cursor)
+        {
+            try
+            {
+                DataTable pTable = new DataTable();
+                for (int i = 0; i < cursor.Fields.FieldCount; i++)
+                {
+                    pTable.Columns.Add(cursor.Fields.get_Field(i).Name);
+                }
+                IRow pFeature = cursor.NextRow();
+                while (pFeature != null)
+                {
+                    DataRow pRow = pTable.NewRow();
+                    string[] StrRow = new string[pFeature.Fields.FieldCount];
+                    for (int i = 0; i < pFeature.Fields.FieldCount; i++)
+                    {
+                        //StrRow[i] = pFeature.get_Value(i).ToString();
+                        IField field = pFeature.Fields.get_Field(i);
+                        if (field.Domain != null)
+                        {
+                            StrRow[i] = ValueFromCode(field.Domain, pFeature.get_Value(i).ToString());
+                        }
+                        else
+                        {
+                            StrRow[i] = pFeature.get_Value(i).ToString();
+                        }
+
                         //StrRow[i] = ValueFromCode(pFeature);
                     }
                     pRow.ItemArray = StrRow;
@@ -260,7 +371,7 @@ namespace GISData.Common
             }
         }
 
-        public static string ValueFromCode(IDomain domain, string convertedValue)
+        public string ValueFromCode(IDomain domain, string convertedValue)
         {
             //string methodName = MethodInfo.GetCurrentMethod().Name;
             string value = string.Empty;
@@ -283,14 +394,14 @@ namespace GISData.Common
             return value;
         }
 
-        public static bool AreStringsEqual(string s1, string s2)
+        public bool AreStringsEqual(string s1, string s2)
         {
             if (string.Compare(s1, s2, true) == 0)
                 return true;
             else
                 return false;
         }
-        public static string ToText(object value)
+        public string ToText(object value)
         {
             // string methodName = MethodInfo.GetCurrentMethod().Name;
             string ret = string.Empty;
@@ -348,6 +459,47 @@ namespace GISData.Common
                 }
                 DicWF.Add(tablename, space);
                 return space;
+            }
+        }
+
+        /// <summary>
+        /// 获取IFeatureWorkspace
+        /// </summary>
+        /// <param name="tablename"></param>
+        /// <returns></returns>
+        public IWorkspace GetWorkspaceByName(string tablename)
+        {
+            if (DicW.ContainsKey(tablename))
+            {
+                return DicW[tablename];
+            }
+            else
+            {
+                ConnectDB db = new ConnectDB();
+                DataTable dt = db.GetDataBySql("select * from GISDATA_REGINFO where REG_NAME = '" + tablename.Trim() + "'");
+                DataRow[] dr = dt.Select("1=1");
+                string path = dr[0]["PATH"].ToString();
+                string dbtype = dr[0]["DBTYPE"].ToString();
+                IFeatureWorkspace space;
+                if (dbtype == "Access数据库")
+                {
+                    AccessWorkspaceFactory fac = new AccessWorkspaceFactoryClass();
+                    space = (IFeatureWorkspace)fac.OpenFromFile(path, 0);
+
+                }
+                else if (dbtype == "文件夹数据库")
+                {
+                    FileGDBWorkspaceFactoryClass fac = new FileGDBWorkspaceFactoryClass();
+                    space = (IFeatureWorkspace)fac.OpenFromFile(path, 0);
+
+                }
+                else
+                {
+                    FileGDBWorkspaceFactoryClass fac = new FileGDBWorkspaceFactoryClass();
+                    space = (IFeatureWorkspace)fac.OpenFromFile(path, 0);
+                }
+                DicW.Add(tablename, space as IWorkspace);
+                return space as IWorkspace ;
             }
         }
         /// <summary>
@@ -485,7 +637,7 @@ namespace GISData.Common
         /// <param name="checkItem">RepositoryItemCheckEdit</param>
         /// <param name="fieldName">需要绘制Checkbox的列名</param>
         /// <param name="e">ColumnHeaderCustomDrawEventArgs</param>
-        public static void DrawHeaderCheckBox(GridView view, RepositoryItemCheckEdit checkItem, string fieldName, ColumnHeaderCustomDrawEventArgs e)
+        public void DrawHeaderCheckBox(GridView view, RepositoryItemCheckEdit checkItem, string fieldName, ColumnHeaderCustomDrawEventArgs e)
         {
             /*说明：
              *参考：https://www.devexpress.com/Support/Center/Question/Details/Q354489
@@ -505,7 +657,7 @@ namespace GISData.Common
                 e.Handled = true;
             }
         }
-        private static void DrawCheckBox(RepositoryItemCheckEdit checkItem, Graphics g, Rectangle r, bool Checked)
+        private void DrawCheckBox(RepositoryItemCheckEdit checkItem, Graphics g, Rectangle r, bool Checked)
         {
             CheckEditViewInfo _info;
             CheckEditPainter _painter;
@@ -521,7 +673,7 @@ namespace GISData.Common
             _painter.Draw(_args);
             _args.Cache.Dispose();
         }
-        private static int getCheckedCount(GridView view, string filedName)
+        private int getCheckedCount(GridView view, string filedName)
         {
             int count = 0;
             for (int i = 0; i < view.DataRowCount; i++)

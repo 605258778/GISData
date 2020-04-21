@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="adodb, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
     <Reference Include="DevExpress.Charts.v18.2.Core, Version=18.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.CodeParser.v18.2, Version=18.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Data.v18.2, Version=18.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
@@ -45,9 +48,10 @@
     <Reference Include="DevExpress.RichEdit.v18.2.Core, Version=18.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.RichEdit.v18.2.Export, Version=18.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Sparkline.v18.2.Core, Version=18.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.Spreadsheet.v18.2.Core, Version=18.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Spreadsheet.v18.2.Core, Version=18.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Utils.v18.2, Version=18.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Utils.v18.2.UI, Version=18.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Xpf.Spreadsheet.v18.2, Version=18.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraBars.v18.2, Version=18.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.XtraCharts.v18.2, Version=18.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.XtraCharts.v18.2.Extensions, Version=18.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
@@ -135,6 +139,13 @@
     <Reference Include="Microsoft.Office.Interop.Excel, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
+    <Reference Include="Microsoft.Office.Tools.Excel, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.Office.Tools.Excel.v4.0.Utilities, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Spire.XLS">
+      <HintPath>C:\Program Files (x86)\e-iceblue\Spire.Xls\Bin\NET4.6\Spire.XLS.dll</HintPath>
+    </Reference>
     <Reference Include="stdole, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
@@ -209,6 +220,12 @@
     </Compile>
     <Compile Include="CheckConfig\CheckChange\FormChange.Designer.cs">
       <DependentUpon>FormChange.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CheckConfig\CheckReport\FormPivotConfig.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CheckConfig\CheckReport\FormPivotConfig.Designer.cs">
+      <DependentUpon>FormPivotConfig.cs</DependentUpon>
     </Compile>
     <Compile Include="CheckConfig\CheckReport\FormReportConfig.cs">
       <SubType>Form</SubType>
@@ -290,6 +307,7 @@
     <Compile Include="Common\ExportExcelClass.cs" />
     <Compile Include="Common\GetAllFeature.cs" />
     <Compile Include="Common\OpenAttribute.cs" />
+    <Compile Include="Common\ConvertPivotTable.cs" />
     <Compile Include="Common\RefreshTable.cs" />
     <Compile Include="Common\RemoveLayer.cs" />
     <Compile Include="Common\TopoChecker.cs" />
@@ -297,6 +315,7 @@
     <Compile Include="Common\TreeDataGridView.cs" />
     <Compile Include="Common\TreeNodeMul.cs" />
     <Compile Include="Common\ZoomToLayer.cs" />
+    <Compile Include="DataCheck\CheckDialog\ClassSpreadSheet.cs" />
     <Compile Include="DataCheck\CheckDialog\FormAttrDia.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -433,6 +452,7 @@
     </Compile>
     <EmbeddedResource Include="CheckBegin\FormBegin.resx">
       <DependentUpon>FormBegin.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="CheckConfig\CheckAttr\CheckDialog\FormDomain.resx">
       <DependentUpon>FormDomain.cs</DependentUpon>
@@ -440,12 +460,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CheckConfig\CheckAttr\CheckDialog\FormLogic.resx">
       <DependentUpon>FormLogic.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="CheckConfig\CheckAttr\CheckDialog\FormNullValue.resx">
       <DependentUpon>FormNullValue.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="CheckConfig\CheckAttr\CheckDialog\FormUnique.resx">
       <DependentUpon>FormUnique.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="CheckConfig\CheckAttr\CheckDialog\FormXmmc.resx">
       <DependentUpon>FormXmmc.cs</DependentUpon>
@@ -458,6 +481,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CheckConfig\CheckChange\FormChange.resx">
       <DependentUpon>FormChange.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CheckConfig\CheckReport\FormPivotConfig.resx">
+      <DependentUpon>FormPivotConfig.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CheckConfig\CheckReport\FormReportConfig.resx">
       <DependentUpon>FormReportConfig.cs</DependentUpon>
