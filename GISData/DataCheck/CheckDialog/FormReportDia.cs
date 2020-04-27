@@ -156,7 +156,7 @@ namespace GISData.DataCheck.CheckDialog
                                 sbmj = q.sbmjItem.ToString();
                             });
                         }
-                        rowItem["SBMJ"] = sbmj;
+                        rowItem["SBMJ"] = sbmj == "" ? "0" : sbmj;
                         dtDs.ImportRow(rowItem);
                     }
                     book.MailMergeDataSource = dtDs;
@@ -180,22 +180,6 @@ namespace GISData.DataCheck.CheckDialog
                         dt.Merge(itemDt);
                     }
 
-                    //string sql = "(" + sqlstr + ")";
-                    //CommonClass conClass = new CommonClass();
-                    //IFeatureWorkspace ifw = conClass.GetFeatureWorkspaceByName(dataSourceArr[0]);
-                    //ESRI.ArcGIS.Geodatabase.IWorkspace iw = conClass.GetWorkspaceByName(dataSourceArr[0]);
-                    //IQueryDef pQueryDef = ifw.CreateQueryDef();
-                    //pQueryDef.Tables = sql;
-                    //pQueryDef.SubFields = "*";
-                    //try
-                    //{
-                    //    ICursor pCur = pQueryDef.Evaluate();
-                    //    dtDs = common.ToDataTable(pCur);
-                    //}
-                    //catch (Exception ex)
-                    //{
-                    //    Console.WriteLine(ex.Message);
-                    //}
                     ConvertPivotTable conver = new ConvertPivotTable();
                     DataTable dtPivot = conver.CreatePivotTable(dt, columnsname.Trim(), "SBMJ", "", rowname.Trim());
 
@@ -295,23 +279,15 @@ namespace GISData.DataCheck.CheckDialog
                     }
                 }else 
                 {
-                    string sql = "(" + sqlstr + ")";
-                    CommonClass conClass = new CommonClass();
-                    IFeatureWorkspace ifw = conClass.GetFeatureWorkspaceByName(dataSourceArr[0]);
-                    ESRI.ArcGIS.Geodatabase.IWorkspace iw = conClass.GetWorkspaceByName(dataSourceArr[0]);
-                    IQueryDef pQueryDef = ifw.CreateQueryDef();
-                    pQueryDef.Tables = sql;
-                    pQueryDef.SubFields = "*";
-                    try
+                    DataTable dt = new DataTable();
+                    for (int i = 0; i < dataSourceArr.Length; i++)
                     {
-                        ICursor pCur = pQueryDef.Evaluate();
-                        dtDs = common.ToDataTable(pCur);
+                        DataTable itemDt = common.GetTableByName(dataSourceArr[i].Trim());
+                        //DataTable itemDt = ToDataTable(table);
+                        dt.Merge(itemDt);
                     }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(ex.Message);
-                    }
-                    book.MailMergeDataSource = dtDs;
+                    //dtDs = common.TranslateDataTable(dt);
+                    book.MailMergeDataSource = dt;
                     Spread.IWorkbook resultBook = book.GenerateMailMergeDocuments()[0];
                     string time = DateTime.Now.ToString("yyyyMMddHHmmss");
                     if (resultBook != null)

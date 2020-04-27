@@ -419,6 +419,12 @@
     <Compile Include="Report\FormReportDesign.Designer.cs">
       <DependentUpon>FormReportDesign.cs</DependentUpon>
     </Compile>
+    <Compile Include="TaskManage\FormTaskManage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TaskManage\FormTaskManage.Designer.cs">
+      <DependentUpon>FormTaskManage.cs</DependentUpon>
+    </Compile>
     <Compile Include="TaskManage\TaskFieldRegister.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -565,6 +571,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report\FormReportDesign.resx">
       <DependentUpon>FormReportDesign.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TaskManage\FormTaskManage.resx">
+      <DependentUpon>FormTaskManage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TaskManage\TaskFieldRegister.resx">
       <DependentUpon>TaskFieldRegister.cs</DependentUpon>

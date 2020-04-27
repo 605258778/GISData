@@ -56,5 +56,5 @@ F:\数据验收平台建设\GISData\GISData\bin\Debug\Spire.Pdf.dll
 F:\数据验收平台建设\GISData\GISData\bin\Debug\Spire.XLS.xml
 F:\数据验收平台建设\GISData\GISData\bin\Debug\Spire.License.xml
 F:\数据验收平台建设\GISData\GISData\bin\Debug\Spire.Pdf.xml
-F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.csprojResolveAssemblyReference.cache
 F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.CheckConfig.CheckReport.FormPivotConfig.resources
+F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.TaskManage.FormTaskManage.resources

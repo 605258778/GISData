@@ -454,8 +454,8 @@ namespace GISData
 
         private void 任务管理ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FormTaskDia task = new FormTaskDia();
-            task.ShowDialog();
+            FormTaskManage taskManage = new FormTaskManage();
+            taskManage.ShowDialog();
         }
 
         private void 报表设计ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -473,8 +473,9 @@ namespace GISData
 
         private void testToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            CommonClass common = new CommonClass();
-            common.GetTableByName("YZL_PY_ZLYSXB");
+            string aa = "bQB6AEEAdQB0AGgAbwByAGkAdAB5AC4AZABsAGwA";
+            byte[] array = Convert.FromBase64String(aa);
+            Console.WriteLine( Encoding.Unicode.GetString(array, 0, array.Length));
         }
 
     }

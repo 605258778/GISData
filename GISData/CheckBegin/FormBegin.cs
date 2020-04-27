@@ -30,9 +30,10 @@ namespace GISData.CheckBegin
         private void bindZqTree() 
         {
             ConnectDB cdb = new ConnectDB();
-            DataTable dt = cdb.GetDataBySql("select ID,L_PARID,C_NAME,C_CODE from GISDATA_ZQSJZD");
-            this.treeList1.DataSource = dt;
-            treeList1.OptionsView.ShowCheckBoxes = true;
+            DataTable dt = cdb.GetDataBySql("select * from GISDATA_GLDW");
+            this.comboBox1.DataSource = dt;
+            comboBox1.DisplayMember = "GLDWNAME";
+            comboBox1.ValueMember = "GLDW";
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -42,8 +43,7 @@ namespace GISData.CheckBegin
 
         private void saveFun() 
         {
-            TreeListNodes selectNode = this.treeList1.Nodes;
-            string gldwstr = this.GetGldw(selectNode);
+            string gldwstr = this.comboBox1.SelectedValue.ToString();
             if (gldwstr == "" || gldwstr == null)
             {
                 MessageBox.Show("请选择管理单位！");
@@ -65,42 +65,42 @@ namespace GISData.CheckBegin
                     common.SetConfigValue("GLDW", gldwstr);
                     string datanow = DateTime.Now.ToLocalTime().ToString();
                     ConnectDB cdb = new ConnectDB();
-                    DataTable dt = cdb.GetDataBySql("select count(*) as isexists from GISDATA_CHECKTASK WHERE GLDW = '" + gldwstr + "'");
+                    DataTable dt = cdb.GetDataBySql("select STARTTIME from GISDATA_GLDW WHERE GLDW = '" + gldwstr + "'");
                     DataRow[] dr = dt.Select(null);
-                    string exists = dr[0]["isexists"].ToString();
-                    if (exists == "0")
+                    string exists = dr[0]["STARTTIME"].ToString();
+                    if (exists == "")
                     {
-                        cdb.Insert("insert into GISDATA_CHECKTASK (GLDW,LXR,LXDH,INSERTDATA) VALUES ('" + gldwstr + "','" + lxr + "','" + lxdh + "','" + datanow + "')");
+                        cdb.Update("Update GISDATA_GLDW set CONTACTS = '" + lxr + "',STARTTIME='" + datanow + "',TEL='" + lxdh + "' where GLDW = '" + gldwstr + "'");
                     }
                     else
                     {
-                        cdb.Update("Update GISDATA_CHECKTASK set LXR = '" + lxr + "',UPDATEDATA='" + datanow + "',LXDH='" + lxdh + "' where GLDW = '" + gldwstr + "'");
+                        cdb.Update("Update GISDATA_GLDW set CONTACTS = '" + lxr + "',TEL='" + lxdh + "' where GLDW = '" + gldwstr + "'");
                     }
                     this.Close();
                 }
-                else
+                else 
                 {
-                    MessageBox.Show("dcTel号码填写有误！");
+                    MessageBox.Show("电话号码填写有误！");
                 }
             }
         }
 
-        private string GetGldw(TreeListNodes selectNode) 
-        {
-            foreach (TreeListNode node in selectNode) 
-            {
-                if (node.Checked) 
-                {
-                    DataRowView nodeData = this.treeList1.GetDataRecordByNode(node) as DataRowView;
-                    this.gldw = nodeData["C_CODE"].ToString();
-                    break;
-                }else if (node.Nodes.Count != 0)
-                {
-                    GetGldw(node.Nodes);
-                }
-            }
-            return this.gldw;
-        }
+        //private string GetGldw(TreeListNodes selectNode) 
+        //{
+        //    foreach (TreeListNode node in selectNode) 
+        //    {
+        //        if (node.Checked) 
+        //        {
+        //            DataRowView nodeData = this.treeList1.GetDataRecordByNode(node) as DataRowView;
+        //            this.gldw = nodeData["C_CODE"].ToString();
+        //            break;
+        //        }else if (node.Nodes.Count != 0)
+        //        {
+        //            GetGldw(node.Nodes);
+        //        }
+        //    }
+        //    return this.gldw;
+        //}
 
         private void button1_Click(object sender, EventArgs e)
         {
