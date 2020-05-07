@@ -40,12 +40,12 @@
             this.工程设置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.任务管理ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.报表设计ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.axLicenseControl1 = new ESRI.ArcGIS.Controls.AxLicenseControl();
             this.axTOCControl1 = new ESRI.ArcGIS.Controls.AxTOCControl();
             this.axMapControl1 = new ESRI.ArcGIS.Controls.AxMapControl();
-            this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.axToolbarControl1)).BeginInit();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -71,11 +71,11 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.文件ToolStripMenuItem,
             this.开始ToolStripMenuItem,
+            this.工程设置ToolStripMenuItem,
+            this.数据质检ToolStripMenuItem,
             this.数据注册ToolStripMenuItem,
             this.字典管理ToolStripMenuItem,
             this.质检配置ToolStripMenuItem,
-            this.数据质检ToolStripMenuItem,
-            this.工程设置ToolStripMenuItem,
             this.任务管理ToolStripMenuItem,
             this.报表设计ToolStripMenuItem,
             this.testToolStripMenuItem});
@@ -147,6 +147,13 @@
             this.报表设计ToolStripMenuItem.Text = "报表设计";
             this.报表设计ToolStripMenuItem.Click += new System.EventHandler(this.报表设计ToolStripMenuItem_Click);
             // 
+            // testToolStripMenuItem
+            // 
+            this.testToolStripMenuItem.Name = "testToolStripMenuItem";
+            this.testToolStripMenuItem.Size = new System.Drawing.Size(49, 24);
+            this.testToolStripMenuItem.Text = "test";
+            this.testToolStripMenuItem.Click += new System.EventHandler(this.testToolStripMenuItem_Click);
+            // 
             // statusStrip1
             // 
             this.statusStrip1.Location = new System.Drawing.Point(0, 575);
@@ -201,13 +208,6 @@
             this.axMapControl1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axMapControl1.OcxState")));
             this.axMapControl1.Size = new System.Drawing.Size(797, 519);
             this.axMapControl1.TabIndex = 0;
-            // 
-            // testToolStripMenuItem
-            // 
-            this.testToolStripMenuItem.Name = "testToolStripMenuItem";
-            this.testToolStripMenuItem.Size = new System.Drawing.Size(49, 24);
-            this.testToolStripMenuItem.Text = "test";
-            this.testToolStripMenuItem.Click += new System.EventHandler(this.testToolStripMenuItem_Click);
             // 
             // FormMain
             // 

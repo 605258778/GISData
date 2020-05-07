@@ -20,6 +20,7 @@
         private static IFeatureLayer _layer;
         private IList<IFeatureClass> m_FCList;
         private string m_TempPath;
+        private List<string> GapsList;
 
         public TopoClassChecker(IList<IFeatureClass> pList)
         {
@@ -33,6 +34,7 @@
                 this.m_TempPath = "D://temp";
             }
             this.m_FCList = pList;
+            this.GapsList = new List<string>();
         }
 
         public TopoClassChecker(IFeatureLayer pLayer, int iCheckType)
@@ -66,6 +68,7 @@
             }
             this.m_FCList = new List<IFeatureClass>();
             this.m_FCList.Add(featureClass);
+            this.GapsList = new List<string>();
         }
 
         public virtual bool Check()
@@ -291,8 +294,9 @@
             return listErrorEntity;
         }
 
-        public object CheckFeatureGap(IFeature pFeature, IFeatureClass pFClass)
+        public object CheckFeatureGapcopy(IFeature pFeature, IFeatureClass pFClass)
         {
+            
             IList<IGeometry> list = new List<IGeometry>();
             IGeometry shapeCopy = pFeature.ShapeCopy;
             if (shapeCopy.IsEmpty)
@@ -308,25 +312,24 @@
             @operator.IsKnownSimple_2 = false;
             @operator.Simplify();
             IGeometry boundary = @operator.Boundary;
-            IPolyline polyline = boundary as IPolyline;
             ITopologicalOperator2 operator2 = (ITopologicalOperator2) boundary;
-            //IRelationalOperator operatorWithin = (IRelationalOperator)boundary;
             operator2.IsKnownSimple_2 = false;
             operator2.Simplify();
             ISpatialFilter filter = new SpatialFilterClass();
-            filter.Geometry = polyline;
+            filter.Geometry = pFeature.ShapeCopy;
             filter.SpatialRel = esriSpatialRelEnum.esriSpatialRelIntersects;
             IFeatureCursor o = pFClass.Search(filter, false);
             IFeature feature = o.NextFeature();
-            //IGeometry IntersectsGeometry = null;
-            //Boolean flag = false;
-            while (feature != null)
+            while (feature != null && !GapsList.Contains(feature.OID.ToString() + pFeature.OID.ToString()) && !GapsList.Contains(pFeature.OID.ToString() + feature.OID.ToString()))
             {
+                GapsList.Add(feature.OID.ToString() + pFeature.OID.ToString());
                 if (feature.OID != pFeature.OID)
                 {
+                    Console.WriteLine(pFeature.OID + "---" + feature.OID);
                     //flag = true;
                     IGeometry geometry3 = operator2.Intersect(feature.ShapeCopy, esriGeometryDimension.esriGeometry1Dimension);
-                    list.Add(geometry3);
+                    IGeometry itemaa = operator2.Difference(geometry3);
+                    list.Add(itemaa);
                     //Console.WriteLine("相交：" + pFeature.OID +"-"+ feature.OID);
                 }
                 feature = o.NextFeature();
@@ -368,7 +371,140 @@
                     list2.Add(item);
                 }
             }
-            return list2[0] as IGeometry;
+            if (list2.Count > 0)
+            {
+                return list2[0] as IGeometry;
+            }
+            else 
+            {
+                return null;
+            }
+        }
+        public object CheckFeatureGap(IFeature pFeature, IFeatureClass pFClass)
+        {
+            IGeometry shapeCopy = pFeature.ShapeCopy;
+            if (shapeCopy.IsEmpty)
+            {
+                return null;
+            }
+            ITopologicalOperator2 @operator = null;
+            if (shapeCopy.GeometryType == esriGeometryType.esriGeometryPoint)
+            {
+                return null;
+            }
+            @operator = (ITopologicalOperator2)shapeCopy;
+            @operator.IsKnownSimple_2 = false;
+            @operator.Simplify();
+            IGeometry boundary = @operator.Boundary;
+            IPolyline polyline = boundary as IPolyline;
+            ITopologicalOperator2 operator2 = (ITopologicalOperator2)boundary;
+
+            operator2.IsKnownSimple_2 = false;
+            operator2.Simplify();
+            ISpatialFilter filter = new SpatialFilterClass();
+            filter.Geometry = polyline;
+            filter.SpatialRel = esriSpatialRelEnum.esriSpatialRelIntersects;
+            IFeatureCursor o = pFClass.Search(filter, false);
+            IFeature feature = o.NextFeature();
+
+            IGeometryCollection polygon = new PolygonClass();
+            IPolygon polyGonGeo = null;
+            while (feature != null && !GapsList.Contains(feature.OID.ToString() + pFeature.OID.ToString()) && !GapsList.Contains(pFeature.OID.ToString() + feature.OID.ToString()))
+            {
+                GapsList.Add(feature.OID.ToString() + pFeature.OID.ToString());
+                if (feature.OID != pFeature.OID)
+                {
+                    
+                    IGeometry geometry3 = operator2.Intersect(feature.ShapeCopy, esriGeometryDimension.esriGeometry1Dimension);
+                    
+                    IGeometryCollection geometryCollection = geometry3 as IGeometryCollection;
+                    List<IPoint> listPoint = new List<IPoint>();
+                    if (geometryCollection.GeometryCount > 1) 
+                    {
+                        ISegmentCollection segmentCollection = new RingClass();
+                        for (int i = 0; i < geometryCollection.GeometryCount - 1; i++)
+                        {
+                            Console.WriteLine(feature.OID.ToString() + "--" + pFeature.OID.ToString());
+                            IPath ItemPath = geometryCollection.get_Geometry(i) as IPath;
+                            IPath NextPath = geometryCollection.get_Geometry(i+1) as IPath;
+                            IPoint StarPoint = ItemPath.ToPoint;
+                            IPoint EndPoint = NextPath.FromPoint;
+                            IPolyline pline = BuildLine(polyline, StarPoint, EndPoint,false);
+                            IPolyline pline1 = BuildLine(PolygonToPolyline(feature.ShapeCopy), EndPoint, StarPoint,true);
+                            segmentCollection.AddSegmentCollection(pline as ISegmentCollection);
+                            segmentCollection.AddSegmentCollection(pline1 as ISegmentCollection);
+                            polygon.AddGeometry(segmentCollection as IGeometry, Type.Missing, Type.Missing);
+                            polyGonGeo = polygon as IPolygon;
+                            polyGonGeo.SimplifyPreserveFromTo();
+                        }
+                        
+                    }
+                }
+                feature = o.NextFeature();
+            }
+            Marshal.ReleaseComObject(o);
+            return polyGonGeo;
+        }
+
+        /// <summary>
+        /// Geometry（Polygon）转Polyline
+        /// </summary>
+        /// <param name="pGeometry">传入的Polygon多边形</param>
+        /// <returns>转换后的多段线</returns>
+        public static IPolyline PolygonToPolyline(IGeometry pGeometry)
+        {
+            if (null == pGeometry)
+            {
+                return null;
+            }
+            IPolyline aTempPolyline = new PolylineClass();
+            ISegmentCollection aTempGeometryCollection = aTempPolyline as ISegmentCollection;
+            var pSegmentCollection = pGeometry as ISegmentCollection;
+            for (int i = 0; i < pSegmentCollection.SegmentCount; i++)
+            {
+                aTempGeometryCollection.AddSegment(pSegmentCollection.Segment[i]);
+            }
+            return aTempGeometryCollection as IPolyline;
+        }
+
+        /// <summary>
+        /// 创建区间线段
+        /// </summary>
+        /// <param name="pLine">输入的线图形</param>
+        /// <param name="p1">插入的其中一个点</param>
+        /// <param name="p2">插入的一种一个点</param>
+        /// <returns>这两点间的线段</returns>
+        /// 创建人 ： zw
+        private IPolyline BuildLine(IPolyline pLine, IPoint p1, IPoint p2, Boolean Reverse)
+        {
+            if (Reverse)
+            {
+                pLine.ReverseOrientation();
+            }
+            bool isSplit;
+            int splitIndex, segIndex;
+            //插入第一点，segIndex记录插入点的相对线的节点位置
+            pLine.SplitAtPoint(p1, true, false, out isSplit, out splitIndex, out segIndex);
+            int fIndex = segIndex;
+            //插入第二点
+            pLine.SplitAtPoint(p2, true, false, out isSplit, out splitIndex, out segIndex);
+            int sIndex = segIndex;
+            //比较一下插入第一点和第二点的节点次序
+            if (fIndex > sIndex)
+            {
+                int temp = fIndex;
+                fIndex = sIndex;
+                sIndex = temp;
+            }
+            IPointCollection pPointCol = new PolylineClass();
+            object o = Type.Missing;
+            //利用两点区间，获取线上区间所在的点，并将其转换为线
+            IPointCollection LineCol = pLine as IPointCollection;
+            for (int i = fIndex; i <= sIndex; i++)
+            {
+                pPointCol.AddPoint(LineCol.get_Point(i), ref o, ref o);
+            }
+            return pPointCol as IPolyline;
         }
 
         private bool CheckGap(IFeatureClass pFClass)

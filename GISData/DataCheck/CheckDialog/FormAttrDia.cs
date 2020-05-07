@@ -423,7 +423,7 @@ namespace GISData.DataCheck.CheckDialog
             try
             {
                 TreeListNode node = this.treeList1.FocusedNode;
-                if (!node.HasChildren)
+                if (!node.HasChildren && node["ERROR"].ToString() != "0")
                 {
                     string NAME = node["NAME"].ToString();
                     string CHECKTYPE = node["CHECKTYPE"].ToString();
@@ -437,28 +437,28 @@ namespace GISData.DataCheck.CheckDialog
                     string SHOWFIELD = node["SHOWFIELD"].ToString();
                     DataTable dt = new DataTable();
                     CommonClass conClass = new CommonClass();
-                    IFeatureCursor pFeatureCuror = null;
+                    ICursor pFeatureCuror = null;
                     IFeatureLayer pFLayer = conClass.GetLayerByName(TABLENAME);
                     IFeatureClass pFeatureClass = pFLayer.FeatureClass;
-                    
+                    ITable pTable = pFeatureClass as ITable;
                     ConnectDB db = new ConnectDB();
                     if (CHECKTYPE == "空值检查")
                     {
                         IQueryFilter pQuery = new QueryFilterClass();
                         pQuery.WhereClause = FIELD + " IS NULL OR " + FIELD + " = '' ";
-                        pFeatureCuror = pFeatureClass.Search(pQuery, false);
+                        pFeatureCuror = pTable.Search(pQuery, false);
                     }
                     else if (CHECKTYPE == "逻辑关系检查")
                     {
                         IQueryFilter pQuery = new QueryFilterClass();
                         pQuery.WhereClause = " (" + WHERESTRING + ") and (" + RESULT + ")";
-                        pFeatureCuror = pFeatureClass.Search(pQuery, false);
+                        pFeatureCuror = pTable.Search(pQuery, false);
                     }
                     else if (CHECKTYPE == "唯一值检查")
                     {
                         IQueryFilter pQuery = new QueryFilterClass();
                         pQuery.WhereClause = FIELD + " in ( select " + FIELD + " as wyz from  " + TABLENAME + " group by " + FIELD + " having count(" + FIELD + ")>1)";
-                        pFeatureCuror = pFeatureClass.Search(pQuery, false);
+                        pFeatureCuror = pTable.Search(pQuery, false);
                     }
                     else if (CHECKTYPE == "值域检查")
                     {
@@ -469,17 +469,18 @@ namespace GISData.DataCheck.CheckDialog
                             string CODEWHERESTRING = dt1.Rows[0]["CODE_WHERE"].ToString();
                             IQueryFilter pQuery = new QueryFilterClass();
                             pQuery.WhereClause = FIELD + " not in (SELECT C_CODE FROM " + CODETABLENAME + " WHERE " + CODEWHERESTRING + ")";
-                            pFeatureCuror = pFeatureClass.Search(pQuery, false);
+                            pFeatureCuror = pTable.Search(pQuery, false);
                         }
                         else if (DOMAINTYPE == "custom")
                         {
                             string CUSTOMVALUE = node["CUSTOMVALUE"].ToString();
                             IQueryFilter pQuery = new QueryFilterClass();
                             pQuery.WhereClause = FIELD + " not in (" + CUSTOMVALUE + ")";
-                            pFeatureCuror = pFeatureClass.Search(pQuery, false);
+                            pFeatureCuror = pTable.Search(pQuery, false);
                         }
                     }
                     if (pFeatureClass == null) return;
+                    
                     DataColumn dc = null;
                     for (int i = 0; i < pFeatureClass.Fields.FieldCount; i++)
                     {
@@ -492,7 +493,9 @@ namespace GISData.DataCheck.CheckDialog
                             dc.SetOrdinal(0);
                         }
                     }
-                    IFeature pFeature = pFeatureCuror.NextFeature();
+
+                    ITable iTable = pFeatureClass as ITable;
+                    IRow pFeature = pFeatureCuror.NextRow();
                     DataRow dr = null;
                     while (pFeature != null)
                     {
@@ -512,20 +515,21 @@ namespace GISData.DataCheck.CheckDialog
                             colIndex++;
                         }
                         dt.Rows.Add(dr);
-                        pFeature = pFeatureCuror.NextFeature();
+                        pFeature = pFeatureCuror.NextRow();
                     }
                     GridView gridView = this.gridControlError.DefaultView as GridView;
+                    gridView.Columns.Clear();
                     this.gridControlError.DataSource = dt;
                     gridView.OptionsBehavior.Editable = false;
                     gridView.OptionsSelection.MultiSelect = true;
                     gridView.ScrollStyle = ScrollStyleFlags.LiveHorzScroll | ScrollStyleFlags.LiveVertScroll;
                     gridView.HorzScrollVisibility = ScrollVisibility.Always;
                     gridView.OptionsView.ColumnAutoWidth = false;
-                    for (int I = 0; I < gridView.Columns.Count; I++)
-                    {
-                        gridView.BestFitColumns();
-                        gridView.Columns[I].BestFit();//自动列宽
-                    }
+                    //for (int I = 0; I < gridView.Columns.Count; I++)
+                    //{
+                    //    gridView.BestFitColumns();
+                    //    gridView.Columns[I].BestFit();//自动列宽
+                    //}
                     gridView.ViewCaption = "属性检查";
                     gridView.NewItemRowText = TABLENAME;
                     this.gridControlError.RefreshDataSource();
@@ -535,6 +539,30 @@ namespace GISData.DataCheck.CheckDialog
             {
                 Console.WriteLine("MyException Throw:" + ex.Message);
             }
+        }
+
+        private string GenerateLogicRelationSQL(string whereString ,string resultString )
+        {
+
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.Append("(");
+            stringBuilder.Append(whereString);
+            if (resultString.Contains("0=0") || resultString.Contains("0 =0") || resultString.Contains("0 = 0") || resultString.Contains("0= 0"))
+            {
+                stringBuilder.Append(") AND (");
+            }
+            else
+            {
+                stringBuilder.Append(") AND NOT (");
+            }
+            stringBuilder.Append(resultString);
+            stringBuilder.Append(")");
+            //if (!string.IsNullOrEmpty(this.GetGlobalFilter()))
+            //{
+            //    stringBuilder.Append(" AND ");
+            //    stringBuilder.Append(this.GetGlobalFilter());
+            //}
+            return stringBuilder.ToString();
         }
 
         private void treeList1_DoubleClick(object sender, EventArgs e)

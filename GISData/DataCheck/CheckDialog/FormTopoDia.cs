@@ -138,14 +138,14 @@ namespace GISData.DataCheck.CheckDialog
         public void doCheckTopo1(IHookHelper m_hookHelper)
         {
             this.m_hookHelper = m_hookHelper;
-            string GdbPath = Application.StartupPath + "\\GISData.gdb";
-            FileGDBWorkspaceFactoryClass fac = new FileGDBWorkspaceFactoryClass();
-            IWorkspace workspace = fac.OpenFromFile(GdbPath, 0);
+            //string GdbPath = Application.StartupPath + "\\GISData.gdb";
+            //FileGDBWorkspaceFactoryClass fac = new FileGDBWorkspaceFactoryClass();
+            //IWorkspace workspace = fac.OpenFromFile(GdbPath, 0);
+            //this.mainlogyDataSet = common.getDataset(workspace);
             CommonClass common = new CommonClass();
-            this.mainlogyDataSet = common.getDataset(workspace);
             int[] selectRows = this.gridView1.GetSelectedRows();
             //主要有添加构建拓扑，拓扑中添加要素，添加规则，输出拓扑错误的功能。  
-            TopoChecker topocheck = new TopoChecker(mainlogyDataSet);//传入要处理的要素数据集  
+            TopoChecker topocheck = new TopoChecker();//传入要处理的要素数据集  
             Dictionary<string, string> DicTopoData = new Dictionary<string, string>();
             foreach (int itemRow in selectRows)
             {

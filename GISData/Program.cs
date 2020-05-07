@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GISData.Login;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,7 +17,13 @@ namespace GISData
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             ESRI.ArcGIS.RuntimeManager.Bind(ESRI.ArcGIS.ProductCode.Desktop);
-            //ESRI.ArcGIS.RuntimeManager.BindLicense(ESRI.ArcGIS.ProductCode.EngineOrDesktop); 
+            //ESRI.ArcGIS.RuntimeManager.BindLicense(ESRI.ArcGIS.ProductCode.EngineOrDesktop);
+            //FormLogin login = new FormLogin();
+            //DialogResult result = login.ShowDialog();
+            //if (result == DialogResult.OK) 
+            //{
+            //    Application.Run(new FormMain());
+            //}
             Application.Run(new FormMain());
         }
     }

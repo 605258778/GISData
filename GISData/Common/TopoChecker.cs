@@ -127,7 +127,7 @@ namespace GISData.Common
                 int errorCount = 0;
                 while (pFeature != null)
                 {
-                    this._gcChecker = new GapsChecker(flay, 0);
+                    //this._gcChecker = new GapsChecker(flay, 0);
                     object pErrGeo = this._gcChecker.CheckFeatureGap(pFeature, IN_FeatureClass);
                     if (pErrGeo as IGeometry != null)
                     {

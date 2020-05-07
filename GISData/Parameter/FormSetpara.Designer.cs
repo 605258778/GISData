@@ -51,9 +51,9 @@
             // 
             // SpatialRSelect
             // 
-            this.SpatialRSelect.Location = new System.Drawing.Point(495, 34);
+            this.SpatialRSelect.Location = new System.Drawing.Point(495, 32);
             this.SpatialRSelect.Name = "SpatialRSelect";
-            this.SpatialRSelect.Size = new System.Drawing.Size(75, 23);
+            this.SpatialRSelect.Size = new System.Drawing.Size(75, 25);
             this.SpatialRSelect.TabIndex = 3;
             this.SpatialRSelect.Text = "选择";
             this.SpatialRSelect.UseVisualStyleBackColor = true;

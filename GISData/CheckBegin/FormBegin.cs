@@ -41,8 +41,9 @@ namespace GISData.CheckBegin
             saveFun();
         }
 
-        private void saveFun() 
+        private Boolean saveFun() 
         {
+            Boolean result = false;
             string gldwstr = this.comboBox1.SelectedValue.ToString();
             if (gldwstr == "" || gldwstr == null)
             {
@@ -70,11 +71,11 @@ namespace GISData.CheckBegin
                     string exists = dr[0]["STARTTIME"].ToString();
                     if (exists == "")
                     {
-                        cdb.Update("Update GISDATA_GLDW set CONTACTS = '" + lxr + "',STARTTIME='" + datanow + "',TEL='" + lxdh + "' where GLDW = '" + gldwstr + "'");
+                        result = cdb.Update("Update GISDATA_GLDW set CONTACTS = '" + lxr + "',STARTTIME='" + datanow + "',TEL='" + lxdh + "' where GLDW = '" + gldwstr + "'");
                     }
                     else
                     {
-                        cdb.Update("Update GISDATA_GLDW set CONTACTS = '" + lxr + "',TEL='" + lxdh + "' where GLDW = '" + gldwstr + "'");
+                        result = cdb.Update("Update GISDATA_GLDW set CONTACTS = '" + lxr + "',TEL='" + lxdh + "' where GLDW = '" + gldwstr + "'");
                     }
                     this.Close();
                 }
@@ -83,30 +84,16 @@ namespace GISData.CheckBegin
                     MessageBox.Show("电话号码填写有误！");
                 }
             }
+            return result;
         }
-
-        //private string GetGldw(TreeListNodes selectNode) 
-        //{
-        //    foreach (TreeListNode node in selectNode) 
-        //    {
-        //        if (node.Checked) 
-        //        {
-        //            DataRowView nodeData = this.treeList1.GetDataRecordByNode(node) as DataRowView;
-        //            this.gldw = nodeData["C_CODE"].ToString();
-        //            break;
-        //        }else if (node.Nodes.Count != 0)
-        //        {
-        //            GetGldw(node.Nodes);
-        //        }
-        //    }
-        //    return this.gldw;
-        //}
 
         private void button1_Click(object sender, EventArgs e)
         {
-            saveFun();
-            FormMain main = new FormMain();
-            main.ShowSetpara();
+            if (saveFun()) 
+            {
+                FormMain main = new FormMain();
+                main.ShowSetpara();
+            }
         }
     }
 }

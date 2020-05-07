@@ -253,13 +253,14 @@ namespace GISData.DataCheck
         {
             if (this.checkBox1.Checked)
             {
-                this.Width = this.Width * 2;
-                this.tableLayoutPanel1.ColumnStyles[1].Width = this.tableLayoutPanel1.ColumnStyles[0].Width;
+                this.Width = this.Width+500;
+                this.tableLayoutPanel1.ColumnStyles[0].Width = this.Width - 500;
+                this.tableLayoutPanel1.ColumnStyles[1].Width = 500;
             }
             else 
             {
-                this.Width = this.Width / 2;
-                this.tableLayoutPanel1.ColumnStyles[0].Width = this.Width / 2;
+                this.Width = this.Width - 500;
+                this.tableLayoutPanel1.ColumnStyles[0].Width = this.Width - 500;
                 this.tableLayoutPanel1.ColumnStyles[1].Width = 0;
             }
         }
