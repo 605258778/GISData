@@ -15,7 +15,6 @@ namespace GISData.CheckBegin
 {
     public partial class FormBegin : Form
     {
-        private string gldw = "";
         public FormBegin()
         {
             InitializeComponent();
@@ -75,7 +74,7 @@ namespace GISData.CheckBegin
                     }
                     else
                     {
-                        result = cdb.Update("Update GISDATA_GLDW set CONTACTS = '" + lxr + "',TEL='" + lxdh + "' where GLDW = '" + gldwstr + "'");
+                        result = cdb.Update("Update GISDATA_GLDW set CONTACTS = '" + lxr + "',TEL='" + lxdh + "',CHECKLOG =CHECKLOG&'" + datanow + "br' where GLDW = '" + gldwstr + "'");
                     }
                     this.Close();
                 }

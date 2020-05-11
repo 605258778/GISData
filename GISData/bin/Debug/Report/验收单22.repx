@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XtraReportsLayoutSerializer SerializerVersion="18.2.6.0" Ref="0" ControlType="DevExpress.XtraReports.UI.XtraReport, DevExpress.XtraReports.v18.2, Version=18.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Name="Report1" PageWidth="850" PageHeight="1100" Version="18.2" Font="Arial, 9.75pt">
+  <Bands>
+    <Item1 Ref="1" ControlType="TopMarginBand" Name="TopMargin" />
+    <Item2 Ref="2" ControlType="DetailBand" Name="Detail" HeightF="9.833348" />
+    <Item3 Ref="3" ControlType="BottomMarginBand" Name="BottomMargin" />
+    <Item4 Ref="4" ControlType="ReportHeaderBand" Name="ReportHeader" HeightF="115.5">
+      <Controls>
+        <Item1 Ref="5" ControlType="XRLabel" Name="label11" Multiline="true" Text="检查人:" SizeF="100,23" LocationFloat="431.1111, 82.5" Font="Arial, 12pt" Padding="2,2,0,0,100">
+          <StylePriority Ref="6" UseFont="false" />
+        </Item1>
+        <Item2 Ref="7" ControlType="XRLabel" Name="label5" Multiline="true" Text="联系方式:" SizeF="100,23" LocationFloat="222.222214, 82.5" Font="Arial, 12pt" Padding="2,2,0,0,100">
+          <StylePriority Ref="8" UseFont="false" />
+        </Item2>
+        <Item3 Ref="9" ControlType="XRLabel" Name="label4" Multiline="true" Text="联系人:" SizeF="100,23" LocationFloat="26.6666412, 82.5" Font="Arial, 12pt" Padding="2,2,0,0,100">
+          <StylePriority Ref="10" UseFont="false" />
+        </Item3>
+        <Item4 Ref="11" ControlType="XRLabel" Name="label3" Multiline="true" Text="2020年" SizeF="100.000008,42.16667" LocationFloat="98.125, 18.5000038" Font="Arial, 20pt" Padding="2,2,0,0,100">
+          <StylePriority Ref="12" UseFont="false" />
+        </Item4>
+        <Item5 Ref="13" ControlType="XRLabel" Name="label2" Multiline="true" Text="营造林数据验收单" SizeF="253.75,42.16667" LocationFloat="298.125, 18.5000038" Font="Arial, 20pt" Padding="2,2,0,0,100">
+          <StylePriority Ref="14" UseFont="false" />
+        </Item5>
+        <Item6 Ref="15" ControlType="XRLabel" Name="label1" Multiline="true" Text="**县" TextAlignment="TopCenter" SizeF="100.000008,42.16667" LocationFloat="198.125, 18.49999" Font="Arial, 20pt" ForeColor="Black" Padding="2,2,0,0,100">
+          <StylePriority Ref="16" UseFont="false" UseForeColor="false" UseTextAlignment="false" />
+        </Item6>
+      </Controls>
+    </Item4>
+    <Item5 Ref="17" ControlType="DetailReportBand" Name="DetailReport" Level="0">
+      <Bands>
+        <Item1 Ref="18" ControlType="DetailBand" Name="Detail1" HeightF="33.6666641">
+          <Controls>
+            <Item1 Ref="19" ControlType="XRTable" Name="table3" TextAlignment="MiddleCenter" SizeF="626.6667,33.6666641" LocationFloat="13.333333, 0" Borders="All">
+              <Rows>
+                <Item1 Ref="20" ControlType="XRTableRow" Name="tableRow6" Weight="1">
+                  <Cells>
+                    <Item1 Ref="21" ControlType="XRTableCell" Name="tableCell22" Weight="1" Multiline="true" Text="[XMMC]" Padding="2,2,0,0,100" />
+                    <Item2 Ref="22" ControlType="XRTableCell" Name="tableCell23" Weight="1" Multiline="true" Text="[YZLFS]" Padding="2,2,0,0,100" />
+                    <Item3 Ref="23" ControlType="XRTableCell" Name="tableCell24" Weight="1" Multiline="true" Text="[ZCSBND]" Padding="2,2,0,0,100" />
+                    <Item4 Ref="24" ControlType="XRTableCell" Name="tableCell25" Weight="1" Multiline="true" Text="[RWMJ]" Padding="2,2,0,0,100" />
+                    <Item5 Ref="25" ControlType="XRTableCell" Name="tableCell26" Weight="1" Multiline="true" Text="[SBMJ]" Padding="2,2,0,0,100" />
+                  </Cells>
+                </Item1>
+              </Rows>
+              <StylePriority Ref="26" UseBorders="false" UseTextAlignment="false" />
+            </Item1>
+          </Controls>
+        </Item1>
+        <Item2 Ref="27" ControlType="ReportHeaderBand" Name="ReportHeader1" HeightF="66.66667">
+          <Controls>
+            <Item1 Ref="28" ControlType="XRTable" Name="table1" TextAlignment="MiddleCenter" SizeF="626.6667,33.6666641" LocationFloat="13.333313, 33.0000038" Borders="All">
+              <Rows>
+                <Item1 Ref="29" ControlType="XRTableRow" Name="tableRow2" Weight="1">
+                  <Cells>
+                    <Item1 Ref="30" ControlType="XRTableCell" Name="tableCell4" Weight="1" Multiline="true" Text="项目名称" Padding="2,2,0,0,100" />
+                    <Item2 Ref="31" ControlType="XRTableCell" Name="tableCell15" Weight="1" Multiline="true" Text="营造林方式" Padding="2,2,0,0,100" />
+                    <Item3 Ref="32" ControlType="XRTableCell" Name="tableCell5" Weight="1" Multiline="true" Text="自查上报年度" Padding="2,2,0,0,100" />
+                    <Item4 Ref="33" ControlType="XRTableCell" Name="tableCell6" Weight="1" Multiline="true" Text="任务面积" Padding="2,2,0,0,100" />
+                    <Item5 Ref="34" ControlType="XRTableCell" Name="tableCell13" Weight="1" Multiline="true" Text="上报面积" Padding="2,2,0,0,100" />
+                  </Cells>
+                </Item1>
+              </Rows>
+              <StylePriority Ref="35" UseBorders="false" UseTextAlignment="false" />
+            </Item1>
+            <Item2 Ref="36" ControlType="XRLabel" Name="label6" Multiline="true" Text="任务完成情况认定:" SizeF="165,23" LocationFloat="13.333333, 10" Font="Arial, 12pt" Padding="2,2,0,0,100">
+              <StylePriority Ref="37" UseFont="false" />
+            </Item2>
+          </Controls>
+        </Item2>
+      </Bands>
+    </Item5>
+    <Item6 Ref="38" ControlType="ReportFooterBand" Name="ReportFooter">
+      <Controls>
+        <Item1 Ref="39" ControlType="XRLabel" Name="label10" Multiline="true" Text="时间:" SizeF="100,23" LocationFloat="383.333344, 35" Font="Arial, 12pt" Padding="2,2,0,0,100">
+          <StylePriority Ref="40" UseFont="false" />
+        </Item1>
+        <Item2 Ref="41" ControlType="XRLabel" Name="label9" Multiline="true" Text="被检查人:" SizeF="100,23" LocationFloat="198.124969, 35" Font="Arial, 12pt" Padding="2,2,0,0,100">
+          <StylePriority Ref="42" UseFont="false" />
+        </Item2>
+        <Item3 Ref="43" ControlType="XRLabel" Name="label8" Multiline="true" Text="检查人:" SizeF="100,23" LocationFloat="9.999974, 35" Font="Arial, 12pt" Padding="2,2,0,0,100">
+          <StylePriority Ref="44" UseFont="false" />
+        </Item3>
+      </Controls>
+    </Item6>
+  </Bands>
+</XtraReportsLayoutSerializer>

@@ -32,6 +32,7 @@ namespace GISData.DataCheck.CheckDialog
 {
     public partial class FormReportDia : Form
     {
+        public DataTable wwcxmTable = null;
         private CheckBox checkBox;
         private string stepNo;
         public FormReportDia()
@@ -108,6 +109,7 @@ namespace GISData.DataCheck.CheckDialog
                 book.LoadDocument(Application.StartupPath + "\\Report\\" + row["REPORTMOULD"].ToString(), Spread.DocumentFormat.OpenXml);
                 if (reportType == "任务完成统计表")
                 {
+                    wwcxmTable = new DataTable();
                     string gldw = common.GetConfigValue("GLDW") == "" ? "520121" : common.GetConfigValue("GLDW");
                     DataTable dtTaskDb = db.GetDataBySql("select YZLGLDW,YZLFS,ZCSBND,XMMC,RWMJ from GISDATA_TASK where YZLGLDW = '" + gldw + "'");
                     dtTaskDb.TableName = "GISDATA_TASK";
@@ -120,6 +122,12 @@ namespace GISData.DataCheck.CheckDialog
                     dtDs.Columns.Add("XMMC");
                     dtDs.Columns.Add("RWMJ");
                     dtDs.Columns.Add("SBMJ");
+
+                    wwcxmTable.Columns.Add("YZLFS");
+                    wwcxmTable.Columns.Add("ZCSBND");
+                    wwcxmTable.Columns.Add("XMMC");
+                    wwcxmTable.Columns.Add("RWMJ");
+                    wwcxmTable.Columns.Add("SBMJ");
 
                     DataTable dt = new DataTable();
                     for (int i = 0; i < dataSourceArr.Length; i++)
@@ -157,6 +165,10 @@ namespace GISData.DataCheck.CheckDialog
                             });
                         }
                         rowItem["SBMJ"] = sbmj == "" ? "0" : sbmj;
+                        if (rowItem["SBMJ"] != rowItem["RWMJ"])
+                        {
+                            wwcxmTable.ImportRow(rowItem);
+                        }
                         dtDs.ImportRow(rowItem);
                     }
                     book.MailMergeDataSource = dtDs;
@@ -302,6 +314,64 @@ namespace GISData.DataCheck.CheckDialog
             }
         }
 
+        private DataTable getTask(string[] dataSourceArr) 
+        {
+            DataTable dtDs = new DataTable();
+            CommonClass common = new CommonClass();
+            ConnectDB db = new ConnectDB();
+            string gldw = common.GetConfigValue("GLDW") == "" ? "520121" : common.GetConfigValue("GLDW");
+            DataTable dtTaskDb = db.GetDataBySql("select YZLGLDW,YZLFS,ZCSBND,XMMC,RWMJ from GISDATA_TASK where YZLGLDW = '" + gldw + "'");
+            dtTaskDb.TableName = "GISDATA_TASK";
+            DataTable dtTask = common.TranslateDataTable(dtTaskDb);
+            DataRow[] drTask = dtTask.Select(null);
+            dtTask.Columns.Add("SBMJ");
+            dtDs.Columns.Add("YZLGLDW");
+            dtDs.Columns.Add("YZLFS");
+            dtDs.Columns.Add("ZCSBND");
+            dtDs.Columns.Add("XMMC");
+            dtDs.Columns.Add("RWMJ");
+            dtDs.Columns.Add("SBMJ");
+
+            DataTable dt = new DataTable();
+            for (int i = 0; i < dataSourceArr.Length; i++)
+            {
+                DataTable itemDt = common.GetTableByName(dataSourceArr[i].Trim());
+                //DataTable itemDt = ToDataTable(table);
+                dt.Merge(itemDt);
+            }
+
+            for (int i = 0; i < drTask.Length; i++)
+            {
+                DataRow rowItem = drTask[i];
+                string zcsbnd = rowItem["ZCSBND"].ToString();
+                gldw = rowItem["YZLGLDW"].ToString();
+                string yzlfs = rowItem["YZLFS"].ToString();
+                string xmmc = rowItem["XMMC"].ToString();
+                string sbmj = "";
+
+                var query = from t in dt.AsEnumerable()
+                            where (t.Field<string>("YZLGLDW") == gldw && t.Field<string>("ZCSBND") == zcsbnd && t.Field<string>("YZLFS") == yzlfs && t.Field<string>("XMMC") == xmmc)
+                            group t by new { t1 = t.Field<string>("YZLGLDW"), t2 = t.Field<string>("ZCSBND"), t3 = t.Field<string>("YZLFS"), t4 = t.Field<string>("XMMC") } into m
+                            select new
+                            {
+                                gldwItem = m.Key.t1,
+                                zcsbndItem = m.Key.t2,
+                                yzlfsItem = m.Key.t3,
+                                xmmcItem = m.Key.t4,
+                                sbmjItem = m.Sum(n => Convert.ToDouble(n["SBMJ"]))
+                            };
+                if (query.ToList().Count > 0)
+                {
+                    query.ToList().ForEach(q =>
+                    {
+                        sbmj = q.sbmjItem.ToString();
+                    });
+                }
+                rowItem["SBMJ"] = sbmj == "" ? "0" : sbmj;
+                dtDs.ImportRow(rowItem);
+            }
+            return dtDs;
+        }
 
         private void GetFileInfo(string strFilePath)
         {

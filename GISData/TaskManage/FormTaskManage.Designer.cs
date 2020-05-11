@@ -40,7 +40,7 @@
             this.TEL = new DevExpress.XtraGrid.Columns.GridColumn();
             this.STARTTIME = new DevExpress.XtraGrid.Columns.GridColumn();
             this.STATE = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.ENDTIME = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.CHECKLOG = new DevExpress.XtraGrid.Columns.GridColumn();
             this.OTHER = new DevExpress.XtraGrid.Columns.GridColumn();
             this.xtraTabPage2 = new DevExpress.XtraTab.XtraTabPage();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
@@ -132,7 +132,7 @@
             this.TEL,
             this.STARTTIME,
             this.STATE,
-            this.ENDTIME,
+            this.CHECKLOG,
             this.OTHER});
             this.gridViewGLDW.GridControl = this.gridControlGLDW;
             this.gridViewGLDW.Name = "gridViewGLDW";
@@ -198,15 +198,15 @@
             this.STATE.VisibleIndex = 5;
             this.STATE.Width = 94;
             // 
-            // ENDTIME
+            // CHECKLOG
             // 
-            this.ENDTIME.Caption = "检查结束时间";
-            this.ENDTIME.FieldName = "ENDTIME";
-            this.ENDTIME.MinWidth = 25;
-            this.ENDTIME.Name = "ENDTIME";
-            this.ENDTIME.Visible = true;
-            this.ENDTIME.VisibleIndex = 6;
-            this.ENDTIME.Width = 94;
+            this.CHECKLOG.Caption = "检查日志";
+            this.CHECKLOG.FieldName = "CHECKLOG";
+            this.CHECKLOG.MinWidth = 25;
+            this.CHECKLOG.Name = "CHECKLOG";
+            this.CHECKLOG.Visible = true;
+            this.CHECKLOG.VisibleIndex = 6;
+            this.CHECKLOG.Width = 94;
             // 
             // OTHER
             // 
@@ -278,7 +278,9 @@
             this.ClientSize = new System.Drawing.Size(997, 489);
             this.Controls.Add(this.xtraTabControl1);
             this.Name = "FormTaskManage";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormTaskManage";
+            this.TopMost = true;
             this.Load += new System.EventHandler(this.FormTaskManage_Load);
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl1)).EndInit();
             this.xtraTabControl1.ResumeLayout(false);
@@ -315,7 +317,7 @@
         private DevExpress.XtraGrid.Columns.GridColumn TEL;
         private DevExpress.XtraGrid.Columns.GridColumn STARTTIME;
         private DevExpress.XtraGrid.Columns.GridColumn STATE;
-        private DevExpress.XtraGrid.Columns.GridColumn ENDTIME;
+        private DevExpress.XtraGrid.Columns.GridColumn CHECKLOG;
         private DevExpress.XtraGrid.Columns.GridColumn OTHER;
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.Button button2;

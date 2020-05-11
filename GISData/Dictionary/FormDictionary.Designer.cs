@@ -91,6 +91,7 @@
             this.Controls.Add(this.splitContainer1);
             this.Name = "FormDictionary";
             this.Text = "字典管理";
+            this.TopMost = true;
             this.Load += new System.EventHandler(this.FormDictionary_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();

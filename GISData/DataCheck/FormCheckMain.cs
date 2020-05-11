@@ -1,4 +1,5 @@
-﻿using ESRI.ArcGIS.Carto;
+﻿using DevExpress.XtraReports.UI;
+using ESRI.ArcGIS.Carto;
 using ESRI.ArcGIS.Controls;
 using ESRI.ArcGIS.Geodatabase;
 using GISData.Common;
@@ -238,7 +239,7 @@ namespace GISData.DataCheck
                     }
                     else if (item.Name == "图形检查")
                     {
-                        TopoDia.doCheckTopo1(this.m_hookHelper);
+                        TopoDia.doCheckTopo(this.m_hookHelper);
                     }
                     else if (item.Name == "统计报表")
                     {
@@ -386,6 +387,70 @@ namespace GISData.DataCheck
         private void comboBoxScheme_SelectedIndexChanged(object sender, EventArgs e)
         {
             loadStep();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            FormAcceptance acceptance = new FormAcceptance(ReportDia,AttrDia,TopoDia);
+            acceptance.ShowDialog();
+            if (acceptance.DialogResult == DialogResult.OK) 
+            {
+                doAcceptance(acceptance.ModelName);
+            }
+        }
+
+        private void doAcceptance(string modelName)
+        {
+            XtraReport mReport = new XtraReport();
+            mReport.LoadLayout(Application.StartupPath + "\\Report\\" + modelName); //报表模板文件
+
+            DataTable taskError = new DataTable();
+            if (ReportDia.wwcxmTable != null)
+            {
+                taskError = ReportDia.wwcxmTable;
+            }
+            taskError.TableName = "taskError";
+            DataTable checkError = new DataTable();
+            DataTable attrError = AttrDia.attrErrorTable;
+            if (attrError != null)
+            {
+                checkError = attrError;
+            }
+            DataTable topotable = TopoDia.topoErrorTable;
+            if (topotable != null)
+            {
+                checkError.Merge(topotable);
+                checkError.TableName = "checkError";
+            }
+
+            //查找组件
+            DetailReportBand DetailReport = mReport.FindControl("DetailReport", true) as DetailReportBand;
+            DetailReportBand DetailReport1 = mReport.FindControl("DetailReport1", true) as DetailReportBand;
+            XRLabel lxr = mReport.FindControl("lxr", true) as XRLabel;//联系人
+            XRLabel lxdh = mReport.FindControl("lxdh", true) as XRLabel;//联系方式
+            XRLabel jcr = mReport.FindControl("jcr", true) as XRLabel;//检查人
+            XRLabel gldwstring = mReport.FindControl("gldw", true) as XRLabel;//管理单位
+            XRLabel startime = mReport.FindControl("startime", true) as XRLabel;//开始检查时间
+            XRLabel printtime = mReport.FindControl("printtime", true) as XRLabel;//打印时间
+            XRLabel checklog = mReport.FindControl("checklog", true) as XRLabel;//检查日志
+
+            CommonClass common = new CommonClass();
+            string gldw = common.GetConfigValue("GLDW");
+
+            ConnectDB db = new ConnectDB();
+            DataTable DT = db.GetDataBySql("select * from GISDATA_GLDW where GLDW = '" + gldw + "'");
+            DataRow dr = DT.Select(null)[0];
+
+            lxr.Text = dr["CONTACTS"].ToString();
+            lxdh.Text = dr["TEL"].ToString();
+            jcr.Text = common.GetConfigValue("USER") == "" ? "曾伟" : common.GetConfigValue("USER");
+            gldwstring.Text = dr["GLDWNAME"].ToString();
+            startime.Text = dr["STARTTIME"].ToString();
+            checklog.Text = dr["CHECKLOG"].ToString().Replace("br",Convert.ToChar(10).ToString()); ;
+            printtime.Text = DateTime.Now.ToLocalTime().ToString();
+            DetailReport.DataSource = taskError;
+            DetailReport1.DataSource = checkError;
+            mReport.ShowPreviewDialog();
         }
     }
 }

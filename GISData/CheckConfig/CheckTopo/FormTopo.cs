@@ -133,7 +133,7 @@ namespace GISData.ChekConfig.CheckTopo
         private void refushTable() 
         {
             ConnectDB cd = new ConnectDB();
-            DataTable dt = cd.GetDataBySql("select NAME AS 质检项,TYPE,TABLENAME,WHERESTRING,SUPTABLE,INPUTTEXT,ID from GISDATA_TBTOPO ");
+            DataTable dt = cd.GetDataBySql("select NAME AS 质检项,CHECKTYPE,TABLENAME,WHERESTRING,SUPTABLE,INPUTTEXT,ID from GISDATA_TBTOPO ");
             this.dataGridViewCheck.DataSource = dt;
             if (this.dataGridViewCheck.Columns.Count > 0)
             {
@@ -163,11 +163,11 @@ namespace GISData.ChekConfig.CheckTopo
                 string inputText = ContainPoint.textBoxNumPointValue;
                 if (this.SavaType == "edit")
                 {
-                    result = db.Update("update GISDATA_TBTOPO set NAME= '" + name + "',TYPE = '" + type + "',TABLENAME = '" + table + "',WHERESTRING = '" + where + "',SUPTABLE='" + supTable + "',INPUTTEXT = '" + inputText + "',SCHEME = '" + this.scheme + "',STEP_NO = " + this.checkNo + " where ID = " + this.EditId);
+                    result = db.Update("update GISDATA_TBTOPO set NAME= '" + name + "',CHECKTYPE = '" + type + "',TABLENAME = '" + table + "',WHERESTRING = '" + where + "',SUPTABLE='" + supTable + "',INPUTTEXT = '" + inputText + "',SCHEME = '" + this.scheme + "',STEP_NO = " + this.checkNo + " where ID = " + this.EditId);
                 }
                 else 
                 {
-                    result = db.Insert("insert into GISDATA_TBTOPO (NAME,TYPE,TABLENAME,WHERESTRING,SUPTABLE,INPUTTEXT,SCHEME,STEP_NO) VALUES('" + name + "','" + type + "','" + table + "','" + where + "','" + supTable + "','" + inputText + "','" + this.scheme + "'," + this.checkNo + ")");
+                    result = db.Insert("insert into GISDATA_TBTOPO (NAME,CHECKTYPE,TABLENAME,WHERESTRING,SUPTABLE,INPUTTEXT,SCHEME,STEP_NO) VALUES('" + name + "','" + type + "','" + table + "','" + where + "','" + supTable + "','" + inputText + "','" + this.scheme + "'," + this.checkNo + ")");
                 }
             }
             else if (checkType == "面和线不相交")
@@ -176,11 +176,11 @@ namespace GISData.ChekConfig.CheckTopo
                 string supTable = NoInterLine.comboBoxLineValue;
                 if (this.SavaType == "edit")
                 {
-                    result = db.Update("update GISDATA_TBTOPO set NAME= '" + name + "',TYPE = '" + type + "',TABLENAME = '" + table + "',SUPTABLE='" + supTable + "',SCHEME = '" + this.scheme + "',STEP_NO = " + this.checkNo + " where ID = " + this.EditId);
+                    result = db.Update("update GISDATA_TBTOPO set NAME= '" + name + "',CHECKTYPE = '" + type + "',TABLENAME = '" + table + "',SUPTABLE='" + supTable + "',SCHEME = '" + this.scheme + "',STEP_NO = " + this.checkNo + " where ID = " + this.EditId);
                 }
                 else
                 {
-                    result = db.Insert("insert into GISDATA_TBTOPO (NAME,TYPE,TABLENAME,SUPTABLE,SCHEME,STEP_NO) VALUES('" + name + "','" + type + "','" + table + "','" + supTable + "','" + this.scheme + "'," + this.checkNo + ")");
+                    result = db.Insert("insert into GISDATA_TBTOPO (NAME,CHECKTYPE,TABLENAME,SUPTABLE,SCHEME,STEP_NO) VALUES('" + name + "','" + type + "','" + table + "','" + supTable + "','" + this.scheme + "'," + this.checkNo + ")");
                 }
                 
             }
@@ -195,11 +195,11 @@ namespace GISData.ChekConfig.CheckTopo
                     {
                         if (this.SavaType == "edit")
                         {
-                            result = db.Update("update GISDATA_TBTOPO set NAME= '" + name + "',TYPE = '" + type + "',TABLENAME = '" + table + "',SUPTABLE='" + supTable + "',SCHEME = '" + this.scheme + "',STEP_NO = " + this.checkNo + " where ID = " + this.EditId);
+                            result = db.Update("update GISDATA_TBTOPO set NAME= '" + name + "',CHECKTYPE = '" + type + "',TABLENAME = '" + table + "',SUPTABLE='" + supTable + "',SCHEME = '" + this.scheme + "',STEP_NO = " + this.checkNo + " where ID = " + this.EditId);
                         }
                         else
                         {
-                            result = db.Insert("insert into GISDATA_TBTOPO (NAME,TYPE,TABLENAME,SUPTABLE,SCHEME,STEP_NO) VALUES('" + name + "','" + type + "','" + table + "','" + supTable + "','" + this.scheme + "'," + this.checkNo + ")");
+                            result = db.Insert("insert into GISDATA_TBTOPO (NAME,CHECKTYPE,TABLENAME,SUPTABLE,SCHEME,STEP_NO) VALUES('" + name + "','" + type + "','" + table + "','" + supTable + "','" + this.scheme + "'," + this.checkNo + ")");
                         }
                     }
                     else 
@@ -211,11 +211,11 @@ namespace GISData.ChekConfig.CheckTopo
                 {
                     if (this.SavaType == "edit")
                     {
-                        result = db.Update("update GISDATA_TBTOPO set NAME= '" + name + "',TYPE = '" + type + "',TABLENAME = '" + table + "',SUPTABLE='" + supTable + "',SCHEME = '" + this.scheme + "',STEP_NO = " + this.checkNo + " where ID = " + this.EditId);
+                        result = db.Update("update GISDATA_TBTOPO set NAME= '" + name + "',CHECKTYPE = '" + type + "',TABLENAME = '" + table + "',SUPTABLE='" + supTable + "',SCHEME = '" + this.scheme + "',STEP_NO = " + this.checkNo + " where ID = " + this.EditId);
                     }
                     else
                     {
-                        result = db.Insert("insert into GISDATA_TBTOPO (NAME,TYPE,TABLENAME,SUPTABLE,SCHEME,STEP_NO) VALUES('" + name + "','" + type + "','" + table + "','" + supTable + "','" + this.scheme + "'," + this.checkNo + ")");
+                        result = db.Insert("insert into GISDATA_TBTOPO (NAME,CHECKTYPE,TABLENAME,SUPTABLE,SCHEME,STEP_NO) VALUES('" + name + "','" + type + "','" + table + "','" + supTable + "','" + this.scheme + "'," + this.checkNo + ")");
                     }
                 }
             }
@@ -226,11 +226,11 @@ namespace GISData.ChekConfig.CheckTopo
                 string input = xbmDig.textBoxinputValue;
                 if (this.SavaType == "edit")
                 {
-                    result = db.Update("update GISDATA_TBTOPO set NAME= '" + name + "',TYPE = '" + type + "',TABLENAME = '" + table + "',WHERESTRING='" + where + "',INPUTTEXT='" + input + "',SCHEME = '" + this.scheme + "',STEP_NO = " + this.checkNo + " where ID = " + this.EditId);
+                    result = db.Update("update GISDATA_TBTOPO set NAME= '" + name + "',CHECKTYPE = '" + type + "',TABLENAME = '" + table + "',WHERESTRING='" + where + "',INPUTTEXT='" + input + "',SCHEME = '" + this.scheme + "',STEP_NO = " + this.checkNo + " where ID = " + this.EditId);
                 }
                 else
                 {
-                    result = db.Insert("insert into GISDATA_TBTOPO (NAME,TYPE,TABLENAME,WHERESTRING,INPUTTEXT,SCHEME,STEP_NO) VALUES('" + name + "','" + type + "','" + table + "','" + where + "','" + input + "','" + this.scheme + "'," + this.checkNo + ")");
+                    result = db.Insert("insert into GISDATA_TBTOPO (NAME,CHECKTYPE,TABLENAME,WHERESTRING,INPUTTEXT,SCHEME,STEP_NO) VALUES('" + name + "','" + type + "','" + table + "','" + where + "','" + input + "','" + this.scheme + "'," + this.checkNo + ")");
                 }
             }
             else if (checkType == "缝隙检查")
@@ -239,22 +239,22 @@ namespace GISData.ChekConfig.CheckTopo
                 string input = NoGaps.textBoxareaValue;
                 if (this.SavaType == "edit")
                 {
-                    result = db.Update("update GISDATA_TBTOPO set NAME= '" + name + "',TYPE = '" + type + "',TABLENAME = '" + table + "',INPUTTEXT='" + input + "',SCHEME = '" + this.scheme + "',STEP_NO = " + this.checkNo + " where ID = " + this.EditId);
+                    result = db.Update("update GISDATA_TBTOPO set NAME= '" + name + "',CHECKTYPE = '" + type + "',TABLENAME = '" + table + "',INPUTTEXT='" + input + "',SCHEME = '" + this.scheme + "',STEP_NO = " + this.checkNo + " where ID = " + this.EditId);
                 }
                 else
                 {
-                    result = db.Insert("insert into GISDATA_TBTOPO (NAME,TYPE,TABLENAME,INPUTTEXT,SCHEME,STEP_NO) VALUES('" + name + "','" + type + "','" + table + "','" + input + "','" + this.scheme + "'," + this.checkNo + ")");
+                    result = db.Insert("insert into GISDATA_TBTOPO (NAME,CHECKTYPE,TABLENAME,INPUTTEXT,SCHEME,STEP_NO) VALUES('" + name + "','" + type + "','" + table + "','" + input + "','" + this.scheme + "'," + this.checkNo + ")");
                 }
             }
             else 
             {
                 if (this.SavaType == "edit")
                 {
-                    result = db.Update("update GISDATA_TBTOPO set NAME= '" + name + "',TYPE = '" + type + "',TABLENAME = '" + table + "',SCHEME = '" + this.scheme + "',STEP_NO = " + this.checkNo + " where ID = " + this.EditId);
+                    result = db.Update("update GISDATA_TBTOPO set NAME= '" + name + "',CHECKTYPE = '" + type + "',TABLENAME = '" + table + "',SCHEME = '" + this.scheme + "',STEP_NO = " + this.checkNo + " where ID = " + this.EditId);
                 }
                 else
                 {
-                    result = db.Insert("insert into GISDATA_TBTOPO (NAME,TYPE,TABLENAME,SCHEME,STEP_NO) VALUES('" + name + "','" + type + "','" + table + "','" + this.scheme + "'," + this.checkNo + ")");
+                    result = db.Insert("insert into GISDATA_TBTOPO (NAME,CHECKTYPE,TABLENAME,SCHEME,STEP_NO) VALUES('" + name + "','" + type + "','" + table + "','" + this.scheme + "'," + this.checkNo + ")");
                 }
             }
             if (result)

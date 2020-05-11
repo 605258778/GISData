@@ -68,7 +68,9 @@
             this.Controls.Add(this.textBoxGroup);
             this.Controls.Add(this.label1);
             this.Name = "FormGroup";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "添加分组";
+            this.TopMost = true;
             this.ResumeLayout(false);
             this.PerformLayout();
 

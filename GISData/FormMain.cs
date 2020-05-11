@@ -461,8 +461,8 @@ namespace GISData
         private void 报表设计ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //FormReportDesign report = new FormReportDesign();
-            FormReportDes report = new FormReportDes();
-            report.Show();
+            //FormReportDes report = new FormReportDes();
+            //report.Show();
         }
 
         private void 开始ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -476,6 +476,18 @@ namespace GISData
             string aa = "bQB6AEEAdQB0AGgAbwByAGkAdAB5AC4AZABsAGwA";
             byte[] array = Convert.FromBase64String(aa);
             Console.WriteLine( Encoding.Unicode.GetString(array, 0, array.Length));
+        }
+
+        private void 表格ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormReportDes report = new FormReportDes();
+            report.Show();
+        }
+
+        private void 文档ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormReportWord word = new FormReportWord();
+            word.Show();
         }
 
     }

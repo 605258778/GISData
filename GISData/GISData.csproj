@@ -315,7 +315,12 @@
     <Compile Include="Common\TreeDataGridView.cs" />
     <Compile Include="Common\TreeNodeMul.cs" />
     <Compile Include="Common\ZoomToLayer.cs" />
-    <Compile Include="DataCheck\CheckDialog\ClassSpreadSheet.cs" />
+    <Compile Include="DataCheck\CheckDialog\FormAcceptance.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DataCheck\CheckDialog\FormAcceptance.Designer.cs">
+      <DependentUpon>FormAcceptance.cs</DependentUpon>
+    </Compile>
     <Compile Include="DataCheck\CheckDialog\FormAttrDia.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -407,23 +412,17 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Report\Formdes.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Report\Formdes.Designer.cs">
-      <DependentUpon>Formdes.cs</DependentUpon>
-    </Compile>
     <Compile Include="Report\FormReportDes.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Report\FormReportDes.Designer.cs">
       <DependentUpon>FormReportDes.cs</DependentUpon>
     </Compile>
-    <Compile Include="Report\FormReportDesign.cs">
+    <Compile Include="Report\FormReportWord.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Report\FormReportDesign.Designer.cs">
-      <DependentUpon>FormReportDesign.cs</DependentUpon>
+    <Compile Include="Report\FormReportWord.Designer.cs">
+      <DependentUpon>FormReportWord.cs</DependentUpon>
     </Compile>
     <Compile Include="TaskManage\FormTaskManage.cs">
       <SubType>Form</SubType>
@@ -533,6 +532,9 @@
     <EmbeddedResource Include="CheckConfig\FormStep.resx">
       <DependentUpon>FormStep.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="DataCheck\CheckDialog\FormAcceptance.resx">
+      <DependentUpon>FormAcceptance.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DataCheck\CheckDialog\FormAttrDia.resx">
       <DependentUpon>FormAttrDia.cs</DependentUpon>
     </EmbeddedResource>
@@ -572,14 +574,11 @@
     <EmbeddedResource Include="MainMap\FormAttribute.resx">
       <DependentUpon>FormAttribute.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Report\Formdes.resx">
-      <DependentUpon>Formdes.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Report\FormReportDes.resx">
       <DependentUpon>FormReportDes.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Report\FormReportDesign.resx">
-      <DependentUpon>FormReportDesign.cs</DependentUpon>
+    <EmbeddedResource Include="Report\FormReportWord.resx">
+      <DependentUpon>FormReportWord.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TaskManage\FormTaskManage.resx">
       <DependentUpon>FormTaskManage.cs</DependentUpon>

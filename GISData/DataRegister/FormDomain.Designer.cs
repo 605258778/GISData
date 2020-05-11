@@ -131,7 +131,9 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label1);
             this.Name = "FormDomain";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "字段信息";
+            this.TopMost = true;
             this.Load += new System.EventHandler(this.FormDomain_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -25,7 +25,7 @@ namespace GISData.DataCheck.CheckDialog
         private CheckBox checkBoxCheckMain;
         private GridControl gridControlError = null;
         private IHookHelper m_hookHelper = null;
-        IFeatureDataset mainlogyDataSet = null;
+        public DataTable topoErrorTable = null;
         public FormTopoDia()
         {
             InitializeComponent();
@@ -63,10 +63,15 @@ namespace GISData.DataCheck.CheckDialog
         private void bindTreeView()
         {
             ConnectDB db = new ConnectDB();
-            DataTable dt = db.GetDataBySql("select NAME,STATE,ERROR,TYPE,TABLENAME,WHERESTRING,SUPTABLE,INPUTTEXT,ID from GISDATA_TBTOPO");
+            DataTable dt = db.GetDataBySql("select NAME,STATE,ERROR,CHECKTYPE,TABLENAME,WHERESTRING,SUPTABLE,INPUTTEXT,ID from GISDATA_TBTOPO");
             this.gridControl1.DataSource = dt;
             this.gridView1.OptionsBehavior.Editable = false;
             this.gridView1.OptionsSelection.MultiSelect = true;
+            topoErrorTable = new DataTable();
+            foreach (DataColumn column in dt.Columns)
+            {
+                topoErrorTable.Columns.Add(column.ColumnName);
+            }
         }
 
         private void gridView1_SelectionChanged(object sender, DevExpress.Data.SelectionChangedEventArgs e)
@@ -81,67 +86,67 @@ namespace GISData.DataCheck.CheckDialog
             }
         }
 
-        public void doCheckTopo()
-        {
-            string GdbPath = Application.StartupPath + "\\GISData.gdb";
-            FileGDBWorkspaceFactoryClass fac = new FileGDBWorkspaceFactoryClass();
-            IWorkspace workspace = fac.OpenFromFile(GdbPath, 0);
-            CommonClass common = new CommonClass();
-            IFeatureDataset mainlogyDataSet = common.getDataset(workspace);
-            int[] selectRows = this.gridView1.GetSelectedRows();
-            //主要有添加构建拓扑，拓扑中添加要素，添加规则，输出拓扑错误的功能。  
-            TopologyChecker topocheck = new TopologyChecker(mainlogyDataSet);//传入要处理的要素数据集  
-            topocheck.PUB_TopoBuild("dataset_Topology");//构建拓扑的名字  
-            topocheck.PUB_AddFeatureClass(null);//将该要素中全部要素都加入拓扑  
-            Dictionary<string, string> DicTopoData = new Dictionary<string, string>();
-            foreach (int itemRow in selectRows)
-            {
-                DataRow row = this.gridView1.GetDataRow(itemRow);
-                string ID = row["ID"].ToString();
-                string NAME = row["NAME"].ToString();
-                string STATE = row["STATE"].ToString();
-                string ERROR = row["ERROR"].ToString();
-                string TYPE = row["TYPE"].ToString();
-                string TABLENAME = row["TABLENAME"].ToString();
-                string WHERESTRING = row["WHERESTRING"].ToString();
-                string SUPTABLE = row["SUPTABLE"].ToString();
-                string INPUTTEXT = row["INPUTTEXT"].ToString();
-                if (INPUTTEXT!= null && INPUTTEXT!="")
-                {
-                    DicTopoData.Add(ID, INPUTTEXT);
-                }
-                row["STATE"] = "检查中";
-                GISData.Common.TopologyChecker.TopoErroType aa = GetTypeByString(TYPE);
-                if (TYPE == "面多部件检查" || TYPE == "面自相交检查")
-                {
-                    topocheck.OtherRule(ID, TYPE, topocheck.PUB_GetAllFeatureClassByName(TABLENAME));
-                }else if (SUPTABLE == null || SUPTABLE == "")
-                {
-                    topocheck.PUB_AddRuleToTopology(ID,GetTypeByString(TYPE), (topocheck.PUB_GetAllFeatureClassByName(TABLENAME)));
-                }
-                else 
-                {
-                    topocheck.PUB_AddRuleToTopology(ID,GetTypeByString(TYPE), (topocheck.PUB_GetAllFeatureClassByName(TABLENAME)), (topocheck.PUB_GetAllFeatureClassByName(SUPTABLE)));
-                }
-            }
-            topocheck.doValidateTopology(selectRows, DicTopoData);
-            Dictionary<string,int> DicTopoError = topocheck.DicTopoError;
-            foreach (int itemRow in selectRows)
-            {
-                DataRow row = this.gridView1.GetDataRow(itemRow);
-                string ID = row["ID"].ToString();
-                row["ERROR"] = DicTopoError[ID];
-                row["STATE"] = "检查完成";
-            }
-        }
+        //public void doCheckTopo()
+        //{
+        //    string GdbPath = Application.StartupPath + "\\GISData.gdb";
+        //    FileGDBWorkspaceFactoryClass fac = new FileGDBWorkspaceFactoryClass();
+        //    IWorkspace workspace = fac.OpenFromFile(GdbPath, 0);
+        //    CommonClass common = new CommonClass();
+        //    IFeatureDataset mainlogyDataSet = common.getDataset(workspace);
+        //    int[] selectRows = this.gridView1.GetSelectedRows();
+        //    //主要有添加构建拓扑，拓扑中添加要素，添加规则，输出拓扑错误的功能。  
+        //    TopologyChecker topocheck = new TopologyChecker(mainlogyDataSet);//传入要处理的要素数据集  
+        //    topocheck.PUB_TopoBuild("dataset_Topology");//构建拓扑的名字  
+        //    topocheck.PUB_AddFeatureClass(null);//将该要素中全部要素都加入拓扑  
+        //    Dictionary<string, string> DicTopoData = new Dictionary<string, string>();
+        //    foreach (int itemRow in selectRows)
+        //    {
+        //        DataRow row = this.gridView1.GetDataRow(itemRow);
+        //        string ID = row["ID"].ToString();
+        //        string NAME = row["NAME"].ToString();
+        //        string STATE = row["STATE"].ToString();
+        //        string ERROR = row["ERROR"].ToString();
+        //        string TYPE = row["CHECKTYPE"].ToString();
+        //        string TABLENAME = row["TABLENAME"].ToString();
+        //        string WHERESTRING = row["WHERESTRING"].ToString();
+        //        string SUPTABLE = row["SUPTABLE"].ToString();
+        //        string INPUTTEXT = row["INPUTTEXT"].ToString();
+        //        if (INPUTTEXT!= null && INPUTTEXT!="")
+        //        {
+        //            DicTopoData.Add(ID, INPUTTEXT);
+        //        }
+        //        row["STATE"] = "检查中";
+        //        GISData.Common.TopologyChecker.TopoErroType aa = GetTypeByString(TYPE);
+        //        if (TYPE == "面多部件检查" || TYPE == "面自相交检查")
+        //        {
+        //            topocheck.OtherRule(ID, TYPE, topocheck.PUB_GetAllFeatureClassByName(TABLENAME));
+        //        }else if (SUPTABLE == null || SUPTABLE == "")
+        //        {
+        //            topocheck.PUB_AddRuleToTopology(ID,GetTypeByString(TYPE), (topocheck.PUB_GetAllFeatureClassByName(TABLENAME)));
+        //        }
+        //        else 
+        //        {
+        //            topocheck.PUB_AddRuleToTopology(ID,GetTypeByString(TYPE), (topocheck.PUB_GetAllFeatureClassByName(TABLENAME)), (topocheck.PUB_GetAllFeatureClassByName(SUPTABLE)));
+        //        }
+        //    }
+        //    topocheck.doValidateTopology(selectRows, DicTopoData);
+        //    Dictionary<string,int> DicTopoError = topocheck.DicTopoError;
+        //    foreach (int itemRow in selectRows)
+        //    {
+        //        DataRow row = this.gridView1.GetDataRow(itemRow);
+        //        string ID = row["ID"].ToString();
+        //        row["ERROR"] = DicTopoError[ID];
+        //        row["STATE"] = "检查完成";
+        //        if (DicTopoError[ID].ToString() != "0") 
+        //        {
+        //            topoErrorTable.ImportRow(row);
+        //        }
+        //    }
+        //}
 
-        public void doCheckTopo1(IHookHelper m_hookHelper)
+        public void doCheckTopo(IHookHelper m_hookHelper)
         {
             this.m_hookHelper = m_hookHelper;
-            //string GdbPath = Application.StartupPath + "\\GISData.gdb";
-            //FileGDBWorkspaceFactoryClass fac = new FileGDBWorkspaceFactoryClass();
-            //IWorkspace workspace = fac.OpenFromFile(GdbPath, 0);
-            //this.mainlogyDataSet = common.getDataset(workspace);
             CommonClass common = new CommonClass();
             int[] selectRows = this.gridView1.GetSelectedRows();
             //主要有添加构建拓扑，拓扑中添加要素，添加规则，输出拓扑错误的功能。  
@@ -154,7 +159,7 @@ namespace GISData.DataCheck.CheckDialog
                 string NAME = row["NAME"].ToString();
                 string STATE = row["STATE"].ToString();
                 string ERROR = row["ERROR"].ToString();
-                string TYPE = row["TYPE"].ToString();
+                string TYPE = row["CHECKTYPE"].ToString();
                 string TABLENAME = row["TABLENAME"].ToString();
                 string WHERESTRING = row["WHERESTRING"].ToString();
                 string SUPTABLE = row["SUPTABLE"].ToString();
@@ -171,6 +176,10 @@ namespace GISData.DataCheck.CheckDialog
                     DataRow rowItem = this.gridView1.GetDataRow(itemtemp);
                     row["ERROR"] = DicTopoError[row["ID"].ToString()];
                     row["STATE"] = "检查完成";
+                    if (DicTopoError[ID].ToString() != "0")
+                    {
+                        topoErrorTable.ImportRow(row);
+                    }
                 }
             }
         }
@@ -269,7 +278,7 @@ namespace GISData.DataCheck.CheckDialog
                         {
                             var index = this.gridView1.GetFocusedDataSourceRowIndex();//获取数据行的索引值，从0开始
                             DataRowView row = (DataRowView)this.gridView1.GetRow(index);
-                            string errorType = row["TYPE"].ToString();
+                            string errorType = row["CHECKTYPE"].ToString();
                             string TABLENAME = row["TABLENAME"].ToString();
                             ErrType itemType;
                             if(errorType == "缝隙检查")

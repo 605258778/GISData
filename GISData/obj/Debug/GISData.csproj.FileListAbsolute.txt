@@ -35,7 +35,6 @@ F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.Dictionary.FormDic
 F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.FormMain.resources
 F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.MainMap.FormAddField.resources
 F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.MainMap.FormAttribute.resources
-F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.Report.FormReportDesign.resources
 F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.TaskManage.FormTaskDia.resources
 F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.Parameter.FormSetpara.resources
 F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.Properties.Resources.resources
@@ -46,7 +45,6 @@ F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.CheckConfig.CheckR
 F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.DataCheck.CheckDialog.FormReportDia.resources
 F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.CheckConfig.CheckAttr.CheckDialog.FormXmmc.resources
 F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.TaskManage.TaskFieldRegister.resources
-F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.Report.Formdes.resources
 F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.Report.FormReportDes.resources
 F:\数据验收平台建设\GISData\GISData\bin\Debug\Microsoft.Office.Tools.Excel.v4.0.Utilities.dll
 F:\数据验收平台建设\GISData\GISData\bin\Debug\Microsoft.Office.Tools.Excel.v4.0.Utilities.xml
@@ -58,5 +56,6 @@ F:\数据验收平台建设\GISData\GISData\bin\Debug\Spire.License.xml
 F:\数据验收平台建设\GISData\GISData\bin\Debug\Spire.Pdf.xml
 F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.CheckConfig.CheckReport.FormPivotConfig.resources
 F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.TaskManage.FormTaskManage.resources
-F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.csprojResolveAssemblyReference.cache
 F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.Login.FormLogin.resources
+F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.Report.FormReportWord.resources
+F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.DataCheck.CheckDialog.FormAcceptance.resources

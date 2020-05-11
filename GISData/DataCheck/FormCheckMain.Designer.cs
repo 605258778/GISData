@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.button1 = new System.Windows.Forms.Button();
             this.comboBoxScheme = new System.Windows.Forms.ComboBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.buttonCheckStar = new System.Windows.Forms.Button();
@@ -55,6 +56,7 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.button1);
             this.splitContainer1.Panel1.Controls.Add(this.comboBoxScheme);
             this.splitContainer1.Panel1.Controls.Add(this.checkBox1);
             this.splitContainer1.Panel1.Controls.Add(this.buttonCheckStar);
@@ -63,10 +65,20 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tabControl1);
             this.splitContainer1.Panel2MinSize = 500;
-            this.splitContainer1.Size = new System.Drawing.Size(978, 557);
+            this.splitContainer1.Size = new System.Drawing.Size(979, 557);
             this.splitContainer1.SplitterDistance = 53;
             this.splitContainer1.TabIndex = 1;
             this.splitContainer1.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.splitContainer1_SplitterMoved);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(857, -2);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(83, 53);
+            this.button1.TabIndex = 3;
+            this.button1.Text = "检查完成";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // comboBoxScheme
             // 
@@ -80,10 +92,9 @@
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.checkBox1.Location = new System.Drawing.Point(789, 0);
+            this.checkBox1.Location = new System.Drawing.Point(678, 13);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(89, 53);
+            this.checkBox1.Size = new System.Drawing.Size(89, 19);
             this.checkBox1.TabIndex = 1;
             this.checkBox1.Text = "显示详细";
             this.checkBox1.UseVisualStyleBackColor = true;
@@ -91,10 +102,9 @@
             // 
             // buttonCheckStar
             // 
-            this.buttonCheckStar.Dock = System.Windows.Forms.DockStyle.Right;
-            this.buttonCheckStar.Location = new System.Drawing.Point(878, 0);
+            this.buttonCheckStar.Location = new System.Drawing.Point(773, -2);
             this.buttonCheckStar.Name = "buttonCheckStar";
-            this.buttonCheckStar.Size = new System.Drawing.Size(100, 53);
+            this.buttonCheckStar.Size = new System.Drawing.Size(78, 53);
             this.buttonCheckStar.TabIndex = 0;
             this.buttonCheckStar.Text = "开始执行";
             this.buttonCheckStar.UseVisualStyleBackColor = true;
@@ -111,7 +121,7 @@
             this.tabControl1.Multiline = true;
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(978, 500);
+            this.tabControl1.Size = new System.Drawing.Size(979, 500);
             this.tabControl1.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.tabControl1.TabIndex = 0;
             this.tabControl1.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.tabControl1_DrawItem);
@@ -134,10 +144,10 @@
             // gridControlError
             // 
             this.gridControlError.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gridControlError.Location = new System.Drawing.Point(987, 3);
+            this.gridControlError.Location = new System.Drawing.Point(988, 3);
             this.gridControlError.MainView = this.gridViewError;
             this.gridControlError.Name = "gridControlError";
-            this.gridControlError.Size = new System.Drawing.Size(392, 557);
+            this.gridControlError.Size = new System.Drawing.Size(391, 557);
             this.gridControlError.TabIndex = 2;
             this.gridControlError.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridViewError});
@@ -159,7 +169,9 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.IsMdiContainer = true;
             this.Name = "FormCheckMain";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "数据质检";
+            this.TopMost = true;
             this.Load += new System.EventHandler(this.FormCheckMain_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
@@ -183,6 +195,7 @@
         private DevExpress.XtraGrid.Views.Grid.GridView gridViewError;
         public System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.ComboBox comboBoxScheme;
+        private System.Windows.Forms.Button button1;
 
 
     }

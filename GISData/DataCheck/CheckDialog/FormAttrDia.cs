@@ -25,6 +25,7 @@ namespace GISData.DataCheck.CheckDialog
         Boolean flag = true;
         private CheckBox checkBoxCheckMain;
         private GridControl gridControlError = null;
+        public DataTable attrErrorTable = null;
         public FormAttrDia()
         {
             InitializeComponent();
@@ -52,6 +53,8 @@ namespace GISData.DataCheck.CheckDialog
         private void FormAttrDia_Load(object sender, EventArgs e)
         {
             bindTreeView();
+            
+            
         }
 
         private void bindTreeView() 
@@ -60,6 +63,11 @@ namespace GISData.DataCheck.CheckDialog
             DataTable dt = cdb.GetDataBySql("select * from GISDATA_TBATTR");
             this.treeList1.DataSource = dt;
             treeList1.OptionsView.ShowCheckBoxes = true;
+            attrErrorTable = new DataTable();
+            foreach ( DataColumn column in dt.Columns) 
+            {
+                attrErrorTable.Columns.Add(column.ColumnName);
+            }
             //treeList1.OptionsBehavior.AllowIndeterminateCheckState = true;
         }
 
@@ -180,6 +188,8 @@ namespace GISData.DataCheck.CheckDialog
 
         public void loopCheck(TreeListNodes selectNode)
         {
+            
+            
             foreach (TreeListNode node in selectNode)
             {
                 DataRowView nodeData = this.treeList1.GetDataRecordByNode(node) as DataRowView;
@@ -337,6 +347,10 @@ namespace GISData.DataCheck.CheckDialog
                             nodeData["ERROR"] = count;
                             nodeData["ISCHECK"] = "已检查";
                         }
+                        if (nodeData["ERROR"].ToString()!="0") 
+                        {
+                            attrErrorTable.ImportRow(nodeData.Row);
+                        }
                     }
                     if (node.Nodes.Count != 0)
                     {
@@ -458,6 +472,21 @@ namespace GISData.DataCheck.CheckDialog
                     {
                         IQueryFilter pQuery = new QueryFilterClass();
                         pQuery.WhereClause = FIELD + " in ( select " + FIELD + " as wyz from  " + TABLENAME + " group by " + FIELD + " having count(" + FIELD + ")>1)";
+                        pFeatureCuror = pTable.Search(pQuery, false);
+                    }
+                    else if (CHECKTYPE == "项目名称检查")
+                    {
+                        string[] arrStr = FIELD.Split('#');
+                        string fieldStr = arrStr[0];
+                        string taskfieldStr = arrStr[1];
+                        CommonClass common = new CommonClass();
+                        string gldwstr = common.GetConfigValue("GLDW");
+                        DataTable xmmcArr = db.GetDataBySql("SELECT " + taskfieldStr + " AS XMMCARR FROM GISDATA_TASK WHERE YZLGLDW ='" + gldwstr + "'");
+                        string[] idInts = xmmcArr.AsEnumerable().Select(d => d.Field<string>("XMMCARR")).ToArray();
+                        string codesString = String.Join("','", idInts);
+
+                        IQueryFilter pQuery = new QueryFilterClass();
+                        pQuery.WhereClause = fieldStr + " not in ('" + codesString + "')";
                         pFeatureCuror = pTable.Search(pQuery, false);
                     }
                     else if (CHECKTYPE == "值域检查")

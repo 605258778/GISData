@@ -223,7 +223,9 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormAttrAdd";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "添加逻辑";
+            this.TopMost = true;
             this.Load += new System.EventHandler(this.FormAttrDig_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();

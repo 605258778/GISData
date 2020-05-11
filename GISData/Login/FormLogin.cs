@@ -42,6 +42,8 @@ namespace GISData.Login
                     string pw = drs[0]["PASSWORD"].ToString();
                     if (password == pw)
                     {
+                        CommonClass common = new CommonClass();
+                        common.SetConfigValue("USER", user);
                         this.Close();
                         this.DialogResult = DialogResult.OK;
                     }

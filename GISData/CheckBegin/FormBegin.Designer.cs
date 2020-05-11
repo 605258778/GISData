@@ -121,7 +121,9 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Name = "FormBegin";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "开始";
+            this.TopMost = true;
             this.Load += new System.EventHandler(this.FormBegin_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

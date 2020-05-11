@@ -93,7 +93,9 @@
             this.ClientSize = new System.Drawing.Size(931, 546);
             this.Controls.Add(this.splitContainer1);
             this.Name = "FormTaskDia";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormTaskDia";
+            this.TopMost = true;
             this.Load += new System.EventHandler(this.FormTaskDia_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);

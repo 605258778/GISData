@@ -34,9 +34,9 @@
             this.AddScheme = new System.Windows.Forms.Button();
             this.comboBoxScheme = new System.Windows.Forms.ComboBox();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.buttonAddStep = new System.Windows.Forms.Button();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.buttonRemove = new System.Windows.Forms.Button();
+            this.buttonAddStep = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -121,16 +121,6 @@
             this.splitContainer2.SplitterDistance = 240;
             this.splitContainer2.TabIndex = 0;
             // 
-            // buttonAddStep
-            // 
-            this.buttonAddStep.Location = new System.Drawing.Point(32, 14);
-            this.buttonAddStep.Name = "buttonAddStep";
-            this.buttonAddStep.Size = new System.Drawing.Size(75, 38);
-            this.buttonAddStep.TabIndex = 0;
-            this.buttonAddStep.Text = "添加";
-            this.buttonAddStep.UseVisualStyleBackColor = true;
-            this.buttonAddStep.Click += new System.EventHandler(this.buttonAddStep_Click);
-            // 
             // splitContainer3
             // 
             this.splitContainer3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -157,6 +147,16 @@
             this.buttonRemove.UseVisualStyleBackColor = true;
             this.buttonRemove.Click += new System.EventHandler(this.buttonRemove_Click);
             // 
+            // buttonAddStep
+            // 
+            this.buttonAddStep.Location = new System.Drawing.Point(32, 14);
+            this.buttonAddStep.Name = "buttonAddStep";
+            this.buttonAddStep.Size = new System.Drawing.Size(75, 38);
+            this.buttonAddStep.TabIndex = 0;
+            this.buttonAddStep.Text = "添加";
+            this.buttonAddStep.UseVisualStyleBackColor = true;
+            this.buttonAddStep.Click += new System.EventHandler(this.buttonAddStep_Click);
+            // 
             // FormConfigMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -167,7 +167,9 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormConfigMain";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "质检配置";
+            this.TopMost = true;
             this.Load += new System.EventHandler(this.FormConfigMain_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);

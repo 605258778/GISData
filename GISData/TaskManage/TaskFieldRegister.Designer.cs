@@ -119,7 +119,9 @@
             this.Controls.Add(this.textEditWhere);
             this.Controls.Add(this.textEditField);
             this.Name = "TaskFieldRegister";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormRegister";
+            this.TopMost = true;
             this.Load += new System.EventHandler(this.TaskFieldRegister_Load);
             ((System.ComponentModel.ISupportInitialize)(this.textEditField.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.textEditWhere.Properties)).EndInit();

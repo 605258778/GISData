@@ -33,13 +33,15 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.开始ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.工程设置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.数据质检ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.数据注册ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.字典管理ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.质检配置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.数据质检ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.工程设置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.任务管理ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.报表设计ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.表格ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.文档ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -98,6 +100,20 @@
             this.开始ToolStripMenuItem.Text = "开始";
             this.开始ToolStripMenuItem.Click += new System.EventHandler(this.开始ToolStripMenuItem_Click);
             // 
+            // 工程设置ToolStripMenuItem
+            // 
+            this.工程设置ToolStripMenuItem.Name = "工程设置ToolStripMenuItem";
+            this.工程设置ToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
+            this.工程设置ToolStripMenuItem.Text = "工程设置";
+            this.工程设置ToolStripMenuItem.Click += new System.EventHandler(this.工程设置ToolStripMenuItem_Click);
+            // 
+            // 数据质检ToolStripMenuItem
+            // 
+            this.数据质检ToolStripMenuItem.Name = "数据质检ToolStripMenuItem";
+            this.数据质检ToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
+            this.数据质检ToolStripMenuItem.Text = "数据质检";
+            this.数据质检ToolStripMenuItem.Click += new System.EventHandler(this.数据质检ToolStripMenuItem_Click);
+            // 
             // 数据注册ToolStripMenuItem
             // 
             this.数据注册ToolStripMenuItem.Name = "数据注册ToolStripMenuItem";
@@ -119,20 +135,6 @@
             this.质检配置ToolStripMenuItem.Text = "质检配置";
             this.质检配置ToolStripMenuItem.Click += new System.EventHandler(this.质检配置ToolStripMenuItem_Click);
             // 
-            // 数据质检ToolStripMenuItem
-            // 
-            this.数据质检ToolStripMenuItem.Name = "数据质检ToolStripMenuItem";
-            this.数据质检ToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
-            this.数据质检ToolStripMenuItem.Text = "数据质检";
-            this.数据质检ToolStripMenuItem.Click += new System.EventHandler(this.数据质检ToolStripMenuItem_Click);
-            // 
-            // 工程设置ToolStripMenuItem
-            // 
-            this.工程设置ToolStripMenuItem.Name = "工程设置ToolStripMenuItem";
-            this.工程设置ToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
-            this.工程设置ToolStripMenuItem.Text = "工程设置";
-            this.工程设置ToolStripMenuItem.Click += new System.EventHandler(this.工程设置ToolStripMenuItem_Click);
-            // 
             // 任务管理ToolStripMenuItem
             // 
             this.任务管理ToolStripMenuItem.Name = "任务管理ToolStripMenuItem";
@@ -142,10 +144,27 @@
             // 
             // 报表设计ToolStripMenuItem
             // 
+            this.报表设计ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.表格ToolStripMenuItem,
+            this.文档ToolStripMenuItem});
             this.报表设计ToolStripMenuItem.Name = "报表设计ToolStripMenuItem";
             this.报表设计ToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
             this.报表设计ToolStripMenuItem.Text = "报表设计";
             this.报表设计ToolStripMenuItem.Click += new System.EventHandler(this.报表设计ToolStripMenuItem_Click);
+            // 
+            // 表格ToolStripMenuItem
+            // 
+            this.表格ToolStripMenuItem.Name = "表格ToolStripMenuItem";
+            this.表格ToolStripMenuItem.Size = new System.Drawing.Size(108, 24);
+            this.表格ToolStripMenuItem.Text = "表格";
+            this.表格ToolStripMenuItem.Click += new System.EventHandler(this.表格ToolStripMenuItem_Click);
+            // 
+            // 文档ToolStripMenuItem
+            // 
+            this.文档ToolStripMenuItem.Name = "文档ToolStripMenuItem";
+            this.文档ToolStripMenuItem.Size = new System.Drawing.Size(108, 24);
+            this.文档ToolStripMenuItem.Text = "文档";
+            this.文档ToolStripMenuItem.Click += new System.EventHandler(this.文档ToolStripMenuItem_Click);
             // 
             // testToolStripMenuItem
             // 
@@ -221,6 +240,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "FormMain";
             this.Text = "数据验收平台";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.FormMain_Load);
             ((System.ComponentModel.ISupportInitialize)(this.axToolbarControl1)).EndInit();
             this.menuStrip1.ResumeLayout(false);
@@ -256,6 +276,8 @@
         private System.Windows.Forms.ToolStripMenuItem 报表设计ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 开始ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 表格ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 文档ToolStripMenuItem;
     }
 }
 
