@@ -70,7 +70,6 @@
             this.Name = "FormGroup";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "添加分组";
-            this.TopMost = true;
             this.ResumeLayout(false);
             this.PerformLayout();
 

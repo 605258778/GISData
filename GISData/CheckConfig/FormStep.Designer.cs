@@ -99,7 +99,6 @@
             this.Name = "FormStep";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "添加";
-            this.TopMost = true;
             this.ResumeLayout(false);
             this.PerformLayout();
 

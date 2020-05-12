@@ -105,6 +105,7 @@
             this.Controls.Add(this.textBoxNumPoint);
             this.Controls.Add(this.comboBoxPoint);
             this.Name = "FormContainPoint";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormContainPoint";
             this.Load += new System.EventHandler(this.FormContainPoint_Load);
             this.ResumeLayout(false);

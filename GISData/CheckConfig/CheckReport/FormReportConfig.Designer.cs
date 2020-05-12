@@ -315,7 +315,6 @@
             this.Name = "FormReportConfig";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormReportDia";
-            this.TopMost = true;
             this.Load += new System.EventHandler(this.FormReportDia_Load);
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();

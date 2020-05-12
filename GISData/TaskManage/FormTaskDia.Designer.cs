@@ -95,7 +95,6 @@
             this.Name = "FormTaskDia";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormTaskDia";
-            this.TopMost = true;
             this.Load += new System.EventHandler(this.FormTaskDia_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);

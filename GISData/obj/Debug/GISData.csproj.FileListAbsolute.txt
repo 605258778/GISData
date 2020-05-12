@@ -59,3 +59,5 @@ F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.TaskManage.FormTas
 F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.Login.FormLogin.resources
 F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.Report.FormReportWord.resources
 F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.DataCheck.CheckDialog.FormAcceptance.resources
+F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.csprojResolveAssemblyReference.cache
+F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.Common.FormMessage.resources

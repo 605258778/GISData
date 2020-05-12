@@ -90,7 +90,7 @@ namespace GISData.ChekConfig
             if (sendButton.Tag.ToString() != "1")
             {
                 FormStep fs = new FormStep(this);
-                fs.Show();
+                fs.Show(this);
             }
             else if (sendButton.AccessibleDescription.ToString() == "结构检查")
             {

@@ -90,8 +90,8 @@
             this.ClientSize = new System.Drawing.Size(1013, 532);
             this.Controls.Add(this.splitContainer1);
             this.Name = "FormDictionary";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "字典管理";
-            this.TopMost = true;
             this.Load += new System.EventHandler(this.FormDictionary_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();

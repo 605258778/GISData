@@ -258,7 +258,6 @@
             this.Name = "FormRegister";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "数据注册";
-            this.TopMost = true;
             this.Load += new System.EventHandler(this.FormRegister_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);

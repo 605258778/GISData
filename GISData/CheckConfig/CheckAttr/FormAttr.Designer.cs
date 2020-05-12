@@ -124,7 +124,6 @@
             this.Name = "FormAttr";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormAttr";
-            this.TopMost = true;
             this.Load += new System.EventHandler(this.FormAttr_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);

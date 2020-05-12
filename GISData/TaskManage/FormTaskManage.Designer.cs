@@ -280,7 +280,6 @@
             this.Name = "FormTaskManage";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormTaskManage";
-            this.TopMost = true;
             this.Load += new System.EventHandler(this.FormTaskManage_Load);
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl1)).EndInit();
             this.xtraTabControl1.ResumeLayout(false);

@@ -31,10 +31,10 @@
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.StrutureAdd = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.StrutureRemove = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.StrutureAdd = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -89,6 +89,26 @@
             this.splitContainer1.SplitterDistance = 49;
             this.splitContainer1.TabIndex = 2;
             // 
+            // StrutureAdd
+            // 
+            this.StrutureAdd.Font = new System.Drawing.Font("宋体", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.StrutureAdd.Location = new System.Drawing.Point(475, 7);
+            this.StrutureAdd.Name = "StrutureAdd";
+            this.StrutureAdd.Size = new System.Drawing.Size(52, 31);
+            this.StrutureAdd.TabIndex = 0;
+            this.StrutureAdd.Text = "+";
+            this.StrutureAdd.UseVisualStyleBackColor = true;
+            this.StrutureAdd.Click += new System.EventHandler(this.StrutureAdd_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(77, 16);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(112, 15);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "选择检查图层：";
+            // 
             // splitContainer2
             // 
             this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -117,26 +137,6 @@
             this.StrutureRemove.UseVisualStyleBackColor = true;
             this.StrutureRemove.Click += new System.EventHandler(this.StrutureRemove_Click);
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(77, 16);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(112, 15);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "选择检查图层：";
-            // 
-            // StrutureAdd
-            // 
-            this.StrutureAdd.Font = new System.Drawing.Font("宋体", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.StrutureAdd.Location = new System.Drawing.Point(475, 7);
-            this.StrutureAdd.Name = "StrutureAdd";
-            this.StrutureAdd.Size = new System.Drawing.Size(52, 31);
-            this.StrutureAdd.TabIndex = 0;
-            this.StrutureAdd.Text = "+";
-            this.StrutureAdd.UseVisualStyleBackColor = true;
-            this.StrutureAdd.Click += new System.EventHandler(this.StrutureAdd_Click);
-            // 
             // FormStructure
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -144,6 +144,7 @@
             this.ClientSize = new System.Drawing.Size(565, 472);
             this.Controls.Add(this.splitContainer1);
             this.Name = "FormStructure";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormStructure";
             this.Load += new System.EventHandler(this.FormStructure_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();

@@ -403,7 +403,7 @@ namespace GISData.DataRegister
             var index = gridView1.GetFocusedDataSourceRowIndex();
             DataRowView row = (DataRowView)this.gridView1.GetRow(index);
             FormDomain fd = new FormDomain(row, regName);
-            fd.Show();
+            fd.Show(this);
         }
 
         private void dataGridViewDataReg_DoubleClick(object sender, EventArgs e)

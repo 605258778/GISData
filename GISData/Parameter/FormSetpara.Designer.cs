@@ -68,8 +68,8 @@
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label1);
             this.Name = "FormSetpara";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormSetpara";
-            this.TopMost = true;
             this.Load += new System.EventHandler(this.FormSetpara_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

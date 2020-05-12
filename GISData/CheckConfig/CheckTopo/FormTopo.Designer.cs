@@ -209,7 +209,6 @@
             this.Name = "FormTopo";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormTopo";
-            this.TopMost = true;
             this.Load += new System.EventHandler(this.FormTopo_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);

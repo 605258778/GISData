@@ -169,7 +169,6 @@
             this.Name = "FormConfigMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "质检配置";
-            this.TopMost = true;
             this.Load += new System.EventHandler(this.FormConfigMain_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);

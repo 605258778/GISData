@@ -1399,7 +1399,7 @@
             xrDesignPanelListener8});
             this.reportDesigner1.Form = this;
             // 
-            // FormReportDesign
+            // FormReportWord
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -1410,7 +1410,8 @@
             this.Controls.Add(this.barDockControlRight);
             this.Controls.Add(this.barDockControlBottom);
             this.Controls.Add(this.barDockControlTop);
-            this.Name = "FormReportDesign";
+            this.Name = "FormReportWord";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormReportDesign";
             this.Load += new System.EventHandler(this.FormReportDesign_Load);
             ((System.ComponentModel.ISupportInitialize)(this.xrDesignBarManager1)).EndInit();

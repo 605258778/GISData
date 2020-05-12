@@ -36,13 +36,13 @@
             this.label4 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.groupControl1 = new DevExpress.XtraEditors.GroupControl();
+            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.gridControl1 = new DevExpress.XtraGrid.GridControl();
             this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.字段 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.gridColumn1 = new DevExpress.XtraGrid.Columns.GridColumn();
             this.button2 = new System.Windows.Forms.Button();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.checkedComboBoxEdit1.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.checkedComboBoxEdit2.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).BeginInit();
@@ -129,6 +129,34 @@
             this.groupControl1.TabIndex = 3;
             this.groupControl1.Text = "计算";
             // 
+            // comboBox2
+            // 
+            this.comboBox2.FormattingEnabled = true;
+            this.comboBox2.Items.AddRange(new object[] {
+            "求和",
+            "计数",
+            "平均数",
+            "最大值",
+            "最小值"});
+            this.comboBox2.Location = new System.Drawing.Point(55, 43);
+            this.comboBox2.Name = "comboBox2";
+            this.comboBox2.Size = new System.Drawing.Size(199, 26);
+            this.comboBox2.TabIndex = 4;
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "求和",
+            "计数",
+            "平均数",
+            "最大值",
+            "最小值"});
+            this.comboBox1.Location = new System.Drawing.Point(54, 103);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(199, 26);
+            this.comboBox1.TabIndex = 4;
+            // 
             // gridControl1
             // 
             this.gridControl1.Location = new System.Drawing.Point(313, 44);
@@ -178,34 +206,6 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // comboBox1
-            // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
-            "求和",
-            "计数",
-            "平均数",
-            "最大值",
-            "最小值"});
-            this.comboBox1.Location = new System.Drawing.Point(54, 103);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(199, 26);
-            this.comboBox1.TabIndex = 4;
-            // 
-            // comboBox2
-            // 
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Items.AddRange(new object[] {
-            "求和",
-            "计数",
-            "平均数",
-            "最大值",
-            "最小值"});
-            this.comboBox2.Location = new System.Drawing.Point(55, 43);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(199, 26);
-            this.comboBox2.TabIndex = 4;
-            // 
             // FormPivotConfig
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -218,6 +218,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.checkedComboBoxEdit1);
             this.Name = "FormPivotConfig";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormPivotConfig";
             this.Load += new System.EventHandler(this.FormPivotConfig_Load);
             ((System.ComponentModel.ISupportInitialize)(this.checkedComboBoxEdit1.Properties)).EndInit();

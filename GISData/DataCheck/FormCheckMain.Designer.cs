@@ -171,7 +171,6 @@
             this.Name = "FormCheckMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "数据质检";
-            this.TopMost = true;
             this.Load += new System.EventHandler(this.FormCheckMain_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();

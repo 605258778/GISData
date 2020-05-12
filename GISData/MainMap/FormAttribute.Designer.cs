@@ -152,8 +152,8 @@
             this.Controls.Add(this.dataGridViewAttr);
             this.Controls.Add(this.menuStrip1);
             this.Name = "FormAttribute";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "属性表";
-            this.TopMost = true;
             this.Load += new System.EventHandler(this.FormAttribute_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewAttr)).EndInit();
             this.menuStrip1.ResumeLayout(false);

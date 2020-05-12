@@ -137,7 +137,6 @@
             this.Name = "FormDBConnectInfo";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "数据库连接";
-            this.TopMost = true;
             this.ResumeLayout(false);
             this.PerformLayout();
 

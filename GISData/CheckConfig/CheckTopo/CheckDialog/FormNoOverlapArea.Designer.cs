@@ -58,6 +58,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.comboBoxOverLayer);
             this.Name = "FormNoOverlapArea";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormNoOverlapArea";
             this.Load += new System.EventHandler(this.FormNoOverlapArea_Load);
             this.ResumeLayout(false);

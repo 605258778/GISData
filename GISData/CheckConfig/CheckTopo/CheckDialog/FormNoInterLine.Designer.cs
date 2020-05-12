@@ -57,6 +57,7 @@
             this.Controls.Add(this.comboBoxLine);
             this.Controls.Add(this.label1);
             this.Name = "FormNoInterLine";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormNoInterLine";
             this.Load += new System.EventHandler(this.FormNoInterLine_Load);
             this.ResumeLayout(false);

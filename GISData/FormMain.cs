@@ -100,25 +100,25 @@ namespace GISData
         private void 字典管理ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FormDictionary formDictionary = new FormDictionary();
-            formDictionary.Show();
+            formDictionary.Show(this);
         }
 
         private void 数据注册ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FormRegister formRegister = new FormRegister();
-            formRegister.Show();
+            formRegister.Show(this);
         }
 
         private void 质检配置ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FormConfigMain fcm = new FormConfigMain();
-            fcm.Show();
+            fcm.Show(this);
         }
 
         private void 数据质检ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FormCheckMain fcm = new FormCheckMain(m_hookHelper);
-            fcm.Show();
+            fcm.Show(this);
         }
 
         private void 工程设置ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -164,7 +164,7 @@ namespace GISData
             btok1.Click += (se, a) => SelectNext(FormSetparaDig);
             FormSetparaDig.Controls.Add(btok);
             FormSetparaDig.Controls.Add(btok1);
-            FormSetparaDig.ShowDialog();
+            FormSetparaDig.Show(this);
         }
         //工程设置确定
         private void SelectOk(FormSetpara FormSetparaDig)
@@ -175,7 +175,7 @@ namespace GISData
         {
             FormSetparaDig.Close();
             FormCheckMain fcm = new FormCheckMain(m_hookHelper);
-            fcm.Show();
+            fcm.Show(this);
         }
         //工程设置添加文件
         private void addFile(TextBox tx,string tablename)
@@ -283,7 +283,9 @@ namespace GISData
 
                                     if (errorString != "")
                                     {
-                                        MessageBox.Show(errorString);
+                                        FormMessage message = new FormMessage("提示", errorString);
+                                        message.ShowDialog();
+                                        //MessageBox.Show(errorString);
                                     }
                                     else 
                                     {
@@ -339,16 +341,9 @@ namespace GISData
                         switch (pDataset.Type)
                         {
                             case esriDatasetType.esriDTFeatureClass:
-                                IFeatureClassName targetFeatureClassName = new FeatureClassNameClass();
-                                IDatasetName targetDatasetName = (IDatasetName)targetFeatureClassName;
-                                targetDatasetName.Name = pDataset.BrowseName;
-
-                                FileGDBWorkspaceFactoryClass fac = new FileGDBWorkspaceFactoryClass();
-                                IWorkspace workspace = fac.OpenFromFile(GdbPath, 0);
                                 IFeatureClass pFc = pDataset as IFeatureClass;
 
                                 ISpatialReference pSpatialReference = (pFc as IGeoDataset).SpatialReference;//空间参考
-                                FormSetpara fs = new FormSetpara();
                                 CommonClass common = new CommonClass();
                                 if (pSpatialReference.Name != common.GetConfigValue("SpatialReferenceName"))
                                 {
@@ -357,57 +352,6 @@ namespace GISData
                                 }
                                 else
                                 {
-                                    IFeatureWorkspace pFeatureWorkspace = workspace as IFeatureWorkspace;
-                                    IEnumDatasetName datasetnames = workspace.get_DatasetNames(esriDatasetType.esriDTFeatureDataset);
-                                    IFeatureDatasetName datasetname = datasetnames.Next() as IFeatureDatasetName;
-                                    IFeatureDataConverter featureDataConverter = new FeatureDataConverterClass();
-                                    IFeatureClassName inputName = (IFeatureClassName)pDataset.FullName;
-                                    try
-                                    {
-                                        IFeatureClass ifc = pFeatureWorkspace.OpenFeatureClass(pDataset.Name);
-                                        IFeatureWorkspaceManage pWorkspaceManager = pFeatureWorkspace as IFeatureWorkspaceManage;
-                                        IDatasetName pDatasetname = datasetnames.Next();
-                                        while (pDatasetname != null)
-                                        {
-                                            if (pDatasetname.Name == pDataset.Name)
-                                            {
-                                                pWorkspaceManager.DeleteByName(pDatasetname);
-                                                featureDataConverter.ConvertFeatureClass(inputName, null, datasetname, targetFeatureClassName, null, null, "", 0, 0);
-                                            }
-                                        }
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        featureDataConverter.ConvertFeatureClass(inputName, null, datasetname, targetFeatureClassName, null, null, "", 0, 0);
-                                    }
-                                    IEnumDatasetName outdatasetname = pFwk.get_DatasetNames(esriDatasetType.esriDTAny);
-                                    IEnumDatasetName iDatasets = pDataset.Workspace.get_DatasetNames(esriDatasetType.esriDTFeatureClass);
-                                    IDatasetName oDSName = outdatasetname.Next();
-                                    IDatasetName itemName = iDatasets.Next();
-                                    ConnectDB db = new ConnectDB();
-                                    try
-                                    {
-                                        Boolean jg = db.Delete("delete from GDB_Items where Name = '" + pDataset.Name + "_TB" + "'");
-                                        if (jg)
-                                            db.Delete("drop table " + pDataset.Name + "_TB");
-
-                                    }
-                                    catch (Exception ex)
-                                    {
-
-                                    }
-
-                                    while (itemName != null)
-                                    {
-                                        if (itemName.Name == pDataset.Name)
-                                        {
-                                            IFeatureDataConverter tableDataConverter = new FeatureDataConverterClass();
-                                            oDSName.Name = pDataset.Name + "_TB";
-                                            IFeatureWorkspaceManage pWorkspaceManager = pFeatureWorkspace as IFeatureWorkspaceManage;
-                                            tableDataConverter.ConvertTable(itemName, null, oDSName, null, null, 0, 0);
-                                        }
-                                        itemName = iDatasets.Next();
-                                    }
                                     tx.Text = pDataset.BrowseName;
                                     tx.Name = pDataset.BrowseName;
                                 }
@@ -455,20 +399,20 @@ namespace GISData
         private void 任务管理ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FormTaskManage taskManage = new FormTaskManage();
-            taskManage.ShowDialog();
+            taskManage.Show(this);
         }
 
         private void 报表设计ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //FormReportDesign report = new FormReportDesign();
             //FormReportDes report = new FormReportDes();
-            //report.Show();
+            //report.Show(this);
         }
 
         private void 开始ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FormBegin begin = new FormBegin();
-            begin.Show();
+            begin.Show(this);
         }
 
         private void testToolStripMenuItem_Click(object sender, EventArgs e)
@@ -481,13 +425,13 @@ namespace GISData
         private void 表格ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FormReportDes report = new FormReportDes();
-            report.Show();
+            report.Show(this);
         }
 
         private void 文档ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FormReportWord word = new FormReportWord();
-            word.Show();
+            word.Show(this);
         }
 
     }
