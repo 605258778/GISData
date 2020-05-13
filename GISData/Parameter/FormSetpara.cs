@@ -33,7 +33,13 @@ namespace GISData.Parameter
 
         private void FormSetpara_Load(object sender, EventArgs e)
         {
-
+            CommonClass common = new CommonClass();
+            string gldw = common.GetConfigValue("GLDW");
+            ConnectDB db = new ConnectDB();
+            DataTable dt = db.GetDataBySql("select SPATIAL from GISDATA_GLDW WHERE GLDW ='" + gldw + "'");
+            string spatial = dt.Select(null)[0][0].ToString();
+            this.textBox1.Text = spatial;
+            common.SetConfigValue("SpatialReferenceName", spatial);
         }
     }
 }

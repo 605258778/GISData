@@ -398,6 +398,12 @@
     <Compile Include="Login\FormLogin.Designer.cs">
       <DependentUpon>FormLogin.cs</DependentUpon>
     </Compile>
+    <Compile Include="Login\FormRegister.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Login\FormRegister.Designer.cs">
+      <DependentUpon>FormRegister.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainMap\FormAddField.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -461,6 +467,18 @@
     <Compile Include="TopologyCheck\Checker\SpatialAnalysis.cs" />
     <Compile Include="TopologyCheck\Checker\TopoClassChecker.cs" />
     <Compile Include="TopologyCheck\Checker\SelfIntersectErrorEntity.cs" />
+    <Compile Include="User\FormUser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="User\FormUser.Designer.cs">
+      <DependentUpon>FormUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="User\FormValidation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="User\FormValidation.Designer.cs">
+      <DependentUpon>FormValidation.cs</DependentUpon>
+    </Compile>
     <Compile Include="Utilities\ConfigOpt.cs" />
     <Compile Include="Utilities\ConnectionStringDepository.cs" />
     <Compile Include="Utilities\ErrorOpt.cs" />
@@ -577,6 +595,9 @@
     <EmbeddedResource Include="Login\FormLogin.resx">
       <DependentUpon>FormLogin.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Login\FormRegister.resx">
+      <DependentUpon>FormRegister.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainMap\FormAddField.resx">
       <DependentUpon>FormAddField.cs</DependentUpon>
     </EmbeddedResource>
@@ -597,6 +618,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TaskManage\FormTaskDia.resx">
       <DependentUpon>FormTaskDia.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="User\FormUser.resx">
+      <DependentUpon>FormUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="User\FormValidation.resx">
+      <DependentUpon>FormValidation.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Parameter\FormSetpara.resx">

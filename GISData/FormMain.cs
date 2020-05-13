@@ -27,6 +27,7 @@ using ESRI.ArcGIS.Catalog;
 using GISData.TaskManage;
 using GISData.Report;
 using GISData.CheckBegin;
+using GISData.User;
 
 
 namespace GISData
@@ -48,6 +49,21 @@ namespace GISData
 
         private void FormMain_Load(object sender, EventArgs e)
         {
+            //获取用户权限
+            CommonClass common = new CommonClass();
+            string user = common.GetConfigValue("USER");
+            ConnectDB db = new ConnectDB();
+            DataTable dt = db.GetDataBySql("select * from GISDATA_USER WHERE USER ='" + user + "'");
+            DataRow dr = dt.Select(null)[0];
+            string ROLE = dr["ROLE"].ToString();
+            if (ROLE == "超级管理员")
+            {
+                this.用户管理ToolStripMenuItem.Visible = true;
+            }
+            else 
+            {
+                this.用户管理ToolStripMenuItem.Visible = false;
+            }
             //在Form1_Load函数进行初始化，即菜单的创建：
             m_menuMap = new ToolbarMenuClass();
             //添加自定义菜单项到TOCCOntrol的图层菜单中
@@ -432,6 +448,12 @@ namespace GISData
         {
             FormReportWord word = new FormReportWord();
             word.Show(this);
+        }
+
+        private void 用户管理ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormValidation validation = new FormValidation();
+            validation.Show(this);
         }
 
     }

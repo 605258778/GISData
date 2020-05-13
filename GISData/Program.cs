@@ -18,13 +18,13 @@ namespace GISData
             Application.SetCompatibleTextRenderingDefault(false);
             ESRI.ArcGIS.RuntimeManager.Bind(ESRI.ArcGIS.ProductCode.Desktop);
             //ESRI.ArcGIS.RuntimeManager.BindLicense(ESRI.ArcGIS.ProductCode.EngineOrDesktop);
-            //FormLogin login = new FormLogin();
-            //DialogResult result = login.ShowDialog();
-            //if (result == DialogResult.OK) 
-            //{
-            //    Application.Run(new FormMain());
-            //}
-            Application.Run(new FormMain());
+            FormLogin login = new FormLogin();
+            DialogResult result = login.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                Application.Run(new FormMain());
+            }
+            //Application.Run(new FormMain());
         }
     }
 }

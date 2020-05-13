@@ -12,8 +12,31 @@ namespace GISData.Common
 {
     class ConnectDB
     {
-        OleDbConnection conn = new OleDbConnection("Provider=Microsoft.ACE.OLEDB.12.0;Data source=" + Application.StartupPath + "\\GISData.mdb"); //Jet OLEDB:Database Password=
+        private static string host = null;
+        private static string password = null;
+        OleDbConnection conn = null;
         //获取数据
+        public ConnectDB() 
+        {
+            conn = new OleDbConnection("Provider=Microsoft.ACE.OLEDB.12.0;Data source=" + host + "\\GISData.mdb;Jet OLEDB:Database Password=" + password); //Jet OLEDB:Database Password=
+        }
+
+        public ConnectDB(string connecttype)
+        {
+            CommonClass common = new CommonClass();
+            if (connecttype == "远程")
+            {
+                host = common.GetConfigValue("Host");
+                password = common.GetConfigValue("Password");
+            }
+            else
+            {
+                host = Application.StartupPath;
+                password = common.GetConfigValue("Password");
+            }
+            conn = new OleDbConnection("Provider=Microsoft.ACE.OLEDB.12.0;Data source=" + host + "\\GISData.mdb;Jet OLEDB:Database Password="+password); //Jet OLEDB:Database Password=
+        }
+
         public DataTable GetDataBySql(string sql) 
         {
             OleDbCommand cmd = conn.CreateCommand();
