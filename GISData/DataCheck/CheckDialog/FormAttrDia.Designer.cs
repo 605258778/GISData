@@ -48,6 +48,7 @@
             this.treeList1.OptionsBehavior.AllowIndeterminateCheckState = true;
             this.treeList1.OptionsBehavior.Editable = false;
             this.treeList1.OptionsSelection.MultiSelect = true;
+            this.treeList1.ParentFieldName = "PARENTID";
             this.treeList1.Size = new System.Drawing.Size(648, 453);
             this.treeList1.TabIndex = 0;
             this.treeList1.BeforeCheckNode += new DevExpress.XtraTreeList.CheckNodeEventHandler(this.treeList1_BeforeCheckNode);

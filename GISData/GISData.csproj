@@ -143,6 +143,10 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="Microsoft.Office.Tools.Excel.v4.0.Utilities, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="MySql.Data, Version=6.7.4.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\MySql.Data.dll</HintPath>
+    </Reference>
     <Reference Include="Spire.XLS">
       <HintPath>C:\Program Files (x86)\e-iceblue\Spire.Xls\Bin\NET4.6\Spire.XLS.dll</HintPath>
     </Reference>
@@ -303,6 +307,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Common\CommonClass.cs" />
+    <Compile Include="Common\ConnectDB11.cs" />
     <Compile Include="Common\ConnectDB.cs" />
     <Compile Include="Common\ExportExcelClass.cs" />
     <Compile Include="Common\FormMessage.cs">
@@ -479,6 +484,12 @@
     <Compile Include="User\FormValidation.Designer.cs">
       <DependentUpon>FormValidation.cs</DependentUpon>
     </Compile>
+    <Compile Include="User\FormVerfied.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="User\FormVerfied.Designer.cs">
+      <DependentUpon>FormVerfied.cs</DependentUpon>
+    </Compile>
     <Compile Include="Utilities\ConfigOpt.cs" />
     <Compile Include="Utilities\ConnectionStringDepository.cs" />
     <Compile Include="Utilities\ErrorOpt.cs" />
@@ -624,6 +635,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="User\FormValidation.resx">
       <DependentUpon>FormValidation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="User\FormVerfied.resx">
+      <DependentUpon>FormVerfied.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Parameter\FormSetpara.resx">

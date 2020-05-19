@@ -1,79 +1,53 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.OleDb;
-using System.Data.SqlClient;
-using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using MySql.Data.MySqlClient;
+using System.Data.OleDb;
 using System.Windows.Forms;
+using System.Data;
 
 namespace GISData.Common
 {
     class ConnectDB
     {
-        private static string host = null;
-        private static string password = null;
-        OleDbConnection conn = null;
-        //获取数据
+        MySqlConnection conn = null;
+        //连接数据库
         public ConnectDB() 
         {
-            conn = new OleDbConnection("Provider=Microsoft.ACE.OLEDB.12.0;Data source=" + host + "\\GISData.mdb;Jet OLEDB:Database Password=" + password); //Jet OLEDB:Database Password=
-        }
-
-        public ConnectDB(string connecttype)
-        {
             CommonClass common = new CommonClass();
-            if (connecttype == "远程")
-            {
-                host = common.GetConfigValue("Host");
-                password = common.GetConfigValue("Password");
-            }
-            else
-            {
-                host = Application.StartupPath;
-                password = common.GetConfigValue("Password");
-            }
-            conn = new OleDbConnection("Provider=Microsoft.ACE.OLEDB.12.0;Data source=" + host + "\\GISData.mdb;Jet OLEDB:Database Password="+password); //Jet OLEDB:Database Password=
+            String connetStr = common.GetConfigValue("Host");
+            conn = new MySqlConnection(connetStr);
         }
 
         public DataTable GetDataBySql(string sql) 
         {
-            OleDbCommand cmd = conn.CreateCommand();
-            cmd.CommandText = sql;
-            conn.Open();
-            OleDbDataReader dr = cmd.ExecuteReader();
-            DataTable dt = new DataTable();
-            if (dr.HasRows)
-            {
-                for (int i = 0; i < dr.FieldCount; i++)
-                {
-                    dt.Columns.Add(dr.GetName(i));
-                }
-                dt.Rows.Clear();
-            }
-            while (dr.Read())
-            {
-                DataRow row = dt.NewRow();
-                for (int i = 0; i < dr.FieldCount; i++)
-                {
-                    row[i] = dr[i];
-                }
-                dt.Rows.Add(row);
-            }
-            cmd.Dispose();
-            conn.Close();
-            return dt;
+            Console.WriteLine(sql);
+            // This will hold the records. 
+            this.conn.Open();
+            //sql = "select * from gisdata_user";
+            MySqlCommand mycom = conn.CreateCommand();
+            mycom.CommandText = sql;
+            MySqlDataAdapter adap = new MySqlDataAdapter(mycom);
+
+            MySqlDataAdapter myDataAdapter = new MySqlDataAdapter(sql, this.conn);
+            this.conn.Close();
+            DataSet myDataSet = new DataSet();        // 创建DataSet
+            adap.Fill(myDataSet);
+            return myDataSet.Tables[0];
         }
+
+
         public DataSet GetDataSetBySql(string sql) 
         {
-            Console.WriteLine("执行sql:" + sql);
-            OleDbCommand cmd = new OleDbCommand(sql, conn);//执行数据连接  
-            DataSet ds = new DataSet();
-            OleDbDataAdapter da = new OleDbDataAdapter(cmd);
-            da.Fill(ds);
-            conn.Close();
-            return ds;
+            Console.WriteLine(sql);
+            this.conn.Open();
+            MySqlDataAdapter myDataAdapter = new MySqlDataAdapter(sql, this.conn);
+            DataSet myDataSet = new DataSet();        // 创建DataSet
+            myDataAdapter.Fill(myDataSet);
+            this.conn.Close();
+            return myDataSet;
         }
 
 
@@ -87,11 +61,11 @@ namespace GISData.Common
         {
             conn.Open();
             List<string> list = new List<string>();
-            using (OleDbCommand cmd = new OleDbCommand())
+            using (MySqlCommand cmd = new MySqlCommand())
             {
                 cmd.CommandText = "SELECT TOP 1 * FROM [" + tableName + "]";
                 cmd.Connection = conn;
-                OleDbDataReader dr = cmd.ExecuteReader();
+                MySqlDataReader dr = cmd.ExecuteReader();
                 for (int i = 0; i < dr.FieldCount; i++)
                 {
                     list.Add(dr.GetName(i));
@@ -103,25 +77,25 @@ namespace GISData.Common
         //插入
         public bool Insert(string sql)
         {
-            Console.WriteLine("执行sql:" + sql);
+            Console.WriteLine(sql);
             conn.Open();
-            OleDbCommand oleDbCommand = new OleDbCommand(sql, conn);
-            int i = oleDbCommand.ExecuteNonQuery(); //返回被修改的数目
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            int iRet = cmd.ExecuteNonQuery();//这里返回的是受影响的行数，为int值。可以根据返回的值进行判断是否插入成功。
             conn.Close();
-            return i > 0;
+            return iRet > 0;
         }
         //插入
         public int InsertReturnId(string sql)
         {
             Console.WriteLine("执行sql:" + sql);
             conn.Open();
-            OleDbCommand oleDbCommand = new OleDbCommand(sql, conn);
-            int i = oleDbCommand.ExecuteNonQuery(); //返回被修改的数目
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            int iRet = cmd.ExecuteNonQuery();
             int ii = 0;
-            if (i > 0) 
+            if (iRet > 0) 
             {
-                oleDbCommand = new OleDbCommand("select @@identity as id", conn);
-                ii = Convert.ToInt32(oleDbCommand.ExecuteScalar()); //返回被修改的数目
+                cmd = new MySqlCommand("select @@identity as id", conn);
+                ii = Convert.ToInt32(cmd.ExecuteScalar());
             }
             conn.Close();
             return ii;
@@ -132,20 +106,20 @@ namespace GISData.Common
         {
             Console.WriteLine("执行sql:" + sql);
             conn.Open();
-            OleDbCommand oleDbCommand = new OleDbCommand(sql, conn);
-            int i = oleDbCommand.ExecuteNonQuery(); //返回被修改的数目
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            int iRet = cmd.ExecuteNonQuery();//这里返回的是受影响的行数，为int值。可以根据返回的值进行判断是否插入成功。
             conn.Close();
-            return i > 0;
+            return iRet > 0;
         }
         //删除
         public bool Delete(string sql)
         {
             Console.WriteLine("执行sql:" + sql);
             conn.Open();
-            OleDbCommand oleDbCommand = new OleDbCommand(sql, conn);
-            int i = oleDbCommand.ExecuteNonQuery(); //返回被修改的数目
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            int iRet = cmd.ExecuteNonQuery();//这里返回的是受影响的行数，为int值。可以根据返回的值进行判断是否插入成功。
             conn.Close();
-            return i > 0;
+            return iRet > 0;
         }
     }
 }

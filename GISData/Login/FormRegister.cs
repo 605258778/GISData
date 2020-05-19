@@ -13,11 +13,9 @@ namespace GISData.Login
 {
     public partial class FormRegister : Form
     {
-        private string dbtype;
-        public FormRegister(string dbtype)
+        public FormRegister()
         {
             InitializeComponent();
-            this.dbtype = dbtype;
         }
 
         private void FormRegister_Load(object sender, EventArgs e)
@@ -41,7 +39,7 @@ namespace GISData.Login
             }
             else 
             {
-                ConnectDB db = new ConnectDB(dbtype);
+                ConnectDB db = new ConnectDB();
                 DataTable dt = db.GetDataBySql("select count(*) as numUser from GISDATA_USER WHERE USER ='" + user + "'");
                 if (dt.Select(null)[0]["numUser"].ToString() != "0")
                 {

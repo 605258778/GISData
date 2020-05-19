@@ -311,6 +311,7 @@ namespace GISData.DataCheck.CheckDialog
                         }
                     }
                 }
+                row["STATE"] = "完成";
             }
         }
 

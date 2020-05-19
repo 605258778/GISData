@@ -53,8 +53,6 @@ namespace GISData.DataCheck.CheckDialog
         private void FormAttrDia_Load(object sender, EventArgs e)
         {
             bindTreeView();
-            
-            
         }
 
         private void bindTreeView() 
@@ -326,7 +324,7 @@ namespace GISData.DataCheck.CheckDialog
                         {
                             string[] arrStr = FIELD.Split('#');
                             string fieldStr = arrStr[0];
-                            string taskfieldStr = arrStr[1];
+                            string taskfieldStr = "CONCAT(" + arrStr[1].Replace("&",",")+")";
                             CommonClass common = new CommonClass();
                             string gldwstr = common.GetConfigValue("GLDW");
                             DataTable xmmcArr = db.GetDataBySql("SELECT " + taskfieldStr + " AS XMMCARR FROM GISDATA_TASK WHERE YZLGLDW ='" + gldwstr + "'");
@@ -459,7 +457,7 @@ namespace GISData.DataCheck.CheckDialog
                     if (CHECKTYPE == "空值检查")
                     {
                         IQueryFilter pQuery = new QueryFilterClass();
-                        pQuery.WhereClause = FIELD + " IS NULL OR " + FIELD + " = '' ";
+                        pQuery.WhereClause = FIELD + " IS NULL OR  format(" + FIELD + ") = '' ";
                         pFeatureCuror = pTable.Search(pQuery, false);
                     }
                     else if (CHECKTYPE == "逻辑关系检查")
@@ -478,7 +476,7 @@ namespace GISData.DataCheck.CheckDialog
                     {
                         string[] arrStr = FIELD.Split('#');
                         string fieldStr = arrStr[0];
-                        string taskfieldStr = arrStr[1];
+                        string taskfieldStr = "CONCAT(" + arrStr[1].Replace("&", ",") + ")";
                         CommonClass common = new CommonClass();
                         string gldwstr = common.GetConfigValue("GLDW");
                         DataTable xmmcArr = db.GetDataBySql("SELECT " + taskfieldStr + " AS XMMCARR FROM GISDATA_TASK WHERE YZLGLDW ='" + gldwstr + "'");

@@ -74,7 +74,7 @@ namespace GISData.CheckBegin
                     }
                     else
                     {
-                        result = cdb.Update("Update GISDATA_GLDW set CONTACTS = '" + lxr + "',TEL='" + lxdh + "',CHECKLOG =CHECKLOG&'" + datanow + "br' where GLDW = '" + gldwstr + "'");
+                        result = cdb.Update("Update GISDATA_GLDW set CONTACTS = '" + lxr + "',TEL='" + lxdh + "',CHECKLOG = concat(CHECKLOG,'" + datanow + "',CHAR(10)) where GLDW = '" + gldwstr + "'");
                     }
                     this.Close();
                 }

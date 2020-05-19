@@ -433,9 +433,7 @@ namespace GISData
 
         private void testToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string aa = "bQB6AEEAdQB0AGgAbwByAGkAdAB5AC4AZABsAGwA";
-            byte[] array = Convert.FromBase64String(aa);
-            Console.WriteLine( Encoding.Unicode.GetString(array, 0, array.Length));
+            Application.Exit();
         }
 
         private void 表格ToolStripMenuItem_Click(object sender, EventArgs e)

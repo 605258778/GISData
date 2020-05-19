@@ -48,5 +48,22 @@ namespace GISData.User
              }
             
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            FormVerfied verfied = new FormVerfied();
+            verfied.ShowDialog();
+            if (verfied.DialogResult == DialogResult.OK) 
+            {
+                var index = gridView1.GetFocusedDataSourceRowIndex();//获取数据行的索引值，从0开始
+                string selectID = gridView1.GetRowCellValue(index, "ID").ToString();//获取选中行的那个单元格的值
+                ConnectDB db = new ConnectDB();
+                Boolean result = db.Update("update gisdata_user set verified = '" + verfied.result + "' where ID =" + selectID + "");
+                if (result) 
+                {
+                    bindData();
+                }
+            }
+        }
     }
 }

@@ -47,21 +47,22 @@
             return flag;
         }
 
-        public void AddErr(List<ErrorEntity> pErrEntity, ErrType pTy)
+        public void AddErr(List<ErrorEntity> pErrEntity, ErrType pTy,string idname)
         {
             if (_table != null)
             {
                 if ((pErrEntity == null) || (pErrEntity.Count < 1))
                 {
-                    this.ClearTable(pTy);
+                    this.ClearTable(idname);
                 }
-                else if (this.ClearTable(pTy))
+                else if (this.ClearTable(idname))
                 {
                     string str = ((int) pErrEntity[0].ErrType).ToString();
                     foreach (ErrorEntity entity in pErrEntity)
                     {
                         ESRI.ArcGIS.Geometry.IGeometry geo = entity.ErrGeo as ESRI.ArcGIS.Geometry.IGeometry;
                         DataRow row = _table.NewRow();
+                        row["ID"] = entity.idname;
                         row["FeatureID"] = entity.FeatureID;
                         row["ErrDes"] = entity.ErrMsg;
                         row["ErrPos"] = entity.ErrPos;
@@ -80,19 +81,20 @@
             }
         }
 
-        public void AddGapErr(IList<GapErrorEntity> pErrEntity)
+        public void AddGapErr(IList<GapErrorEntity> pErrEntity, string idname)
         {
             if (_table != null)
             {
                 if ((pErrEntity == null) || (pErrEntity.Count < 1))
                 {
-                    this.ClearTable(ErrType.Gap);
+                    this.ClearTable(idname);
                 }
-                else if (this.ClearTable(ErrType.Gap))
+                else if (this.ClearTable(idname))
                 {
                     foreach (GapErrorEntity entity in pErrEntity)
                     {
                         DataRow row = _table.NewRow();
+                        row["ID"] = entity.idname;
                         row["FeatureID"] = entity.FeatureID;
                         row["ErrDes"] = "缝隙";
                         row["ErrType"] = ErrType.Gap;
@@ -103,15 +105,15 @@
             }
         }
 
-        public void AddSelfIntersectErr(IList<SelfIntersectErrorEntity> pErrEntity)
+        public void AddSelfIntersectErr(IList<SelfIntersectErrorEntity> pErrEntity,string idname)
         {
             if (_table != null)
             {
                 if ((pErrEntity == null) || (pErrEntity.Count < 1))
                 {
-                    this.ClearTable(ErrType.Gap);
+                    this.ClearTable(idname);
                 }
-                else if (this.ClearTable(ErrType.Gap))
+                else if (this.ClearTable(idname))
                 {
                     foreach (SelfIntersectErrorEntity entity in pErrEntity)
                     {
@@ -168,15 +170,15 @@
             }
         }
 
-        public void AddTopoErr(IFeatureClass pFClass, ErrType pTy)
+        public void AddTopoErr(IFeatureClass pFClass, ErrType pTy,string idname)
         {
             if (_table != null)
             {
                 if (pFClass == null)
                 {
-                    this.ClearTable(pTy);
+                    this.ClearTable(idname);
                 }
-                else if (this.ClearTable(pTy))
+                else if (this.ClearTable(idname))
                 {
                     string str = ((int) pTy).ToString();
                     IFeature feature = null;
@@ -266,9 +268,27 @@
             return true;
         }
 
+        public bool ClearTable(string idname)
+        {
+            if (_table == null)
+            {
+                return false;
+            }
+            for (int i = _table.Rows.Count - 1; i >= 0; i--)
+            {
+                DataRow row = _table.Rows[i];
+                if (row["ID"].ToString() == idname)
+                {
+                    _table.Rows.RemoveAt(i);
+                }
+            }
+            return true;
+        }
+
         private DataTable CreateErrorTable()
         {
             DataTable table = new DataTable();
+            table.Columns.Add("ID", typeof(string));
             table.Columns.Add("FeatureID", typeof(string));
             table.Columns.Add("ErrDes", typeof(string));
             table.Columns.Add("ErrPos", typeof(string));
@@ -347,6 +367,26 @@
                 return null;
             }
             string filterExpression = "ErrType=" + ((int) pTy).ToString();
+            DataRow[] rowArray = _table.Select(filterExpression);
+            if (rowArray.Length < 1)
+            {
+                return null;
+            }
+            DataTable table = _table.Clone();
+            for (int i = 0; i < rowArray.Length; i++)
+            {
+                table.Rows.Add(rowArray[i].ItemArray);
+            }
+            return table;
+        }
+
+        public DataTable GetTable(string idname)
+        {
+            if (_table == null)
+            {
+                return null;
+            }
+            string filterExpression = "ID=" + idname;
             DataRow[] rowArray = _table.Select(filterExpression);
             if (rowArray.Length < 1)
             {

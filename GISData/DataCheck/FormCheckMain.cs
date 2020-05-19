@@ -274,7 +274,7 @@ namespace GISData.DataCheck
                 ErrManager.ClearElement(activeView);
                 var index = this.gridViewError.GetFocusedDataSourceRowIndex();//获取数据行的索引值，从0开始
                 DataRowView row = (DataRowView)this.gridViewError.GetRow(index);//获取选中行的那个单元格的值
-                ErrType type = (ErrType)int.Parse(row[3].ToString());
+                ErrType type = (ErrType)int.Parse(row["ErrType"].ToString());
                 int oid = int.Parse(row["FeatureID"].ToString());
                 string ErrPos = row["ErrPos"].ToString();
                 object ee = row["Geometry"];
@@ -446,7 +446,8 @@ namespace GISData.DataCheck
             jcr.Text = common.GetConfigValue("USER") == "" ? "曾伟" : common.GetConfigValue("USER");
             gldwstring.Text = dr["GLDWNAME"].ToString();
             startime.Text = dr["STARTTIME"].ToString();
-            checklog.Text = dr["CHECKLOG"].ToString().Replace("br",Convert.ToChar(10).ToString()); ;
+            //checklog.Text = dr["CHECKLOG"].ToString().Replace("br",Convert.ToChar(10).ToString());
+            checklog.Text = dr["CHECKLOG"].ToString();
             printtime.Text = DateTime.Now.ToLocalTime().ToString();
             DetailReport.DataSource = taskError;
             DetailReport1.DataSource = checkError;

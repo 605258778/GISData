@@ -9,9 +9,11 @@
         private TopologyCheck.Error.ErrType _errType;
         private string _featureId;
         private object _errGeo;
+        private string _idname;
 
-        public ErrorEntity(string pFeatureId, string pErrMsg, string pErrPos, TopologyCheck.Error.ErrType pErrType, object pErrGeo)
+        public ErrorEntity(string idname,string pFeatureId, string pErrMsg, string pErrPos, TopologyCheck.Error.ErrType pErrType, object pErrGeo)
         {
+            this._idname = idname;
             this._featureId = pFeatureId;
             this._errMsg = pErrMsg;
             this._errPos = pErrPos;
@@ -28,6 +30,18 @@
             set
             {
                 this._errMsg = value;
+            }
+        }
+
+        public string idname
+        {
+            get
+            {
+                return this._idname;
+            }
+            set
+            {
+                this._idname = value;
             }
         }
 

@@ -25,7 +25,7 @@
             this.m_CheckType = iCheckType;
         }
 
-        public List<ErrorEntity> AreaSelfIntersect(IFeatureLayer pLayer, int iCheckType)
+        public List<ErrorEntity> AreaSelfIntersect(string idname,IFeatureLayer pLayer, int iCheckType)
         {
             IFeatureCursor cursor;
             IQueryFilter filter = new QueryFilterClass();
@@ -45,6 +45,8 @@
             object missing = Type.Missing;
             while ((feature = cursor.NextFeature()) != null)
             {
+                
+
                 IPoint tempPoint = null;
                 StringBuilder builder = new StringBuilder();
                 IGeometryCollection shape = feature.Shape as IGeometryCollection;
@@ -61,7 +63,8 @@
                     PolylineClass o = new PolylineClass();
                     o.AddPointCollection(newPoints);
                     o.SpatialReference = spatialReference;
-                    ITopologicalOperator5 @operator = o;
+
+                    ITopologicalOperator3 @operator = o;
                     @operator.IsKnownSimple_2 = false;
                     if (!@operator.get_IsSimpleEx(out enum2) && (enum2 == esriNonSimpleReasonEnum.esriNonSimpleSelfIntersections))
                     {
@@ -92,15 +95,51 @@
                 }
                 if (builder.Length > 0)
                 {
-                    list.Add(new ErrorEntity(feature.OID.ToString(), "自相交", builder.ToString().Substring(1), ErrType.SelfIntersect, tempPoint));
+                    list.Add(new ErrorEntity(idname,feature.OID.ToString(), "自相交", builder.ToString().Substring(1), ErrType.SelfIntersect, tempPoint));
                 }
             }
             return list;
         }
 
+        /// <summary>
+        /// Geometry（Polygon）转Polyline
+        /// </summary>
+        /// <param name="pGeometry">传入的Polygon多边形</param>
+        /// <returns>转换后的多段线</returns>
+        public static IPolyline PolygonToPolyline(IGeometry pGeometry)
+        {
+            if (null == pGeometry)
+            {
+                return null;
+            }
+            IPolyline aTempPolyline = new PolylineClass();
+            ISegmentCollection aTempGeometryCollection = aTempPolyline as ISegmentCollection;
+            var pSegmentCollection = pGeometry as ISegmentCollection;
+            for (int i = 0; i < pSegmentCollection.SegmentCount; i++)
+            {
+                aTempGeometryCollection.AddSegment(pSegmentCollection.Segment[i]);
+            }
+            return aTempGeometryCollection as IPolyline;
+        }
+
+        public bool IsSelfCross(IGeometry pGeometry)
+        {
+            ITopologicalOperator3 pTopologicalOperator2 = pGeometry as ITopologicalOperator3;
+            pTopologicalOperator2.IsKnownSimple_2 = false;
+            esriNonSimpleReasonEnum reason = esriNonSimpleReasonEnum.esriNonSimpleOK;
+            if (!pTopologicalOperator2.get_IsSimpleEx(out reason))
+            {
+                if (reason == esriNonSimpleReasonEnum.esriNonSimpleSelfIntersections)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public bool Check()
         {
-            List<ErrorEntity> pErrEntity = this.AreaSelfIntersect(this._layer, this.m_CheckType);
+            List<ErrorEntity> pErrEntity = this.AreaSelfIntersect("",this._layer, this.m_CheckType);
             //new ErrorTable().AddErr(pErrEntity, ErrType.SelfIntersect);
             return (pErrEntity.Count == 0);
         }

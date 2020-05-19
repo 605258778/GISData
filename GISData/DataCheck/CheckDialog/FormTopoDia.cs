@@ -169,7 +169,7 @@ namespace GISData.DataCheck.CheckDialog
                     DicTopoData.Add(ID, INPUTTEXT);
                 }
                 row["STATE"] = "检查中";
-                topocheck.OtherRule(ID, TYPE, common.GetLayerByName(TABLENAME).FeatureClass, common.GetLayerByName(TABLENAME).FeatureClass, m_hookHelper);
+                topocheck.OtherRule(ID, TYPE, common.GetLayerByName(TABLENAME).FeatureClass, common.GetLayerByName(SUPTABLE).FeatureClass, m_hookHelper);
                 Dictionary<string, int> DicTopoError = topocheck.DicTopoError;
                 foreach (int itemtemp in selectRows)
                 {
@@ -279,35 +279,12 @@ namespace GISData.DataCheck.CheckDialog
                             var index = this.gridView1.GetFocusedDataSourceRowIndex();//获取数据行的索引值，从0开始
                             DataRowView row = (DataRowView)this.gridView1.GetRow(index);
                             string errorType = row["CHECKTYPE"].ToString();
+                            string idname = row["ID"].ToString();
                             string TABLENAME = row["TABLENAME"].ToString();
-                            ErrType itemType;
-                            if(errorType == "缝隙检查")
-                            {
-                                itemType = ErrType.Gap;
-                            }
-                            else if (errorType == "面自相交检查")
-                            {
-                                itemType = ErrType.SelfIntersect;
-                            }
-                            else if (errorType == "面多部件检查")
-                            {
-                                itemType = ErrType.MultiPart;
-                            }
-                            else if (errorType == "面重叠检查")
-                            {
-                                itemType = ErrType.OverLap;
-                            }
-                            else if (errorType == "面重叠检查（与其他图层）")
-                            {
-                                itemType = ErrType.MultiOverlap;
-                            }
-                            else 
-                            {
-                                itemType = ErrType.Gap;
-                            }
+                            
                             GridView gridView = this.gridControlError.DefaultView as GridView;
                             ErrorTable table = new ErrorTable();
-                            DataTable table2 = table.GetTable(itemType);
+                            DataTable table2 = table.GetTable(idname);
                             DataRow[] dr = table2.Select("1=1");
                             //ESRI.ArcGIS.Geometry.IGeometry igo = (ESRI.ArcGIS.Geometry.IGeometry) dr[0]["Geometry"];
                             gridView.Columns.Clear();

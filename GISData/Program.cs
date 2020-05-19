@@ -1,4 +1,5 @@
-﻿using GISData.Login;
+﻿using ESRI.ArcGIS.esriSystem;
+using GISData.Login;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,14 @@ namespace GISData
             Application.SetCompatibleTextRenderingDefault(false);
             ESRI.ArcGIS.RuntimeManager.Bind(ESRI.ArcGIS.ProductCode.Desktop);
             //ESRI.ArcGIS.RuntimeManager.BindLicense(ESRI.ArcGIS.ProductCode.EngineOrDesktop);
+            //IAoInitialize aoInitialize = new AoInitialize();
+            //esriLicenseStatus licenseStatus = esriLicenseStatus.esriLicenseUnavailable;
+            //licenseStatus = aoInitialize.Initialize(esriLicenseProductCode.esriLicenseProductCodeAdvanced);
+            //if (licenseStatus == esriLicenseStatus.esriLicenseNotInitialized)
+            //{
+            //    MessageBox.Show("没有esriLicenseProductCodeArcInfo许可！");
+            //    Application.Exit();
+            //}
             FormLogin login = new FormLogin();
             DialogResult result = login.ShowDialog();
             if (result == DialogResult.OK)

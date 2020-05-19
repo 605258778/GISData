@@ -97,13 +97,13 @@ namespace GISData.Common
                     if (iCount > 1)
                     {
                         tempCount++;
-                        list.Add(new ErrorEntity(pFeature.OID.ToString(), "多部件", "", ErrType.MultiPart, pFeature.ShapeCopy));
+                        list.Add(new ErrorEntity(idname,pFeature.OID.ToString(), "多部件", "", ErrType.MultiPart, pFeature.ShapeCopy));
                         Console.WriteLine(pFeature.OID);
                     }
                     pFeature = cursor.NextFeature();
                 }
                 Console.WriteLine(tempCount);
-                new ErrorTable().AddErr(list, ErrType.MultiPart);
+                new ErrorTable().AddErr(list, ErrType.MultiPart,idname);
                 DicTopoError[idname] = tempCount;
             }
             else if (IN_RuleType == "面自相交检查")
@@ -111,36 +111,64 @@ namespace GISData.Common
                 IFeatureLayer flay = new FeatureLayer();
                 flay.FeatureClass = IN_FeatureClass;
                 this._sc = new SelfIntersectChecker(flay);
-                List<ErrorEntity> pErrEntity = this._sc.AreaSelfIntersect(flay,2);
+                List<ErrorEntity> pErrEntity = this._sc.AreaSelfIntersect(idname,flay,2);
                 DicTopoError[idname] = pErrEntity.Count;
-                new ErrorTable().AddErr(pErrEntity, ErrType.SelfIntersect);
+                new ErrorTable().AddErr(pErrEntity, ErrType.SelfIntersect, idname);
             }
             else if (IN_RuleType == "缝隙检查")
             {
                 this.m_hookHelper = m_hookHelper;
                 IFeatureLayer flay = new FeatureLayer();
                 flay.FeatureClass = IN_FeatureClass;
-                IFeatureCursor cursor = flay.Search(null, false);
+
+                IFeatureClass ifc = Dissolve(IN_FeatureClass,"YZLFS");
+                IFeatureClass mts = MultipartToSinglepart(ifc);
+                IFeatureCursor cursor = mts.Search(null, false);
                 IFeature pFeature = cursor.NextFeature();
                 this._gcChecker = new GapsChecker(flay, 0);
                 List<GapErrorEntity> pErrEntity = new List<GapErrorEntity>();
                 int errorCount = 0;
                 while (pFeature != null)
                 {
-                    //this._gcChecker = new GapsChecker(flay, 0);
-                    object pErrGeo = this._gcChecker.CheckFeatureGap(pFeature, IN_FeatureClass);
-                    if (pErrGeo as IGeometry != null)
+
+                    List<IGeometry> pErrGeo = this._gcChecker.CheckFeatureGap(pFeature);
+                    if (pErrGeo != null) 
                     {
-                        errorCount++;
-                        GapErrorEntity item = new GapErrorEntity(pFeature.OID.ToString(), pErrGeo);
-                        pErrEntity.Add(item);
+                        for(int i =0;i< pErrGeo.Count;i++)
+                        {
+                            errorCount++;
+                            GapErrorEntity item = new GapErrorEntity(idname, errorCount.ToString(), pErrGeo[i]);
+                            pErrEntity.Add(item);
+                        }
                     }
                     pFeature = cursor.NextFeature();
                 }
                 Marshal.ReleaseComObject(cursor);
-                new ErrorTable().AddGapErr(pErrEntity);
-                
+                new ErrorTable().AddGapErr(pErrEntity,idname);
+
                 this.DicTopoError[idname] = errorCount;
+                //IFeatureCursor cursor = flay.Search(null, false);
+                //IFeature pFeature = cursor.NextFeature();
+               
+                //List<GapErrorEntity> pErrEntity = new List<GapErrorEntity>();
+                //int errorCount = 0;
+                //while (pFeature != null)
+                //{
+                //    //this._gcChecker = new GapsChecker(flay, 0);
+                //    object pErrGeo = this._gcChecker.CheckFeatureGap(pFeature, IN_FeatureClass);
+                    
+                //    if (pErrGeo as IGeometry != null)
+                //    {
+                //        errorCount++;
+                //        GapErrorEntity item = new GapErrorEntity(pFeature.OID.ToString(), pErrGeo);
+                //        pErrEntity.Add(item);
+                //    }
+                //    pFeature = cursor.NextFeature();
+                //}
+                //Marshal.ReleaseComObject(cursor);
+                //new ErrorTable().AddGapErr(pErrEntity);
+                
+                //this.DicTopoError[idname] = errorCount;
             }
             else if (IN_RuleType == "面重叠检查")
             {
@@ -148,9 +176,9 @@ namespace GISData.Common
                 IFeatureLayer flay = new FeatureLayer();
                 flay.FeatureClass = IN_FeatureClass;
                 OverLapChecker olChecker = new OverLapChecker(flay, 0);
-                List<ErrorEntity> pErrEntity = olChecker.CheckOverLap(flay, 3);
+                List<ErrorEntity> pErrEntity = olChecker.CheckOverLap(idname,flay, 3);
                 DicTopoError[idname] = pErrEntity.Count;
-                new ErrorTable().AddErr(pErrEntity, ErrType.OverLap);
+                new ErrorTable().AddErr(pErrEntity, ErrType.OverLap, idname);
             }
             else if (IN_RuleType == "面重叠检查（与其他图层）")
             {
@@ -163,8 +191,8 @@ namespace GISData.Common
                 {//记录集循环
                     IList<IGeometry> list = new List<IGeometry>();
                     ISpatialFilter spatialFilter = new SpatialFilterClass();
-                    spatialFilter.Geometry = pFeature.Extent;
-                    spatialFilter.GeometryField = IN_FeatureClass.ShapeFieldName;
+                    spatialFilter.Geometry = pFeature.ShapeCopy;
+                    spatialFilter.GeometryField = IN_Sup_FeatureClass.ShapeFieldName;
                     spatialFilter.SpatialRel = esriSpatialRelEnum.esriSpatialRelIntersects;
                     IFeatureCursor featureCursor = pFeatureLayer.Search(spatialFilter, true);
                     IFeature tFeature = featureCursor.NextFeature();//遍历查询结果
@@ -181,20 +209,20 @@ namespace GISData.Common
                         ITopologicalOperator2 pRo = (ITopologicalOperator2) pFeature.ShapeCopy;
                         IGeometry pIntersectGeo = new PolygonClass();
                         pIntersectGeo = pRo.Intersect(pGeometry, esriGeometryDimension.esriGeometry2Dimension) as IPolygon;
-                        if (pIntersectGeo != null)
+                        if (pIntersectGeo != null && !pIntersectGeo.IsEmpty)
                         {
                             list.Add(pIntersectGeo);
                         }
                     }
                     if (list.Count > 0) 
                     {
-                        listErrorEntity.Add(new ErrorEntity(pFeature.OID.ToString(), "面重叠检查（与其他图层）", "", ErrType.MultiOverlap, list[0]));
+                        listErrorEntity.Add(new ErrorEntity(idname,pFeature.OID.ToString(), "面重叠检查（与其他图层）", "", ErrType.MultiOverlap, list[0]));
                         Marshal.ReleaseComObject(featureCursor);
                     }
                     pFeature = pFeatureCursor.NextFeature();//移动到下一条记录
                 }
                 Marshal.ReleaseComObject(pFeatureCursor);
-                new ErrorTable().AddErr(listErrorEntity, ErrType.MultiOverlap);
+                new ErrorTable().AddErr(listErrorEntity, ErrType.MultiOverlap, idname);
                 this.DicTopoError[idname] = listErrorEntity.Count;
             }
             else if (IN_RuleType == "面重叠检查11")
@@ -229,6 +257,78 @@ namespace GISData.Common
             }
         }
 
+        /// <param name="pFeatureClass">融合要素</param>
+        /// <param name="dissField">融合字段</param>
+        /// <param name="outPath">输出数据库路径</param>
+        /// <param name="name">输出要素名称</param>
+        private IFeatureClass Dissolve(IFeatureClass pFeatureClass, string dissField)
+        {
+            IFeatureClass pOutFeatureClass = null;
+            ESRI.ArcGIS.Geoprocessor.Geoprocessor gp = new ESRI.ArcGIS.Geoprocessor.Geoprocessor();
+            try
+            {
+                ESRI.ArcGIS.DataManagementTools.Dissolve pDissolve = new ESRI.ArcGIS.DataManagementTools.Dissolve();
+                gp.OverwriteOutput = true;
+                pDissolve.in_features = pFeatureClass;
+                pDissolve.dissolve_field = dissField;
+                pDissolve.out_feature_class = System.Environment.CurrentDirectory + @"\temp\" + "temp.shp";
+                pDissolve.multi_part = "true";     //跨区域融合;
+                ESRI.ArcGIS.Geoprocessing.IGeoProcessorResult2 result = (ESRI.ArcGIS.Geoprocessing.IGeoProcessorResult2)gp.Execute(pDissolve, null);
+
+                if (result.Status != ESRI.ArcGIS.esriSystem.esriJobStatus.esriJobSucceeded)
+                {
+                    return null;
+                }
+                else
+                {
+                    pOutFeatureClass = gp.Open(result.ReturnValue) as IFeatureClass;
+                }
+            }
+            catch (System.Runtime.InteropServices.COMException e)
+            {
+                string message = "";
+                for (int i = 0; i < gp.MessageCount; i++)
+                {
+                    message += gp.GetMessage(i) + "\r\n";
+                }
+                MessageBox.Show(message + e.ToString());
+            }
+            return pOutFeatureClass;
+        }
+
+        /// <param name="pFeatureClass">融合要素</param>
+        /// <param name="dissField">融合字段</param>
+        /// <param name="outPath">输出数据库路径</param>
+        /// <param name="name">输出要素名称</param>
+        private IFeatureClass MultipartToSinglepart(IFeatureClass pFeatureClass)
+        {
+            IFeatureClass pOutFeatureClass = null;
+
+            try
+            {
+                ESRI.ArcGIS.Geoprocessor.Geoprocessor gp = new ESRI.ArcGIS.Geoprocessor.Geoprocessor();
+                ESRI.ArcGIS.DataManagementTools.MultipartToSinglepart pM2S = new ESRI.ArcGIS.DataManagementTools.MultipartToSinglepart();
+                gp.OverwriteOutput = true;
+                pM2S.in_features = pFeatureClass;
+                pM2S.out_feature_class = System.Environment.CurrentDirectory + @"\temp\" + "pM2S.shp";
+
+                ESRI.ArcGIS.Geoprocessing.IGeoProcessorResult2 result = (ESRI.ArcGIS.Geoprocessing.IGeoProcessorResult2)gp.Execute(pM2S, null);
+
+                if (result.Status != ESRI.ArcGIS.esriSystem.esriJobStatus.esriJobSucceeded)
+                {
+                    return null;
+                }
+                else
+                {
+                    pOutFeatureClass = gp.Open(result.ReturnValue) as IFeatureClass;
+                }
+            }
+            catch (System.Exception ex)
+            {
+                return null;
+            }
+            return pOutFeatureClass;
+        }
 
         private void GenerateSHPFile(IGeometry pResultGeometry)
         {

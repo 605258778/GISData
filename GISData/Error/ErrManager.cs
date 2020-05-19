@@ -216,12 +216,15 @@
         public static void ZoomToErr(IActiveView pActiveView, IGeometry pGeo)
         {
             pGeo = ErrManager.ConvertPoject(pGeo, pActiveView.FocusMap.SpatialReference);
-            IEnvelope envelope = new EnvelopeClass();
-            envelope.SpatialReference = pActiveView.FocusMap.SpatialReference;
-            envelope.PutCoords(pGeo.Envelope.XMin, pGeo.Envelope.YMin, pGeo.Envelope.XMax, pGeo.Envelope.YMax);
-            envelope.Expand(1.3, 1.3, false);
-            pActiveView.Extent = envelope;
-            pActiveView.PartialRefresh(esriViewDrawPhase.esriViewGeography, null, pActiveView.Extent);
+            if (!pGeo.IsEmpty) 
+            {
+                IEnvelope envelope = new EnvelopeClass();
+                envelope.SpatialReference = pActiveView.FocusMap.SpatialReference;
+                envelope.PutCoords(pGeo.Envelope.XMin, pGeo.Envelope.YMin, pGeo.Envelope.XMax, pGeo.Envelope.YMax);
+                envelope.Expand(1.3, 1.3, false);
+                pActiveView.Extent = envelope;
+                pActiveView.PartialRefresh(esriViewDrawPhase.esriViewGeography, null, pActiveView.Extent);
+            }
         }
 
         public static void ClearElement(IActiveView pActiveView)

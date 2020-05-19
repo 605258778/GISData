@@ -20,18 +20,17 @@ namespace GISData.Login
 
         private void button1_Click(object sender, EventArgs e)
         {
-            FormRegister reg = new FormRegister(this.comboBox1.Text);
+            FormRegister reg = new FormRegister();
             reg.Show(this);
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            string dbtype = this.comboBox1.Text;
             string user = this.textBox1.Text;
             string password = this.textBox2.Text;
             
-            ConnectDB db = new ConnectDB(dbtype);
-            DataTable dt = db.GetDataBySql("select * from GISDATA_USER WHERE USER ='" + user + "'");
+            ConnectDB db = new ConnectDB();
+            DataTable dt = db.GetDataBySql("select * from gisdata_user WHERE USER =\"" + user + "\"");
             DataRow[] drs = dt.Select(null);
             if (drs.Length == 0)
             {
@@ -47,7 +46,7 @@ namespace GISData.Login
                 }
                 else if (verified!="通过")
                 {
-                    MessageBox.Show("用户为审核");
+                    MessageBox.Show("用户未通过审核");
                 }
                 else 
                 {

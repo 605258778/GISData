@@ -91,7 +91,7 @@
             this.Controls.Add(this.label1);
             this.Name = "FormValidation";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "FormValidation";
+            this.Text = "用户验证";
             this.Load += new System.EventHandler(this.FormValidation_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
