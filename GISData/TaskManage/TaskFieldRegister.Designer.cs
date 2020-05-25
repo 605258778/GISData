@@ -118,6 +118,8 @@
             this.Controls.Add(this.labelControl1);
             this.Controls.Add(this.textEditWhere);
             this.Controls.Add(this.textEditField);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "TaskFieldRegister";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormRegister";

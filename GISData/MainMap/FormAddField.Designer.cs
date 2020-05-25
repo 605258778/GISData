@@ -173,6 +173,8 @@
             this.Controls.Add(this.addfieldltype);
             this.Controls.Add(this.txtFieldName);
             this.Controls.Add(this.addfieldname);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "FormAddField";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "添加字段";

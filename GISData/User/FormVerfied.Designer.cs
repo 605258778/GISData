@@ -71,6 +71,8 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.comboBox1);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "FormVerfied";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormVerfied";

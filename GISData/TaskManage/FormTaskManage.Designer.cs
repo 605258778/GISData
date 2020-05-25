@@ -277,6 +277,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(997, 489);
             this.Controls.Add(this.xtraTabControl1);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "FormTaskManage";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormTaskManage";
