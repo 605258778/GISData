@@ -105,29 +105,6 @@
             }
         }
 
-        public void AddSelfIntersectErr(IList<SelfIntersectErrorEntity> pErrEntity,string idname)
-        {
-            if (_table != null)
-            {
-                if ((pErrEntity == null) || (pErrEntity.Count < 1))
-                {
-                    this.ClearTable(idname);
-                }
-                else if (this.ClearTable(idname))
-                {
-                    foreach (SelfIntersectErrorEntity entity in pErrEntity)
-                    {
-                        DataRow row = _table.NewRow();
-                        row["FeatureID"] = entity.FeatureID;
-                        row["ErrDes"] = "缝隙";
-                        row["ErrType"] = ErrType.Gap;
-                        row["Geometry"] = entity.ErrGeo;
-                        _table.Rows.Add(row);
-                    }
-                }
-            }
-        }
-
         public void AddMultiOverlapErr(IFeatureClass pFClass)
         {
             if (_table != null)

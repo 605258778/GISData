@@ -45,7 +45,7 @@
             this.textBox1.Location = new System.Drawing.Point(543, 105);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(217, 25);
-            this.textBox1.TabIndex = 1;
+            this.textBox1.TabIndex = 0;
             // 
             // textBox2
             // 
@@ -60,7 +60,7 @@
             this.button1.Location = new System.Drawing.Point(543, 246);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 35);
-            this.button1.TabIndex = 2;
+            this.button1.TabIndex = 3;
             this.button1.Text = "注册";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);

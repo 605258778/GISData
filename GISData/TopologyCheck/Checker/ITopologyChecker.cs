@@ -6,7 +6,7 @@
     public interface ITopologyChecker
     {
         //bool Check();
-        bool CheckFeature(IFeature pFeature, ref object pErrFeatureInf);
+        //bool CheckFeature(IFeature pFeature, ref object pErrFeatureInf);
     }
 }
 

@@ -186,8 +186,6 @@ namespace GISData.DataCheck.CheckDialog
 
         public void loopCheck(TreeListNodes selectNode)
         {
-            
-            
             foreach (TreeListNode node in selectNode)
             {
                 DataRowView nodeData = this.treeList1.GetDataRecordByNode(node) as DataRowView;
@@ -288,7 +286,7 @@ namespace GISData.DataCheck.CheckDialog
                                     IQueryDef pQueryDef = ifw.CreateQueryDef();
                                     pQueryDef.Tables = TABLENAME;
                                     pQueryDef.SubFields = "count(*) as errorCount";
-                                    pQueryDef.WhereClause = FIELD + " IS NOT NULL AND " + FIELD + " not in ('" + codesString + "')";
+                                    pQueryDef.WhereClause = FIELD + " IS NOT NULL AND " + FIELD + " <> '' AND "+ FIELD + " not in ('" + codesString + "')";
                                     ICursor pCur = pQueryDef.Evaluate();
                                     IRow pRow = pCur.NextRow();
                                     int iInx = pCur.Fields.FindField("errorCount");
@@ -494,15 +492,30 @@ namespace GISData.DataCheck.CheckDialog
                             DataTable dt1 = db.GetDataBySql("SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = '" + TABLENAME + "' AND FIELD_NAME = '" + FIELD + "'");
                             string CODETABLENAME = dt1.Rows[0]["CODE_PK"].ToString();
                             string CODEWHERESTRING = dt1.Rows[0]["CODE_WHERE"].ToString();
+                            DataTable codeArr = null;
+                            if (CODETABLENAME == "GISDATA_ZQSJZD")
+                            {
+                                CommonClass common = new CommonClass();
+                                string gldwstr = common.GetConfigValue("GLDW");
+                                codeArr = db.GetDataBySql("SELECT C_CODE FROM " + CODETABLENAME + " WHERE " + CODEWHERESTRING + " AND LEFT(C_CODE,6)='" + gldwstr + "'");
+                            }
+                            else
+                            {
+                                codeArr = db.GetDataBySql("SELECT C_CODE FROM " + CODETABLENAME + " WHERE " + CODEWHERESTRING);
+                            }
+                            string[] idInts = codeArr.AsEnumerable().Select(d => d.Field<string>("C_CODE")).ToArray();
+                            string codesString = String.Join("','", idInts);
+
                             IQueryFilter pQuery = new QueryFilterClass();
-                            pQuery.WhereClause = FIELD + " not in (SELECT C_CODE FROM " + CODETABLENAME + " WHERE " + CODEWHERESTRING + ")";
+                            //pQuery.WhereClause = FIELD + " not in (SELECT C_CODE FROM " + CODETABLENAME + " WHERE " + CODEWHERESTRING + ")";
+                            pQuery.WhereClause = FIELD + " IS NOT NULL AND " + FIELD + " <> '' AND " + FIELD + " not in ('" + codesString + "')";
                             pFeatureCuror = pTable.Search(pQuery, false);
                         }
                         else if (DOMAINTYPE == "custom")
                         {
                             string CUSTOMVALUE = node["CUSTOMVALUE"].ToString();
                             IQueryFilter pQuery = new QueryFilterClass();
-                            pQuery.WhereClause = FIELD + " not in (" + CUSTOMVALUE + ")";
+                            pQuery.WhereClause = FIELD + " not in (" + CUSTOMVALUE + ") AND " + FIELD + " IS NOT NULL AND " + FIELD + " <> ''";
                             pFeatureCuror = pTable.Search(pQuery, false);
                         }
                     }

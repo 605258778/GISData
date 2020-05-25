@@ -1,4 +1,5 @@
 ﻿using DevExpress.XtraReports.UI;
+using DevExpress.XtraTreeList;
 using ESRI.ArcGIS.Carto;
 using ESRI.ArcGIS.Controls;
 using ESRI.ArcGIS.Geodatabase;
@@ -221,9 +222,17 @@ namespace GISData.DataCheck
                 }
             }
         }
-
+        /// <summary>
+        /// 开始检查
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void buttonCheckStar_Click(object sender, EventArgs e)
         {
+            if (AttrDia.attrErrorTable!= null)
+                AttrDia.attrErrorTable.Clear();
+            if (TopoDia.topoErrorTable != null)
+                TopoDia.topoErrorTable.Clear();
             foreach (CheckBox item in CheckBoxArr)
             {
                 if(item.CheckState == CheckState.Checked)
@@ -249,7 +258,11 @@ namespace GISData.DataCheck
             }
             MessageBox.Show("检查完成", "提示");
         }
-
+        /// <summary>
+        /// 显示详情
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void checkBox1_CheckStateChanged(object sender, EventArgs e)
         {
             if (this.checkBox1.Checked)
@@ -265,7 +278,11 @@ namespace GISData.DataCheck
                 this.tableLayoutPanel1.ColumnStyles[1].Width = 0;
             }
         }
-
+        /// <summary>
+        /// 双击查看单个要素
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void gridControlError_DoubleClick(object sender, EventArgs e)
         {
             if (this.gridViewError.ViewCaption == "拓扑检查") 
@@ -383,12 +400,20 @@ namespace GISData.DataCheck
             }
             
         }
-
+        /// <summary>
+        /// 选择方案
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void comboBoxScheme_SelectedIndexChanged(object sender, EventArgs e)
         {
             loadStep();
         }
-
+        /// <summary>
+        /// 检查完成
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button1_Click(object sender, EventArgs e)
         {
             FormAcceptance acceptance = new FormAcceptance(ReportDia,AttrDia,TopoDia);
@@ -398,7 +423,10 @@ namespace GISData.DataCheck
                 doAcceptance(acceptance.ModelName);
             }
         }
-
+        /// <summary>
+        /// 生成验收单
+        /// </summary>
+        /// <param name="modelName"></param>
         private void doAcceptance(string modelName)
         {
             XtraReport mReport = new XtraReport();
@@ -452,6 +480,29 @@ namespace GISData.DataCheck
             DetailReport.DataSource = taskError;
             DetailReport1.DataSource = checkError;
             mReport.ShowPreviewDialog();
+        }
+        /// <summary>
+        /// 显示未通过项
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
+            if (this.checkBox2.Checked) 
+            {
+                FilterCondition _curFc = new FilterCondition(FilterConditionEnum.LessOrEqual, this.AttrDia.treeList1.Columns["ERROR"], 0);
+                if (!this.AttrDia.treeList1.OptionsBehavior.EnableFiltering)
+                    this.AttrDia.treeList1.OptionsBehavior.EnableFiltering = true;
+                this.AttrDia.treeList1.FilterConditions.Clear();
+                this.AttrDia.treeList1.FilterConditions.Add(_curFc);
+                //this.TopoDia.gridView1.Columns["ERROR"].OptionsFilter.AutoFilterCondition = DevExpress.XtraGrid.Columns.AutoFilterCondition.LessOrEqual;
+                this.TopoDia.gridView1.ActiveFilterString = "ERROR > 0";
+            }
+            else
+            {
+                this.AttrDia.treeList1.FilterConditions.Clear();
+                this.TopoDia.gridView1.ActiveFilterString = null;
+            }
         }
     }
 }

@@ -169,8 +169,6 @@
 
         #endregion
 
-        private DevExpress.XtraGrid.GridControl gridControl1;
-        private DevExpress.XtraGrid.Views.Grid.GridView gridView1;
         private DevExpress.XtraEditors.Repository.RepositoryItemCheckEdit repositoryItemCheckEdit1;
         private DevExpress.XtraGrid.Columns.GridColumn NAME;
         private DevExpress.XtraGrid.Columns.GridColumn STATE;
@@ -180,6 +178,8 @@
         private DevExpress.XtraGrid.Columns.GridColumn WHERESTRING;
         private DevExpress.XtraGrid.Columns.GridColumn SUPTABLE;
         private DevExpress.XtraGrid.Columns.GridColumn gridColumn8;
+        public DevExpress.XtraGrid.GridControl gridControl1;
+        public DevExpress.XtraGrid.Views.Grid.GridView gridView1;
 
     }
 }

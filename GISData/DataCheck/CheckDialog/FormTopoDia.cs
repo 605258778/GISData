@@ -169,17 +169,20 @@ namespace GISData.DataCheck.CheckDialog
                     DicTopoData.Add(ID, INPUTTEXT);
                 }
                 row["STATE"] = "检查中";
-                topocheck.OtherRule(ID, TYPE, common.GetLayerByName(TABLENAME).FeatureClass, common.GetLayerByName(SUPTABLE).FeatureClass, m_hookHelper);
-                Dictionary<string, int> DicTopoError = topocheck.DicTopoError;
-                foreach (int itemtemp in selectRows)
+                if (SUPTABLE != null && SUPTABLE != "")
                 {
-                    DataRow rowItem = this.gridView1.GetDataRow(itemtemp);
-                    row["ERROR"] = DicTopoError[row["ID"].ToString()];
-                    row["STATE"] = "检查完成";
-                    if (DicTopoError[ID].ToString() != "0")
-                    {
-                        topoErrorTable.ImportRow(row);
-                    }
+                    topocheck.OtherRule(ID, TYPE, common.GetLayerByName(TABLENAME).FeatureClass, common.GetLayerByName(SUPTABLE).FeatureClass, INPUTTEXT, m_hookHelper);
+                }
+                else 
+                {
+                    topocheck.OtherRule(ID, TYPE, common.GetLayerByName(TABLENAME).FeatureClass, null, INPUTTEXT, m_hookHelper);
+                }
+                Dictionary<string, int> DicTopoError = topocheck.DicTopoError;
+                row["ERROR"] = DicTopoError[row["ID"].ToString()];
+                row["STATE"] = "检查完成";
+                if (DicTopoError[ID].ToString() != "0")
+                {
+                    topoErrorTable.ImportRow(row);
                 }
             }
         }

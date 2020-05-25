@@ -122,27 +122,6 @@
             return aTempGeometryCollection as IPolyline;
         }
 
-        public bool IsSelfCross(IGeometry pGeometry)
-        {
-            ITopologicalOperator3 pTopologicalOperator2 = pGeometry as ITopologicalOperator3;
-            pTopologicalOperator2.IsKnownSimple_2 = false;
-            esriNonSimpleReasonEnum reason = esriNonSimpleReasonEnum.esriNonSimpleOK;
-            if (!pTopologicalOperator2.get_IsSimpleEx(out reason))
-            {
-                if (reason == esriNonSimpleReasonEnum.esriNonSimpleSelfIntersections)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public bool Check()
-        {
-            List<ErrorEntity> pErrEntity = this.AreaSelfIntersect("",this._layer, this.m_CheckType);
-            //new ErrorTable().AddErr(pErrEntity, ErrType.SelfIntersect);
-            return (pErrEntity.Count == 0);
-        }
 
         public bool CheckFeature(IFeature pFeature, ref object pErrFeatureInf)
         {

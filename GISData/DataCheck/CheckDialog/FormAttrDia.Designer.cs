@@ -97,10 +97,10 @@
 
         #endregion
 
-        private DevExpress.XtraTreeList.TreeList treeList1;
         private DevExpress.XtraTreeList.Columns.TreeListColumn treeListColumn1;
         private DevExpress.XtraTreeList.Columns.TreeListColumn treeListColumn2;
         private DevExpress.XtraTreeList.Columns.TreeListColumn treeListColumn3;
+        public DevExpress.XtraTreeList.TreeList treeList1;
 
 
 

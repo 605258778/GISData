@@ -340,7 +340,7 @@ namespace GISData.ChekConfig
                 Boolean result;
                 if (type == "edit")
                 {
-                    result = db.Update("update GISDATA_TBATTR set NAME ='" + name + "',CHECKTYPE = '逻辑关系检查',TABLENAME = '" + table + "',SHOWFIELD = '" + showfield + "',WHERESTRING = '" + whereString + "',RESULT = '" + resultString + "' where id = " + selectedId);
+                    result = db.Update("update GISDATA_TBATTR set NAME ='" + name + "',CHECKTYPE = '逻辑关系检查',TABLENAME = '" + table + "',SHOWFIELD = '" + showfield + "',WHERESTRING = \"" + whereString + "\",RESULT = \"" + resultString + "\" where id = " + selectedId);
                     this.selectNode.SetValue("NAME", name);
                 }
                 else

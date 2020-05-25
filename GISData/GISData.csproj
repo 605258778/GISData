@@ -459,19 +459,14 @@
     <Compile Include="TaskManage\FormTaskDia.Designer.cs">
       <DependentUpon>FormTaskDia.cs</DependentUpon>
     </Compile>
-    <Compile Include="TopologyCheck\Checker\AngleChecker.cs" />
-    <Compile Include="TopologyCheck\Checker\BoundaryBeyondChecker.cs" />
     <Compile Include="TopologyCheck\Checker\Editor.cs" />
     <Compile Include="TopologyCheck\Checker\GapErrorEntity.cs" />
     <Compile Include="TopologyCheck\Checker\GapsChecker.cs" />
-    <Compile Include="TopologyCheck\Checker\GapsCheckTool.cs" />
     <Compile Include="TopologyCheck\Checker\ITopologyChecker.cs" />
     <Compile Include="TopologyCheck\Checker\OverLapChecker.cs" />
     <Compile Include="TopologyCheck\Checker\Resources.cs" />
     <Compile Include="TopologyCheck\Checker\SelfIntersectChecker.cs" />
-    <Compile Include="TopologyCheck\Checker\SpatialAnalysis.cs" />
     <Compile Include="TopologyCheck\Checker\TopoClassChecker.cs" />
-    <Compile Include="TopologyCheck\Checker\SelfIntersectErrorEntity.cs" />
     <Compile Include="User\FormUser.cs">
       <SubType>Form</SubType>
     </Compile>

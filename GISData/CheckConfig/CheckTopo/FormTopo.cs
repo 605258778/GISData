@@ -269,7 +269,7 @@ namespace GISData.ChekConfig.CheckTopo
             DataGridViewRow row = this.dataGridViewCheck.CurrentRow;
             this.EditId = row.Cells["ID"].Value.ToString();
             string NAME = row.Cells["质检项"].Value.ToString();
-            string TYPE = row.Cells["TYPE"].Value.ToString();
+            string TYPE = row.Cells["CHECKTYPE"].Value.ToString();
             string TABLENAME = row.Cells["TABLENAME"].Value.ToString();
             string WHERESTRING = row.Cells["WHERESTRING"].Value.ToString();
             string SUPTABLE = row.Cells["SUPTABLE"].Value.ToString();
