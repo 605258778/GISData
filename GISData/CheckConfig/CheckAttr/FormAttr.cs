@@ -47,7 +47,7 @@ namespace GISData.ChekConfig
         public void bindtreeViewAttr()
         {
             ConnectDB cdb = new ConnectDB();
-            DataTable dt = cdb.GetDataBySql("select * from GISDATA_TBATTR");
+            DataTable dt = cdb.GetDataBySql("select * from GISDATA_TBATTR where scheme ='"+this.scheme+"' and STEP_NO = '"+this.checkNo+"'");
             this.treeList1.DataSource = dt;
             treeList1.KeyFieldName = "ID";
             treeList1.ParentFieldName = "PARENTID";

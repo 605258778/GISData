@@ -26,6 +26,7 @@ namespace GISData.DataCheck.CheckDialog
         private CheckBox checkBoxCheckMain;
         private GridControl gridControlError = null;
         public DataTable attrErrorTable = null;
+        private string scheme;
         public FormAttrDia()
         {
             InitializeComponent();
@@ -39,12 +40,13 @@ namespace GISData.DataCheck.CheckDialog
         {
             this.UnSelectTreeListAll(this.treeList1);
         }
-        public FormAttrDia(string stepNo, CheckBox cb, CheckBox cbCheckMain, GridControl gridControlError)
+        public FormAttrDia(string stepNo, CheckBox cb,string scheme, CheckBox cbCheckMain, GridControl gridControlError)
         {
             InitializeComponent();
             // TODO: Complete member initialization
             this.stepNo = stepNo;
             this.checkBox = cb;
+            this.scheme = scheme;
             this.checkBoxCheckMain = cbCheckMain;
             this.gridControlError = gridControlError;
             bindTreeView();
@@ -58,7 +60,7 @@ namespace GISData.DataCheck.CheckDialog
         private void bindTreeView() 
         {
             ConnectDB cdb = new ConnectDB();
-            DataTable dt = cdb.GetDataBySql("select * from GISDATA_TBATTR");
+            DataTable dt = cdb.GetDataBySql("select * from GISDATA_TBATTR where SCHEME ='" + this.scheme + "' and STEP_NO = '" + this.stepNo + "'");
             this.treeList1.DataSource = dt;
             treeList1.OptionsView.ShowCheckBoxes = true;
             attrErrorTable = new DataTable();

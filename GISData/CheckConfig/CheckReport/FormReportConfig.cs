@@ -17,10 +17,18 @@ namespace GISData.CheckConfig.CheckReport
     {
         private Dictionary<string, string> DicPivot = new Dictionary<string, string>();
         private DataTable dtSource = new DataTable();
+        private int checkNo;
+        private string scheme;
 
         public FormReportConfig()
         {
+            InitializeComponent();;
+        }
+        public FormReportConfig(int No, string scheme)
+        {
             InitializeComponent();
+            this.checkNo = No;
+            this.scheme = scheme;
         }
 
         private void FormReportDia_Load(object sender, EventArgs e)
@@ -65,11 +73,11 @@ namespace GISData.CheckConfig.CheckReport
             Boolean result = true;
             if (reporttype == "透视表")
             {
-                result = db.Insert("insert into GISDATA_REPORT (REPORTNAME,REPORTMOULD,DATASOURCE,REPORTTYPE,SHEETNAME,SQLSTR,ROWNAME,COLUMNSNAME,VALUESTRING) VALUES ('" + reportname + "','" + reportmould + "','" + datasource + "','" + reporttype + "','" + sheetname + "','" + sqlstr + "','" + this.DicPivot["ROW"].Trim() + "','" + this.DicPivot["COLUMNS"].Trim() + "','" + valuestring.Trim() + "')");
+                result = db.Insert("insert into GISDATA_REPORT (REPORTNAME,REPORTMOULD,DATASOURCE,REPORTTYPE,SHEETNAME,SQLSTR,ROWNAME,COLUMNSNAME,VALUESTRING,SCHEME,STEP_NO) VALUES ('" + reportname + "','" + reportmould + "','" + datasource + "','" + reporttype + "','" + sheetname + "','" + sqlstr + "','" + this.DicPivot["ROW"].Trim() + "','" + this.DicPivot["COLUMNS"].Trim() + "','" + valuestring.Trim() + "','" + this.scheme + "'," + this.checkNo + ")");
             }
             else 
             {
-                result = db.Insert("insert into GISDATA_REPORT (REPORTNAME,REPORTMOULD,DATASOURCE,REPORTTYPE,SHEETNAME,SQLSTR) VALUES ('" + reportname + "','" + reportmould + "','" + datasource + "','" + reporttype + "','" + sheetname + "','" + sqlstr + "')");
+                result = db.Insert("insert into GISDATA_REPORT (REPORTNAME,REPORTMOULD,DATASOURCE,REPORTTYPE,SHEETNAME,SQLSTR,SCHEME,STEP_NO) VALUES ('" + reportname + "','" + reportmould + "','" + datasource + "','" + reporttype + "','" + sheetname + "','" + sqlstr + "','" + this.scheme + "'," + this.checkNo + ")");
             }
             if (result) 
             {
@@ -83,7 +91,7 @@ namespace GISData.CheckConfig.CheckReport
         private void bindData()
         {
             ConnectDB db = new ConnectDB();
-            DataTable dt = db.GetDataBySql("select * from GISDATA_REPORT");
+            DataTable dt = db.GetDataBySql("select * from GISDATA_REPORT where SCHEME ='" + this.scheme + "' and STEP_NO = '" + this.checkNo + "'");
             this.gridControl1.DataSource = dt;
             this.gridView1.OptionsBehavior.Editable = false;
             this.gridView1.OptionsSelection.MultiSelect = true;

@@ -94,6 +94,7 @@ namespace GISData.DataCheck
                 this.tabControl1.Dock = DockStyle.Fill; ;
                 cb.BringToFront();
                 this.CheckBoxArr.Add(cb);
+                string scheme = this.comboBoxScheme.Text;
                 if (stepType == "结构检查")
                 {
                     //FormStructureDia fsa = new FormStructureDia(stepNo, cb);
@@ -103,21 +104,21 @@ namespace GISData.DataCheck
                 }
                 else if (stepType == "属性检查")
                 {
-                    FormAttrDia attr = new FormAttrDia(stepNo, cb, this.checkBox1, this.gridControlError);
+                    FormAttrDia attr = new FormAttrDia(stepNo, cb,scheme, this.checkBox1, this.gridControlError);
                     AttrDia = attr;
                     attr.Dock = DockStyle.Fill;
                     ShowForm(tp, attr);
                 }
                 else if (stepType == "图形检查")
                 {
-                    FormTopoDia topo = new FormTopoDia(stepNo, cb,this.checkBox1,this.gridControlError);
+                    FormTopoDia topo = new FormTopoDia(stepNo, cb, scheme, this.checkBox1, this.gridControlError);
                     TopoDia = topo;
                     topo.Dock = DockStyle.Fill;
                     ShowForm(tp, topo);
                 }
                 else if (stepType == "统计报表")
                 {
-                    FormReportDia report = new FormReportDia(stepNo, cb);
+                    FormReportDia report = new FormReportDia(stepNo, cb,scheme);
                     ReportDia = report;
                     report.Dock = DockStyle.Fill;
                     ShowForm(tp, report);

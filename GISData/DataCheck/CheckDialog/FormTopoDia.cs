@@ -26,16 +26,18 @@ namespace GISData.DataCheck.CheckDialog
         private GridControl gridControlError = null;
         private IHookHelper m_hookHelper = null;
         public DataTable topoErrorTable = null;
+        private string scheme;
         public FormTopoDia()
         {
             InitializeComponent();
         }
 
-        public FormTopoDia(string stepNo, CheckBox cb, CheckBox cbCheckMain, GridControl gridControlError)
+        public FormTopoDia(string stepNo, CheckBox cb, string scheme,CheckBox cbCheckMain, GridControl gridControlError)
         {
             InitializeComponent();
             // TODO: Complete member initialization
             this.stepNo = stepNo;
+            this.scheme = scheme;
             this.checkBox = cb;
             this.checkBoxCheckMain = cbCheckMain;
             this.gridControlError = gridControlError;
@@ -63,7 +65,7 @@ namespace GISData.DataCheck.CheckDialog
         private void bindTreeView()
         {
             ConnectDB db = new ConnectDB();
-            DataTable dt = db.GetDataBySql("select NAME,STATE,ERROR,CHECKTYPE,TABLENAME,WHERESTRING,SUPTABLE,INPUTTEXT,ID from GISDATA_TBTOPO");
+            DataTable dt = db.GetDataBySql("select NAME,STATE,ERROR,CHECKTYPE,TABLENAME,WHERESTRING,SUPTABLE,INPUTTEXT,ID from GISDATA_TBTOPO where SCHEME ='" + this.scheme + "' and STEP_NO = '" + this.stepNo + "'");
             this.gridControl1.DataSource = dt;
             this.gridView1.OptionsBehavior.Editable = false;
             this.gridView1.OptionsSelection.MultiSelect = true;

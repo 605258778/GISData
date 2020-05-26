@@ -133,7 +133,7 @@ namespace GISData.ChekConfig.CheckTopo
         private void refushTable() 
         {
             ConnectDB cd = new ConnectDB();
-            DataTable dt = cd.GetDataBySql("select NAME AS 质检项,CHECKTYPE,TABLENAME,WHERESTRING,SUPTABLE,INPUTTEXT,ID from GISDATA_TBTOPO ");
+            DataTable dt = cd.GetDataBySql("select NAME AS 质检项,CHECKTYPE,TABLENAME,WHERESTRING,SUPTABLE,INPUTTEXT,ID from GISDATA_TBTOPO where scheme ='" + this.scheme + "' and STEP_NO = '" + this.checkNo + "'");
             this.dataGridViewCheck.DataSource = dt;
             if (this.dataGridViewCheck.Columns.Count > 0)
             {

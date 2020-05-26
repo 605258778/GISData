@@ -1,4 +1,5 @@
 ﻿using DevExpress.XtraReports.UI;
+using DevExpress.XtraReports.UserDesigner;
 using ESRI.ArcGIS.Geodatabase;
 using GISData.Common;
 using System;
@@ -37,6 +38,17 @@ namespace GISData.Report
         private void bbiSaveFile_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
         {
 
+        }
+
+        private void barButtonItem1_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            XtraReport report = this.reportDesigner1.ActiveDesignPanel.Report;
+            ReportDesignTool designTool = new ReportDesignTool(report);
+            IDesignForm designForm = designTool.DesignRibbonForm;
+            PropertyGridDockPanel propertyGrid =
+        (PropertyGridDockPanel)designForm.DesignDockManager[DesignDockPanelType.PropertyGrid];
+            Console.WriteLine(this.propertyGridDockPanel1.ActiveControl);
+            
         }
     }
 }

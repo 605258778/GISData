@@ -35,21 +35,23 @@ namespace GISData.DataCheck.CheckDialog
         public DataTable wwcxmTable = null;
         private CheckBox checkBox;
         private string stepNo;
+        private string scheme;
         public FormReportDia()
         {
             InitializeComponent();
         }
 
-        public FormReportDia(string stepNo, CheckBox cb)
+        public FormReportDia(string stepNo, CheckBox cb, string scheme)
         {
             InitializeComponent();
             this.stepNo = stepNo;
             this.checkBox = cb;
+            this.scheme = scheme;
         }
         private void bindDataSource()
         {
             ConnectDB db = new ConnectDB();
-            DataTable dt = db.GetDataBySql("select * from GISDATA_REPORT");
+            DataTable dt = db.GetDataBySql("select * from GISDATA_REPORT where SCHEME ='" + this.scheme + "' and STEP_NO = '" + this.stepNo + "'");
             this.gridControl1.DataSource = dt;
             this.gridView1.OptionsBehavior.Editable = false;
             this.gridView1.OptionsSelection.MultiSelect = true;
