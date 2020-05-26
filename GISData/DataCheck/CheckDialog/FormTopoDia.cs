@@ -88,71 +88,12 @@ namespace GISData.DataCheck.CheckDialog
             }
         }
 
-        //public void doCheckTopo()
-        //{
-        //    string GdbPath = Application.StartupPath + "\\GISData.gdb";
-        //    FileGDBWorkspaceFactoryClass fac = new FileGDBWorkspaceFactoryClass();
-        //    IWorkspace workspace = fac.OpenFromFile(GdbPath, 0);
-        //    CommonClass common = new CommonClass();
-        //    IFeatureDataset mainlogyDataSet = common.getDataset(workspace);
-        //    int[] selectRows = this.gridView1.GetSelectedRows();
-        //    //主要有添加构建拓扑，拓扑中添加要素，添加规则，输出拓扑错误的功能。  
-        //    TopologyChecker topocheck = new TopologyChecker(mainlogyDataSet);//传入要处理的要素数据集  
-        //    topocheck.PUB_TopoBuild("dataset_Topology");//构建拓扑的名字  
-        //    topocheck.PUB_AddFeatureClass(null);//将该要素中全部要素都加入拓扑  
-        //    Dictionary<string, string> DicTopoData = new Dictionary<string, string>();
-        //    foreach (int itemRow in selectRows)
-        //    {
-        //        DataRow row = this.gridView1.GetDataRow(itemRow);
-        //        string ID = row["ID"].ToString();
-        //        string NAME = row["NAME"].ToString();
-        //        string STATE = row["STATE"].ToString();
-        //        string ERROR = row["ERROR"].ToString();
-        //        string TYPE = row["CHECKTYPE"].ToString();
-        //        string TABLENAME = row["TABLENAME"].ToString();
-        //        string WHERESTRING = row["WHERESTRING"].ToString();
-        //        string SUPTABLE = row["SUPTABLE"].ToString();
-        //        string INPUTTEXT = row["INPUTTEXT"].ToString();
-        //        if (INPUTTEXT!= null && INPUTTEXT!="")
-        //        {
-        //            DicTopoData.Add(ID, INPUTTEXT);
-        //        }
-        //        row["STATE"] = "检查中";
-        //        GISData.Common.TopologyChecker.TopoErroType aa = GetTypeByString(TYPE);
-        //        if (TYPE == "面多部件检查" || TYPE == "面自相交检查")
-        //        {
-        //            topocheck.OtherRule(ID, TYPE, topocheck.PUB_GetAllFeatureClassByName(TABLENAME));
-        //        }else if (SUPTABLE == null || SUPTABLE == "")
-        //        {
-        //            topocheck.PUB_AddRuleToTopology(ID,GetTypeByString(TYPE), (topocheck.PUB_GetAllFeatureClassByName(TABLENAME)));
-        //        }
-        //        else 
-        //        {
-        //            topocheck.PUB_AddRuleToTopology(ID,GetTypeByString(TYPE), (topocheck.PUB_GetAllFeatureClassByName(TABLENAME)), (topocheck.PUB_GetAllFeatureClassByName(SUPTABLE)));
-        //        }
-        //    }
-        //    topocheck.doValidateTopology(selectRows, DicTopoData);
-        //    Dictionary<string,int> DicTopoError = topocheck.DicTopoError;
-        //    foreach (int itemRow in selectRows)
-        //    {
-        //        DataRow row = this.gridView1.GetDataRow(itemRow);
-        //        string ID = row["ID"].ToString();
-        //        row["ERROR"] = DicTopoError[ID];
-        //        row["STATE"] = "检查完成";
-        //        if (DicTopoError[ID].ToString() != "0") 
-        //        {
-        //            topoErrorTable.ImportRow(row);
-        //        }
-        //    }
-        //}
-
         public void doCheckTopo(IHookHelper m_hookHelper)
         {
             this.m_hookHelper = m_hookHelper;
             CommonClass common = new CommonClass();
             int[] selectRows = this.gridView1.GetSelectedRows();
-            //主要有添加构建拓扑，拓扑中添加要素，添加规则，输出拓扑错误的功能。  
-            TopoChecker topocheck = new TopoChecker();//传入要处理的要素数据集  
+            TopoChecker topocheck = new TopoChecker();
             Dictionary<string, string> DicTopoData = new Dictionary<string, string>();
             foreach (int itemRow in selectRows)
             {
@@ -194,81 +135,11 @@ namespace GISData.DataCheck.CheckDialog
             return true;
         }
 
-        private TopologyChecker.TopoErroType GetTypeByString(string type)
-        {
-            switch (type)
-            {
-                case "第二个图层面要素必须被第一个图层任一面要素覆盖":
-                    return TopologyChecker.TopoErroType.第二个图层面要素必须被第一个图层任一面要素覆盖;
-                case "第一个图层面要素必须被第一个图层任一面要素包含":
-                    return TopologyChecker.TopoErroType.第一个图层面要素必须被第一个图层任一面要素包含;
-                case "第一个图层线要素不被第二个线图层线要素覆盖":
-                    return TopologyChecker.TopoErroType.第一个图层线要素不被第二个线图层线要素覆盖;
-                case "第一个图层线要素应被第二个线图层线要素覆盖":
-                    return TopologyChecker.TopoErroType.第一个图层线要素应被第二个线图层线要素覆盖;
-                case "点要素必须落在面要素边界上":
-                    return TopologyChecker.TopoErroType.点要素必须落在面要素边界上;
-                case "点要素必须落在面要素内":
-                    return TopologyChecker.TopoErroType.点要素必须落在面要素内;
-                case "点要素应被线要素覆盖":
-                    return TopologyChecker.TopoErroType.点要素应被线要素覆盖;
-                case "点要素应在线要素的端点上":
-                    return TopologyChecker.TopoErroType.点要素应在线要素的端点上;
-                case "点要素之间不相交":
-                    return TopologyChecker.TopoErroType.点要素之间不相交;
-                case "点要素重合点要素":
-                    return TopologyChecker.TopoErroType.点要素重合点要素;
-                case "两图层面要素必须互相覆盖":
-                    return TopologyChecker.TopoErroType.两图层面要素必须互相覆盖;
-                case "面要素必须只包含一个点要素":
-                    return TopologyChecker.TopoErroType.面要素必须只包含一个点要素;
-                case "面要素边界必须被线要素覆盖":
-                    return TopologyChecker.TopoErroType.面要素边界必须被线要素覆盖;
-                case "面要素的边界必须被另一面要素边界覆盖":
-                    return TopologyChecker.TopoErroType.面要素的边界必须被另一面要素边界覆盖;
-                case "面要素间无重叠":
-                    return TopologyChecker.TopoErroType.面要素间无重叠;
-                case "面要素内必须包含至少一个点要素":
-                    return TopologyChecker.TopoErroType.面要素内必须包含至少一个点要素;
-                case "面要素之间无空隙":
-                    return TopologyChecker.TopoErroType.面要素之间无空隙;
-                case "图层间面要素不能相互覆盖":
-                    return TopologyChecker.TopoErroType.图层间面要素不能相互覆盖;
-                case "线必须不相交或内部接触":
-                    return TopologyChecker.TopoErroType.线必须不相交或内部接触;
-                case "线不能是多段":
-                    return TopologyChecker.TopoErroType.线不能是多段;
-                case "线要素必须不相交":
-                    return TopologyChecker.TopoErroType.线要素必须不相交;
-                case "线要素必须跟面图层边界的一部分或全部重叠":
-                    return TopologyChecker.TopoErroType.线要素必须跟面图层边界的一部分或全部重叠;
-                case "线要素必须在面内":
-                    return TopologyChecker.TopoErroType.线要素必须在面内;
-                case "线要素不能自相交":
-                    return TopologyChecker.TopoErroType.线要素不能自相交;
-                case "线要素不能自重叠":
-                    return TopologyChecker.TopoErroType.线要素不能自重叠;
-                case "线要素不允许有假节点":
-                    return TopologyChecker.TopoErroType.线要素不允许有假节点;
-                case "线要素不允许有悬挂点":
-                    return TopologyChecker.TopoErroType.线要素不允许有悬挂点;
-                case "线要素端点必须被点要素覆盖":
-                    return TopologyChecker.TopoErroType.线要素端点必须被点要素覆盖;
-                case "线要素间不能有相互重叠部分":
-                    return TopologyChecker.TopoErroType.线要素间不能有相互重叠部分;
-                case "线要素间不能重叠和相交":
-                    return TopologyChecker.TopoErroType.线要素间不能重叠和相交;
-                case "线要素之间不能相交":
-                    return TopologyChecker.TopoErroType.线要素之间不能相交;
-                case "要素大于最小容差":
-                    return TopologyChecker.TopoErroType.要素大于最小容差;
-                case "面要素无多部件":
-                    return TopologyChecker.TopoErroType.面要素无多部件;
-                default:
-                    return TopologyChecker.TopoErroType.任何规则;
-            }
-        }
-
+        /// <summary>
+        /// 双击要素，查看错误详情
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void gridControl1_MouseDown(object sender, MouseEventArgs e)
         {
             try
@@ -281,11 +152,10 @@ namespace GISData.DataCheck.CheckDialog
                     {
                         if (this.checkBoxCheckMain.Checked)
                         {
-                            var index = this.gridView1.GetFocusedDataSourceRowIndex();//获取数据行的索引值，从0开始
-                            DataRowView row = (DataRowView)this.gridView1.GetRow(index);
-                            string errorType = row["CHECKTYPE"].ToString();
-                            string idname = row["ID"].ToString();
-                            string TABLENAME = row["TABLENAME"].ToString();
+                            string errorType = this.gridView1.GetRowCellValue(gridView1.FocusedRowHandle, "CHECKTYPE").ToString();
+                            string idname = this.gridView1.GetRowCellValue(gridView1.FocusedRowHandle, "ID").ToString();
+                            string TABLENAME = this.gridView1.GetRowCellValue(gridView1.FocusedRowHandle, "TABLENAME").ToString();
+                           
                             
                             GridView gridView = this.gridControlError.DefaultView as GridView;
                             ErrorTable table = new ErrorTable();

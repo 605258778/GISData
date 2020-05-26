@@ -87,10 +87,6 @@ namespace GISData.Common
                 this.m_hookHelper = m_hookHelper;
                 IFeatureLayer flay = new FeatureLayer();
                 flay.FeatureClass = IN_FeatureClass;
-                //IFeatureClass ifc = Dissolve(IN_FeatureClass, "YZLFS");
-                //IFeatureClass mts = MultipartToSinglepart(ifc);
-                //IFeatureCursor cursor = mts.Search(null, false);
-                //IFeature pFeature = cursor.NextFeature();
                 this._gcChecker = new GapsChecker(flay, 0);
                 List<Dictionary<string, IGeometry>> pErrGeo =  this._gcChecker.CheckFeatureGap(IN_FeatureClass, inputtext);
                 List<GapErrorEntity> pErrEntity = new List<GapErrorEntity>();
@@ -108,14 +104,8 @@ namespace GISData.Common
                         }
                     }
                 }
-                //Marshal.ReleaseComObject(cursor);
                 new ErrorTable().AddGapErr(pErrEntity, idname);
-
                 this.DicTopoError[idname] = errorCount;
-                //Marshal.ReleaseComObject(ifc);
-                //Marshal.ReleaseComObject(mts);
-                Marshal.ReleaseComObject(IN_FeatureClass);
-                //Clear_Directors(System.Environment.CurrentDirectory + @"\temp");
             }
             else if (IN_RuleType == "面重叠检查")
             {

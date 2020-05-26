@@ -167,7 +167,7 @@ namespace GISData.DataCheck.CheckDialog
                             });
                         }
                         rowItem["SBMJ"] = sbmj == "" ? "0" : sbmj;
-                        if (rowItem["SBMJ"] != rowItem["RWMJ"])
+                        if (rowItem["SBMJ"].ToString() != rowItem["RWMJ"].ToString())
                         {
                             wwcxmTable.ImportRow(rowItem);
                         }
