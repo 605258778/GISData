@@ -2,6 +2,7 @@
 using DevExpress.XtraGrid.Columns;
 using DevExpress.XtraGrid.Views.Base;
 using DevExpress.XtraGrid.Views.Grid;
+using DevExpress.XtraTreeList;
 using DevExpress.XtraTreeList.Nodes;
 using ESRI.ArcGIS.Carto;
 using ESRI.ArcGIS.Geodatabase;
@@ -183,6 +184,7 @@ namespace GISData.DataCheck.CheckDialog
         public void doCheckAttr() 
         {
             TreeListNodes selectNode = this.treeList1.Nodes;
+            ExpandAppointTreeNode(this.treeList1);
             loopCheck(selectNode);
         }
 
@@ -565,7 +567,7 @@ namespace GISData.DataCheck.CheckDialog
                     gridView.OptionsBehavior.Editable = false;
                     gridView.OptionsSelection.MultiSelect = true;
                     gridView.ScrollStyle = ScrollStyleFlags.LiveHorzScroll | ScrollStyleFlags.LiveVertScroll;
-                    gridView.HorzScrollVisibility = ScrollVisibility.Always;
+                    gridView.HorzScrollVisibility = DevExpress.XtraGrid.Views.Base.ScrollVisibility.Always;
                     gridView.OptionsView.ColumnAutoWidth = false;
                     //for (int I = 0; I < gridView.Columns.Count; I++)
                     //{
@@ -612,6 +614,21 @@ namespace GISData.DataCheck.CheckDialog
             if (checkBoxCheckMain.Checked) 
             {
                 
+            }
+        }
+
+        /// <summary>
+        /// 展开指定节点以及其父节点
+        /// </summary>
+        /// <param name="tree">树</param>
+        private void ExpandAppointTreeNode(TreeList tree)
+        {
+            foreach (TreeListNode node in tree.Nodes)
+            {
+                if (node.Level == 0)
+                {
+                    node.ExpandAll();
+                }
             }
         }
     }

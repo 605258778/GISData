@@ -34,6 +34,7 @@
             this.添加分组 = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.treeList1 = new DevExpress.XtraTreeList.TreeList();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -90,6 +91,7 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.checkBox1);
             this.splitContainer1.Panel1.Controls.Add(this.属性删除);
             this.splitContainer1.Panel1.Controls.Add(this.属性编辑);
             this.splitContainer1.Panel1.Controls.Add(this.添加分组);
@@ -115,6 +117,17 @@
             this.treeList1.AfterCheckNode += new DevExpress.XtraTreeList.NodeEventHandler(this.treeList1_AfterCheckNode);
             this.treeList1.DragDrop += new System.Windows.Forms.DragEventHandler(this.treeList1_DragDrop);
             // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(644, 10);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(89, 19);
+            this.checkBox1.TabIndex = 12;
+            this.checkBox1.Text = "展开节点";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
             // FormAttr
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -126,6 +139,7 @@
             this.Text = "FormAttr";
             this.Load += new System.EventHandler(this.FormAttr_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
@@ -142,5 +156,6 @@
         private System.Windows.Forms.Button 添加分组;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private DevExpress.XtraTreeList.TreeList treeList1;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }

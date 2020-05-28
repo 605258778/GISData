@@ -48,9 +48,9 @@ namespace GISData.DataRegister
             DataTable dt = cd.GetDataBySql("select ID,FIELD_NAME AS 字段名,FIELD_ALSNAME AS 别名,DATA_TYPE AS 数据类型,MAXLEN AS 字段长度,CODE_PK AS 字典域,CODE_WHERE AS 字典域条件 from GISDATA_MATEDATA where REG_NAME = '" + regName+"'");
             this.dataGridViewFieldView.DataSource = dt;
             this.gridView1.OptionsBehavior.Editable = false;
-            this.gridView1.OptionsView.ColumnAutoWidth = false;
-            this.gridView1.ScrollStyle = ScrollStyleFlags.LiveHorzScroll | ScrollStyleFlags.LiveVertScroll;
-            this.gridView1.HorzScrollVisibility = ScrollVisibility.Always;
+            this.gridView1.OptionsView.ColumnAutoWidth = true;
+            //this.gridView1.ScrollStyle = ScrollStyleFlags.LiveHorzScroll | ScrollStyleFlags.LiveVertScroll;
+            //this.gridView1.HorzScrollVisibility = ScrollVisibility.Auto;
             if (this.gridView1.Columns.Count > 0)
             {
                 this.gridView1.Columns[0].Visible = false;

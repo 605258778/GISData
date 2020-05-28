@@ -22,6 +22,7 @@ namespace GISData.DataCheck.CheckDialog
         public FormAcceptance(FormReportDia ReportDia, FormAttrDia AttrDia, FormTopoDia TopoDia)
         {
             InitializeComponent();
+            this.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
             this.ReportDia = ReportDia;
             this.AttrDia = AttrDia;
             this.TopoDia = TopoDia;

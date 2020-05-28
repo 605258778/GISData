@@ -204,5 +204,43 @@ namespace GISData.ChekConfig
             TreeListHitInfo hitInfo = treeList.CalcHitInfo(treeList.PointToClient(location));
             return hitInfo.Node;
         }
+
+        /// <summary>
+        /// 展开指定节点以及其父节点
+        /// </summary>
+        /// <param name="tree">树</param>
+        private void ExpandAppointTreeNode(TreeList tree)
+        {
+            foreach (TreeListNode node in tree.Nodes)
+            {
+                if (node.Level == 0)
+                {
+                    node.ExpandAll();
+                }
+            }
+        }
+        /// <summary>
+        /// 收缩指定节点
+        /// </summary>
+        /// <param name="tree">树</param>
+        private void ShrinkAppointTreeNode(TreeList tree)
+        {
+            foreach (TreeListNode node in tree.Nodes)
+            {
+                tree.Nodes.TreeList.FindNodeByID(node.Id).Expanded = false;
+            }
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (this.checkBox1.Checked)
+            {
+                ExpandAppointTreeNode(this.treeList1);
+            }
+            else 
+            {
+                ShrinkAppointTreeNode(this.treeList1);
+            }
+        }
     }
 }
