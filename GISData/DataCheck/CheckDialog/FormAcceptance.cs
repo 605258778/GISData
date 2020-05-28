@@ -68,11 +68,6 @@ namespace GISData.DataCheck.CheckDialog
                 checkError.Merge(topotable);
                 checkError.TableName = "checkError";
             }
-            
-
-            DataSet ds = new DataSet();
-            ds.Tables.Add(taskError);
-            ds.Tables.Add(checkError);
             //查找组件
             DetailReportBand DetailReport = mReport.FindControl("DetailReport", true) as DetailReportBand;
             DetailReportBand DetailReport1 = mReport.FindControl("DetailReport1", true) as DetailReportBand;

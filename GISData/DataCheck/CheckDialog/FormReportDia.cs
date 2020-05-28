@@ -47,6 +47,7 @@ namespace GISData.DataCheck.CheckDialog
             this.stepNo = stepNo;
             this.checkBox = cb;
             this.scheme = scheme;
+            bindDataSource();
         }
         private void bindDataSource()
         {
@@ -55,11 +56,19 @@ namespace GISData.DataCheck.CheckDialog
             this.gridControl1.DataSource = dt;
             this.gridView1.OptionsBehavior.Editable = false;
             this.gridView1.OptionsSelection.MultiSelect = true;
+            this.wwcxmTable = new DataTable();
+            this.wwcxmTable.Columns.Add("YZLGLDW");
+            this.wwcxmTable.Columns.Add("YZLFS");
+            this.wwcxmTable.Columns.Add("ZCSBND");
+            this.wwcxmTable.Columns.Add("XMMC");
+            this.wwcxmTable.Columns.Add("RWMJ");
+            this.wwcxmTable.Columns.Add("SBMJ");
         }
 
         private void FormReportDia_Load(object sender, EventArgs e)
         {
             bindDataSource();
+            
         }
 
         public void SelectAll()
