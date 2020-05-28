@@ -20,6 +20,7 @@ namespace GISData.Common
         public FormMessage(string title,string text)
         {
             InitializeComponent();
+            this.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
             this.Text = title;
             this.textBox1.Text = text;
         }

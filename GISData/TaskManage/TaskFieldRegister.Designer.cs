@@ -118,11 +118,12 @@
             this.Controls.Add(this.labelControl1);
             this.Controls.Add(this.textEditWhere);
             this.Controls.Add(this.textEditField);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "TaskFieldRegister";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "FormRegister";
+            this.Text = "挂接字典";
             this.Load += new System.EventHandler(this.TaskFieldRegister_Load);
             ((System.ComponentModel.ISupportInitialize)(this.textEditField.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.textEditWhere.Properties)).EndInit();

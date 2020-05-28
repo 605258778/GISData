@@ -38,6 +38,7 @@ namespace GISData.ChekConfig
         public FormAttrAdd(int No, TreeListNode node, string type, string scheme, TreeList treeList)
         {
             InitializeComponent();
+            this.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
             this.selectNode = node;
             this.checkNo = No;
             this.selectedId = node.GetValue("ID").ToString();

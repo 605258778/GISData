@@ -1,4 +1,5 @@
-﻿using DevExpress.XtraReports.UI;
+﻿using DevExpress.XtraReports.Design;
+using DevExpress.XtraReports.UI;
 using DevExpress.XtraReports.UserDesigner;
 using ESRI.ArcGIS.Geodatabase;
 using GISData.Common;
@@ -20,6 +21,7 @@ namespace GISData.Report
         public FormReportWord()
         {
             InitializeComponent();
+            this.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
         }
 
         private void FormReportDesign_Load(object sender, EventArgs e)
@@ -45,10 +47,9 @@ namespace GISData.Report
             XtraReport report = this.reportDesigner1.ActiveDesignPanel.Report;
             ReportDesignTool designTool = new ReportDesignTool(report);
             IDesignForm designForm = designTool.DesignRibbonForm;
-            PropertyGridDockPanel propertyGrid =
-        (PropertyGridDockPanel)designForm.DesignDockManager[DesignDockPanelType.PropertyGrid];
-            Console.WriteLine(this.propertyGridDockPanel1.ActiveControl);
-            
+            PropertyGridDockPanel propertyGrid = (PropertyGridDockPanel)designForm.DesignDockManager[DesignDockPanelType.PropertyGrid];
+            NameExtender name = new NameExtender();
+            Console.WriteLine(name.GetName(this.propertyGridDockPanel1));
         }
     }
 }

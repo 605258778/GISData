@@ -15,6 +15,12 @@ namespace GISData.Report
         public FormReportDes()
         {
             InitializeComponent();
+            this.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
+        }
+
+        private void FormReportDes_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -71,11 +71,12 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.comboBox1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormVerfied";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "FormVerfied";
+            this.Text = "审核";
             this.Load += new System.EventHandler(this.FormVerfied_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

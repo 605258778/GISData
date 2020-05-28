@@ -16,6 +16,7 @@ namespace GISData.User
         public FormVerfied()
         {
             InitializeComponent();
+            this.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
         }
 
         private void FormVerfied_Load(object sender, EventArgs e)

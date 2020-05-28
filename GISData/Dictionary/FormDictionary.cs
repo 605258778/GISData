@@ -16,6 +16,7 @@ namespace GISData.Dictionary
         public FormDictionary()
         {
             InitializeComponent();
+            this.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
         }
 
         private void comboBoxDic_SelectedIndexChanged(object sender, EventArgs e)

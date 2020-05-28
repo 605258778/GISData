@@ -148,7 +148,6 @@
             this.errorListDockPanel1 = new DevExpress.XtraReports.UserDesigner.ErrorListDockPanel();
             this.errorListDockPanel1_Container = new DevExpress.XtraReports.UserDesigner.DesignControlContainer();
             this.reportDesigner1 = new DevExpress.XtraReports.UserDesigner.XRDesignMdiController(this.components);
-            this.barButtonItem1 = new DevExpress.XtraBars.BarButtonItem();
             ((System.ComponentModel.ISupportInitialize)(this.xrDesignBarManager1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.recentlyUsedItemsComboBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.designRepositoryItemComboBox1)).BeginInit();
@@ -278,8 +277,7 @@
             this.commandBarItem11,
             this.bbiZoomOut,
             this.bbiZoom,
-            this.bbiZoomIn,
-            this.barButtonItem1});
+            this.bbiZoomIn});
             this.xrDesignBarManager1.LayoutToolbar = this.designBar4;
             this.xrDesignBarManager1.MainMenu = this.designBar1;
             this.xrDesignBarManager1.MaxItemId = 78;
@@ -305,8 +303,7 @@
             new DevExpress.XtraBars.LinkPersistInfo(this.msiEdit),
             new DevExpress.XtraBars.LinkPersistInfo(this.msiTabButtons),
             new DevExpress.XtraBars.LinkPersistInfo(this.msiFormat),
-            new DevExpress.XtraBars.LinkPersistInfo(this.msiWindow),
-            new DevExpress.XtraBars.LinkPersistInfo(this.barButtonItem1)});
+            new DevExpress.XtraBars.LinkPersistInfo(this.msiWindow)});
             this.designBar1.OptionsBar.MultiLine = true;
             this.designBar1.OptionsBar.UseWholeRow = true;
             this.designBar1.Text = "Main Menu";
@@ -1402,13 +1399,6 @@
             xrDesignPanelListener8});
             this.reportDesigner1.Form = this;
             // 
-            // barButtonItem1
-            // 
-            this.barButtonItem1.Caption = "+";
-            this.barButtonItem1.Id = 77;
-            this.barButtonItem1.Name = "barButtonItem1";
-            this.barButtonItem1.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem1_ItemClick);
-            // 
             // FormReportWord
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -1422,7 +1412,7 @@
             this.Controls.Add(this.barDockControlTop);
             this.Name = "FormReportWord";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "FormReportDesign";
+            this.Text = "文档";
             this.Load += new System.EventHandler(this.FormReportDesign_Load);
             ((System.ComponentModel.ISupportInitialize)(this.xrDesignBarManager1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.recentlyUsedItemsComboBox1)).EndInit();
@@ -1555,7 +1545,6 @@
         private DevExpress.XtraReports.UserDesigner.DesignControlContainer propertyGridDockPanel1_Container;
         private DevExpress.XtraReports.UserDesigner.ReportGalleryDockPanel reportGalleryDockPanel1;
         private DevExpress.XtraReports.UserDesigner.DesignControlContainer reportGalleryDockPanel1_Container;
-        private DevExpress.XtraBars.BarButtonItem barButtonItem1;
 
     }
 }

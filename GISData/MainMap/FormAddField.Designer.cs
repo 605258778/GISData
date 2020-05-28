@@ -173,6 +173,7 @@
             this.Controls.Add(this.addfieldltype);
             this.Controls.Add(this.txtFieldName);
             this.Controls.Add(this.addfieldname);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormAddField";

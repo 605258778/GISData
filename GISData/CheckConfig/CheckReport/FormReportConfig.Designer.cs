@@ -312,6 +312,7 @@
             this.Controls.Add(this.textBoxSql);
             this.Controls.Add(this.textBoxpivot);
             this.Controls.Add(this.textBox1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "FormReportConfig";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormReportDia";

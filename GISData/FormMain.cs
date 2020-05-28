@@ -45,6 +45,7 @@ namespace GISData
         public FormMain()
         {
             InitializeComponent();
+            this.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
         }
 
         private void FormMain_Load(object sender, EventArgs e)

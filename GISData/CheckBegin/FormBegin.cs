@@ -8,6 +8,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -18,6 +19,7 @@ namespace GISData.CheckBegin
         public FormBegin()
         {
             InitializeComponent();
+            this.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
             bindZqTree();
         }
 
@@ -54,9 +56,10 @@ namespace GISData.CheckBegin
             }
             else 
             {
-                Boolean dhhm = System.Text.RegularExpressions.Regex.IsMatch(this.textBoxlxdh.Text, @"^(\d{3,4}-)?\d{6,8}$");
-                Boolean sjhm = System.Text.RegularExpressions.Regex.IsMatch(this.textBoxlxdh.Text, @"^[1]+[3,5]+\d{9}");
-                if (dhhm || sjhm)
+                Regex rx = new Regex(@"^[1]+[3,5,8]+\d{9}$");
+                //Boolean dhhm = System.Text.RegularExpressions.Regex.IsMatch(this.textBoxlxdh.Text, @"^(\d{3,4}-)?\d{6,8}$");
+                //Boolean sjhm = System.Text.RegularExpressions.Regex.IsMatch(this.textBoxlxdh.Text, @"^[1]+[3,5]+\d{9}");
+                if (rx.IsMatch(this.textBoxlxdh.Text))
                 {
                     string lxr = this.textBoxlxr.Text;
                     string lxdh = this.textBoxlxdh.Text;

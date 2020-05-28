@@ -16,6 +16,7 @@ namespace GISData.CheckConfig
         public FormAddScheme()
         {
             InitializeComponent();
+            this.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -33,6 +34,11 @@ namespace GISData.CheckConfig
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }
+        }
+
+        private void FormAddScheme_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

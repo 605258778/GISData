@@ -24,6 +24,7 @@ namespace GISData.ChekConfig
         public FormGroup(string nodeId, string scheme,int checkNo)
         {
             InitializeComponent();
+            this.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
             this.selectedId = nodeId;
             this.scheme = scheme;
             this.checkNo = checkNo;
@@ -41,6 +42,11 @@ namespace GISData.ChekConfig
             }
             this.DialogResult = DialogResult.OK;
             this.Close();
+        }
+
+        private void FormGroup_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

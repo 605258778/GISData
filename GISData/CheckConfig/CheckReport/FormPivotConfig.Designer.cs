@@ -217,6 +217,7 @@
             this.Controls.Add(this.checkedComboBoxEdit2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.checkedComboBoxEdit1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "FormPivotConfig";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormPivotConfig";

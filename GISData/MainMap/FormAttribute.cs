@@ -31,6 +31,7 @@ namespace GISData.MainMap
         public FormAttribute(AxMapControl pMapControl, IMapControl3 pMapCtrl)
         {
             InitializeComponent();
+            this.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
             _MapControl = pMapControl;
             m_mapControl = pMapCtrl;
         }

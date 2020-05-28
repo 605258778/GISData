@@ -25,14 +25,15 @@ namespace GISData.DataRegister
         public FormDomain(DataRowView dgvr, string regName)
         {
             // TODO: Complete member initialization
+            InitializeComponent();
+            this.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
             this.dgvr = dgvr;
             this.regName = regName;
-            InitializeComponent();
             this.editId = this.dgvr["ID"].ToString();
             this.textBoxFieldName.Text = this.dgvr["字段名"].ToString();
             this.textBoxFieldAliName.Text = this.dgvr["别名"].ToString();
             this.comboBoxDomain.Text = this.dgvr["字典域"].ToString();
-            this.textBoxDomainWhere.Text = this.dgvr["字典域条件"].ToString();
+            this.textBoxDomainWhere.Text = this.dgvr["字典域条件"].ToString().Replace("'","\'");
         }
 
         private void FormDomain_Load(object sender, EventArgs e)
@@ -46,16 +47,24 @@ namespace GISData.DataRegister
         private void button1_Click(object sender, EventArgs e)
         {
             ConnectDB cd = new ConnectDB();
-            DictionaryEntry selectValue = (DictionaryEntry)comboBoxDomain.SelectedItem ;
-            Boolean result = cd.Update("update GISDATA_MATEDATA SET  CODE_PK='" + selectValue.Value + "',CODE_WHERE='" + textBoxDomainWhere.Text + "' where ID = " + editId);
+            string domainValue = "";
+            if (comboBoxDomain.SelectedItem != null)
+            {
+                DictionaryEntry selectValue = (DictionaryEntry)comboBoxDomain.SelectedItem;
+                domainValue = selectValue.Value.ToString();
+            }
+            else 
+            {
+                domainValue = comboBoxDomain.Text;
+            }
+            string textWhere = textBoxDomainWhere.Text.Replace("'","\"");
+            Boolean result = cd.Update("update GISDATA_MATEDATA SET  CODE_PK='" + domainValue + "',CODE_WHERE='" + textWhere + "' where ID = " + editId);
             if (result) 
             {
                 MessageBox.Show("保存成功！", "提示");
-                this.dgvr["字典域"] = selectValue.Value;
-                this.dgvr["字典域条件"] = textBoxDomainWhere.Text;
+                this.dgvr["字典域"] = domainValue;
+                this.dgvr["字典域条件"] = textWhere;
                 this.Close();
-                //FormRegister fr = new FormRegister();
-                //fr.refreshDataGridField(regName);
             }
         }
     }

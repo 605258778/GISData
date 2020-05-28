@@ -16,6 +16,7 @@ namespace GISData.User
         public FormUser()
         {
             InitializeComponent();
+            this.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
         }
 
         private void FormUser_Load(object sender, EventArgs e)

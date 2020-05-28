@@ -24,6 +24,7 @@ namespace GISData.DataRegister
         public FormRegister()
         {
             InitializeComponent();
+            this.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
         }
 
         private void buttonAddConnect_Click(object sender, EventArgs e)
@@ -229,42 +230,30 @@ namespace GISData.DataRegister
             DialogResult dr = MessageBox.Show("确定删除？", "提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
             if (dr == DialogResult.OK)
             {
-            Boolean result = false;
-            TreeListNodes selectNode = this.treeList1.Nodes;
-            foreach (TreeListNode node in selectNode)
-            {
-                if (node.Checked)
+                Boolean result = false;
+                TreeListNodes selectNode = this.treeList1.Nodes;
+                foreach (TreeListNode node in selectNode)
                 {
-                    if (this.treeList1.IsRootNode(node))
+                    if (node.Checked)
                     {
-                        DataRowView nodeData = this.treeList1.GetDataRecordByNode(node) as DataRowView;
-                        ConnectDB cd = new ConnectDB();
-                        result = cd.Delete("DELETE from GISDATA_REGCONNECT WHERE ID = " + nodeData["ID"]);
-                        if(!result)
+                        if (this.treeList1.IsRootNode(node))
                         {
-                            break;
+                            DataRowView nodeData = this.treeList1.GetDataRecordByNode(node) as DataRowView;
+                            ConnectDB cd = new ConnectDB();
+                            result = cd.Delete("DELETE from GISDATA_REGCONNECT WHERE ID = " + nodeData["ID"]);
+                            if(!result)
+                            {
+                                break;
+                            }
                         }
                     }
                 }
+                if (result)
+                {
+                    MessageBox.Show("删除成功！", "提示");
+                    refreshTreeViewReg();
+                }
             }
-            if (result)
-            {
-                MessageBox.Show("删除成功！", "提示");
-                refreshTreeViewReg();
-            }
-            }
-            //if (this.treeViewReg.SelectedNode.Level == 0){
-            //    DialogResult dr = MessageBox.Show("确定删除？", "提示", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
-            //    if (dr == DialogResult.OK)
-            //    {
-            //        ConnectDB cd = new ConnectDB();
-            //        Boolean result = cd.Delete("DELETE from GISDATA_REGCONNECT WHERE ID = " + this.treeViewReg.SelectedNode.Tag);
-            //        if (result)
-            //        {
-            //            MessageBox.Show("删除成功！", "提示");
-            //        }
-            //    }
-            //}
         }
 
         //删除注册信息

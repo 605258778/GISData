@@ -20,6 +20,7 @@ namespace GISData.MainMap
         public FormAddField(IFeatureLayer pFeatureLayer, DataGridView dgv)
         {
             InitializeComponent();
+            this.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
             _FeatureLayer = pFeatureLayer;
             _dgv = dgv;
         }

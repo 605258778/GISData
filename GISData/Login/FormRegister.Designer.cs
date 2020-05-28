@@ -70,7 +70,7 @@
             this.textBox2.Name = "textBox2";
             this.textBox2.PasswordChar = '*';
             this.textBox2.Size = new System.Drawing.Size(213, 25);
-            this.textBox2.TabIndex = 1;
+            this.textBox2.TabIndex = 2;
             // 
             // label3
             // 
@@ -87,7 +87,7 @@
             this.textBox3.Name = "textBox3";
             this.textBox3.PasswordChar = '*';
             this.textBox3.Size = new System.Drawing.Size(213, 25);
-            this.textBox3.TabIndex = 1;
+            this.textBox3.TabIndex = 3;
             // 
             // label4
             // 
@@ -107,14 +107,14 @@
             this.comboBox1.Location = new System.Drawing.Point(111, 45);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(213, 23);
-            this.comboBox1.TabIndex = 2;
+            this.comboBox1.TabIndex = 0;
             // 
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(147, 203);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 38);
-            this.button1.TabIndex = 3;
+            this.button1.TabIndex = 4;
             this.button1.Text = "提交";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
@@ -133,6 +133,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormRegister";

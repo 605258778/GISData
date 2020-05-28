@@ -25,6 +25,7 @@ namespace GISData.DataRegister
         public FormDBConnectInfo(TreeView treeView)
         {
             InitializeComponent();
+            this.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
             // TODO: Complete member initialization
             this.treeView = treeView;
         }
@@ -72,6 +73,11 @@ namespace GISData.DataRegister
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }
+        }
+
+        private void FormDBConnectInfo_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

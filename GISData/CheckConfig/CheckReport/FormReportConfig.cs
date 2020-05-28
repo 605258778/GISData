@@ -27,6 +27,7 @@ namespace GISData.CheckConfig.CheckReport
         public FormReportConfig(int No, string scheme)
         {
             InitializeComponent();
+            this.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
             this.checkNo = No;
             this.scheme = scheme;
         }

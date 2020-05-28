@@ -23,19 +23,25 @@ namespace GISData.Common
 
         public DataTable GetDataBySql(string sql) 
         {
-            Console.WriteLine(sql);
-            // This will hold the records. 
-            this.conn.Open();
-            //sql = "select * from gisdata_user";
-            MySqlCommand mycom = conn.CreateCommand();
-            mycom.CommandText = sql;
-            MySqlDataAdapter adap = new MySqlDataAdapter(mycom);
+            try 
+            { 
+                Console.WriteLine(sql);
+                // This will hold the records. 
+                this.conn.Open();
+                MySqlCommand mycom = conn.CreateCommand();
+                mycom.CommandText = sql;
+                MySqlDataAdapter adap = new MySqlDataAdapter(mycom);
 
-            MySqlDataAdapter myDataAdapter = new MySqlDataAdapter(sql, this.conn);
-            this.conn.Close();
-            DataSet myDataSet = new DataSet();        // 创建DataSet
-            adap.Fill(myDataSet);
-            return myDataSet.Tables[0];
+                MySqlDataAdapter myDataAdapter = new MySqlDataAdapter(sql, this.conn);
+                this.conn.Close();
+                DataSet myDataSet = new DataSet();        // 创建DataSet
+                adap.Fill(myDataSet);
+                return myDataSet.Tables[0];
+            }
+            catch(Exception e)
+            {
+                return null;
+            }
         }
 
 

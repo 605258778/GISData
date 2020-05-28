@@ -20,6 +20,7 @@ namespace GISData.TaskManage
         public FormTaskDia()
         {
             InitializeComponent();
+            this.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
         }
 
         private void button1_Click(object sender, EventArgs e)

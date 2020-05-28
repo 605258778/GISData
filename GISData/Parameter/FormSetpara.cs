@@ -20,6 +20,7 @@ namespace GISData.Parameter
         public FormSetpara()
         {
             InitializeComponent();
+            this.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
         }
 
         private void SpatialRSelect_Click(object sender, EventArgs e)

@@ -36,9 +36,9 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(255, 98);
+            this.button1.Location = new System.Drawing.Point(279, 98);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(139, 45);
+            this.button1.Size = new System.Drawing.Size(73, 45);
             this.button1.TabIndex = 0;
             this.button1.Text = "确定";
             this.button1.UseVisualStyleBackColor = true;
@@ -79,9 +79,11 @@
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "FormAddScheme";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "添加方案";
+            this.Load += new System.EventHandler(this.FormAddScheme_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

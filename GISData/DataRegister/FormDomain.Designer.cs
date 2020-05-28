@@ -108,7 +108,7 @@
             // 
             // buttonEditSave
             // 
-            this.buttonEditSave.Location = new System.Drawing.Point(661, 130);
+            this.buttonEditSave.Location = new System.Drawing.Point(348, 129);
             this.buttonEditSave.Name = "buttonEditSave";
             this.buttonEditSave.Size = new System.Drawing.Size(85, 42);
             this.buttonEditSave.TabIndex = 3;
@@ -130,6 +130,9 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "FormDomain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "字段信息";

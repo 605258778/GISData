@@ -16,6 +16,7 @@ namespace GISData.Login
         public FormRegister()
         {
             InitializeComponent();
+            this.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
         }
 
         private void FormRegister_Load(object sender, EventArgs e)
@@ -41,6 +42,11 @@ namespace GISData.Login
             {
                 ConnectDB db = new ConnectDB();
                 DataTable dt = db.GetDataBySql("select count(*) as numUser from GISDATA_USER WHERE USER ='" + user + "'");
+                if (dt == null) 
+                {
+                    MessageBox.Show("请检查数据库连接");
+                    return;
+                }
                 if (dt.Select(null)[0]["numUser"].ToString() != "0")
                 {
                     MessageBox.Show("该用户已存在");

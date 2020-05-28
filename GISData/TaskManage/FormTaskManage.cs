@@ -19,6 +19,7 @@ namespace GISData.TaskManage
         public FormTaskManage()
         {
             InitializeComponent();
+            this.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
         }
 
         private void button2_Click(object sender, EventArgs e)

@@ -28,10 +28,10 @@ namespace GISData.DataCheck
         public FormCheckMain(IHookHelper m_hookHelper)
         {
             InitializeComponent();
+            this.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
             BindScheme();
             this.m_hookHelper = m_hookHelper;
         }
-        private FormStructureDia StructureDia;
         private FormAttrDia AttrDia;
         private FormTopoDia TopoDia;
         private FormReportDia ReportDia;
@@ -134,13 +134,13 @@ namespace GISData.DataCheck
             CheckBox CheckBoxSender = (CheckBox)sender;
             if (type == "结构检查")
             {
-                if (CheckBoxSender.Checked)
-                {
-                    StructureDia.SelectAll();
-                }
-                else {
-                    StructureDia.UnSelectAll();
-                }
+                //if (CheckBoxSender.Checked)
+                //{
+                //    StructureDia.SelectAll();
+                //}
+                //else {
+                //    StructureDia.UnSelectAll();
+                //}
                
             }
             else if (type == "属性检查")
@@ -241,7 +241,7 @@ namespace GISData.DataCheck
                     if (item.Name == "结构检查")
                     {
 
-                        StructureDia.doCheckStructure();
+                        //StructureDia.doCheckStructure();
                     }
                     else if (item.Name == "属性检查")
                     {

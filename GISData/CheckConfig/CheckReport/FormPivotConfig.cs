@@ -19,6 +19,7 @@ namespace GISData.CheckConfig.CheckReport
         public FormPivotConfig(Dictionary<string, string> DicPivot, string[] dataSourceArr)
         {
             InitializeComponent();
+            this.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
             this.DicPivot = DicPivot;
             this.dataSourceArr = dataSourceArr;
         }

@@ -3,16 +3,40 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GISData", "GISData\GISData.csproj", "{008BD655-D0F1-47C5-A6F3-971DA2668AF9}"
 EndProject
+Project("{6141683F-8A12-4E36-9623-2EB02B2C2303}") = "数据验收平台", "..\部署文件\数据验收平台\数据验收平台.isproj", "{E29D6783-F982-4824-AEBF-AA0CE9EDA3F9}"
+	ProjectSection(ProjectDependencies) = postProject
+		{008BD655-D0F1-47C5-A6F3-971DA2668AF9} = {008BD655-D0F1-47C5-A6F3-971DA2668AF9}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		CD_ROM|Any CPU = CD_ROM|Any CPU
 		Debug|Any CPU = Debug|Any CPU
+		DVD-5|Any CPU = DVD-5|Any CPU
 		Release|Any CPU = Release|Any CPU
+		SingleImage|Any CPU = SingleImage|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{008BD655-D0F1-47C5-A6F3-971DA2668AF9}.CD_ROM|Any CPU.ActiveCfg = Release|Any CPU
+		{008BD655-D0F1-47C5-A6F3-971DA2668AF9}.CD_ROM|Any CPU.Build.0 = Release|Any CPU
 		{008BD655-D0F1-47C5-A6F3-971DA2668AF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{008BD655-D0F1-47C5-A6F3-971DA2668AF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{008BD655-D0F1-47C5-A6F3-971DA2668AF9}.DVD-5|Any CPU.ActiveCfg = Debug|Any CPU
+		{008BD655-D0F1-47C5-A6F3-971DA2668AF9}.DVD-5|Any CPU.Build.0 = Debug|Any CPU
 		{008BD655-D0F1-47C5-A6F3-971DA2668AF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{008BD655-D0F1-47C5-A6F3-971DA2668AF9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{008BD655-D0F1-47C5-A6F3-971DA2668AF9}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
+		{008BD655-D0F1-47C5-A6F3-971DA2668AF9}.SingleImage|Any CPU.Build.0 = Release|Any CPU
+		{E29D6783-F982-4824-AEBF-AA0CE9EDA3F9}.CD_ROM|Any CPU.ActiveCfg = CD_ROM
+		{E29D6783-F982-4824-AEBF-AA0CE9EDA3F9}.CD_ROM|Any CPU.Build.0 = CD_ROM
+		{E29D6783-F982-4824-AEBF-AA0CE9EDA3F9}.Debug|Any CPU.ActiveCfg = DVD-5
+		{E29D6783-F982-4824-AEBF-AA0CE9EDA3F9}.Debug|Any CPU.Build.0 = DVD-5
+		{E29D6783-F982-4824-AEBF-AA0CE9EDA3F9}.DVD-5|Any CPU.ActiveCfg = DVD-5
+		{E29D6783-F982-4824-AEBF-AA0CE9EDA3F9}.DVD-5|Any CPU.Build.0 = DVD-5
+		{E29D6783-F982-4824-AEBF-AA0CE9EDA3F9}.Release|Any CPU.ActiveCfg = SingleImage
+		{E29D6783-F982-4824-AEBF-AA0CE9EDA3F9}.Release|Any CPU.Build.0 = SingleImage
+		{E29D6783-F982-4824-AEBF-AA0CE9EDA3F9}.SingleImage|Any CPU.ActiveCfg = SingleImage
+		{E29D6783-F982-4824-AEBF-AA0CE9EDA3F9}.SingleImage|Any CPU.Build.0 = SingleImage
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

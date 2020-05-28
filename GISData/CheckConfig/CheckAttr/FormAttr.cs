@@ -29,6 +29,7 @@ namespace GISData.ChekConfig
         public FormAttr(int No,string scheme)
         {
             InitializeComponent();
+            this.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
             this.checkNo = No;
             this.scheme = scheme;
         }

@@ -22,6 +22,7 @@ namespace GISData.ChekConfig
         public FormConfigMain()
         {
             InitializeComponent();
+            this.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
             BindScheme();
         }
 

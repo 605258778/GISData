@@ -281,7 +281,7 @@
             this.MinimizeBox = false;
             this.Name = "FormTaskManage";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "FormTaskManage";
+            this.Text = "任务管理";
             this.Load += new System.EventHandler(this.FormTaskManage_Load);
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl1)).EndInit();
             this.xtraTabControl1.ResumeLayout(false);

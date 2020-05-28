@@ -16,6 +16,7 @@ namespace GISData.User
         public FormValidation()
         {
             InitializeComponent();
+            this.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
         }
 
         private void FormValidation_Load(object sender, EventArgs e)

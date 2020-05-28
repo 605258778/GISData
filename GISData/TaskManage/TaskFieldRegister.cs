@@ -26,6 +26,7 @@ namespace GISData.TaskManage
         public TaskFieldRegister(object fieldName,string tablename)
         {
             InitializeComponent();
+            this.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
             this.TableName = tablename;
             this.FidldName = fieldName as GridColumn;
         }

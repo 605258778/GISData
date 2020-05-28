@@ -134,9 +134,11 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.comboBoxConType);
             this.Controls.Add(this.textBoxConName);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "FormDBConnectInfo";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "数据库连接";
+            this.Load += new System.EventHandler(this.FormDBConnectInfo_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
