@@ -66,4 +66,3 @@ F:\数据验收平台建设\GISData\GISData\obj\Release\GISData.Properties.Resou
 F:\数据验收平台建设\GISData\GISData\obj\Release\GISData.csproj.GenerateResource.Cache
 F:\数据验收平台建设\GISData\GISData\obj\Release\GISData.exe
 F:\数据验收平台建设\GISData\GISData\obj\Release\GISData.pdb
-F:\数据验收平台建设\GISData\GISData\obj\Release\GISData.csprojResolveAssemblyReference.cache
