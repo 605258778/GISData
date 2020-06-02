@@ -16,15 +16,24 @@ namespace GISData.Common
         //连接数据库
         public ConnectDB() 
         {
-            CommonClass common = new CommonClass();
-            String connetStr = common.GetConfigValue("Host");
-            conn = new MySqlConnection(connetStr);
+            try 
+            {
+                CommonClass common = new CommonClass();
+                String connetStr = common.GetConfigValue("Host");
+                conn = new MySqlConnection(connetStr);
+             }
+            catch(Exception e)
+            {
+                LogHelper.WriteLog(typeof(ConnectDB), e);
+            }
+            
         }
 
         public DataTable GetDataBySql(string sql) 
         {
             try 
-            { 
+            {
+                LogHelper.WriteLog(typeof(ConnectDB), sql);
                 Console.WriteLine(sql);
                 // This will hold the records. 
                 this.conn.Open();
@@ -40,6 +49,7 @@ namespace GISData.Common
             }
             catch(Exception e)
             {
+                LogHelper.WriteLog(typeof(ConnectDB), e);
                 return null;
             }
         }
@@ -47,13 +57,24 @@ namespace GISData.Common
 
         public DataSet GetDataSetBySql(string sql) 
         {
-            Console.WriteLine(sql);
-            this.conn.Open();
-            MySqlDataAdapter myDataAdapter = new MySqlDataAdapter(sql, this.conn);
-            DataSet myDataSet = new DataSet();        // 创建DataSet
-            myDataAdapter.Fill(myDataSet);
-            this.conn.Close();
-            return myDataSet;
+            try 
+            {
+                Console.WriteLine(sql);
+                LogHelper.WriteLog(typeof(ConnectDB), sql);
+                this.conn.Open();
+                MySqlDataAdapter myDataAdapter = new MySqlDataAdapter(sql, this.conn);
+                DataSet myDataSet = new DataSet();        // 创建DataSet
+                myDataAdapter.Fill(myDataSet);
+                this.conn.Close();
+                return myDataSet;
+            }
+            catch(Exception e)
+            {
+                LogHelper.WriteLog(typeof(ConnectDB), e);
+                
+                return null;
+            }
+            
         }
 
 
@@ -65,67 +86,111 @@ namespace GISData.Common
         /// <returns></returns>
         public List<string> GetTableFieldsDisFromMdb(string tableName)
         {
-            conn.Open();
-            List<string> list = new List<string>();
-            using (MySqlCommand cmd = new MySqlCommand())
+            try
             {
-                cmd.CommandText = "SELECT TOP 1 * FROM [" + tableName + "]";
-                cmd.Connection = conn;
-                MySqlDataReader dr = cmd.ExecuteReader();
-                for (int i = 0; i < dr.FieldCount; i++)
+                conn.Open();
+                List<string> list = new List<string>();
+                using (MySqlCommand cmd = new MySqlCommand())
                 {
-                    list.Add(dr.GetName(i));
+                    cmd.CommandText = "SELECT TOP 1 * FROM [" + tableName + "]";
+                    cmd.Connection = conn;
+                    MySqlDataReader dr = cmd.ExecuteReader();
+                    for (int i = 0; i < dr.FieldCount; i++)
+                    {
+                        list.Add(dr.GetName(i));
+                    }
                 }
+                conn.Close();
+                return list;
             }
-            conn.Close();
-            return list;
+            catch (Exception e)
+            {
+                LogHelper.WriteLog(typeof(ConnectDB), e);
+                return null;
+            }
         }
         //插入
         public bool Insert(string sql)
         {
-            Console.WriteLine(sql);
-            conn.Open();
-            MySqlCommand cmd = new MySqlCommand(sql, conn);
-            int iRet = cmd.ExecuteNonQuery();//这里返回的是受影响的行数，为int值。可以根据返回的值进行判断是否插入成功。
-            conn.Close();
-            return iRet > 0;
+            try
+            {
+                LogHelper.WriteLog(typeof(ConnectDB), sql);
+                Console.WriteLine(sql);
+                conn.Open();
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                int iRet = cmd.ExecuteNonQuery();//这里返回的是受影响的行数，为int值。可以根据返回的值进行判断是否插入成功。
+                conn.Close();
+                return iRet > 0;
+            }
+            catch (Exception e)
+            {
+                LogHelper.WriteLog(typeof(ConnectDB), e);
+                return false;
+            }
         }
         //插入
         public int InsertReturnId(string sql)
         {
-            Console.WriteLine("执行sql:" + sql);
-            conn.Open();
-            MySqlCommand cmd = new MySqlCommand(sql, conn);
-            int iRet = cmd.ExecuteNonQuery();
-            int ii = 0;
-            if (iRet > 0) 
+            try
             {
-                cmd = new MySqlCommand("select @@identity as id", conn);
-                ii = Convert.ToInt32(cmd.ExecuteScalar());
+                LogHelper.WriteLog(typeof(ConnectDB), sql);
+                Console.WriteLine("执行sql:" + sql);
+                conn.Open();
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                int iRet = cmd.ExecuteNonQuery();
+                int ii = 0;
+                if (iRet > 0)
+                {
+                    cmd = new MySqlCommand("select @@identity as id", conn);
+                    ii = Convert.ToInt32(cmd.ExecuteScalar());
+                }
+                conn.Close();
+                return ii;
             }
-            conn.Close();
-            return ii;
+            catch (Exception e)
+            {
+                LogHelper.WriteLog(typeof(ConnectDB), e);
+                return -1;
+            }
         }
         
         //更新
         public bool Update(string sql)
         {
-            Console.WriteLine("执行sql:" + sql);
-            conn.Open();
-            MySqlCommand cmd = new MySqlCommand(sql, conn);
-            int iRet = cmd.ExecuteNonQuery();//这里返回的是受影响的行数，为int值。可以根据返回的值进行判断是否插入成功。
-            conn.Close();
-            return iRet > 0;
+            try
+            {
+                LogHelper.WriteLog(typeof(ConnectDB), sql);
+                Console.WriteLine("执行sql:" + sql);
+                conn.Open();
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                int iRet = cmd.ExecuteNonQuery();//这里返回的是受影响的行数，为int值。可以根据返回的值进行判断是否插入成功。
+                conn.Close();
+                return iRet > 0;
+            }
+            catch (Exception e)
+            {
+                LogHelper.WriteLog(typeof(ConnectDB), e);
+                return false;
+            }
         }
         //删除
         public bool Delete(string sql)
         {
-            Console.WriteLine("执行sql:" + sql);
-            conn.Open();
-            MySqlCommand cmd = new MySqlCommand(sql, conn);
-            int iRet = cmd.ExecuteNonQuery();//这里返回的是受影响的行数，为int值。可以根据返回的值进行判断是否插入成功。
-            conn.Close();
-            return iRet > 0;
+            try
+            {
+                LogHelper.WriteLog(typeof(ConnectDB), sql);
+                Console.WriteLine("执行sql:" + sql);
+                conn.Open();
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                int iRet = cmd.ExecuteNonQuery();//这里返回的是受影响的行数，为int值。可以根据返回的值进行判断是否插入成功。
+                conn.Close();
+                return iRet > 0;
+            }
+            catch (Exception e)
+            {
+                LogHelper.WriteLog(typeof(ConnectDB), e);
+                return false;
+            }
         }
     }
 }

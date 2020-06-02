@@ -46,6 +46,7 @@ namespace GISData
         {
             InitializeComponent();
             this.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
+            LogHelper.WriteLog(typeof(FormMain), "窗体初始化开始");
         }
 
         private void FormMain_Load(object sender, EventArgs e)
@@ -65,26 +66,32 @@ namespace GISData
             {
                 this.用户管理ToolStripMenuItem.Visible = false;
             }
-            //在Form1_Load函数进行初始化，即菜单的创建：
-            m_menuMap = new ToolbarMenuClass();
-            //添加自定义菜单项到TOCCOntrol的图层菜单中
-            m_menuLayer = new ToolbarMenuClass();
+            try
+            {
+                //在Form1_Load函数进行初始化，即菜单的创建：
+                m_menuMap = new ToolbarMenuClass();
+                //添加自定义菜单项到TOCCOntrol的图层菜单中
+                m_menuLayer = new ToolbarMenuClass();
 
-            m_tocControl = (ITOCControl2)this.axTOCControl1.Object;
-            // 取得 MapControl 和 PageLayoutControl 的引用
-            m_mapControl = (IMapControl3)this.axMapControl1.Object;
-            
-            //这样就可以把AxMapControl传递给其它要用到的地方
-            //添加“移除图层”菜单项
-            m_menuLayer.AddItem(new RemoveLayer(), -1, 0, false, esriCommandStyles.esriCommandStyleTextOnly);
-            //添加“放大到整个图层”菜单项
-            m_menuLayer.AddItem(new ZoomToLayer(), -1, 1, true, esriCommandStyles.esriCommandStyleTextOnly);
-            //查看属性表  
-            m_menuLayer.AddItem(new OpenAttribute(this.axMapControl1), -1, 2, true, esriCommandStyles.esriCommandStyleTextOnly);
-            //设置菜单的Hook
-            m_menuLayer.SetHook(m_mapControl);
-            m_menuMap.SetHook(m_mapControl);
-            m_hookHelper.Hook = this.axMapControl1.Object;
+                m_tocControl = (ITOCControl2)this.axTOCControl1.Object;
+                // 取得 MapControl 和 PageLayoutControl 的引用
+                m_mapControl = (IMapControl3)this.axMapControl1.Object;
+
+                //这样就可以把AxMapControl传递给其它要用到的地方
+                //添加“移除图层”菜单项
+                m_menuLayer.AddItem(new RemoveLayer(), -1, 0, false, esriCommandStyles.esriCommandStyleTextOnly);
+                //添加“放大到整个图层”菜单项
+                m_menuLayer.AddItem(new ZoomToLayer(), -1, 1, true, esriCommandStyles.esriCommandStyleTextOnly);
+                //查看属性表  
+                m_menuLayer.AddItem(new OpenAttribute(this.axMapControl1), -1, 2, true, esriCommandStyles.esriCommandStyleTextOnly);
+                //设置菜单的Hook
+                m_menuLayer.SetHook(m_mapControl);
+                m_menuMap.SetHook(m_mapControl);
+                m_hookHelper.Hook = this.axMapControl1.Object;
+            }catch(Exception exc)
+            {
+                LogHelper.WriteLog(typeof(FormMain), exc);
+            }
         }
 
         private void axTOCControl1_OnMouseDown(object sender, ITOCControlEvents_OnMouseDownEvent e)
@@ -142,7 +149,9 @@ namespace GISData
         {
             ShowSetpara();
         }
-
+        /// <summary>
+        /// 加载工程设置界面
+        /// </summary>
         public void ShowSetpara() 
         {
             FormSetpara FormSetparaDig = new FormSetpara();
@@ -197,134 +206,141 @@ namespace GISData
         //工程设置添加文件
         private void addFile(TextBox tx,string tablename)
         {
-            IWorkspaceFactory workspaceFactory = new AccessWorkspaceFactoryClass();
-            
-            IGxDialog dlg = new GxDialog();
-            IGxObjectFilterCollection filterCollection = dlg as IGxObjectFilterCollection;
-            filterCollection.AddFilter(new GxFilterFeatureClasses(),true);
-            IEnumGxObject enumObj;
-            dlg.AllowMultiSelect = true;
-            dlg.Title = "添加数据";
-            dlg.DoModalOpen(0, out enumObj);
-            if (enumObj != null)
+            try 
             {
-                enumObj.Reset();
-                int a = 0;
-                IGxObject gxObj = enumObj.Next();
-                while (gxObj != null)
+                IWorkspaceFactory workspaceFactory = new AccessWorkspaceFactoryClass();
+
+                IGxDialog dlg = new GxDialog();
+                IGxObjectFilterCollection filterCollection = dlg as IGxObjectFilterCollection;
+                filterCollection.AddFilter(new GxFilterFeatureClasses(), true);
+                IEnumGxObject enumObj;
+                dlg.AllowMultiSelect = true;
+                dlg.Title = "添加数据";
+                dlg.DoModalOpen(0, out enumObj);
+                if (enumObj != null)
                 {
-                    Console.WriteLine(a++);
-                    if (gxObj is IGxDataset)
+                    enumObj.Reset();
+                    int a = 0;
+                    IGxObject gxObj = enumObj.Next();
+                    while (gxObj != null)
                     {
-                        IGxDataset gxDataset = gxObj as IGxDataset;
-                        IDataset pDataset = gxDataset.Dataset;
-                        switch (pDataset.Type)
+                        Console.WriteLine(a++);
+                        if (gxObj is IGxDataset)
                         {
-                            case esriDatasetType.esriDTFeatureClass:
-                                IFeatureClass pFc = pDataset as IFeatureClass;
-                                
-                                ISpatialReference pSpatialReference = (pFc as IGeoDataset).SpatialReference;//空间参考
-                                CommonClass common = new CommonClass();
-                                if (pSpatialReference.Name != common.GetConfigValue("SpatialReferenceName"))
-                                {
-                                    MessageBox.Show("空间参考错误");
-                                    break;
-                                }
-                                else 
-                                {
-                                    string layerType = "";
-                                    if(pDataset.Category.Contains("个人地理数据库"))
+                            IGxDataset gxDataset = gxObj as IGxDataset;
+                            IDataset pDataset = gxDataset.Dataset;
+                            switch (pDataset.Type)
+                            {
+                                case esriDatasetType.esriDTFeatureClass:
+                                    IFeatureClass pFc = pDataset as IFeatureClass;
+
+                                    ISpatialReference pSpatialReference = (pFc as IGeoDataset).SpatialReference;//空间参考
+                                    CommonClass common = new CommonClass();
+                                    if (pSpatialReference.Name != common.GetConfigValue("SpatialReferenceName"))
                                     {
-                                        layerType = "Access数据库";
+                                        MessageBox.Show("空间参考错误");
+                                        break;
                                     }
-                                    else if (pDataset.Category.Contains("文件地理数据库"))
+                                    else
                                     {
-                                        layerType = "文件夹数据库";
-                                    }
-
-                                    IFields fields = pFc.Fields;
-                                    Dictionary<string, List<string>> dicCustom = new Dictionary<string, List<string>>();
-                                    Dictionary<string, List<string>> dicSys = new Dictionary<string, List<string>>();
-
-                                    ConnectDB db = new ConnectDB();
-                                    DataTable dt = db.GetDataBySql("select FIELD_NAME,DATA_TYPE,MAXLEN from GISDATA_MATEDATA where REG_NAME  = '" + tablename + "'");
-                                    DataRow[] dr = dt.Select(null);
-
-                                    string errorString = "";
-
-                                    for (int i = 0; i < dr.Length; i++)
-                                    {
-                                        string FIELD_NAME = dr[i]["FIELD_NAME"].ToString();
-                                        string DATA_TYPE = dr[i]["DATA_TYPE"].ToString();
-                                        string MAXLEN = dr[i]["MAXLEN"].ToString();
-                                        List<string> list1 = new List<string>();
-                                        list1.Add(DATA_TYPE);
-                                        list1.Add(MAXLEN);
-                                        dicSys.Add(FIELD_NAME, list1);
-                                    }
-
-                                    for (int i = 0; i < fields.FieldCount; i++)
-                                    {
-                                        IField field = fields.get_Field(i);
-                                        if (field.Name != pFc.ShapeFieldName && field.Name != pFc.OIDFieldName)
+                                        string layerType = "";
+                                        if (pDataset.Category.Contains("个人地理数据库") || pDataset.Category.Contains("Personal"))
                                         {
+                                            layerType = "Access数据库";
+                                        }
+                                        else if (pDataset.Category.Contains("文件地理数据库") || pDataset.Category.Contains("File"))
+                                        {
+                                            layerType = "文件夹数据库";
+                                        }
+
+                                        IFields fields = pFc.Fields;
+                                        Dictionary<string, List<string>> dicCustom = new Dictionary<string, List<string>>();
+                                        Dictionary<string, List<string>> dicSys = new Dictionary<string, List<string>>();
+
+                                        ConnectDB db = new ConnectDB();
+                                        DataTable dt = db.GetDataBySql("select FIELD_NAME,DATA_TYPE,MAXLEN from GISDATA_MATEDATA where REG_NAME  = '" + tablename + "'");
+                                        DataRow[] dr = dt.Select(null);
+
+                                        string errorString = "";
+
+                                        for (int i = 0; i < dr.Length; i++)
+                                        {
+                                            string FIELD_NAME = dr[i]["FIELD_NAME"].ToString();
+                                            string DATA_TYPE = dr[i]["DATA_TYPE"].ToString();
+                                            string MAXLEN = dr[i]["MAXLEN"].ToString();
                                             List<string> list1 = new List<string>();
-                                            list1.Add(field.Type.ToString());
-                                            list1.Add(field.Length.ToString());
-                                            dicCustom.Add(field.Name.ToString(), list1);
-                                            if (dicSys.ContainsKey(field.Name))
-                                            {
-                                                if (dicSys[field.Name][0] != field.Type.ToString())
-                                                {
-                                                    errorString += "字段类型错误：" + field.Name + "(" + dicSys[field.Name][0] + ")；\r\n";
-                                                }
-                                                else if (dicSys[field.Name][1] != field.Length.ToString())
-                                                {
-                                                    errorString += "字段长度错误：" + field.Name + "(" + dicSys[field.Name][0] + ")；\r\n";
-                                                }
-                                            }
-                                            else
-                                            {
-                                                errorString += "多余字段：" + field.Name + "；\r\n";
-                                            }
+                                            list1.Add(DATA_TYPE);
+                                            list1.Add(MAXLEN);
+                                            dicSys.Add(FIELD_NAME, list1);
                                         }
-                                    }
 
-                                    foreach (KeyValuePair<string, List<string>> itemList in dicSys)
-                                    {
-                                        if (!dicCustom.ContainsKey(itemList.Key))
+                                        for (int i = 0; i < fields.FieldCount; i++)
                                         {
-                                            errorString += "缺少字段：" + itemList.Key + "；\r\n";
+                                            IField field = fields.get_Field(i);
+                                            if (field.Name != pFc.ShapeFieldName && field.Name != pFc.OIDFieldName)
+                                            {
+                                                List<string> list1 = new List<string>();
+                                                list1.Add(field.Type.ToString());
+                                                list1.Add(field.Length.ToString());
+                                                dicCustom.Add(field.Name.ToString(), list1);
+                                                if (dicSys.ContainsKey(field.Name))
+                                                {
+                                                    if (dicSys[field.Name][0] != field.Type.ToString())
+                                                    {
+                                                        errorString += "字段类型错误：" + field.Name + "(" + dicSys[field.Name][0] + ")；\r\n";
+                                                    }
+                                                    else if (dicSys[field.Name][1] != field.Length.ToString())
+                                                    {
+                                                        errorString += "字段长度错误：" + field.Name + "(" + dicSys[field.Name][0] + ")；\r\n";
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    errorString += "多余字段：" + field.Name + "；\r\n";
+                                                }
+                                            }
+                                        }
+
+                                        foreach (KeyValuePair<string, List<string>> itemList in dicSys)
+                                        {
+                                            if (!dicCustom.ContainsKey(itemList.Key))
+                                            {
+                                                errorString += "缺少字段：" + itemList.Key + "；\r\n";
+                                            }
+                                        }
+
+                                        if (errorString != "")
+                                        {
+                                            FormMessage message = new FormMessage("提示", errorString);
+                                            message.ShowDialog();
+                                            //MessageBox.Show(errorString);
+                                        }
+                                        else
+                                        {
+                                            Boolean result = db.Update("update GISDATA_REGINFO set PATH= '" + pDataset.Workspace.PathName + "',DBTYPE = '" + layerType + "',TABLENAME = '" + pDataset.Name + "' where REG_NAME = '" + tablename + "'");
+                                            tx.Text = pDataset.BrowseName;
+                                            tx.Name = pDataset.BrowseName;
                                         }
                                     }
-
-                                    if (errorString != "")
-                                    {
-                                        FormMessage message = new FormMessage("提示", errorString);
-                                        message.ShowDialog();
-                                        //MessageBox.Show(errorString);
-                                    }
-                                    else 
-                                    {
-                                        Boolean result = db.Update("update GISDATA_REGINFO set PATH= '" + pDataset.Workspace.PathName + "',DBTYPE = '" + layerType + "',TABLENAME = '" + pDataset.Name + "' where REG_NAME = '" + tablename + "'");
-                                        tx.Text = pDataset.BrowseName;
-                                        tx.Name = pDataset.BrowseName;
-                                    }
-                                }
-                                break;
-                            default:
-                                break;
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
+                        else if (gxObj is IGxLayer)
+                        {
+                            IGxLayer gxLayer = gxObj as IGxLayer;
+                            ILayer pLayer = gxLayer.Layer;
+                            break;
+                            //do anything you like
+                        }
+                        gxObj = enumObj.Next();
                     }
-                    else if (gxObj is IGxLayer)
-                    {
-                        IGxLayer gxLayer = gxObj as IGxLayer;
-                        ILayer pLayer = gxLayer.Layer;
-                        break;
-                        //do anything you like
-                    }
-                    gxObj = enumObj.Next();
                 }
+            }
+            catch(Exception e)
+            {
+                LogHelper.WriteLog(typeof(FormMain), e);
             }
         }
         //工程设置添加文件

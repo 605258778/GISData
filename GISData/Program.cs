@@ -1,4 +1,5 @@
 ﻿using ESRI.ArcGIS.esriSystem;
+using GISData.Common;
 using GISData.Login;
 using System;
 using System.Collections.Generic;
@@ -27,11 +28,21 @@ namespace GISData
             //    MessageBox.Show("没有esriLicenseProductCodeArcInfo许可！");
             //    Application.Exit();
             //}
+
             FormLogin login = new FormLogin();
+            LogHelper.WriteLog(typeof(Program), "登录");
             DialogResult result = login.ShowDialog();
             if (result == DialogResult.OK)
             {
-                Application.Run(new FormMain());
+                LogHelper.WriteLog(typeof(Program), "开始运行");
+                try 
+                {
+                    Application.Run(new FormMain());
+                }
+                catch(Exception exc)
+                {
+                    LogHelper.WriteLog(typeof(Program), exc);
+                }
             }
             //Application.Run(new FormMain());
         }

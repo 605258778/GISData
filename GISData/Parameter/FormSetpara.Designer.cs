@@ -64,7 +64,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(668, 508);
+            this.ClientSize = new System.Drawing.Size(724, 508);
             this.Controls.Add(this.SpatialRSelect);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label1);

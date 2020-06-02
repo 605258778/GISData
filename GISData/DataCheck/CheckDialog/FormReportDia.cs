@@ -100,6 +100,11 @@ namespace GISData.DataCheck.CheckDialog
 
         public void DoReport()
         {
+            string path = @"D:\report\";
+            if (Directory.Exists(path) == false)
+            {
+                Directory.CreateDirectory(path);
+            }
             CommonClass common = new CommonClass();
             ConnectDB db = new ConnectDB();
             int[] selectRows = this.gridView1.GetSelectedRows();

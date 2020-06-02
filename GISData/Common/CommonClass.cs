@@ -32,39 +32,47 @@ namespace GISData.Common
         /// <returns></returns>
         public IFeatureLayer GetLayerByName(string tablename) 
         {
-            if (DicLayer.ContainsKey(tablename))
+            try
             {
-                return DicLayer[tablename];
-            }
-            else 
-            {
-                ConnectDB db = new ConnectDB();
-                DataTable dt = db.GetDataBySql("select * from GISDATA_REGINFO where REG_NAME = '" + tablename.Trim() + "'");
-                DataRow[] dr = dt.Select(null);
-                string path = dr[0]["PATH"].ToString();
-                string dbtype = dr[0]["DBTYPE"].ToString();
-                IFeatureWorkspace space;
-                if (dbtype == "Access数据库")
+                if (DicLayer.ContainsKey(tablename))
                 {
-                    AccessWorkspaceFactory fac = new AccessWorkspaceFactoryClass();
-                    space = (IFeatureWorkspace)fac.OpenFromFile(path, 0);
-
-                }
-                else if (dbtype == "文件夹数据库")
-                {
-                    FileGDBWorkspaceFactoryClass fac = new FileGDBWorkspaceFactoryClass();
-                    space = (IFeatureWorkspace)fac.OpenFromFile(path, 0);
+                    return DicLayer[tablename];
                 }
                 else 
                 {
-                    FileGDBWorkspaceFactoryClass fac = new FileGDBWorkspaceFactoryClass();
-                    space = (IFeatureWorkspace)fac.OpenFromFile(path, 0);
+                    ConnectDB db = new ConnectDB();
+                    DataTable dt = db.GetDataBySql("select * from GISDATA_REGINFO where REG_NAME = '" + tablename.Trim() + "'");
+                    DataRow[] dr = dt.Select(null);
+                    string path = dr[0]["PATH"].ToString();
+                    string dbtype = dr[0]["DBTYPE"].ToString();
+                    IFeatureWorkspace space;
+                    if (dbtype == "Access数据库")
+                    {
+                        AccessWorkspaceFactory fac = new AccessWorkspaceFactoryClass();
+                        space = (IFeatureWorkspace)fac.OpenFromFile(path, 0);
+
+                    }
+                    else if (dbtype == "文件夹数据库")
+                    {
+                        FileGDBWorkspaceFactoryClass fac = new FileGDBWorkspaceFactoryClass();
+                        space = (IFeatureWorkspace)fac.OpenFromFile(path, 0);
+                    }
+                    else 
+                    {
+                        FileGDBWorkspaceFactoryClass fac = new FileGDBWorkspaceFactoryClass();
+                        space = (IFeatureWorkspace)fac.OpenFromFile(path, 0);
+                    }
+                    IFeatureLayer _Layer = new FeatureLayer();
+                    _Layer.FeatureClass = space.OpenFeatureClass(tablename);
+                    _Layer.Name = tablename;
+                    DicLayer.Add(tablename, _Layer);
+                    return _Layer;
                 }
-                IFeatureLayer _Layer = new FeatureLayer();
-                _Layer.FeatureClass = space.OpenFeatureClass(tablename);
-                _Layer.Name = tablename;
-                DicLayer.Add(tablename, _Layer);
-                return _Layer;
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog(typeof(CommonClass), ex);
+                return null;
             }
         }
         /// <summary> 
@@ -113,6 +121,7 @@ namespace GISData.Common
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
+                LogHelper.WriteLog(typeof(CommonClass), ex);
                 return null;
             }
             finally
@@ -137,37 +146,45 @@ namespace GISData.Common
         /// <returns></returns>
         public DataTable GetTableByName(string tablename)
         {
-            ConnectDB db = new ConnectDB();
-            DataTable dt = db.GetDataBySql("select * from GISDATA_REGINFO where REG_NAME = '" + tablename.Trim() + "'");
-            DataRow[] dr = dt.Select(null);
-            string path = dr[0]["PATH"].ToString();
-            string dbtype = dr[0]["DBTYPE"].ToString();
-            IFeatureWorkspace space;
-            if (dbtype == "Access数据库")
+            try
             {
-                AccessWorkspaceFactory fac = new AccessWorkspaceFactoryClass();
-                space = (IFeatureWorkspace)fac.OpenFromFile(path, 0);
+                ConnectDB db = new ConnectDB();
+                DataTable dt = db.GetDataBySql("select * from GISDATA_REGINFO where REG_NAME = '" + tablename.Trim() + "'");
+                DataRow[] dr = dt.Select(null);
+                string path = dr[0]["PATH"].ToString();
+                string dbtype = dr[0]["DBTYPE"].ToString();
+                IFeatureWorkspace space;
+                if (dbtype == "Access数据库")
+                {
+                    AccessWorkspaceFactory fac = new AccessWorkspaceFactoryClass();
+                    space = (IFeatureWorkspace)fac.OpenFromFile(path, 0);
 
-            }
-            else if (dbtype == "文件夹数据库")
-            {
-                FileGDBWorkspaceFactoryClass fac = new FileGDBWorkspaceFactoryClass();
-                space = (IFeatureWorkspace)fac.OpenFromFile(path, 0);
-            }
-            else
-            {
-                FileGDBWorkspaceFactoryClass fac = new FileGDBWorkspaceFactoryClass();
-                space = (IFeatureWorkspace)fac.OpenFromFile(path, 0);
-            }
+                }
+                else if (dbtype == "文件夹数据库")
+                {
+                    FileGDBWorkspaceFactoryClass fac = new FileGDBWorkspaceFactoryClass();
+                    space = (IFeatureWorkspace)fac.OpenFromFile(path, 0);
+                }
+                else
+                {
+                    FileGDBWorkspaceFactoryClass fac = new FileGDBWorkspaceFactoryClass();
+                    space = (IFeatureWorkspace)fac.OpenFromFile(path, 0);
+                }
 
-            IWorkspaceDomains workspaceDomains = (IWorkspaceDomains)space;
+                IWorkspaceDomains workspaceDomains = (IWorkspaceDomains)space;
             
-            IFeatureClass featureClass = space.OpenFeatureClass(tablename);
-            setIDomain(workspaceDomains, featureClass, tablename);
-            ITable table = space.OpenTable(tablename.Trim());
-            DataTable DT = ToDataTable(table);
-            DT.TableName = tablename.Trim();
-            return DT;
+                IFeatureClass featureClass = space.OpenFeatureClass(tablename);
+                setIDomain(workspaceDomains, featureClass, tablename);
+                ITable table = space.OpenTable(tablename.Trim());
+                DataTable DT = ToDataTable(table);
+                DT.TableName = tablename.Trim();
+                return DT;
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog(typeof(CommonClass), ex);
+                return null;
+            }
         }
 
         /// <summary>
@@ -177,31 +194,39 @@ namespace GISData.Common
         /// <returns></returns>
         public DataTable TranslateDataTable(DataTable table)
         {
-            DataTable dt = new DataTable();
-            dt.TableName = table.TableName;
+            try
+            { 
+                DataTable dt = new DataTable();
+                dt.TableName = table.TableName;
 
-            if (table != null && table.Rows.Count > 0)
-            {
-                //先为dt构造列信息
-                foreach (DataColumn column in table.Columns)
+                if (table != null && table.Rows.Count > 0)
                 {
-                    dt.Columns.Add(column.ColumnName);
-                }
-
-                for (int i = 0; i < table.Rows.Count; i++)
-                {
-                    DataRow NewRow = dt.NewRow();
-                    DataRow row = table.Rows[i];
-
-                    for (int j = 0; j < dt.Columns.Count; j++)
+                    //先为dt构造列信息
+                    foreach (DataColumn column in table.Columns)
                     {
-                        NewRow[j] = GetColumnName(table.TableName, dt.Columns[j].ColumnName, row[j].ToString());
+                        dt.Columns.Add(column.ColumnName);
                     }
 
-                    dt.Rows.Add(NewRow);
+                    for (int i = 0; i < table.Rows.Count; i++)
+                    {
+                        DataRow NewRow = dt.NewRow();
+                        DataRow row = table.Rows[i];
+
+                        for (int j = 0; j < dt.Columns.Count; j++)
+                        {
+                            NewRow[j] = GetColumnName(table.TableName, dt.Columns[j].ColumnName, row[j].ToString());
+                        }
+
+                        dt.Rows.Add(NewRow);
+                    }
                 }
+                return dt;
             }
-            return dt;
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog(typeof(CommonClass), ex);
+                return null;
+            }
         }
 
         /// <summary>
@@ -211,21 +236,28 @@ namespace GISData.Common
         /// <returns></returns>
         private string GetColumnName(string tablename,string columnName ,string value)
         {
-            ConnectDB db = new ConnectDB();
+            try{
+                ConnectDB db = new ConnectDB();
 
-            DataTable dt = db.GetDataBySql("select CODE_PK,CODE_WHERE from GISDATA_MATEDATA where REG_NAME = '" + tablename.Trim() + "' and FIELD_NAME ='"+columnName+"' and CODE_PK is not null and CODE_PK<>'' and CODE_WHERE is not null and CODE_WHERE<>''");
-            DataRow[] drs = dt.Select();
-            string returnValue="";
-            if (drs.Length > 0) 
-            {
-                string whereString = drs[0]["CODE_WHERE"].ToString();
-                string dictable = drs[0]["CODE_PK"].ToString();
+                DataTable dt = db.GetDataBySql("select CODE_PK,CODE_WHERE from GISDATA_MATEDATA where REG_NAME = '" + tablename.Trim() + "' and FIELD_NAME ='"+columnName+"' and CODE_PK is not null and CODE_PK<>'' and CODE_WHERE is not null and CODE_WHERE<>''");
+                DataRow[] drs = dt.Select();
+                string returnValue="";
+                if (drs.Length > 0) 
+                {
+                    string whereString = drs[0]["CODE_WHERE"].ToString();
+                    string dictable = drs[0]["CODE_PK"].ToString();
 
-                DataTable DT = db.GetDataBySql("select C_NAME FROM " + dictable + " where " + whereString + " and C_CODE ='" + value + "'");
-                string name = DT.Select(null)[0]["C_NAME"].ToString();
-                returnValue = name == "" ? value : name;
+                    DataTable DT = db.GetDataBySql("select C_NAME FROM " + dictable + " where " + whereString + " and C_CODE ='" + value + "'");
+                    string name = DT.Select(null)[0]["C_NAME"].ToString();
+                    returnValue = name == "" ? value : name;
+                }
+                return returnValue == "" ? value : returnValue;
             }
-            return returnValue == "" ? value : returnValue;
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog(typeof(CommonClass), ex);
+                return null;
+            }
         }
 
         /// <summary>  
@@ -269,9 +301,10 @@ namespace GISData.Common
                 }
 
                 return pTable;
-            }
+            } 
             catch (Exception ex)
             {
+                LogHelper.WriteLog(typeof(CommonClass), ex);
                 return null;
             }
         }/// <summary>  
@@ -317,6 +350,7 @@ namespace GISData.Common
             }
             catch (Exception ex)
             {
+                LogHelper.WriteLog(typeof(CommonClass), ex);
                 return null;
             }
         }
@@ -328,70 +362,81 @@ namespace GISData.Common
         /// <param name="tablename"></param>
         private void setIDomain(IWorkspaceDomains workspaceDomains, IFeatureClass featureClass, string tablename) 
         {
-            ConnectDB db = new ConnectDB();
-            DataTable dt = db.GetDataBySql("select CODE_PK,CODE_WHERE,FIELD_NAME,FIELD_ALSNAME,DATA_TYPE from GISDATA_MATEDATA where REG_NAME = '" + tablename.Trim() + "' and CODE_PK is not null and CODE_PK<>'' and CODE_WHERE is not null and CODE_WHERE<>''");
-            DataRow[] drs = dt.Select();
-            for (int i = 0; i < drs.Length; i++) 
-            {
-                ICodedValueDomain codedValueDomain = new CodedValueDomainClass();
-                string codepk = drs[i][0].ToString();
-                string codewhere = drs[i][1].ToString();
-                DataTable ItemDomain = new DataTable();
-                if (codepk == "GISDATA_ZQSJZD") 
-                { 
-                    ItemDomain = db.GetDataBySql("select C_CODE,C_NAME from " + codepk + " where " + codewhere+" AND LEFT(C_CODE,6)='520121'");
-                } 
-                else 
+            try{
+                ConnectDB db = new ConnectDB();
+                DataTable dt = db.GetDataBySql("select CODE_PK,CODE_WHERE,FIELD_NAME,FIELD_ALSNAME,DATA_TYPE from GISDATA_MATEDATA where REG_NAME = '" + tablename.Trim() + "' and CODE_PK is not null and CODE_PK<>'' and CODE_WHERE is not null and CODE_WHERE<>''");
+                DataRow[] drs = dt.Select();
+                for (int i = 0; i < drs.Length; i++) 
                 {
-                    ItemDomain = db.GetDataBySql("select C_CODE,C_NAME from " + codepk + " where " + codewhere);
-                }
+                    ICodedValueDomain codedValueDomain = new CodedValueDomainClass();
+                    string codepk = drs[i][0].ToString();
+                    string codewhere = drs[i][1].ToString();
+                    DataTable ItemDomain = new DataTable();
+                    if (codepk == "GISDATA_ZQSJZD") 
+                    { 
+                        ItemDomain = db.GetDataBySql("select C_CODE,C_NAME from " + codepk + " where " + codewhere+" AND LEFT(C_CODE,6)='520121'");
+                    } 
+                    else 
+                    {
+                        ItemDomain = db.GetDataBySql("select C_CODE,C_NAME from " + codepk + " where " + codewhere);
+                    }
                  
-                DataRow[] ItemDomainRows = ItemDomain.Select(null);
-                for (int j = 0; j < ItemDomainRows.Length; j++)
-                {
-                    codedValueDomain.AddCode(ItemDomainRows[j][0].ToString(), ItemDomainRows[j][1].ToString());
+                    DataRow[] ItemDomainRows = ItemDomain.Select(null);
+                    for (int j = 0; j < ItemDomainRows.Length; j++)
+                    {
+                        codedValueDomain.AddCode(ItemDomainRows[j][0].ToString(), ItemDomainRows[j][1].ToString());
+                    }
+                    IDomain domain = (IDomain)codedValueDomain;
+                    int fieldIndex = featureClass.Fields.FindField(drs[i][2].ToString());
+                    IField field = featureClass.Fields.get_Field(fieldIndex);
+                    domain.FieldType = field.Type;
+                    domain.Name = drs[i][2].ToString();
+                    domain.Description = drs[i][3].ToString();
+                    domain.MergePolicy = esriMergePolicyType.esriMPTDefaultValue;
+                    domain.SplitPolicy = esriSplitPolicyType.esriSPTDuplicate;
+                    if (workspaceDomains.get_DomainByName(drs[i][2].ToString()) == null) 
+                    {
+                        //workspaceDomains.DeleteDomain(drs[i][2].ToString());
+                        workspaceDomains.AddDomain(domain);
+                    }
+                    ISchemaLock schemaLock = (ISchemaLock)featureClass;
+                    IClassSchemaEdit classSchemaEdit = (IClassSchemaEdit)featureClass;
+                    schemaLock.ChangeSchemaLock(esriSchemaLock.esriExclusiveSchemaLock);
+                    classSchemaEdit.AlterDomain(drs[i][2].ToString(), domain);
                 }
-                IDomain domain = (IDomain)codedValueDomain;
-                int fieldIndex = featureClass.Fields.FindField(drs[i][2].ToString());
-                IField field = featureClass.Fields.get_Field(fieldIndex);
-                domain.FieldType = field.Type;
-                domain.Name = drs[i][2].ToString();
-                domain.Description = drs[i][3].ToString();
-                domain.MergePolicy = esriMergePolicyType.esriMPTDefaultValue;
-                domain.SplitPolicy = esriSplitPolicyType.esriSPTDuplicate;
-                if (workspaceDomains.get_DomainByName(drs[i][2].ToString()) == null) 
-                {
-                    //workspaceDomains.DeleteDomain(drs[i][2].ToString());
-                    workspaceDomains.AddDomain(domain);
-                }
-                ISchemaLock schemaLock = (ISchemaLock)featureClass;
-                IClassSchemaEdit classSchemaEdit = (IClassSchemaEdit)featureClass;
-                schemaLock.ChangeSchemaLock(esriSchemaLock.esriExclusiveSchemaLock);
-                classSchemaEdit.AlterDomain(drs[i][2].ToString(), domain);
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog(typeof(CommonClass), ex);
             }
         }
 
         public string ValueFromCode(IDomain domain, string convertedValue)
         {
-            //string methodName = MethodInfo.GetCurrentMethod().Name;
-            string value = string.Empty;
-
-            if (domain == null)
-                return value;
-
-            if (domain is ICodedValueDomain)
+            try
             {
-                ICodedValueDomain codedValueDomain = domain as ICodedValueDomain;
-                for (int i = 0; i < codedValueDomain.CodeCount; i++)
-                {
-                    if (AreStringsEqual(convertedValue, ToText(codedValueDomain.get_Value(i))))
-                        value = codedValueDomain.get_Name(i);
-                }
-            }
-            // else
-            //  _logger.Log(String.Format("{0} :Domain does not implement ICodedValueDomain.", methodName), LogLevel.enumLogLevelWarn);
+                //string methodName = MethodInfo.GetCurrentMethod().Name;
+                string value = string.Empty;
 
-            return value;
+                if (domain == null)
+                    return value;
+
+                if (domain is ICodedValueDomain)
+                {
+                    ICodedValueDomain codedValueDomain = domain as ICodedValueDomain;
+                    for (int i = 0; i < codedValueDomain.CodeCount; i++)
+                    {
+                        if (AreStringsEqual(convertedValue, ToText(codedValueDomain.get_Value(i))))
+                            value = codedValueDomain.get_Name(i);
+                    }
+                }
+                return value;
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog(typeof(CommonClass), ex);
+                return null;
+            }
         }
 
         public bool AreStringsEqual(string s1, string s2)
@@ -428,37 +473,45 @@ namespace GISData.Common
         /// <returns></returns>
         public IFeatureWorkspace GetFeatureWorkspaceByName(string tablename)
         {
-            if (DicWF.ContainsKey(tablename))
+            try
             {
-                return DicWF[tablename];
+                if (DicWF.ContainsKey(tablename))
+                {
+                    return DicWF[tablename];
+                }
+                else
+                {
+                    ConnectDB db = new ConnectDB();
+                    DataTable dt = db.GetDataBySql("select * from GISDATA_REGINFO where REG_NAME = '" + tablename.Trim() + "'");
+                    DataRow[] dr = dt.Select("1=1");
+                    string path = dr[0]["PATH"].ToString();
+                    string dbtype = dr[0]["DBTYPE"].ToString();
+                    IFeatureWorkspace space;
+                    if (dbtype == "Access数据库")
+                    {
+                        AccessWorkspaceFactory fac = new AccessWorkspaceFactoryClass();
+                        space = (IFeatureWorkspace)fac.OpenFromFile(path, 0);
+
+                    }
+                    else if (dbtype == "文件夹数据库")
+                    {
+                        FileGDBWorkspaceFactoryClass fac = new FileGDBWorkspaceFactoryClass();
+                        space = (IFeatureWorkspace)fac.OpenFromFile(path, 0);
+
+                    }
+                    else 
+                    {
+                        FileGDBWorkspaceFactoryClass fac = new FileGDBWorkspaceFactoryClass();
+                        space = (IFeatureWorkspace)fac.OpenFromFile(path, 0);
+                    }
+                    DicWF.Add(tablename, space);
+                    return space;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                ConnectDB db = new ConnectDB();
-                DataTable dt = db.GetDataBySql("select * from GISDATA_REGINFO where REG_NAME = '" + tablename.Trim() + "'");
-                DataRow[] dr = dt.Select("1=1");
-                string path = dr[0]["PATH"].ToString();
-                string dbtype = dr[0]["DBTYPE"].ToString();
-                IFeatureWorkspace space;
-                if (dbtype == "Access数据库")
-                {
-                    AccessWorkspaceFactory fac = new AccessWorkspaceFactoryClass();
-                    space = (IFeatureWorkspace)fac.OpenFromFile(path, 0);
-
-                }
-                else if (dbtype == "文件夹数据库")
-                {
-                    FileGDBWorkspaceFactoryClass fac = new FileGDBWorkspaceFactoryClass();
-                    space = (IFeatureWorkspace)fac.OpenFromFile(path, 0);
-
-                }
-                else 
-                {
-                    FileGDBWorkspaceFactoryClass fac = new FileGDBWorkspaceFactoryClass();
-                    space = (IFeatureWorkspace)fac.OpenFromFile(path, 0);
-                }
-                DicWF.Add(tablename, space);
-                return space;
+                LogHelper.WriteLog(typeof(CommonClass), ex);
+                return null;
             }
         }
 
@@ -469,37 +522,45 @@ namespace GISData.Common
         /// <returns></returns>
         public IWorkspace GetWorkspaceByName(string tablename)
         {
-            if (DicW.ContainsKey(tablename))
+            try
             {
-                return DicW[tablename];
-            }
-            else
-            {
-                ConnectDB db = new ConnectDB();
-                DataTable dt = db.GetDataBySql("select * from GISDATA_REGINFO where REG_NAME = '" + tablename.Trim() + "'");
-                DataRow[] dr = dt.Select("1=1");
-                string path = dr[0]["PATH"].ToString();
-                string dbtype = dr[0]["DBTYPE"].ToString();
-                IFeatureWorkspace space;
-                if (dbtype == "Access数据库")
+                if (DicW.ContainsKey(tablename))
                 {
-                    AccessWorkspaceFactory fac = new AccessWorkspaceFactoryClass();
-                    space = (IFeatureWorkspace)fac.OpenFromFile(path, 0);
-
-                }
-                else if (dbtype == "文件夹数据库")
-                {
-                    FileGDBWorkspaceFactoryClass fac = new FileGDBWorkspaceFactoryClass();
-                    space = (IFeatureWorkspace)fac.OpenFromFile(path, 0);
-
+                    return DicW[tablename];
                 }
                 else
                 {
-                    FileGDBWorkspaceFactoryClass fac = new FileGDBWorkspaceFactoryClass();
-                    space = (IFeatureWorkspace)fac.OpenFromFile(path, 0);
+                    ConnectDB db = new ConnectDB();
+                    DataTable dt = db.GetDataBySql("select * from GISDATA_REGINFO where REG_NAME = '" + tablename.Trim() + "'");
+                    DataRow[] dr = dt.Select("1=1");
+                    string path = dr[0]["PATH"].ToString();
+                    string dbtype = dr[0]["DBTYPE"].ToString();
+                    IFeatureWorkspace space;
+                    if (dbtype == "Access数据库")
+                    {
+                        AccessWorkspaceFactory fac = new AccessWorkspaceFactoryClass();
+                        space = (IFeatureWorkspace)fac.OpenFromFile(path, 0);
+
+                    }
+                    else if (dbtype == "文件夹数据库")
+                    {
+                        FileGDBWorkspaceFactoryClass fac = new FileGDBWorkspaceFactoryClass();
+                        space = (IFeatureWorkspace)fac.OpenFromFile(path, 0);
+
+                    }
+                    else
+                    {
+                        FileGDBWorkspaceFactoryClass fac = new FileGDBWorkspaceFactoryClass();
+                        space = (IFeatureWorkspace)fac.OpenFromFile(path, 0);
+                    }
+                    DicW.Add(tablename, space as IWorkspace);
+                    return space as IWorkspace ;
                 }
-                DicW.Add(tablename, space as IWorkspace);
-                return space as IWorkspace ;
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog(typeof(CommonClass), ex);
+                return null;
             }
         }
         /// <summary>
@@ -509,20 +570,27 @@ namespace GISData.Common
         /// <param name="dt"></param>
         public void FillTree(TreeNode node, DataTable dt)
         {
-            DataRow[] drr = dt.Select("PARENTID='" + node.Tag.ToString() + "'");
-            if (drr.Length > 0)
+            try
             {
-                for (int i = 0; i < drr.Length; i++)
+                DataRow[] drr = dt.Select("PARENTID='" + node.Tag.ToString() + "'");
+                if (drr.Length > 0)
                 {
-                    TreeNode tnn = new TreeNode();
-                    tnn.Text = drr[i]["NAME"].ToString();
-                    tnn.Tag = drr[i]["ID"].ToString();
-                    if (drr[i]["PARENTID"].ToString() == node.Tag.ToString())
+                    for (int i = 0; i < drr.Length; i++)
                     {
-                        FillTree(tnn, dt);
+                        TreeNode tnn = new TreeNode();
+                        tnn.Text = drr[i]["NAME"].ToString();
+                        tnn.Tag = drr[i]["ID"].ToString();
+                        if (drr[i]["PARENTID"].ToString() == node.Tag.ToString())
+                        {
+                            FillTree(tnn, dt);
+                        }
+                        node.Nodes.Add(tnn);
                     }
-                    node.Nodes.Add(tnn);
                 }
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog(typeof(CommonClass), ex);
             }
         }
 

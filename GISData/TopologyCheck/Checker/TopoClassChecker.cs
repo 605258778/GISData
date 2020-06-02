@@ -227,8 +227,12 @@
             IFeatureCursor featureCursor = pFClass.Search(null,false);
 
             // 遍历游标
-            IGeometryCollection geometryCollection = geometryBag as IGeometryCollection;
             IFeature currentFeature = featureCursor.NextFeature();
+            if (currentFeature == null) 
+            {
+                return null;
+            }
+            IGeometryCollection geometryCollection = geometryBag as IGeometryCollection;
             object missing = Type.Missing;
             while (currentFeature != null)
             {

@@ -55,9 +55,10 @@ namespace GISData.DataCheck
 
         private void FormCheckMain_Load(object sender, EventArgs e)
         {
-            loadStep();
-            this.Width = this.tabControl1.Width;
             this.tableLayoutPanel1.ColumnStyles[1].Width = 0;
+            this.tabControl1.Width = 1200;
+            this.Width = 1200;
+            loadStep();
         }
         /// <summary>
         /// 加载检查项

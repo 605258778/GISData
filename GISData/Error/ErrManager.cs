@@ -229,17 +229,23 @@
 
         public static void ClearElement(IActiveView pActiveView)
         {
-            IGraphicsContainer focusMap = pActiveView.FocusMap as IGraphicsContainer;
-            foreach (KeyValuePair<int, List<IElement>> pair in ErrManager.ErrElements)
+            if (pActiveView != null) 
             {
-                List<IElement> list = pair.Value;
-                foreach (IElement element in list)
+                IGraphicsContainer focusMap = pActiveView.FocusMap as IGraphicsContainer;
+                if (focusMap != null) 
                 {
-                    focusMap.DeleteElement(element);
+                    foreach (KeyValuePair<int, List<IElement>> pair in ErrManager.ErrElements)
+                    {
+                        List<IElement> list = pair.Value;
+                        foreach (IElement element in list)
+                        {
+                            focusMap.DeleteElement(element);
+                        }
+                        list.Clear();
+                    }
+                    ErrManager.ErrElements.Clear();
                 }
-                list.Clear();
             }
-            ErrManager.ErrElements.Clear();
         }
     }
 }

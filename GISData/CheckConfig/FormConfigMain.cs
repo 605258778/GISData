@@ -77,6 +77,7 @@ namespace GISData.ChekConfig
                     btn.Size = new Size(this.splitContainer2.Panel1.Width - 5, 40);
                     btn.Location = new Point(2, 20 + (dbSTEP_NO - 1) * 40);
                     btn.DoubleClick += new EventHandler(aBtn_DbClick);
+                    btn.Width = this.splitContainer3.Panel2.Width;
                     btn.Tag = 0;
                     this.splitContainer3.Panel2.Controls.Add(btn);
                 }

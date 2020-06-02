@@ -55,7 +55,7 @@
             this.treeList1.AfterCheckNode += new DevExpress.XtraTreeList.NodeEventHandler(this.treeList1_AfterCheckNode);
             this.treeList1.SelectionChanged += new System.EventHandler(this.treeList1_SelectionChanged);
             this.treeList1.DoubleClick += new System.EventHandler(this.treeList1_DoubleClick);
-            this.treeList1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.treeList1_MouseDown);
+            this.treeList1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.treeList1_MouseDoubleClick);
             // 
             // treeListColumn1
             // 
