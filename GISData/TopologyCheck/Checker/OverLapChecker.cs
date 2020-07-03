@@ -8,15 +8,7 @@
 
     internal class OverLapChecker : TopoClassChecker
     {
-        public OverLapChecker(IList<IFeatureClass> pList) : base(pList)
-        {
-            base.ErrType = ErrType.MultiOverlap;
-        }
-
-        public OverLapChecker(IFeatureLayer pLayer, int iCheckType) : base(pLayer, iCheckType)
-        {
-            base.ErrType = ErrType.OverLap;
-        }
+       
     }
 }
 

@@ -5,9 +5,13 @@
     using ESRI.ArcGIS.Geodatabase;
     using ESRI.ArcGIS.Geometry;
     using ESRI.ArcGIS.Geoprocessing;
+    using ESRI.ArcGIS.Geoprocessor;
     using System;
+    using System.Collections;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Runtime.InteropServices;
+    using System.Text;
     //using TaskManage;
     //using TopologyCheck.Base;
     using TopologyCheck.Error;
@@ -15,193 +19,125 @@
 
     internal class TopoClassChecker : ITopologyChecker
     {
-        private static int _checkType = 0;
         private TopologyCheck.Error.ErrType _errType;
         private IGeometry _geo;
-        private static IFeatureLayer _layer;
-        private IList<IFeatureClass> m_FCList;
-        private string m_TempPath;
-        private List<string> GapsList;
 
-        public TopoClassChecker(IList<IFeatureClass> pList)
-        {
-            this.m_TempPath = "";
-            if ((pList == null) || (pList.Count < 1))
-            {
-                throw new Exception("图层数据为空！");
-            }
-            if (this.m_TempPath == "")
-            {
-                this.m_TempPath = "D://temp";
-            }
-            this.m_FCList = pList;
-            this.GapsList = new List<string>();
-        }
-
-        public TopoClassChecker(IFeatureLayer pLayer, int iCheckType)
-        {
-            this.m_TempPath = "";
-            _layer = pLayer;
-            _checkType = iCheckType;
-            IFeatureClass featureClass = pLayer.FeatureClass;
-            if (featureClass == null)
-            {
-                throw new Exception("图层数据为空！");
-            }
-            if (this.m_TempPath == "")
-            {
-                this.m_TempPath = "D://temp";
-            }
-            if (iCheckType == 1)
-            {
-                string name = ((IDataset) featureClass).Name;
-                string sTargetName = name.Substring(name.LastIndexOf('.') + 1) + "_task";
-                IFeatureLayerDefinition definition = (IFeatureLayerDefinition) pLayer;
-                string definitionExpression = definition.DefinitionExpression;
-                IQueryFilter pQueryFilter = new QueryFilterClass();
-                pQueryFilter.SubFields = featureClass.OIDFieldName + "," + featureClass.ShapeFieldName;
-                pQueryFilter.WhereClause = definitionExpression;
-                //featureClass = SpatialAnalysis.ExportToShp((IWorkspace) EditTask.EditWorkspace, featureClass, this.m_TempPath, sTargetName, pQueryFilter);
-            }
-            if (featureClass == null)
-            {
-                throw new Exception("图层数据为空！");
-            }
-            this.m_FCList = new List<IFeatureClass>();
-            this.m_FCList.Add(featureClass);
-            this.GapsList = new List<string>();
-        }
-
-       
-        public List<ErrorEntity> CheckOverLap(string idname,IFeatureLayer pLayer, int iCheckType)
-        {
-            IFeatureCursor cursor = pLayer.Search(null, true);
-            List<ErrorEntity> listErrorEntity = new List<ErrorEntity>();
-            IFeature pFeature = null;
-
-            //IGeometryCollection pGeometryCollection = new GeometryBagClass();
+        //public List<ErrorEntity> CheckOverLap(string idname,IFeatureLayer pLayer)
+        //{
+        //    ArrayList arraylist = new ArrayList();
             
+        //    IQueryFilter filter = new QueryFilterClass();
+        //    filter.SubFields = pLayer.FeatureClass.OIDFieldName + "," + pLayer.FeatureClass.ShapeFieldName;
+        //    IFeatureCursor cursor = pLayer.FeatureClass.Search(filter, true);
+        //    List<ErrorEntity> listErrorEntity = new List<ErrorEntity>();
+        //    IFeature pFeature = null;
+        //    IFeature feature;
+        //    while ((pFeature = cursor.NextFeature()) != null)
+        //    {
+        //        ITopologicalOperator2 @operator = (ITopologicalOperator2)pFeature.ShapeCopy;
+        //        @operator.IsKnownSimple_2 = false;
+        //        @operator.Simplify();
+        //        IIdentify pIdentify = pLayer as IIdentify;
+        //        IArray pIDs = pIdentify.Identify((IGeometry)pFeature.ShapeCopy);
+        //        if (pIDs != null && pIDs.Count > 1)
+        //        {
+        //            //取第一个实体
+        //            for (int i = 0; i < pIDs.Count; i++)
+        //            {
+        //                feature = (pIDs.get_Element(i) as IRowIdentifyObject).Row as IFeature;
+        //                if (feature != null && pFeature.OID != feature.OID && (!arraylist.Contains(pFeature.OID + "" + feature.OID) && !arraylist.Contains(feature.OID + "" + pFeature.OID)))
+        //                {
+        //                    arraylist.Add(pFeature.OID + "" + feature.OID);
+        //                    IGeometry item = feature.ShapeCopy;
+        //                    IGeometry geometry3 = @operator.Intersect(item, esriGeometryDimension.esriGeometry2Dimension);
+        //                    if (!geometry3.IsEmpty)
+        //                    {
+        //                        Console.WriteLine(pFeature.OID + "-" + feature.OID);
+        //                        listErrorEntity.Add(new ErrorEntity(idname, pFeature.OID.ToString(), "自重叠", feature.OID.ToString(), ErrType.OverLap, geometry3));
+        //                    }
+        //                }
+        //            }
+        //        }
+        //    }
+        //    return listErrorEntity;
+        //}
 
-            while ((pFeature = cursor.NextFeature()) != null)
-            {
-                //pGeometryCollection.AddGeometry(pFeature.ShapeCopy);
-                ITopologicalOperator2 @operator = (ITopologicalOperator2)pFeature.ShapeCopy;
-                @operator.IsKnownSimple_2 = false;
-                @operator.Simplify();
+        public List<ErrorEntity> CheckOverLap(string idname, IFeatureLayer pLayer)
+        {
+            List<ErrorEntity> listErrorEntity = new List<ErrorEntity>();
 
-                IFeature feature;
+            IFeatureClass IN_FeatureClass = pLayer.FeatureClass;
+            
+            IList<IGeometry> list = new List<IGeometry>();
+            ISpatialFilter spatialFilter = new SpatialFilterClass();
+            spatialFilter.GeometryField = IN_FeatureClass.ShapeFieldName;
+            spatialFilter.SubFields = IN_FeatureClass.OIDFieldName + "," + IN_FeatureClass.ShapeFieldName;
+            spatialFilter.SpatialRel = esriSpatialRelEnum.esriSpatialRelOverlaps;
 
-                IIdentify pIdentify = pLayer as IIdentify;
-                IArray pIDs = pIdentify.Identify((IGeometry)pFeature.ShapeCopy);
-                if (pIDs != null && pIDs.Count > 1)
+           IFeatureCursor pFeatureCursor = IN_FeatureClass.Search(null, false);
+            IFeature pFeature = pFeatureCursor.NextFeature();
+            while (pFeature != null)
+            {//记录集循环
+                spatialFilter.Geometry = pFeature.ShapeCopy;
+                IFeatureCursor featureCursor = IN_FeatureClass.Search(spatialFilter, true);
+                IFeature tFeature = featureCursor.NextFeature();//遍历查询结果
+                if (tFeature != null)
                 {
-                    //取第一个实体
-                    for (int i = 0; i < pIDs.Count; i++)
+                    IGeometry pGeometry = new PolygonClass();
+                    pGeometry = tFeature.ShapeCopy;
+                    while (tFeature != null)
                     {
-                        feature = (pIDs.get_Element(i) as IRowIdentifyObject).Row as IFeature;
-                        if (feature != null && pFeature.OID != feature.OID)
-                        {
-                            
-                            IGeometry item = feature.ShapeCopy;
-                            IGeometry geometry3 = @operator.Intersect(item, esriGeometryDimension.esriGeometry2Dimension);
-                            if (!geometry3.IsEmpty) 
-                            {
-                                Console.WriteLine(pFeature.OID + "-" + feature.OID);
-                                listErrorEntity.Add(new ErrorEntity(idname,pFeature.OID.ToString(), "自重叠", feature.OID.ToString(), ErrType.OverLap, geometry3));
-                            }
-                        }
+                        ITopologicalOperator2 iUnionTopo = pGeometry as ITopologicalOperator2;
+                        pGeometry = iUnionTopo.Union(tFeature.Shape);
+                        tFeature = featureCursor.NextFeature();//移动到下一条记录
                     }
-
+                    ITopologicalOperator2 pRo = (ITopologicalOperator2)pFeature.ShapeCopy;
+                    IGeometry pIntersectGeo = new PolygonClass();
+                    pIntersectGeo = pRo.Intersect(pGeometry, esriGeometryDimension.esriGeometry2Dimension) as IPolygon;
+                    if (pIntersectGeo != null && !pIntersectGeo.IsEmpty)
+                    {
+                        listErrorEntity.Add(new ErrorEntity(idname, pFeature.OID.ToString(), "自重叠", "", ErrType.OverLap, pIntersectGeo));
+                    }
                 }
-                
+                Marshal.ReleaseComObject(featureCursor);
+                pFeature = pFeatureCursor.NextFeature();//移动到下一条记录
             }
+            Marshal.ReleaseComObject(pFeature);
+            Marshal.ReleaseComObject(spatialFilter);
+            
             return listErrorEntity;
         }
         /// <summary>
-        /// 缝隙检查。融合后去内环。
+        /// 用gp工具查重叠
         /// </summary>
-        /// <param name="pFeature"></param>
+        /// <param name="idname"></param>
+        /// <param name="pLayer"></param>
         /// <returns></returns>
-        public List<Dictionary<string, IGeometry>> CheckFeatureGap(IFeature pFeature, IFeatureClass pFClass, string inputtext)
+        public List<ErrorEntity> CheckOverLap11(string idname, IFeatureLayer pLayer)
         {
-            List<Dictionary<string, IGeometry>> listGeo = new List<Dictionary<string, IGeometry>>();
-            IPolygon4 pMergerPolygon = pFeature.Shape as IPolygon4;
-            IGeometryBag pOutGeometryBag = pMergerPolygon.ExteriorRingBag;  //获取外部环
-            IGeometryCollection pOutGmtyCollection = pOutGeometryBag as IGeometryCollection;
+            List<ErrorEntity> listErrorEntity = new List<ErrorEntity>();
+            //输出要素层设置
+            
 
-            for (int i = 0; i < pOutGmtyCollection.GeometryCount; i++)  //对外部环遍历
+            ESRI.ArcGIS.AnalysisTools.Intersect intersect = new ESRI.ArcGIS.AnalysisTools.Intersect();
+            intersect.in_features = pLayer;//"D://开阳县_520121_YZL_2017.mdb//YZL_PY_FYYSXB";
+            intersect.out_feature_class = "D://report//temp.shp";
+            Geoprocessor geoProcessor = new Geoprocessor();
+            geoProcessor.OverwriteOutput = true;
+            try
             {
-                IGeometry pOutRing = pOutGmtyCollection.get_Geometry(i); //外部环
-                //【此处可以对外部环进行操作】
-                IPointCollection pOutRingCollection = pOutRing as IPointCollection;
-                for (int j = 0; j < pOutRingCollection.PointCount; j++)
-                {
-                    IPoint pOutRingPoint = pOutRingCollection.get_Point(j);//获取外环上的点
-                }
-
-                IGeometryBag pInteriotGeometryBag = pMergerPolygon.get_InteriorRingBag(pOutRing as IRing);  //获取内部环
-                IGeometryCollection pInteriorGeometryCollection = pInteriotGeometryBag as IGeometryCollection;
-
-                
-                for (int j = 0; j < pInteriorGeometryCollection.GeometryCount; j++)
-                {
-                    ISegmentCollection SegCol =  pInteriorGeometryCollection.get_Geometry(j) as ISegmentCollection;
-
-                    IPolygon PPolygon = new PolygonClass();
-                    ISegmentCollection newSegCol = PPolygon as ISegmentCollection;
-                    newSegCol.AddSegmentCollection(SegCol);
-                    //pInteriorGeometry即为多边形的内部环
-                    IGeometry inRing = PPolygon as IGeometry;
-                    inRing.SpatialReference = pFeature.ShapeCopy.SpatialReference;
-                    IArea area = inRing as IArea;
-                    Double getarea = System.Math.Abs(Convert.ToDouble(area.Area));
-                    if (inputtext == null || inputtext == "" || getarea < Convert.ToDouble(inputtext)) 
-                    {
-                        Boolean flag = true;
-                        ISpatialFilter filter = new SpatialFilterClass();
-                        filter.Geometry = inRing;
-                        filter.SubFields = pFClass.OIDFieldName + "," + pFClass.ShapeFieldName;
-                        filter.SpatialRel = esriSpatialRelEnum.esriSpatialRelIntersects;
-                        IFeatureCursor o = pFClass.Search(filter, true);
-                        IFeature feature = o.NextFeature();
-                        while (feature != null && flag)
-                        {
-                            Console.WriteLine(feature.OID);
-                            IPolygon4 pPolygon = feature.Shape as IPolygon4;
-                            IGeometryBag iOutGeometryBag = pPolygon.ExteriorRingBag;  //获取外部环
-                            IGeometryCollection iOutGmtyCollection = iOutGeometryBag as IGeometryCollection;
-
-                            for (int m = 0; m < iOutGmtyCollection.GeometryCount && flag; m++)  //对外部环遍历
-                            {
-                                IGeometry outGeo = iOutGmtyCollection.get_Geometry(m);
-                                IGeometryCollection polyGonGeo = new PolygonClass();
-                                polyGonGeo.AddGeometry(outGeo);
-                                IPolygon iPolygon = polyGonGeo as IPolygon;
-                                iPolygon.SimplifyPreserveFromTo();
-                                IRelationalOperator2 pRelationalOperator2 = iPolygon as IRelationalOperator2;
-                                if (!pRelationalOperator2.Contains(inRing))
-                                {
-                                    Dictionary<string, IGeometry> itemDic = new Dictionary<string, IGeometry>();
-                                    itemDic.Add(feature.OID.ToString(), inRing);
-                                    listGeo.Add(itemDic);
-                                    flag = false;
-                                }
-                            }
-                            feature = o.NextFeature();
-                        }
-                        Marshal.ReleaseComObject(o);
-                    }
-                }
+                geoProcessor.Execute(intersect, null);
             }
-            if (listGeo.Count > 0)
+            catch (Exception ex)
             {
-                return listGeo;
+                // Print a generic exception message.
+                Console.WriteLine(ex.Message);
             }
-            else 
-            {
-                return null;
-            }
+
+
+            return listErrorEntity;
         }
+        
         /// <summary>
         /// 缝隙检查。融合后去内环。
         /// </summary>
@@ -335,36 +271,77 @@
                 return null;
             }
         }
-        ///
-        ///  面积计算
-        ///
-        /// 1:平方公里 保留6位小数 ；2:平方米 保留4位小数
-        ///
-        ///
-        public static string CalculateAreaPrecision(string unitType, IGeometry geometry)
+        /// <summary>
+        /// 自相交检查
+        /// </summary>
+        /// <param name="idname"></param>
+        /// <param name="pLayer"></param>
+        /// <returns></returns>
+        public List<ErrorEntity> AreaSelfIntersect(string idname, IFeatureLayer pLayer)
         {
-            (geometry as ITopologicalOperator).Simplify();
-            //如果面积为负数的话，则进行反转。因为geometry面积跟点的顺序有关，若是顺时针的话是面，为正；若是逆时针的话是洞，为负。
-            if ((geometry as IArea).Area <= 0)
+            IFeatureCursor cursor;
+            IQueryFilter filter = new QueryFilterClass();
+            filter.SubFields = pLayer.FeatureClass.OIDFieldName + "," + pLayer.FeatureClass.ShapeFieldName;
+            cursor = pLayer.FeatureClass.Search(filter, true);
+            IFieldEdit edit = pLayer.FeatureClass.Fields.get_Field(pLayer.FeatureClass.Fields.FindField(pLayer.FeatureClass.ShapeFieldName)) as IFieldEdit;
+            ISpatialReference spatialReference = edit.GeometryDef.SpatialReference;
+            List<ErrorEntity> list = new List<ErrorEntity>();
+            IFeature feature = null;
+            object missing = Type.Missing;
+            while ((feature = cursor.NextFeature()) != null)
             {
-                (geometry as IPolygon).ReverseOrientation();
+                IPoint tempPoint = null;
+                StringBuilder builder = new StringBuilder();
+                IGeometryCollection shape = feature.Shape as IGeometryCollection;
+                for (int i = 0; i < shape.GeometryCount; i++)
+                {
+                    esriNonSimpleReasonEnum enum2;
+                    IPointCollection newPoints = shape.get_Geometry(i) as IPointCollection;
+                    IRing ring = newPoints as IRing;
+                    int num2 = 0;
+                    if (ring.IsClosed)
+                    {
+                        num2 = 1;
+                    }
+                    PolylineClass o = new PolylineClass();
+                    o.AddPointCollection(newPoints);
+                    o.SpatialReference = spatialReference;
+
+                    ITopologicalOperator3 @operator = o;
+                    @operator.IsKnownSimple_2 = false;
+                    if (!@operator.get_IsSimpleEx(out enum2) && (enum2 == esriNonSimpleReasonEnum.esriNonSimpleSelfIntersections))
+                    {
+                        List<string> list2 = new List<string>();
+                        List<string> list3 = new List<string>();
+                        for (int j = num2; j < newPoints.PointCount; j++)
+                        {
+                            IPoint point = newPoints.get_Point(j);
+                            tempPoint = point;
+                            string item = point.X.ToString() + "," + point.Y.ToString();
+                            if (list2.Contains(item))
+                            {
+                                if (!list3.Contains(item))
+                                {
+                                    builder.Append(";");
+                                    builder.Append(item);
+                                    list3.Add(item);
+                                }
+                            }
+                            else
+                            {
+                                list2.Add(item);
+                            }
+                        }
+                    }
+                    Marshal.ReleaseComObject(o);
+                    o = null;
+                }
+                if (builder.Length > 0)
+                {
+                    list.Add(new ErrorEntity(idname, feature.OID.ToString(), "自相交", builder.ToString().Substring(1), ErrType.SelfIntersect, tempPoint));
+                }
             }
-            IArea wktArea = geometry as IArea;
-            string areaPrecision = "";
-            double area = Math.Abs(wktArea.Area);
-            switch (unitType)
-            {
-                case "1":
-                    areaPrecision = (area / 1000000).ToString("0.000000");//平方公里时，保留六位小数
-                    break;
-                case "2":
-                    areaPrecision = (area).ToString("0.0000");//平方米时，保留四位小数
-                    break;
-                default:
-                    areaPrecision = (area).ToString("0.0000");
-                    break;
-            }
-            return areaPrecision;
+            return list;
         }
 
         /// <summary>

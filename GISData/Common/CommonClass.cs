@@ -5,8 +5,10 @@ using DevExpress.XtraGrid.Views.Grid;
 using DevExpress.XtraTreeList.Nodes;
 using ESRI.ArcGIS.ADF;
 using ESRI.ArcGIS.Carto;
+using ESRI.ArcGIS.DataSourcesFile;
 using ESRI.ArcGIS.DataSourcesGDB;
 using ESRI.ArcGIS.Geodatabase;
+using ESRI.ArcGIS.Geometry;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -17,6 +19,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml;
 
 namespace GISData.Common
 {
@@ -25,6 +28,143 @@ namespace GISData.Common
         private static Dictionary<string, IFeatureLayer> DicLayer = new Dictionary<string, IFeatureLayer>();
         private static Dictionary<string, IFeatureWorkspace> DicWF = new Dictionary<string, IFeatureWorkspace>();
         private static Dictionary<string, IWorkspace> DicW = new Dictionary<string, IWorkspace>();
+
+        /// <summary>
+        /// 获取要素类
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        public IFeatureClass GetFeatureClassByShpPath(string filePath)
+        {
+            IWorkspaceFactory pWorkspaceFactory = new ShapefileWorkspaceFactory();
+            IWorkspaceFactoryLockControl pWorkspaceFactoryLockControl = pWorkspaceFactory as IWorkspaceFactoryLockControl;
+            if (pWorkspaceFactoryLockControl.SchemaLockingEnabled)
+            {
+                pWorkspaceFactoryLockControl.DisableSchemaLocking();
+            }
+            IWorkspace pWorkspace = pWorkspaceFactory.OpenFromFile(System.IO.Path.GetDirectoryName(filePath), 0);
+            IFeatureWorkspace pFeatureWorkspace = pWorkspace as IFeatureWorkspace;
+            IFeatureClass pFeatureClass = pFeatureWorkspace.OpenFeatureClass(System.IO.Path.GetFileName(filePath));
+            return pFeatureClass;
+        }
+
+        /// <summary>
+        /// 获取要素属性表
+        /// </summary>
+        /// <param name="pFeatureClass"></param>
+        /// <returns></returns>
+        public DataTable GetAttributesTable(IFeatureClass pFeatureClass)
+        {
+            string geometryType = string.Empty;
+            if (pFeatureClass.ShapeType == esriGeometryType.esriGeometryPoint)
+            {
+                geometryType = "点";
+            }
+            if (pFeatureClass.ShapeType == esriGeometryType.esriGeometryMultipoint)
+            {
+                geometryType = "点集";
+            }
+            if (pFeatureClass.ShapeType == esriGeometryType.esriGeometryPolyline)
+            {
+                geometryType = "折线";
+            }
+            if (pFeatureClass.ShapeType == esriGeometryType.esriGeometryPolygon)
+            {
+                geometryType = "面";
+            }
+
+            // 字段集合
+            IFields pFields = pFeatureClass.Fields;
+            int fieldsCount = pFields.FieldCount;
+
+            // 写入字段名
+            DataTable dataTable = new DataTable();
+            for (int i = 0; i < fieldsCount; i++)
+            {
+                if (pFields.get_Field(i).Name.Contains("FID_"))
+                {
+                    ISchemaLock pSchemaLock = null;
+                    try
+                    {
+                        pSchemaLock = pFeatureClass as ISchemaLock;
+                        pSchemaLock.ChangeSchemaLock(esriSchemaLock.esriExclusiveSchemaLock);//设置编辑锁
+                        IClassSchemaEdit4 pClassSchemaEdit = pFeatureClass as IClassSchemaEdit4;
+                        pClassSchemaEdit.AlterFieldName(pFields.get_Field(i).Name, "FeatureID");
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                    finally
+                    {
+                        //释放编辑锁
+                        pSchemaLock.ChangeSchemaLock(esriSchemaLock.esriSharedSchemaLock);
+                        dataTable.Columns.Add("FeatureID");
+                    }
+                }
+                else 
+                {
+                    dataTable.Columns.Add(pFields.get_Field(i).Name);
+                }
+            }
+
+            // 要素游标
+            IFeatureCursor pFeatureCursor = pFeatureClass.Search(null, true);
+            IFeature pFeature = pFeatureCursor.NextFeature();
+            if (pFeature == null)
+            {
+                return dataTable;
+            }
+
+            // 获取MZ值
+            IMAware pMAware = pFeature.Shape as IMAware;
+            IZAware pZAware = pFeature.Shape as IZAware;
+            if (pMAware.MAware)
+            {
+                geometryType += " M";
+            }
+            if (pZAware.ZAware)
+            {
+                geometryType += "Z";
+            }
+
+            // 写入字段值
+            while (pFeature != null)
+            {
+                DataRow dataRow = dataTable.NewRow();
+                for (int i = 0; i < fieldsCount; i++)
+                {
+                    if (pFields.get_Field(i).Type == esriFieldType.esriFieldTypeGeometry)
+                    {
+                        dataRow[i] = pFeature.ShapeCopy;
+                    }
+                    else
+                    {
+                        dataRow[i] = pFeature.get_Value(i).ToString();
+                    }
+                }
+                dataTable.Rows.Add(dataRow);
+                pFeature = pFeatureCursor.NextFeature();
+            }
+
+            // 释放游标
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(pFeatureCursor);
+            return dataTable;
+        }
+
+        /// <summary>
+        /// 根据注册名获取路径
+        /// </summary>
+        /// <param name="tablename"></param>
+        /// <returns></returns>
+        public string GetPathByName(string tablename)
+        {
+            RegInfo reginfo = this.getRegInfo(tablename);
+            string path = reginfo.RegPath;
+            string dbtype = reginfo.RegType;
+            string table = reginfo.RegTable;
+            return path + "\\" + table;
+        }
         /// <summary>
         /// 获取IFeatureLayer
         /// </summary>
@@ -40,11 +180,9 @@ namespace GISData.Common
                 }
                 else 
                 {
-                    ConnectDB db = new ConnectDB();
-                    DataTable dt = db.GetDataBySql("select * from GISDATA_REGINFO where REG_NAME = '" + tablename.Trim() + "'");
-                    DataRow[] dr = dt.Select(null);
-                    string path = dr[0]["PATH"].ToString();
-                    string dbtype = dr[0]["DBTYPE"].ToString();
+                    RegInfo reginfo = this.getRegInfo(tablename);
+                    string path = reginfo.RegPath;
+                    string dbtype = reginfo.RegType;
                     IFeatureWorkspace space;
                     if (dbtype == "Access数据库")
                     {
@@ -63,8 +201,8 @@ namespace GISData.Common
                         space = (IFeatureWorkspace)fac.OpenFromFile(path, 0);
                     }
                     IFeatureLayer _Layer = new FeatureLayer();
-                    _Layer.FeatureClass = space.OpenFeatureClass(tablename);
-                    _Layer.Name = tablename;
+                    _Layer.FeatureClass = space.OpenFeatureClass(reginfo.RegTable);
+                    _Layer.Name = reginfo.RegTable;
                     DicLayer.Add(tablename, _Layer);
                     return _Layer;
                 }
@@ -148,11 +286,9 @@ namespace GISData.Common
         {
             try
             {
-                ConnectDB db = new ConnectDB();
-                DataTable dt = db.GetDataBySql("select * from GISDATA_REGINFO where REG_NAME = '" + tablename.Trim() + "'");
-                DataRow[] dr = dt.Select(null);
-                string path = dr[0]["PATH"].ToString();
-                string dbtype = dr[0]["DBTYPE"].ToString();
+                RegInfo reginfo = this.getRegInfo(tablename);
+                string path = reginfo.RegPath;
+                string dbtype = reginfo.RegType;
                 IFeatureWorkspace space;
                 if (dbtype == "Access数据库")
                 {
@@ -172,10 +308,10 @@ namespace GISData.Common
                 }
 
                 IWorkspaceDomains workspaceDomains = (IWorkspaceDomains)space;
-            
-                IFeatureClass featureClass = space.OpenFeatureClass(tablename);
+
+                IFeatureClass featureClass = space.OpenFeatureClass(reginfo.RegTable);
                 setIDomain(workspaceDomains, featureClass, tablename);
-                ITable table = space.OpenTable(tablename.Trim());
+                ITable table = space.OpenTable(reginfo.RegTable.Trim());
                 DataTable DT = ToDataTable(table);
                 DT.TableName = tablename.Trim();
                 return DT;
@@ -481,11 +617,9 @@ namespace GISData.Common
                 }
                 else
                 {
-                    ConnectDB db = new ConnectDB();
-                    DataTable dt = db.GetDataBySql("select * from GISDATA_REGINFO where REG_NAME = '" + tablename.Trim() + "'");
-                    DataRow[] dr = dt.Select("1=1");
-                    string path = dr[0]["PATH"].ToString();
-                    string dbtype = dr[0]["DBTYPE"].ToString();
+                    RegInfo reginfo = this.getRegInfo(tablename);
+                    string path = reginfo.RegPath;
+                    string dbtype = reginfo.RegType;
                     IFeatureWorkspace space;
                     if (dbtype == "Access数据库")
                     {
@@ -530,11 +664,9 @@ namespace GISData.Common
                 }
                 else
                 {
-                    ConnectDB db = new ConnectDB();
-                    DataTable dt = db.GetDataBySql("select * from GISDATA_REGINFO where REG_NAME = '" + tablename.Trim() + "'");
-                    DataRow[] dr = dt.Select("1=1");
-                    string path = dr[0]["PATH"].ToString();
-                    string dbtype = dr[0]["DBTYPE"].ToString();
+                    RegInfo reginfo = this.getRegInfo(tablename);
+                    string path = reginfo.RegPath;
+                    string dbtype = reginfo.RegType;
                     IFeatureWorkspace space;
                     if (dbtype == "Access数据库")
                     {
@@ -782,6 +914,7 @@ namespace GISData.Common
                  return false;
              }
          }
+
         /// <summary>
         /// 获取AppSettings中某一节点值
         /// </summary>
@@ -912,12 +1045,128 @@ namespace GISData.Common
             return rbc;
         }
 
-        public void setCheckByValue(ComboBox iBox) 
+        public Boolean insertXmlNode(string regname, string regpath, string regtype, string regtable)
         {
-            foreach (object iitem in iBox.Items) 
+            try
             {
-                IRasterCatalogItem iiitem = (IRasterCatalogItem)iitem;
-                string a = "werwer";
+                XmlDocument doc = new XmlDocument();
+                doc.Load(@"RegInfoFile.xml");
+                XmlNode root = doc.SelectSingleNode("regstore");
+
+                XmlElement xelKey = doc.CreateElement("regitem");
+                XmlAttribute regName = doc.CreateAttribute("regName");
+                regName.InnerText = regname;
+                XmlAttribute regPath = doc.CreateAttribute("regPath");
+                regPath.InnerText = regpath;
+                XmlAttribute regType = doc.CreateAttribute("regType");
+                regType.InnerText = regtype;
+                XmlAttribute regTable = doc.CreateAttribute("regTable");
+                regTable.InnerText = regtable;
+                xelKey.SetAttributeNode(regName);
+                xelKey.SetAttributeNode(regPath);
+                xelKey.SetAttributeNode(regType);
+                xelKey.SetAttributeNode(regTable);
+                root.AppendChild(xelKey);
+                doc.Save(@"RegInfoFile.xml");
+                return true;
+            }
+            catch (Exception e)
+            {
+                LogHelper.WriteLog(typeof(CommonClass), e);
+                return false;
+            }
+        }
+
+        public Boolean updateXmlNode(string regname, string regpath, string regtype, string regtable)
+        {
+            try
+            {
+                XmlDocument doc = new XmlDocument();
+                doc.Load(@"RegInfoFile.xml");
+                XmlNode root = doc.SelectSingleNode("regstore");
+                XmlElement xe = doc.DocumentElement;
+                string strPath = string.Format("/regstore/regitem[@regName=\"{0}\"]", regname);
+                if (strPath != null)
+                {
+                    XmlElement selectXe = (XmlElement)xe.SelectSingleNode(strPath);  //selectSingleNode 根据XPath表达式,获得符合条件的第一个节点.
+                    if (regname != null && regname != "")
+                        selectXe.SetAttribute("Type", regname);//也可以通过SetAttribute来增加一个属性
+                    if (regpath != null && regpath != "")
+                        selectXe.SetAttribute("regPath", regpath);
+                    if (regtype != null && regtype != "")
+                        selectXe.SetAttribute("regType", regtype);
+                    if (regtable != null && regtable != "")
+                        selectXe.SetAttribute("regTable", regtable);
+                    doc.Save(@"RegInfoFile.xml");
+                    return true;
+                }
+                else 
+                {
+                    return this.insertXmlNode(regname, regpath, regtype, regtable);
+                }
+            }
+            catch (Exception e)
+            {
+                LogHelper.WriteLog(typeof(CommonClass), e);
+                return false;
+            }
+        }
+
+        public Boolean deleteXmlNode(string regname)
+        {
+            try
+            {
+                XmlDocument doc = new XmlDocument();
+                doc.Load(@"RegInfoFile.xml");
+                XmlNode root = doc.SelectSingleNode("regstore");
+                XmlElement xe = doc.DocumentElement;
+                string strPath = string.Format("/regstore/regitem[@regName=\"{0}\"]", regname);
+                if (strPath != null)
+                {
+                    XmlElement selectXe = (XmlElement)xe.SelectSingleNode(strPath);  //selectSingleNode 根据XPath表达式,获得符合条件的第一个节点.
+                    selectXe.ParentNode.RemoveChild(selectXe);
+                    return true;
+                }
+                else 
+                {
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                LogHelper.WriteLog(typeof(CommonClass), e);
+                return false;
+            }
+        }
+
+        public RegInfo getRegInfo(string regname) 
+        {
+            try
+            {
+                RegInfo reginfo = new RegInfo();
+                XmlDocument doc = new XmlDocument();
+                doc.Load(@"RegInfoFile.xml");
+                XmlNode root = doc.SelectSingleNode("regstore");
+                XmlElement xe = doc.DocumentElement;
+                string strPath = string.Format("/regstore/regitem[@regName=\"{0}\"]", regname);
+                if (strPath != null)
+                {
+                    XmlElement selectXe = (XmlElement)xe.SelectSingleNode(strPath);  //selectSingleNode 根据XPath表达式,获得符合条件的第一个节点.
+                    reginfo.RegName = regname;
+                    reginfo.RegPath = selectXe.GetAttribute("regPath");
+                    reginfo.RegType = selectXe.GetAttribute("regType");
+                    reginfo.RegTable = selectXe.GetAttribute("regTable");
+                    return reginfo;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception e)
+            {
+                LogHelper.WriteLog(typeof(CommonClass), e);
+                return null;
             }
         }
     }

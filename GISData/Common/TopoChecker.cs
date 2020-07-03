@@ -18,13 +18,13 @@ using ESRI.ArcGIS.Controls;
 using System.Data;
 using System.IO;
 using ESRI.ArcGIS.Geoprocessing;
+using System.Diagnostics;
 
 namespace GISData.Common
 {
     class TopoChecker//功能：构建拓扑，拓扑检测
     {
         private SelfIntersectChecker _sc;
-        private GapsChecker _gcChecker;
         private IHookHelper m_hookHelper;
         private ESRI.ArcGIS.Geoprocessor.Geoprocessor gp = null;
         List<IFeatureClass> LI_FeatureClass = new List<IFeatureClass>();//要素数据集所包含的所有要素类
@@ -35,9 +35,17 @@ namespace GISData.Common
         public TopoChecker()
         {
         }
-
-        public void OtherRule(string idname, string IN_RuleType, IFeatureClass IN_FeatureClass, IFeatureClass IN_Sup_FeatureClass, string inputtext, IHookHelper m_hookHelper)
+        public void OtherRule(string idname, string IN_RuleType, string TABLENAME, string SUPTABLE, string inputtext, IHookHelper m_hookHelper)
         {
+            CommonClass common = new CommonClass();
+            IFeatureClass IN_FeatureClass = common.GetLayerByName(TABLENAME).FeatureClass;
+
+            IFeatureClass IN_Sup_FeatureClass = null;
+            if (SUPTABLE != null) 
+            {
+                IN_Sup_FeatureClass = common.GetLayerByName(SUPTABLE).FeatureClass;
+            
+            }
             if (IN_RuleType == "面多部件检查")
             {
                 List<ErrorEntity> list = new List<ErrorEntity>();
@@ -77,8 +85,8 @@ namespace GISData.Common
             {
                 IFeatureLayer flay = new FeatureLayer();
                 flay.FeatureClass = IN_FeatureClass;
-                this._sc = new SelfIntersectChecker(flay);
-                List<ErrorEntity> pErrEntity = this._sc.AreaSelfIntersect(idname, flay, 2);
+                TopoClassChecker topo = new TopoClassChecker();
+                List<ErrorEntity> pErrEntity = topo.AreaSelfIntersect(idname, flay);
                 DicTopoError[idname] = pErrEntity.Count;
                 new ErrorTable().AddErr(pErrEntity, ErrType.SelfIntersect, idname);
             }
@@ -87,8 +95,8 @@ namespace GISData.Common
                 this.m_hookHelper = m_hookHelper;
                 IFeatureLayer flay = new FeatureLayer();
                 flay.FeatureClass = IN_FeatureClass;
-                this._gcChecker = new GapsChecker(flay, 0);
-                List<Dictionary<string, IGeometry>> pErrGeo =  this._gcChecker.CheckFeatureGap(IN_FeatureClass, inputtext);
+                TopoClassChecker topo = new TopoClassChecker();
+                List<Dictionary<string, IGeometry>> pErrGeo = topo.CheckFeatureGap(IN_FeatureClass, inputtext);
                 List<GapErrorEntity> pErrEntity = new List<GapErrorEntity>();
                 int errorCount = 0;
                 if (pErrGeo != null)
@@ -109,11 +117,45 @@ namespace GISData.Common
             }
             else if (IN_RuleType == "面重叠检查")
             {
+                IFeatureClass outIFC = null;
+                this.m_hookHelper = m_hookHelper;
+                ESRI.ArcGIS.AnalysisTools.Intersect intersect = new ESRI.ArcGIS.AnalysisTools.Intersect();
+                string outString = Application.StartupPath + "\\TopoError\\" + IN_RuleType + idname + ".shp";
+                intersect.in_features = common.GetPathByName(TABLENAME);
+                intersect.out_feature_class = outString;
+                Geoprocessor geoProcessor = new Geoprocessor();
+                geoProcessor.OverwriteOutput = true;
+                try 
+                {
+                    if (this.gp == null)
+                    {
+                        this.gp = new ESRI.ArcGIS.Geoprocessor.Geoprocessor();
+                    }
+                    IGeoProcessorResult result = (IGeoProcessorResult)this.gp.Execute(intersect, null);
+
+                    if (result.Status != ESRI.ArcGIS.esriSystem.esriJobStatus.esriJobSucceeded)
+                    {
+                        Console.WriteLine("gp工具执行错误");
+                    }
+                    else
+                    {
+                        outIFC = this.gp.Open(result.ReturnValue) as IFeatureClass;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                
+                DicTopoError[idname] = outIFC.FeatureCount(null);
+            }
+            else if (IN_RuleType == "面重叠检查111")
+            {
                 this.m_hookHelper = m_hookHelper;
                 IFeatureLayer flay = new FeatureLayer();
                 flay.FeatureClass = IN_FeatureClass;
-                OverLapChecker olChecker = new OverLapChecker(flay, 0);
-                List<ErrorEntity> pErrEntity = olChecker.CheckOverLap(idname, flay, 3);
+                TopoClassChecker topo = new TopoClassChecker();
+                List<ErrorEntity> pErrEntity = topo.CheckOverLap(idname, flay);
                 DicTopoError[idname] = pErrEntity.Count;
                 new ErrorTable().AddErr(pErrEntity, ErrType.OverLap, idname);
             }
@@ -124,14 +166,13 @@ namespace GISData.Common
                 IFeature pFeature = pFeatureCursor.NextFeature();
                 while (pFeature != null)
                 {//记录集循环
-                    Console.WriteLine("2cd" + pFeature.OID.ToString());
                     IList<IGeometry> list = new List<IGeometry>();
                     ISpatialFilter spatialFilter = new SpatialFilterClass();
                     spatialFilter.Geometry = pFeature.ShapeCopy;
                     spatialFilter.GeometryField = IN_Sup_FeatureClass.ShapeFieldName;
                     spatialFilter.SubFields = IN_Sup_FeatureClass.OIDFieldName + "," + IN_Sup_FeatureClass.ShapeFieldName;
                     spatialFilter.SpatialRel = esriSpatialRelEnum.esriSpatialRelIntersects;
-                    IFeatureCursor featureCursor = IN_Sup_FeatureClass.Search(spatialFilter, false);
+                    IFeatureCursor featureCursor = IN_Sup_FeatureClass.Search(spatialFilter, true);
                     IFeature tFeature = featureCursor.NextFeature();//遍历查询结果
                     if (tFeature != null)
                     {

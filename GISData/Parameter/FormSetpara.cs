@@ -27,9 +27,12 @@ namespace GISData.Parameter
         {
             ISpatialReferenceDialog2 pSRDialog = new SpatialReferenceDialogClass();
             ISpatialReference iSpatialReference = pSRDialog.DoModalCreate(true, false, false, 0);
-            this.textBox1.Text = iSpatialReference.Name;
-            CommonClass common = new CommonClass();
-            common.SetConfigValue("SpatialReferenceName", iSpatialReference.Name);
+            if (iSpatialReference != null) 
+            {
+                this.textBox1.Text = iSpatialReference.Name;
+                CommonClass common = new CommonClass();
+                common.SetConfigValue("SpatialReferenceName", iSpatialReference.Name);
+            }
         }
 
         private void FormSetpara_Load(object sender, EventArgs e)

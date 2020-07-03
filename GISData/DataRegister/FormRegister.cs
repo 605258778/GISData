@@ -14,6 +14,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml;
 
 namespace GISData.DataRegister
 {
@@ -191,7 +192,9 @@ namespace GISData.DataRegister
                         //打开数据文件中航路点这个表
                         IFeatureClass pFeatureClass = pFeatureWorkspace.OpenFeatureClass(nodeData["NAME"].ToString());
                         string FeatureType = pFeatureClass.ShapeType.ToString();
-                        Boolean result = cd.Insert("insert into GISDATA_REGINFO (REG_NAME,REG_ALIASNAME,FEATURE_TYPE,PATH,DBTYPE) values ('" + nodeData["NAME"].ToString() + "','" + nodeData["NAME"].ToString() + "','" + FeatureType + "','" + nodeData["PATH"].ToString() + "','" + nodeData["TYPE"].ToString() + "')");
+                        Boolean result = cd.Insert("insert into GISDATA_REGINFO (REG_NAME,REG_ALIASNAME,FEATURE_TYPE,PATH,DBTYPE) values ('" + nodeData["NAME"].ToString() + "','" + nodeData["NAME"].ToString() + "','" + FeatureType + "','" + nodeData["PATH"].ToString().Replace(@"\", @"\\") + "','" + nodeData["TYPE"].ToString() + "')");
+                        CommonClass common = new CommonClass();
+                        common.insertXmlNode(nodeData["NAME"].ToString(), nodeData["PATH"].ToString(), nodeData["TYPE"].ToString(), nodeData["NAME"].ToString());
                         if (result)
                         {
                             for (int i = 0; i < pFeatureClass.Fields.FieldCount; i++)
@@ -223,7 +226,6 @@ namespace GISData.DataRegister
             }
             return boolFlag;
         }
-
         //删除注册连接
         private void buttonDelConnecte_Click(object sender, EventArgs e)
         {
@@ -269,6 +271,8 @@ namespace GISData.DataRegister
                 {
                     ConnectDB cd = new ConnectDB();
                     Boolean result = cd.Delete("DELETE from GISDATA_REGINFO WHERE REG_NAME = '" + val+"'");
+                    CommonClass common = new CommonClass();
+                    common.deleteXmlNode(val);
                     if (result)
                     {
                         Boolean result1 = cd.Delete("DELETE from GISDATA_MATEDATA WHERE REG_NAME = '" + val + "'");
@@ -402,6 +406,11 @@ namespace GISData.DataRegister
             string val = row["REG_NAME"].ToString();
             this.regName = val;
             refreshDataGridField(val);
+        }
+
+        private void treeList1_FocusedNodeChanged(object sender, DevExpress.XtraTreeList.FocusedNodeChangedEventArgs e)
+        {
+
         }
     }
 }

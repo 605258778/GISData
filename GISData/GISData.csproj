@@ -347,6 +347,7 @@
     <Compile Include="Common\OpenAttribute.cs" />
     <Compile Include="Common\ConvertPivotTable.cs" />
     <Compile Include="Common\RefreshTable.cs" />
+    <Compile Include="Common\RegInfo.cs" />
     <Compile Include="Common\RemoveLayer.cs" />
     <Compile Include="Common\TopoChecker.cs" />
     <Compile Include="Common\TopologyChecker.cs" />
@@ -778,6 +779,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="GISData.ico" />
+    <Content Include="RegInfoFile.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

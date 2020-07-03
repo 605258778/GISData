@@ -43,6 +43,7 @@ namespace GISData.ChekConfig
                         //this.formConfigMain.ShowForm();
                     }
                     this.formConfigMain.loadStep();
+                    this.Close();
                 }
             }
         }

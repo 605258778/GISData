@@ -25,19 +25,12 @@
             this.m_CheckType = iCheckType;
         }
 
-        public List<ErrorEntity> AreaSelfIntersect(string idname,IFeatureLayer pLayer, int iCheckType)
+        public List<ErrorEntity> AreaSelfIntersect(string idname,IFeatureLayer pLayer)
         {
             IFeatureCursor cursor;
             IQueryFilter filter = new QueryFilterClass();
             filter.SubFields = pLayer.FeatureClass.OIDFieldName + "," + pLayer.FeatureClass.ShapeFieldName;
-            if (iCheckType == 0)
-            {
-                cursor = pLayer.FeatureClass.Search(filter, true);
-            }
-            else
-            {
-                cursor = pLayer.Search(filter, true);
-            }
+            cursor = pLayer.FeatureClass.Search(filter, true);
             IFieldEdit edit = pLayer.FeatureClass.Fields.get_Field(pLayer.FeatureClass.Fields.FindField(pLayer.FeatureClass.ShapeFieldName)) as IFieldEdit;
             ISpatialReference spatialReference = edit.GeometryDef.SpatialReference;
             List<ErrorEntity> list = new List<ErrorEntity>();

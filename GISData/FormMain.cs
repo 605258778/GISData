@@ -317,7 +317,10 @@ namespace GISData
                                         }
                                         else
                                         {
-                                            Boolean result = db.Update("update GISDATA_REGINFO set PATH= '" + pDataset.Workspace.PathName + "',DBTYPE = '" + layerType + "',TABLENAME = '" + pDataset.Name + "' where REG_NAME = '" + tablename + "'");
+                                            string path = pDataset.Workspace.PathName.Replace(@"\" , @"\\");
+                                            Console.WriteLine(path);
+                                            Boolean result = db.Update("update GISDATA_REGINFO set PATH= '" + path + "',DBTYPE = '" + layerType + "',TABLENAME = '" + pDataset.Name + "' where REG_NAME = '" + tablename + "'");
+                                            common.updateXmlNode(tablename, path, layerType, pDataset.Name);
                                             tx.Text = pDataset.BrowseName;
                                             tx.Name = pDataset.BrowseName;
                                         }

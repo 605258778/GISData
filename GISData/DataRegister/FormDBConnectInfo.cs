@@ -66,6 +66,7 @@ namespace GISData.DataRegister
             string ConName = this.textBoxConName.Text;
             string ConType = this.comboBoxConType.SelectedItem.ToString();
             string ConPath = this.textBoxConPath.Text;
+            ConPath = ConPath.Replace(@"\", @"\\");
             //插入信息到GISDATA_REGCONNECT
             bool isInsert = cd.Insert("insert into GISDATA_REGCONNECT (REG_NAME,REG_TYPE,REG_PATH) values ('" + ConName + "','" + ConType + "','" + ConPath + "')");
             if (isInsert) 

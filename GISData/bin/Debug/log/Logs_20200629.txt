@@ -1,0 +1,180 @@
+ ----------------------header--------------------------
+2020-06-29 16:12:42,472 [9] ERROR GISData.Program - 登录
+2020-06-29 16:12:50,683 [9] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+2020-06-29 16:12:57,237 [9] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+2020-06-29 16:12:57,508 [9] ERROR GISData.Program - 开始运行
+2020-06-29 16:13:08,029 [9] ERROR GISData.FormMain - 窗体初始化开始
+2020-06-29 16:13:08,080 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_USER WHERE USER ='曾伟'
+2020-06-29 16:13:19,153 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_REGCONNECT
+2020-06-29 16:13:21,861 [9] ERROR GISData.Common.ConnectDB - select REG_NAME,REG_ALIASNAME AS 注册名称 from GISDATA_REGINFO
+2020-06-29 16:13:42,082 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_SCHEME order by IS_DEFAULT desc
+2020-06-29 16:13:42,146 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = 'System.Data.DataRowView' order by STEP_NO
+2020-06-29 16:13:42,238 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = '营造林质检方案' order by STEP_NO
+2020-06-29 16:13:42,321 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-06-29 16:13:42,431 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-06-29 16:13:42,516 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_REPORT where SCHEME ='营造林质检方案' and STEP_NO = '3'
+2020-06-29 16:13:52,088 [9] ERROR GISData.Common.ConnectDB - select NAME,STATE,ERROR,CHECKTYPE,TABLENAME,WHERESTRING,SUPTABLE,INPUTTEXT,ID from GISDATA_TBTOPO where SCHEME ='营造林质检方案' and STEP_NO = '2'
+2020-06-29 16:13:52,973 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_REPORT where SCHEME ='营造林质检方案' and STEP_NO = '3'
+ ----------------------header--------------------------
+2020-06-29 16:27:08,241 [10] ERROR GISData.Program - 登录
+ ----------------------header--------------------------
+2020-06-29 16:28:05,473 [8] ERROR GISData.Program - 登录
+2020-06-29 16:28:13,910 [8] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+2020-06-29 16:28:14,717 [8] ERROR GISData.Program - 开始运行
+2020-06-29 16:28:17,922 [8] ERROR GISData.FormMain - 窗体初始化开始
+2020-06-29 16:28:17,934 [8] ERROR GISData.Common.ConnectDB - select * from GISDATA_USER WHERE USER ='曾伟'
+2020-06-29 16:28:21,909 [8] ERROR GISData.Common.ConnectDB - select * from GISDATA_SCHEME order by IS_DEFAULT desc
+2020-06-29 16:28:21,946 [8] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = 'System.Data.DataRowView' order by STEP_NO
+2020-06-29 16:28:22,123 [8] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = '营造林质检方案' order by STEP_NO
+2020-06-29 16:28:22,307 [8] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-06-29 16:28:22,334 [8] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-06-29 16:28:23,063 [8] ERROR GISData.Common.ConnectDB - select * from GISDATA_REPORT where SCHEME ='营造林质检方案' and STEP_NO = '3'
+2020-06-29 16:28:24,671 [8] ERROR GISData.Common.ConnectDB - select NAME,STATE,ERROR,CHECKTYPE,TABLENAME,WHERESTRING,SUPTABLE,INPUTTEXT,ID from GISDATA_TBTOPO where SCHEME ='营造林质检方案' and STEP_NO = '2'
+ ----------------------header--------------------------
+2020-06-29 16:51:41,461 [9] ERROR GISData.Program - 登录
+2020-06-29 16:51:46,610 [9] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+2020-06-29 16:51:47,746 [9] ERROR GISData.Program - 开始运行
+2020-06-29 16:51:50,938 [9] ERROR GISData.FormMain - 窗体初始化开始
+2020-06-29 16:51:51,014 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_USER WHERE USER ='曾伟'
+2020-06-29 16:51:53,272 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_SCHEME order by IS_DEFAULT desc
+2020-06-29 16:51:53,277 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = 'System.Data.DataRowView' order by STEP_NO
+2020-06-29 16:51:53,320 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = '营造林质检方案' order by STEP_NO
+2020-06-29 16:51:53,485 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-06-29 16:51:53,507 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-06-29 16:51:54,394 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_REPORT where SCHEME ='营造林质检方案' and STEP_NO = '3'
+2020-06-29 16:51:55,480 [9] ERROR GISData.Common.ConnectDB - select NAME,STATE,ERROR,CHECKTYPE,TABLENAME,WHERESTRING,SUPTABLE,INPUTTEXT,ID from GISDATA_TBTOPO where SCHEME ='营造林质检方案' and STEP_NO = '2'
+2020-06-29 16:52:01,764 [9] ERROR GISData.Program - Error
+System.Runtime.InteropServices.COMException (0x8000FFFF): 灾难性故障 (异常来自 HRESULT:0x8000FFFF (E_UNEXPECTED))
+   在 ESRI.ArcGIS.Carto.BasicGeoprocessorClass.Intersect(ITable inputTable, Boolean useSelectedInput, ITable overlayTable, Boolean useSelectedOverlay, Double Tolerance, IFeatureClassName outputName)
+   在 TopologyCheck.Checker.TopoClassChecker.CheckOverLap11(String idname, IFeatureLayer pLayer) 位置 f:\数据验收平台建设\GISData\GISData\TopologyCheck\Checker\TopoClassChecker.cs:行号 127
+   在 GISData.Common.TopoChecker.OtherRule(String idname, String IN_RuleType, IFeatureClass IN_FeatureClass, IFeatureClass IN_Sup_FeatureClass, String inputtext, IHookHelper m_hookHelper) 位置 f:\数据验收平台建设\GISData\GISData\Common\TopoChecker.cs:行号 115
+   在 GISData.DataCheck.CheckDialog.FormTopoDia.doCheckTopo(IHookHelper m_hookHelper) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormTopoDia.cs:行号 121
+   在 GISData.DataCheck.FormCheckMain.buttonCheckStar_Click(Object sender, EventArgs e) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\FormCheckMain.cs:行号 253
+   在 System.Windows.Forms.Control.OnClick(EventArgs e)
+   在 System.Windows.Forms.Button.OnClick(EventArgs e)
+   在 System.Windows.Forms.Button.OnMouseUp(MouseEventArgs mevent)
+   在 System.Windows.Forms.Control.WmMouseUp(Message& m, MouseButtons button, Int32 clicks)
+   在 System.Windows.Forms.Control.WndProc(Message& m)
+   在 System.Windows.Forms.ButtonBase.WndProc(Message& m)
+   在 System.Windows.Forms.Button.WndProc(Message& m)
+   在 System.Windows.Forms.Control.ControlNativeWindow.OnMessage(Message& m)
+   在 System.Windows.Forms.Control.ControlNativeWindow.WndProc(Message& m)
+   在 System.Windows.Forms.NativeWindow.DebuggableCallback(IntPtr hWnd, Int32 msg, IntPtr wparam, IntPtr lparam)
+   在 System.Windows.Forms.UnsafeNativeMethods.DispatchMessageW(MSG& msg)
+   在 System.Windows.Forms.Application.ComponentManager.System.Windows.Forms.UnsafeNativeMethods.IMsoComponentManager.FPushMessageLoop(IntPtr dwComponentID, Int32 reason, Int32 pvLoopData)
+   在 System.Windows.Forms.Application.ThreadContext.RunMessageLoopInner(Int32 reason, ApplicationContext context)
+   在 System.Windows.Forms.Application.ThreadContext.RunMessageLoop(Int32 reason, ApplicationContext context)
+   在 System.Windows.Forms.Application.Run(Form mainForm)
+   在 GISData.Program.Main() 位置 f:\数据验收平台建设\GISData\GISData\Program.cs:行号 40
+ ----------------------footer--------------------------
+ ----------------------header--------------------------
+2020-06-29 16:52:17,943 [9] ERROR GISData.Program - 登录
+2020-06-29 16:52:21,258 [9] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+2020-06-29 16:52:21,476 [9] ERROR GISData.Program - 开始运行
+2020-06-29 16:52:23,270 [9] ERROR GISData.FormMain - 窗体初始化开始
+2020-06-29 16:52:23,282 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_USER WHERE USER ='曾伟'
+2020-06-29 16:52:25,357 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_SCHEME order by IS_DEFAULT desc
+2020-06-29 16:52:25,363 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = 'System.Data.DataRowView' order by STEP_NO
+2020-06-29 16:52:25,406 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = '营造林质检方案' order by STEP_NO
+2020-06-29 16:52:25,560 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-06-29 16:52:25,583 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-06-29 16:52:26,412 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_REPORT where SCHEME ='营造林质检方案' and STEP_NO = '3'
+2020-06-29 16:52:27,984 [9] ERROR GISData.Common.ConnectDB - select NAME,STATE,ERROR,CHECKTYPE,TABLENAME,WHERESTRING,SUPTABLE,INPUTTEXT,ID from GISDATA_TBTOPO where SCHEME ='营造林质检方案' and STEP_NO = '2'
+2020-06-29 16:52:38,754 [9] ERROR GISData.Program - Error
+System.Runtime.InteropServices.COMException (0x8000FFFF): 灾难性故障 (异常来自 HRESULT:0x8000FFFF (E_UNEXPECTED))
+   在 ESRI.ArcGIS.Carto.BasicGeoprocessorClass.Intersect(ITable inputTable, Boolean useSelectedInput, ITable overlayTable, Boolean useSelectedOverlay, Double Tolerance, IFeatureClassName outputName)
+   在 TopologyCheck.Checker.TopoClassChecker.CheckOverLap11(String idname, IFeatureLayer pLayer) 位置 f:\数据验收平台建设\GISData\GISData\TopologyCheck\Checker\TopoClassChecker.cs:行号 127
+   在 GISData.Common.TopoChecker.OtherRule(String idname, String IN_RuleType, IFeatureClass IN_FeatureClass, IFeatureClass IN_Sup_FeatureClass, String inputtext, IHookHelper m_hookHelper) 位置 f:\数据验收平台建设\GISData\GISData\Common\TopoChecker.cs:行号 115
+   在 GISData.DataCheck.CheckDialog.FormTopoDia.doCheckTopo(IHookHelper m_hookHelper) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormTopoDia.cs:行号 121
+   在 GISData.DataCheck.FormCheckMain.buttonCheckStar_Click(Object sender, EventArgs e) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\FormCheckMain.cs:行号 253
+   在 System.Windows.Forms.Control.OnClick(EventArgs e)
+   在 System.Windows.Forms.Button.OnClick(EventArgs e)
+   在 System.Windows.Forms.Button.OnMouseUp(MouseEventArgs mevent)
+   在 System.Windows.Forms.Control.WmMouseUp(Message& m, MouseButtons button, Int32 clicks)
+   在 System.Windows.Forms.Control.WndProc(Message& m)
+   在 System.Windows.Forms.ButtonBase.WndProc(Message& m)
+   在 System.Windows.Forms.Button.WndProc(Message& m)
+   在 System.Windows.Forms.Control.ControlNativeWindow.OnMessage(Message& m)
+   在 System.Windows.Forms.Control.ControlNativeWindow.WndProc(Message& m)
+   在 System.Windows.Forms.NativeWindow.DebuggableCallback(IntPtr hWnd, Int32 msg, IntPtr wparam, IntPtr lparam)
+   在 System.Windows.Forms.UnsafeNativeMethods.DispatchMessageW(MSG& msg)
+   在 System.Windows.Forms.Application.ComponentManager.System.Windows.Forms.UnsafeNativeMethods.IMsoComponentManager.FPushMessageLoop(IntPtr dwComponentID, Int32 reason, Int32 pvLoopData)
+   在 System.Windows.Forms.Application.ThreadContext.RunMessageLoopInner(Int32 reason, ApplicationContext context)
+   在 System.Windows.Forms.Application.ThreadContext.RunMessageLoop(Int32 reason, ApplicationContext context)
+   在 System.Windows.Forms.Application.Run(Form mainForm)
+   在 GISData.Program.Main() 位置 f:\数据验收平台建设\GISData\GISData\Program.cs:行号 40
+ ----------------------footer--------------------------
+ ----------------------header--------------------------
+2020-06-29 16:52:58,156 [11] ERROR GISData.Program - 登录
+2020-06-29 16:53:02,485 [11] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+2020-06-29 16:53:02,722 [11] ERROR GISData.Program - 开始运行
+2020-06-29 16:53:04,344 [11] ERROR GISData.FormMain - 窗体初始化开始
+2020-06-29 16:53:04,354 [11] ERROR GISData.Common.ConnectDB - select * from GISDATA_USER WHERE USER ='曾伟'
+2020-06-29 16:53:06,004 [11] ERROR GISData.Common.ConnectDB - select * from GISDATA_SCHEME order by IS_DEFAULT desc
+2020-06-29 16:53:06,009 [11] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = 'System.Data.DataRowView' order by STEP_NO
+2020-06-29 16:53:06,053 [11] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = '营造林质检方案' order by STEP_NO
+2020-06-29 16:53:06,210 [11] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-06-29 16:53:06,233 [11] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-06-29 16:53:06,978 [11] ERROR GISData.Common.ConnectDB - select * from GISDATA_REPORT where SCHEME ='营造林质检方案' and STEP_NO = '3'
+2020-06-29 16:53:08,087 [11] ERROR GISData.Common.ConnectDB - select NAME,STATE,ERROR,CHECKTYPE,TABLENAME,WHERESTRING,SUPTABLE,INPUTTEXT,ID from GISDATA_TBTOPO where SCHEME ='营造林质检方案' and STEP_NO = '2'
+2020-06-29 16:53:38,742 [11] ERROR GISData.Program - Error
+System.Runtime.InteropServices.COMException (0x8000FFFF): 灾难性故障 (异常来自 HRESULT:0x8000FFFF (E_UNEXPECTED))
+   在 ESRI.ArcGIS.Carto.BasicGeoprocessorClass.Intersect(ITable inputTable, Boolean useSelectedInput, ITable overlayTable, Boolean useSelectedOverlay, Double Tolerance, IFeatureClassName outputName)
+   在 TopologyCheck.Checker.TopoClassChecker.CheckOverLap11(String idname, IFeatureLayer pLayer) 位置 f:\数据验收平台建设\GISData\GISData\TopologyCheck\Checker\TopoClassChecker.cs:行号 127
+   在 GISData.Common.TopoChecker.OtherRule(String idname, String IN_RuleType, IFeatureClass IN_FeatureClass, IFeatureClass IN_Sup_FeatureClass, String inputtext, IHookHelper m_hookHelper) 位置 f:\数据验收平台建设\GISData\GISData\Common\TopoChecker.cs:行号 115
+   在 GISData.DataCheck.CheckDialog.FormTopoDia.doCheckTopo(IHookHelper m_hookHelper) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormTopoDia.cs:行号 121
+   在 GISData.DataCheck.FormCheckMain.buttonCheckStar_Click(Object sender, EventArgs e) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\FormCheckMain.cs:行号 253
+   在 System.Windows.Forms.Control.OnClick(EventArgs e)
+   在 System.Windows.Forms.Button.OnClick(EventArgs e)
+   在 System.Windows.Forms.Button.OnMouseUp(MouseEventArgs mevent)
+   在 System.Windows.Forms.Control.WmMouseUp(Message& m, MouseButtons button, Int32 clicks)
+   在 System.Windows.Forms.Control.WndProc(Message& m)
+   在 System.Windows.Forms.ButtonBase.WndProc(Message& m)
+   在 System.Windows.Forms.Button.WndProc(Message& m)
+   在 System.Windows.Forms.Control.ControlNativeWindow.OnMessage(Message& m)
+   在 System.Windows.Forms.Control.ControlNativeWindow.WndProc(Message& m)
+   在 System.Windows.Forms.NativeWindow.DebuggableCallback(IntPtr hWnd, Int32 msg, IntPtr wparam, IntPtr lparam)
+   在 System.Windows.Forms.UnsafeNativeMethods.DispatchMessageW(MSG& msg)
+   在 System.Windows.Forms.Application.ComponentManager.System.Windows.Forms.UnsafeNativeMethods.IMsoComponentManager.FPushMessageLoop(IntPtr dwComponentID, Int32 reason, Int32 pvLoopData)
+   在 System.Windows.Forms.Application.ThreadContext.RunMessageLoopInner(Int32 reason, ApplicationContext context)
+   在 System.Windows.Forms.Application.ThreadContext.RunMessageLoop(Int32 reason, ApplicationContext context)
+   在 System.Windows.Forms.Application.Run(Form mainForm)
+   在 GISData.Program.Main() 位置 f:\数据验收平台建设\GISData\GISData\Program.cs:行号 40
+ ----------------------footer--------------------------
+ ----------------------header--------------------------
+2020-06-29 16:54:00,956 [10] ERROR GISData.Program - 登录
+2020-06-29 16:54:07,011 [10] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+2020-06-29 16:54:07,238 [10] ERROR GISData.Program - 开始运行
+2020-06-29 16:54:08,874 [10] ERROR GISData.FormMain - 窗体初始化开始
+2020-06-29 16:54:08,889 [10] ERROR GISData.Common.ConnectDB - select * from GISDATA_USER WHERE USER ='曾伟'
+2020-06-29 16:54:10,836 [10] ERROR GISData.Common.ConnectDB - select * from GISDATA_SCHEME order by IS_DEFAULT desc
+2020-06-29 16:54:10,841 [10] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = 'System.Data.DataRowView' order by STEP_NO
+2020-06-29 16:54:10,885 [10] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = '营造林质检方案' order by STEP_NO
+2020-06-29 16:54:11,043 [10] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-06-29 16:54:11,067 [10] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-06-29 16:54:11,780 [10] ERROR GISData.Common.ConnectDB - select * from GISDATA_REPORT where SCHEME ='营造林质检方案' and STEP_NO = '3'
+2020-06-29 16:54:12,889 [10] ERROR GISData.Common.ConnectDB - select NAME,STATE,ERROR,CHECKTYPE,TABLENAME,WHERESTRING,SUPTABLE,INPUTTEXT,ID from GISDATA_TBTOPO where SCHEME ='营造林质检方案' and STEP_NO = '2'
+2020-06-29 16:54:17,360 [10] ERROR GISData.Program - Error
+System.Runtime.InteropServices.COMException (0x80004005): 对 COM 组件的调用返回了错误 HRESULT E_FAIL。
+   在 ESRI.ArcGIS.Carto.BasicGeoprocessorClass.Intersect(ITable inputTable, Boolean useSelectedInput, ITable overlayTable, Boolean useSelectedOverlay, Double Tolerance, IFeatureClassName outputName)
+   在 TopologyCheck.Checker.TopoClassChecker.CheckOverLap11(String idname, IFeatureLayer pLayer) 位置 f:\数据验收平台建设\GISData\GISData\TopologyCheck\Checker\TopoClassChecker.cs:行号 127
+   在 GISData.Common.TopoChecker.OtherRule(String idname, String IN_RuleType, IFeatureClass IN_FeatureClass, IFeatureClass IN_Sup_FeatureClass, String inputtext, IHookHelper m_hookHelper) 位置 f:\数据验收平台建设\GISData\GISData\Common\TopoChecker.cs:行号 115
+   在 GISData.DataCheck.CheckDialog.FormTopoDia.doCheckTopo(IHookHelper m_hookHelper) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormTopoDia.cs:行号 121
+   在 GISData.DataCheck.FormCheckMain.buttonCheckStar_Click(Object sender, EventArgs e) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\FormCheckMain.cs:行号 253
+   在 System.Windows.Forms.Control.OnClick(EventArgs e)
+   在 System.Windows.Forms.Button.OnClick(EventArgs e)
+   在 System.Windows.Forms.Button.OnMouseUp(MouseEventArgs mevent)
+   在 System.Windows.Forms.Control.WmMouseUp(Message& m, MouseButtons button, Int32 clicks)
+   在 System.Windows.Forms.Control.WndProc(Message& m)
+   在 System.Windows.Forms.ButtonBase.WndProc(Message& m)
+   在 System.Windows.Forms.Button.WndProc(Message& m)
+   在 System.Windows.Forms.Control.ControlNativeWindow.OnMessage(Message& m)
+   在 System.Windows.Forms.Control.ControlNativeWindow.WndProc(Message& m)
+   在 System.Windows.Forms.NativeWindow.DebuggableCallback(IntPtr hWnd, Int32 msg, IntPtr wparam, IntPtr lparam)
+   在 System.Windows.Forms.UnsafeNativeMethods.DispatchMessageW(MSG& msg)
+   在 System.Windows.Forms.Application.ComponentManager.System.Windows.Forms.UnsafeNativeMethods.IMsoComponentManager.FPushMessageLoop(IntPtr dwComponentID, Int32 reason, Int32 pvLoopData)
+   在 System.Windows.Forms.Application.ThreadContext.RunMessageLoopInner(Int32 reason, ApplicationContext context)
+   在 System.Windows.Forms.Application.ThreadContext.RunMessageLoop(Int32 reason, ApplicationContext context)
+   在 System.Windows.Forms.Application.Run(Form mainForm)
+   在 GISData.Program.Main() 位置 f:\数据验收平台建设\GISData\GISData\Program.cs:行号 40
+ ----------------------footer--------------------------

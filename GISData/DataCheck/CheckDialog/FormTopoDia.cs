@@ -114,11 +114,12 @@ namespace GISData.DataCheck.CheckDialog
                 row["STATE"] = "检查中";
                 if (SUPTABLE != null && SUPTABLE != "")
                 {
-                    topocheck.OtherRule(ID, TYPE, common.GetLayerByName(TABLENAME).FeatureClass, common.GetLayerByName(SUPTABLE).FeatureClass, INPUTTEXT, m_hookHelper);
+                    topocheck.OtherRule(ID, TYPE, TABLENAME, SUPTABLE, INPUTTEXT, m_hookHelper);
                 }
                 else 
                 {
-                    topocheck.OtherRule(ID, TYPE, common.GetLayerByName(TABLENAME).FeatureClass, null, INPUTTEXT, m_hookHelper);
+                    //topocheck.OtherRule(ID, TYPE, common.GetPathByName(TABLENAME), null, INPUTTEXT, m_hookHelper);
+                    topocheck.OtherRule(ID, TYPE, TABLENAME, null, INPUTTEXT, m_hookHelper);
                 }
                 Dictionary<string, int> DicTopoError = topocheck.DicTopoError;
                 row["ERROR"] = DicTopoError[row["ID"].ToString()];
@@ -155,15 +156,77 @@ namespace GISData.DataCheck.CheckDialog
                             string errorType = this.gridView1.GetRowCellValue(gridView1.FocusedRowHandle, "CHECKTYPE").ToString();
                             string idname = this.gridView1.GetRowCellValue(gridView1.FocusedRowHandle, "ID").ToString();
                             string TABLENAME = this.gridView1.GetRowCellValue(gridView1.FocusedRowHandle, "TABLENAME").ToString();
-                           
+                            if (errorType == "面重叠检查") 
+                            {
+                                CommonClass common = new CommonClass();
+                                string outString = Application.StartupPath + "\\TopoError\\" + errorType + idname + ".shp";
+                                IFeatureClass IFC = common.GetFeatureClassByShpPath(outString);
+                                TableShow(IFC, this.gridControlError, "拓扑检查ByGP", TABLENAME, errorType + idname + ".shp");
+                            } else 
+                            {
+                                GridView gridView = this.gridControlError.DefaultView as GridView;
+                                ErrorTable table = new ErrorTable();
+                                DataTable table2 = table.GetTable(idname);
+                                DataRow[] dr = table2.Select("1=1");
+                                //ESRI.ArcGIS.Geometry.IGeometry igo = (ESRI.ArcGIS.Geometry.IGeometry) dr[0]["Geometry"];
+                                gridView.Columns.Clear();
+                                for (int i = 0; i < table2.Columns.Count; i++)
+                                {
+                                    GridColumn gridCol_FeatureID = new GridColumn();
+                                    gridCol_FeatureID.Caption = table2.Columns[i].Caption;
+                                    gridCol_FeatureID.FieldName = table2.Columns[i].ColumnName;
+                                    gridCol_FeatureID.Name = table2.Columns[i].ColumnName;
+                                    gridCol_FeatureID.Visible = true;
+                                    gridView.Columns.Add(gridCol_FeatureID);
+                                }
+                                this.gridControlError.DataSource = table2;
+                                gridView.OptionsBehavior.Editable = false;
+                                gridView.OptionsSelection.MultiSelect = false;
+                                gridView.ViewCaption = "拓扑检查";
+                                gridView.NewItemRowText = TABLENAME;
+                                gridView.OptionsView.ColumnAutoWidth = false;
+                                this.gridControlError.RefreshDataSource();
+                            }
                             
+
+                           
+                        }
+                        else {
+                            Console.WriteLine("未选中");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("MyException Throw:" + ex.Message);
+            }
+        }
+
+        private void gridControl13333_MouseDown(object sender, MouseEventArgs e)
+        {
+            try
+            {
+                DevExpress.XtraGrid.Views.Grid.ViewInfo.GridHitInfo hInfo = gridView1.CalcHitInfo(new Point(e.X, e.Y));
+                if (e.Button == MouseButtons.Left && e.Clicks == 2)//判断是否左键双击
+                {
+                    //判断光标是否在行范围内 
+                    if (hInfo.InRow)
+                    {
+                        if (this.checkBoxCheckMain.Checked)
+                        {
+                            string errorType = this.gridView1.GetRowCellValue(gridView1.FocusedRowHandle, "CHECKTYPE").ToString();
+                            string idname = this.gridView1.GetRowCellValue(gridView1.FocusedRowHandle, "ID").ToString();
+                            string TABLENAME = this.gridView1.GetRowCellValue(gridView1.FocusedRowHandle, "TABLENAME").ToString();
+
+
                             GridView gridView = this.gridControlError.DefaultView as GridView;
                             ErrorTable table = new ErrorTable();
                             DataTable table2 = table.GetTable(idname);
                             DataRow[] dr = table2.Select("1=1");
                             //ESRI.ArcGIS.Geometry.IGeometry igo = (ESRI.ArcGIS.Geometry.IGeometry) dr[0]["Geometry"];
                             gridView.Columns.Clear();
-                            for (int i = 0; i < table2.Columns.Count; i++) 
+                            for (int i = 0; i < table2.Columns.Count; i++)
                             {
                                 GridColumn gridCol_FeatureID = new GridColumn();
                                 gridCol_FeatureID.Caption = table2.Columns[i].Caption;
@@ -179,16 +242,69 @@ namespace GISData.DataCheck.CheckDialog
                             gridView.NewItemRowText = TABLENAME;
                             this.gridControlError.RefreshDataSource();
                         }
-                        else {
+                        else
+                        {
                             Console.WriteLine("未选中");
                         }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
                 Console.WriteLine("MyException Throw:" + ex.Message);
-            }
+            }
+        }
+        /// <summary>
+        /// 显示表格
+        /// </summary>
+        /// <param name="pFeatureClass">显示图层</param>
+        /// <param name="grid">装载grid</param>
+        /// <param name="ViewCaption">检查类型</param>
+        /// <param name="NewItemRowText">检查表格</param>
+        /// <param name="GroupPanelText">错误结果名</param>
+        public void TableShow(IFeatureClass pFeatureClass, GridControl grid, string ViewCaption, string NewItemRowText, string GroupPanelText)
+        {
+            if (pFeatureClass == null) return;
+            GridView gridView = grid.DefaultView as GridView;
+            gridView.Columns.Clear();
+
+            DataTable dt = new DataTable();
+            DataColumn dc = null;
+            for (int i = 0; i < pFeatureClass.Fields.FieldCount; i++)
+            {
+                dc = new DataColumn(pFeatureClass.Fields.get_Field(i).AliasName);
+                dt.Columns.Add(dc);
+            }
+            IFeatureCursor pFeatureCuror = pFeatureClass.Search(null, true);
+            IFeature pFeature = pFeatureCuror.NextFeature();
+
+            DataRow dr = null;
+            while (pFeature != null)
+            {
+                dr = dt.NewRow();
+                for (int j = 0; j < pFeatureClass.Fields.FieldCount; j++)
+                {
+                    if (pFeatureClass.FindField(pFeatureClass.ShapeFieldName) == j)
+                    {
+                        dr[j] = pFeatureClass.ShapeType.ToString();
+                    }
+                    else
+                    {
+                        dr[j] = pFeature.get_Value(j).ToString();
+
+                    }
+                }
+
+                dt.Rows.Add(dr);
+                pFeature = pFeatureCuror.NextFeature();
+            }
+            grid.DataSource = dt;
+            gridView.OptionsBehavior.Editable = false;
+            gridView.OptionsSelection.MultiSelect = true;
+            gridView.OptionsView.ColumnAutoWidth = false;
+            gridView.ViewCaption = ViewCaption;
+            gridView.NewItemRowText = NewItemRowText;
+            gridView.GroupPanelText = GroupPanelText;
         }
     }
 }

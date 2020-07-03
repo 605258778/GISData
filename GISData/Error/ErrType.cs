@@ -12,7 +12,8 @@
         OverLap = 3,
         ReportPoint = 1,
         SelfIntersect = 2,
-        MultiPart = 9
+        MultiPart = 9,
+        Other = 0
     }
 }
 

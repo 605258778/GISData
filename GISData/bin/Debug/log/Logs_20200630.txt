@@ -1,0 +1,287 @@
+ ----------------------header--------------------------
+2020-06-30 08:45:19,170 [9] ERROR GISData.Program - 登录
+2020-06-30 08:45:47,312 [9] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+2020-06-30 08:45:47,739 [9] ERROR GISData.Program - 开始运行
+2020-06-30 08:45:52,063 [9] ERROR GISData.FormMain - 窗体初始化开始
+2020-06-30 08:45:52,074 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_USER WHERE USER ='曾伟'
+2020-06-30 08:45:56,352 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_SCHEME order by IS_DEFAULT desc
+2020-06-30 08:45:56,413 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = 'System.Data.DataRowView' order by STEP_NO
+2020-06-30 08:45:56,505 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = '营造林质检方案' order by STEP_NO
+2020-06-30 08:45:56,683 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-06-30 08:45:56,760 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-06-30 08:45:57,649 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_REPORT where SCHEME ='营造林质检方案' and STEP_NO = '3'
+2020-06-30 08:45:59,168 [9] ERROR GISData.Common.ConnectDB - select NAME,STATE,ERROR,CHECKTYPE,TABLENAME,WHERESTRING,SUPTABLE,INPUTTEXT,ID from GISDATA_TBTOPO where SCHEME ='营造林质检方案' and STEP_NO = '2'
+ ----------------------header--------------------------
+2020-06-30 08:51:58,065 [8] ERROR GISData.Program - 登录
+2020-06-30 08:52:02,267 [8] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+2020-06-30 08:52:02,554 [8] ERROR GISData.Program - 开始运行
+2020-06-30 08:52:05,285 [8] ERROR GISData.FormMain - 窗体初始化开始
+2020-06-30 08:52:05,297 [8] ERROR GISData.Common.ConnectDB - select * from GISDATA_USER WHERE USER ='曾伟'
+2020-06-30 08:52:10,011 [8] ERROR GISData.Common.ConnectDB - select * from GISDATA_SCHEME order by IS_DEFAULT desc
+2020-06-30 08:52:10,016 [8] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = 'System.Data.DataRowView' order by STEP_NO
+2020-06-30 08:52:10,055 [8] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = '营造林质检方案' order by STEP_NO
+2020-06-30 08:52:10,206 [8] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-06-30 08:52:10,227 [8] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-06-30 08:52:10,945 [8] ERROR GISData.Common.ConnectDB - select * from GISDATA_REPORT where SCHEME ='营造林质检方案' and STEP_NO = '3'
+2020-06-30 08:52:12,329 [8] ERROR GISData.Common.ConnectDB - select NAME,STATE,ERROR,CHECKTYPE,TABLENAME,WHERESTRING,SUPTABLE,INPUTTEXT,ID from GISDATA_TBTOPO where SCHEME ='营造林质检方案' and STEP_NO = '2'
+ ----------------------header--------------------------
+2020-06-30 08:53:08,666 [9] ERROR GISData.Program - 登录
+2020-06-30 08:53:13,543 [9] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+2020-06-30 08:53:13,774 [9] ERROR GISData.Program - 开始运行
+2020-06-30 08:53:16,868 [9] ERROR GISData.FormMain - 窗体初始化开始
+2020-06-30 08:53:16,883 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_USER WHERE USER ='曾伟'
+2020-06-30 08:53:18,843 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_SCHEME order by IS_DEFAULT desc
+2020-06-30 08:53:18,849 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = 'System.Data.DataRowView' order by STEP_NO
+2020-06-30 08:53:18,899 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = '营造林质检方案' order by STEP_NO
+2020-06-30 08:53:19,051 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-06-30 08:53:19,074 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-06-30 08:53:19,786 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_REPORT where SCHEME ='营造林质检方案' and STEP_NO = '3'
+2020-06-30 08:53:20,866 [9] ERROR GISData.Common.ConnectDB - select NAME,STATE,ERROR,CHECKTYPE,TABLENAME,WHERESTRING,SUPTABLE,INPUTTEXT,ID from GISDATA_TBTOPO where SCHEME ='营造林质检方案' and STEP_NO = '2'
+ ----------------------header--------------------------
+2020-06-30 08:58:33,340 [10] ERROR GISData.Program - 登录
+2020-06-30 08:58:38,751 [10] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+2020-06-30 08:58:38,978 [10] ERROR GISData.Program - 开始运行
+2020-06-30 08:58:41,281 [10] ERROR GISData.FormMain - 窗体初始化开始
+2020-06-30 08:58:41,291 [10] ERROR GISData.Common.ConnectDB - select * from GISDATA_USER WHERE USER ='曾伟'
+2020-06-30 08:58:43,332 [10] ERROR GISData.Common.ConnectDB - select * from GISDATA_SCHEME order by IS_DEFAULT desc
+2020-06-30 08:58:43,337 [10] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = 'System.Data.DataRowView' order by STEP_NO
+2020-06-30 08:58:43,386 [10] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = '营造林质检方案' order by STEP_NO
+2020-06-30 08:58:43,541 [10] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-06-30 08:58:43,563 [10] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-06-30 08:58:44,268 [10] ERROR GISData.Common.ConnectDB - select * from GISDATA_REPORT where SCHEME ='营造林质检方案' and STEP_NO = '3'
+2020-06-30 08:58:45,610 [10] ERROR GISData.Common.ConnectDB - select NAME,STATE,ERROR,CHECKTYPE,TABLENAME,WHERESTRING,SUPTABLE,INPUTTEXT,ID from GISDATA_TBTOPO where SCHEME ='营造林质检方案' and STEP_NO = '2'
+ ----------------------header--------------------------
+2020-06-30 08:59:27,961 [10] ERROR GISData.Program - 登录
+2020-06-30 08:59:33,352 [10] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+2020-06-30 08:59:33,566 [10] ERROR GISData.Program - 开始运行
+2020-06-30 08:59:36,555 [10] ERROR GISData.FormMain - 窗体初始化开始
+2020-06-30 08:59:36,567 [10] ERROR GISData.Common.ConnectDB - select * from GISDATA_USER WHERE USER ='曾伟'
+2020-06-30 08:59:54,495 [10] ERROR GISData.Common.ConnectDB - select * from GISDATA_SCHEME order by IS_DEFAULT desc
+2020-06-30 08:59:54,501 [10] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = 'System.Data.DataRowView' order by STEP_NO
+2020-06-30 08:59:54,558 [10] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = '营造林质检方案' order by STEP_NO
+2020-06-30 08:59:54,719 [10] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-06-30 08:59:54,741 [10] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-06-30 08:59:55,442 [10] ERROR GISData.Common.ConnectDB - select * from GISDATA_REPORT where SCHEME ='营造林质检方案' and STEP_NO = '3'
+2020-06-30 08:59:56,617 [10] ERROR GISData.Common.ConnectDB - select NAME,STATE,ERROR,CHECKTYPE,TABLENAME,WHERESTRING,SUPTABLE,INPUTTEXT,ID from GISDATA_TBTOPO where SCHEME ='营造林质检方案' and STEP_NO = '2'
+ ----------------------header--------------------------
+2020-06-30 09:16:37,478 [10] ERROR GISData.Program - 登录
+2020-06-30 09:16:41,225 [10] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+2020-06-30 09:16:41,811 [10] ERROR GISData.Program - 开始运行
+2020-06-30 09:16:44,132 [10] ERROR GISData.FormMain - 窗体初始化开始
+2020-06-30 09:16:44,142 [10] ERROR GISData.Common.ConnectDB - select * from GISDATA_USER WHERE USER ='曾伟'
+2020-06-30 09:16:47,371 [10] ERROR GISData.Common.ConnectDB - select * from GISDATA_REGINFO
+2020-06-30 09:16:47,619 [10] ERROR GISData.Common.ConnectDB - select SpatialR from GISDATA_GLDW WHERE GLDW ='520121'
+2020-06-30 09:17:16,330 [10] ERROR GISData.Common.ConnectDB - select FIELD_NAME,DATA_TYPE,MAXLEN from GISDATA_MATEDATA where REG_NAME  = 'YZL_PY_ZLYSXB'
+2020-06-30 09:17:23,140 [10] ERROR GISData.Common.ConnectDB - select * from GISDATA_SCHEME order by IS_DEFAULT desc
+2020-06-30 09:17:23,144 [10] ERROR GISData.Common.ConnectDB - select max(STEP_NO) as STEPNO from GISDATA_CONFIGSTEP where SCHEME = 'System.Data.DataRowView'
+2020-06-30 09:17:23,293 [10] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where SCHEME ='System.Data.DataRowView' order by STEP_NO
+2020-06-30 09:17:23,308 [10] ERROR GISData.Common.ConnectDB - select max(STEP_NO) as STEPNO from GISDATA_CONFIGSTEP where SCHEME = '营造林质检方案'
+2020-06-30 09:17:23,310 [10] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where SCHEME ='营造林质检方案' order by STEP_NO
+2020-06-30 09:17:25,226 [10] ERROR GISData.Common.ConnectDB - select NAME AS 质检项,CHECKTYPE,TABLENAME,WHERESTRING,SUPTABLE,INPUTTEXT,ID from GISDATA_TBTOPO where scheme ='营造林质检方案' and STEP_NO = '2'
+2020-06-30 09:17:25,302 [10] ERROR GISData.Common.ConnectDB - select REG_NAME,REG_ALIASNAME from GISDATA_REGINFO
+2020-06-30 09:18:05,539 [10] ERROR GISData.Common.ConnectDB - insert into GISDATA_TBTOPO (NAME,CHECKTYPE,TABLENAME,SCHEME,STEP_NO) VALUES('封山育林自重叠检查','面重叠检查','YZL_PY_FYYSXB','营造林质检方案',2)
+2020-06-30 09:18:05,653 [10] ERROR GISData.Common.ConnectDB - select NAME AS 质检项,CHECKTYPE,TABLENAME,WHERESTRING,SUPTABLE,INPUTTEXT,ID from GISDATA_TBTOPO where scheme ='营造林质检方案' and STEP_NO = '2'
+2020-06-30 09:18:10,092 [10] ERROR GISData.Common.ConnectDB - select * from GISDATA_SCHEME order by IS_DEFAULT desc
+2020-06-30 09:18:10,097 [10] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = 'System.Data.DataRowView' order by STEP_NO
+2020-06-30 09:18:10,143 [10] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = '营造林质检方案' order by STEP_NO
+2020-06-30 09:18:10,311 [10] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-06-30 09:18:10,342 [10] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-06-30 09:18:11,103 [10] ERROR GISData.Common.ConnectDB - select * from GISDATA_REPORT where SCHEME ='营造林质检方案' and STEP_NO = '3'
+2020-06-30 09:18:12,243 [10] ERROR GISData.Common.ConnectDB - select NAME,STATE,ERROR,CHECKTYPE,TABLENAME,WHERESTRING,SUPTABLE,INPUTTEXT,ID from GISDATA_TBTOPO where SCHEME ='营造林质检方案' and STEP_NO = '2'
+ ----------------------header--------------------------
+2020-06-30 09:48:10,202 [9] ERROR GISData.Program - 登录
+2020-06-30 09:48:14,618 [9] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+2020-06-30 09:48:14,982 [9] ERROR GISData.Program - 开始运行
+2020-06-30 09:48:17,415 [9] ERROR GISData.FormMain - 窗体初始化开始
+2020-06-30 09:48:17,426 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_USER WHERE USER ='曾伟'
+2020-06-30 09:48:20,048 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_SCHEME order by IS_DEFAULT desc
+2020-06-30 09:48:20,053 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = 'System.Data.DataRowView' order by STEP_NO
+2020-06-30 09:48:20,099 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = '营造林质检方案' order by STEP_NO
+2020-06-30 09:48:20,255 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-06-30 09:48:20,279 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-06-30 09:48:21,034 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_REPORT where SCHEME ='营造林质检方案' and STEP_NO = '3'
+2020-06-30 09:48:22,370 [9] ERROR GISData.Common.ConnectDB - select NAME,STATE,ERROR,CHECKTYPE,TABLENAME,WHERESTRING,SUPTABLE,INPUTTEXT,ID from GISDATA_TBTOPO where SCHEME ='营造林质检方案' and STEP_NO = '2'
+ ----------------------header--------------------------
+2020-06-30 10:45:57,689 [9] ERROR GISData.Program - 登录
+2020-06-30 10:46:25,180 [9] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+2020-06-30 10:46:25,477 [9] ERROR GISData.Program - 开始运行
+2020-06-30 10:46:28,090 [9] ERROR GISData.FormMain - 窗体初始化开始
+2020-06-30 10:46:28,099 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_USER WHERE USER ='曾伟'
+2020-06-30 10:46:30,612 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_REGINFO
+2020-06-30 10:46:30,753 [9] ERROR GISData.Common.ConnectDB - select SpatialR from GISDATA_GLDW WHERE GLDW ='520121'
+2020-06-30 10:46:33,893 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_SCHEME order by IS_DEFAULT desc
+2020-06-30 10:46:33,898 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = 'System.Data.DataRowView' order by STEP_NO
+2020-06-30 10:46:33,963 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = '营造林质检方案' order by STEP_NO
+2020-06-30 10:46:34,125 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-06-30 10:46:34,149 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-06-30 10:46:34,910 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_REPORT where SCHEME ='营造林质检方案' and STEP_NO = '3'
+2020-06-30 10:46:37,443 [9] ERROR GISData.Common.ConnectDB - select NAME,STATE,ERROR,CHECKTYPE,TABLENAME,WHERESTRING,SUPTABLE,INPUTTEXT,ID from GISDATA_TBTOPO where SCHEME ='营造林质检方案' and STEP_NO = '2'
+ ----------------------header--------------------------
+2020-06-30 11:08:16,057 [9] ERROR GISData.Program - 登录
+ ----------------------header--------------------------
+2020-06-30 11:09:39,505 [9] ERROR GISData.Program - 登录
+2020-06-30 11:09:43,396 [9] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+2020-06-30 11:09:43,673 [9] ERROR GISData.Program - 开始运行
+2020-06-30 11:09:45,714 [9] ERROR GISData.FormMain - 窗体初始化开始
+2020-06-30 11:09:45,726 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_USER WHERE USER ='曾伟'
+2020-06-30 11:09:48,028 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_SCHEME order by IS_DEFAULT desc
+2020-06-30 11:09:48,033 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = 'System.Data.DataRowView' order by STEP_NO
+2020-06-30 11:09:48,076 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = '营造林质检方案' order by STEP_NO
+2020-06-30 11:09:48,227 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-06-30 11:09:48,249 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-06-30 11:09:48,965 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_REPORT where SCHEME ='营造林质检方案' and STEP_NO = '3'
+2020-06-30 11:09:50,058 [9] ERROR GISData.Common.ConnectDB - select NAME,STATE,ERROR,CHECKTYPE,TABLENAME,WHERESTRING,SUPTABLE,INPUTTEXT,ID from GISDATA_TBTOPO where SCHEME ='营造林质检方案' and STEP_NO = '2'
+ ----------------------header--------------------------
+2020-06-30 11:32:01,917 [10] ERROR GISData.Program - 登录
+2020-06-30 11:32:05,306 [10] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+2020-06-30 11:32:05,597 [10] ERROR GISData.Program - 开始运行
+2020-06-30 11:32:07,244 [10] ERROR GISData.FormMain - 窗体初始化开始
+2020-06-30 11:32:07,259 [10] ERROR GISData.Common.ConnectDB - select * from GISDATA_USER WHERE USER ='曾伟'
+2020-06-30 11:32:09,156 [10] ERROR GISData.Common.ConnectDB - select * from GISDATA_SCHEME order by IS_DEFAULT desc
+2020-06-30 11:32:09,161 [10] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = 'System.Data.DataRowView' order by STEP_NO
+2020-06-30 11:32:09,205 [10] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = '营造林质检方案' order by STEP_NO
+2020-06-30 11:32:09,365 [10] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-06-30 11:32:09,387 [10] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-06-30 11:32:10,128 [10] ERROR GISData.Common.ConnectDB - select * from GISDATA_REPORT where SCHEME ='营造林质检方案' and STEP_NO = '3'
+2020-06-30 11:32:11,409 [10] ERROR GISData.Common.ConnectDB - select NAME,STATE,ERROR,CHECKTYPE,TABLENAME,WHERESTRING,SUPTABLE,INPUTTEXT,ID from GISDATA_TBTOPO where SCHEME ='营造林质检方案' and STEP_NO = '2'
+ ----------------------header--------------------------
+2020-06-30 11:33:31,742 [8] ERROR GISData.Program - 登录
+2020-06-30 11:33:35,252 [8] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+2020-06-30 11:33:35,511 [8] ERROR GISData.Program - 开始运行
+2020-06-30 11:33:37,111 [8] ERROR GISData.FormMain - 窗体初始化开始
+2020-06-30 11:33:37,124 [8] ERROR GISData.Common.ConnectDB - select * from GISDATA_USER WHERE USER ='曾伟'
+2020-06-30 11:33:38,733 [8] ERROR GISData.Common.ConnectDB - select * from GISDATA_SCHEME order by IS_DEFAULT desc
+2020-06-30 11:33:38,737 [8] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = 'System.Data.DataRowView' order by STEP_NO
+2020-06-30 11:33:38,782 [8] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = '营造林质检方案' order by STEP_NO
+2020-06-30 11:33:38,940 [8] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-06-30 11:33:38,964 [8] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-06-30 11:33:39,672 [8] ERROR GISData.Common.ConnectDB - select * from GISDATA_REPORT where SCHEME ='营造林质检方案' and STEP_NO = '3'
+2020-06-30 11:33:41,067 [8] ERROR GISData.Common.ConnectDB - select NAME,STATE,ERROR,CHECKTYPE,TABLENAME,WHERESTRING,SUPTABLE,INPUTTEXT,ID from GISDATA_TBTOPO where SCHEME ='营造林质检方案' and STEP_NO = '2'
+ ----------------------header--------------------------
+2020-06-30 11:36:03,393 [9] ERROR GISData.Program - 登录
+2020-06-30 11:36:06,831 [9] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+2020-06-30 11:36:07,267 [9] ERROR GISData.Program - 开始运行
+2020-06-30 11:36:08,929 [9] ERROR GISData.FormMain - 窗体初始化开始
+2020-06-30 11:36:08,940 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_USER WHERE USER ='曾伟'
+2020-06-30 11:36:11,836 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_SCHEME order by IS_DEFAULT desc
+2020-06-30 11:36:11,841 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = 'System.Data.DataRowView' order by STEP_NO
+2020-06-30 11:36:11,890 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = '营造林质检方案' order by STEP_NO
+2020-06-30 11:36:12,042 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-06-30 11:36:12,065 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-06-30 11:36:12,787 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_REPORT where SCHEME ='营造林质检方案' and STEP_NO = '3'
+2020-06-30 11:36:13,770 [9] ERROR GISData.Common.ConnectDB - select NAME,STATE,ERROR,CHECKTYPE,TABLENAME,WHERESTRING,SUPTABLE,INPUTTEXT,ID from GISDATA_TBTOPO where SCHEME ='营造林质检方案' and STEP_NO = '2'
+ ----------------------header--------------------------
+2020-06-30 11:39:20,675 [8] ERROR GISData.Program - 登录
+2020-06-30 11:39:23,192 [8] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+2020-06-30 11:39:23,491 [8] ERROR GISData.Program - 开始运行
+2020-06-30 11:39:25,079 [8] ERROR GISData.FormMain - 窗体初始化开始
+2020-06-30 11:39:25,092 [8] ERROR GISData.Common.ConnectDB - select * from GISDATA_USER WHERE USER ='曾伟'
+2020-06-30 11:39:27,556 [8] ERROR GISData.Common.ConnectDB - select * from GISDATA_SCHEME order by IS_DEFAULT desc
+2020-06-30 11:39:27,561 [8] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = 'System.Data.DataRowView' order by STEP_NO
+2020-06-30 11:39:27,615 [8] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = '营造林质检方案' order by STEP_NO
+2020-06-30 11:39:27,798 [8] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-06-30 11:39:27,821 [8] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-06-30 11:39:28,577 [8] ERROR GISData.Common.ConnectDB - select * from GISDATA_REPORT where SCHEME ='营造林质检方案' and STEP_NO = '3'
+2020-06-30 11:39:29,905 [8] ERROR GISData.Common.ConnectDB - select NAME,STATE,ERROR,CHECKTYPE,TABLENAME,WHERESTRING,SUPTABLE,INPUTTEXT,ID from GISDATA_TBTOPO where SCHEME ='营造林质检方案' and STEP_NO = '2'
+2020-06-30 11:39:38,712 [8] ERROR GISData.Program - Error
+System.Runtime.InteropServices.COMException (0x80040213): 不能再打开其它表了。
+   在 ESRI.ArcGIS.Geodatabase.IFeatureClass.Search(IQueryFilter filter, Boolean Recycling)
+   在 TopologyCheck.Checker.TopoClassChecker.CheckOverLap(String idname, IFeatureLayer pLayer) 位置 f:\数据验收平台建设\GISData\GISData\TopologyCheck\Checker\TopoClassChecker.cs:行号 87
+   在 GISData.Common.TopoChecker.OtherRule(String idname, String IN_RuleType, IFeatureClass IN_FeatureClass, IFeatureClass IN_Sup_FeatureClass, String inputtext, IHookHelper m_hookHelper) 位置 f:\数据验收平台建设\GISData\GISData\Common\TopoChecker.cs:行号 115
+   在 GISData.DataCheck.CheckDialog.FormTopoDia.doCheckTopo(IHookHelper m_hookHelper) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormTopoDia.cs:行号 121
+   在 GISData.DataCheck.FormCheckMain.buttonCheckStar_Click(Object sender, EventArgs e) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\FormCheckMain.cs:行号 253
+   在 System.Windows.Forms.Control.OnClick(EventArgs e)
+   在 System.Windows.Forms.Button.OnClick(EventArgs e)
+   在 System.Windows.Forms.Button.OnMouseUp(MouseEventArgs mevent)
+   在 System.Windows.Forms.Control.WmMouseUp(Message& m, MouseButtons button, Int32 clicks)
+   在 System.Windows.Forms.Control.WndProc(Message& m)
+   在 System.Windows.Forms.ButtonBase.WndProc(Message& m)
+   在 System.Windows.Forms.Button.WndProc(Message& m)
+   在 System.Windows.Forms.Control.ControlNativeWindow.OnMessage(Message& m)
+   在 System.Windows.Forms.Control.ControlNativeWindow.WndProc(Message& m)
+   在 System.Windows.Forms.NativeWindow.DebuggableCallback(IntPtr hWnd, Int32 msg, IntPtr wparam, IntPtr lparam)
+   在 System.Windows.Forms.UnsafeNativeMethods.DispatchMessageW(MSG& msg)
+   在 System.Windows.Forms.Application.ComponentManager.System.Windows.Forms.UnsafeNativeMethods.IMsoComponentManager.FPushMessageLoop(IntPtr dwComponentID, Int32 reason, Int32 pvLoopData)
+   在 System.Windows.Forms.Application.ThreadContext.RunMessageLoopInner(Int32 reason, ApplicationContext context)
+   在 System.Windows.Forms.Application.ThreadContext.RunMessageLoop(Int32 reason, ApplicationContext context)
+   在 System.Windows.Forms.Application.Run(Form mainForm)
+   在 GISData.Program.Main() 位置 f:\数据验收平台建设\GISData\GISData\Program.cs:行号 40
+ ----------------------footer--------------------------
+ ----------------------header--------------------------
+2020-06-30 11:40:35,434 [9] ERROR GISData.Program - 登录
+2020-06-30 11:40:38,651 [9] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+2020-06-30 11:40:38,874 [9] ERROR GISData.Program - 开始运行
+2020-06-30 11:40:40,462 [9] ERROR GISData.FormMain - 窗体初始化开始
+2020-06-30 11:40:40,473 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_USER WHERE USER ='曾伟'
+2020-06-30 11:40:42,194 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_SCHEME order by IS_DEFAULT desc
+2020-06-30 11:40:42,198 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = 'System.Data.DataRowView' order by STEP_NO
+2020-06-30 11:40:42,242 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = '营造林质检方案' order by STEP_NO
+2020-06-30 11:40:42,401 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-06-30 11:40:42,424 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-06-30 11:40:43,134 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_REPORT where SCHEME ='营造林质检方案' and STEP_NO = '3'
+2020-06-30 11:40:44,178 [9] ERROR GISData.Common.ConnectDB - select NAME,STATE,ERROR,CHECKTYPE,TABLENAME,WHERESTRING,SUPTABLE,INPUTTEXT,ID from GISDATA_TBTOPO where SCHEME ='营造林质检方案' and STEP_NO = '2'
+ ----------------------header--------------------------
+2020-06-30 14:37:00,032 [9] ERROR GISData.Program - 登录
+2020-06-30 14:37:03,601 [9] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+2020-06-30 14:37:03,899 [9] ERROR GISData.Program - 开始运行
+2020-06-30 14:37:06,316 [9] ERROR GISData.FormMain - 窗体初始化开始
+2020-06-30 14:37:06,331 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_USER WHERE USER ='曾伟'
+2020-06-30 14:37:08,683 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_SCHEME order by IS_DEFAULT desc
+2020-06-30 14:37:08,688 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = 'System.Data.DataRowView' order by STEP_NO
+2020-06-30 14:37:08,734 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = '营造林质检方案' order by STEP_NO
+2020-06-30 14:37:08,895 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-06-30 14:37:08,920 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-06-30 14:37:09,655 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_REPORT where SCHEME ='营造林质检方案' and STEP_NO = '3'
+2020-06-30 14:37:10,954 [9] ERROR GISData.Common.ConnectDB - select NAME,STATE,ERROR,CHECKTYPE,TABLENAME,WHERESTRING,SUPTABLE,INPUTTEXT,ID from GISDATA_TBTOPO where SCHEME ='营造林质检方案' and STEP_NO = '2'
+ ----------------------header--------------------------
+2020-06-30 14:38:37,228 [9] ERROR GISData.Program - 登录
+2020-06-30 14:38:40,312 [9] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+2020-06-30 14:38:40,540 [9] ERROR GISData.Program - 开始运行
+2020-06-30 14:38:42,263 [9] ERROR GISData.FormMain - 窗体初始化开始
+2020-06-30 14:38:42,274 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_USER WHERE USER ='曾伟'
+2020-06-30 14:38:47,455 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_SCHEME order by IS_DEFAULT desc
+2020-06-30 14:38:47,460 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = 'System.Data.DataRowView' order by STEP_NO
+2020-06-30 14:38:47,523 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = '营造林质检方案' order by STEP_NO
+2020-06-30 14:38:47,690 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-06-30 14:38:47,713 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-06-30 14:38:48,424 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_REPORT where SCHEME ='营造林质检方案' and STEP_NO = '3'
+2020-06-30 14:38:49,578 [9] ERROR GISData.Common.ConnectDB - select NAME,STATE,ERROR,CHECKTYPE,TABLENAME,WHERESTRING,SUPTABLE,INPUTTEXT,ID from GISDATA_TBTOPO where SCHEME ='营造林质检方案' and STEP_NO = '2'
+ ----------------------header--------------------------
+2020-06-30 14:51:04,507 [10] ERROR GISData.Program - 登录
+2020-06-30 14:51:07,857 [10] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+2020-06-30 14:51:08,240 [10] ERROR GISData.Program - 开始运行
+2020-06-30 14:51:10,017 [10] ERROR GISData.FormMain - 窗体初始化开始
+2020-06-30 14:51:10,029 [10] ERROR GISData.Common.ConnectDB - select * from GISDATA_USER WHERE USER ='曾伟'
+2020-06-30 14:51:12,502 [10] ERROR GISData.Common.ConnectDB - select * from GISDATA_SCHEME order by IS_DEFAULT desc
+2020-06-30 14:51:12,507 [10] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = 'System.Data.DataRowView' order by STEP_NO
+2020-06-30 14:51:12,551 [10] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = '营造林质检方案' order by STEP_NO
+2020-06-30 14:51:12,711 [10] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-06-30 14:51:12,733 [10] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-06-30 14:51:13,469 [10] ERROR GISData.Common.ConnectDB - select * from GISDATA_REPORT where SCHEME ='营造林质检方案' and STEP_NO = '3'
+2020-06-30 14:51:14,443 [10] ERROR GISData.Common.ConnectDB - select NAME,STATE,ERROR,CHECKTYPE,TABLENAME,WHERESTRING,SUPTABLE,INPUTTEXT,ID from GISDATA_TBTOPO where SCHEME ='营造林质检方案' and STEP_NO = '2'
+ ----------------------header--------------------------
+2020-06-30 14:52:50,099 [9] ERROR GISData.Program - 登录
+2020-06-30 14:52:53,447 [9] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+2020-06-30 14:52:53,681 [9] ERROR GISData.Program - 开始运行
+2020-06-30 14:52:55,383 [9] ERROR GISData.FormMain - 窗体初始化开始
+2020-06-30 14:52:55,394 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_USER WHERE USER ='曾伟'
+2020-06-30 14:52:58,035 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_SCHEME order by IS_DEFAULT desc
+2020-06-30 14:52:58,040 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = 'System.Data.DataRowView' order by STEP_NO
+2020-06-30 14:52:58,086 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = '营造林质检方案' order by STEP_NO
+2020-06-30 14:52:58,245 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-06-30 14:52:58,269 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-06-30 14:52:58,991 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_REPORT where SCHEME ='营造林质检方案' and STEP_NO = '3'
+2020-06-30 14:53:00,089 [9] ERROR GISData.Common.ConnectDB - select NAME,STATE,ERROR,CHECKTYPE,TABLENAME,WHERESTRING,SUPTABLE,INPUTTEXT,ID from GISDATA_TBTOPO where SCHEME ='营造林质检方案' and STEP_NO = '2'
+ ----------------------header--------------------------
+2020-06-30 14:54:07,043 [9] ERROR GISData.Program - 登录
+2020-06-30 14:54:10,210 [9] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+2020-06-30 14:54:10,433 [9] ERROR GISData.Program - 开始运行
+2020-06-30 14:54:12,046 [9] ERROR GISData.FormMain - 窗体初始化开始
+2020-06-30 14:54:12,057 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_USER WHERE USER ='曾伟'
+2020-06-30 14:54:13,930 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_SCHEME order by IS_DEFAULT desc
+2020-06-30 14:54:13,934 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = 'System.Data.DataRowView' order by STEP_NO
+2020-06-30 14:54:13,975 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = '营造林质检方案' order by STEP_NO
+2020-06-30 14:54:14,136 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-06-30 14:54:14,158 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-06-30 14:54:14,861 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_REPORT where SCHEME ='营造林质检方案' and STEP_NO = '3'
+2020-06-30 14:54:15,962 [9] ERROR GISData.Common.ConnectDB - select NAME,STATE,ERROR,CHECKTYPE,TABLENAME,WHERESTRING,SUPTABLE,INPUTTEXT,ID from GISDATA_TBTOPO where SCHEME ='营造林质检方案' and STEP_NO = '2'
