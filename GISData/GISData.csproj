@@ -425,6 +425,12 @@
     <Compile Include="FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="Formtest.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formtest.Designer.cs">
+      <DependentUpon>Formtest.cs</DependentUpon>
+    </Compile>
     <Compile Include="Login\FormHostConfig.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -631,6 +637,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Formtest.resx">
+      <DependentUpon>Formtest.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Login\FormHostConfig.resx">
       <DependentUpon>FormHostConfig.cs</DependentUpon>

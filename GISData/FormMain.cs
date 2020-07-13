@@ -474,5 +474,11 @@ namespace GISData
             validation.Show(this);
         }
 
+        private void testToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            Formtest test = new Formtest();
+            test.Show(this);
+        }
+
     }
 }

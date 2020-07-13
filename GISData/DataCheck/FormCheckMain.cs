@@ -93,6 +93,7 @@ namespace GISData.DataCheck
                 cb.Tag = stepNo;
                 cb.Click += (se, a) => checkState(se,a,stepType);
                 this.splitContainer1.Panel2.Controls.Add(cb);
+                
                 this.tabControl1.Controls.Add(tp);
                 this.tabControl1.Dock = DockStyle.Fill; ;
                 cb.BringToFront();
@@ -107,21 +108,21 @@ namespace GISData.DataCheck
                 }
                 else if (stepType == "属性检查")
                 {
-                    FormAttrDia attr = new FormAttrDia(stepNo, cb,scheme, this.checkBox1, this.gridControlError);
+                    FormAttrDia attr = new FormAttrDia(stepNo, cb,scheme, this.checkBox1, this.gridControlError,this.progressBar1);
                     AttrDia = attr;
                     attr.Dock = DockStyle.Fill;
                     ShowForm(tp, attr);
                 }
                 else if (stepType == "图形检查")
                 {
-                    FormTopoDia topo = new FormTopoDia(stepNo, cb, scheme, this.checkBox1, this.gridControlError);
+                    FormTopoDia topo = new FormTopoDia(stepNo, cb, scheme, this.checkBox1, this.gridControlError, this.progressBar1);
                     TopoDia = topo;
                     topo.Dock = DockStyle.Fill;
                     ShowForm(tp, topo);
                 }
                 else if (stepType == "统计报表")
                 {
-                    FormReportDia report = new FormReportDia(stepNo, cb,scheme);
+                    FormReportDia report = new FormReportDia(stepNo, cb, scheme, this.progressBar1);
                     ReportDia = report;
                     report.Dock = DockStyle.Fill;
                     ShowForm(tp, report);
@@ -233,34 +234,42 @@ namespace GISData.DataCheck
         /// <param name="e"></param>
         private void buttonCheckStar_Click(object sender, EventArgs e)
         {
-            if (AttrDia.attrErrorTable!= null)
-                AttrDia.attrErrorTable.Clear();
-            if (TopoDia.topoErrorTable != null)
-                TopoDia.topoErrorTable.Clear();
-            foreach (CheckBox item in CheckBoxArr)
-            {
-                if(item.CheckState == CheckState.Checked)
+            try{
+                if (AttrDia.attrErrorTable!= null)
+                    AttrDia.attrErrorTable.Clear();
+                if (TopoDia.topoErrorTable != null)
+                    TopoDia.topoErrorTable.Clear();
+                foreach (CheckBox item in CheckBoxArr)
                 {
-                    if (item.Name == "结构检查")
+                    splitContainer1.ForeColor = Color.FromArgb(55, 15, 0, 0);
+                    if(item.CheckState == CheckState.Checked)
                     {
+                        this.tabControl1.SelectTab(item.Name);
+                        if (item.Name == "结构检查")
+                        {
 
-                        //StructureDia.doCheckStructure();
-                    }
-                    else if (item.Name == "属性检查")
-                    {
-                        AttrDia.doCheckAttr();
-                    }
-                    else if (item.Name == "图形检查")
-                    {
-                        TopoDia.doCheckTopo(this.m_hookHelper);
-                    }
-                    else if (item.Name == "统计报表")
-                    {
-                        ReportDia.DoReport();
+                            //StructureDia.doCheckStructure();
+                        }
+                        else if (item.Name == "属性检查")
+                        {
+                            AttrDia.doCheckAttr();
+                        }
+                        else if (item.Name == "图形检查")
+                        {
+                            TopoDia.doCheckTopo(this.m_hookHelper);
+                        }
+                        else if (item.Name == "统计报表")
+                        {
+                            ReportDia.DoReport();
+                        }
                     }
                 }
+                MessageBox.Show("检查完成", "提示");
             }
-            MessageBox.Show("检查完成", "提示");
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog(typeof(FormCheckMain), ex);
+            }
         }
         /// <summary>
         /// 显示详情
@@ -449,7 +458,7 @@ namespace GISData.DataCheck
             }
             catch(Exception ex)
             {
-            
+                LogHelper.WriteLog(typeof(FormCheckMain), ex);
             }
             
             
@@ -529,57 +538,65 @@ namespace GISData.DataCheck
         /// <param name="modelName"></param>
         private void doAcceptance(string modelName)
         {
-            XtraReport mReport = new XtraReport();
-            mReport.LoadLayout(Application.StartupPath + "\\Report\\" + modelName); //报表模板文件
-
-            DataTable taskError = new DataTable();
-            if (ReportDia.wwcxmTable != null)
+            try 
             {
-                taskError = ReportDia.wwcxmTable;
+                XtraReport mReport = new XtraReport();
+                mReport.LoadLayout(Application.StartupPath + "\\Report\\" + modelName); //报表模板文件
+
+                DataTable taskError = new DataTable();
+                if (ReportDia.wwcxmTable != null)
+                {
+                    taskError = ReportDia.wwcxmTable;
+                }
+                taskError.TableName = "taskError";
+                DataTable checkError = new DataTable();
+                DataTable attrError = AttrDia.attrErrorTable;
+                if (attrError != null)
+                {
+                    checkError = attrError;
+                }
+                DataTable topotable = TopoDia.topoErrorTable;
+                if (topotable != null)
+                {
+                    checkError.Merge(topotable);
+                    checkError.TableName = "checkError";
+                }
+
+                //查找组件
+                DetailReportBand DetailReport = mReport.FindControl("DetailReport", true) as DetailReportBand;
+                DetailReportBand DetailReport1 = mReport.FindControl("DetailReport1", true) as DetailReportBand;
+                XRLabel lxr = mReport.FindControl("lxr", true) as XRLabel;//联系人
+                XRLabel lxdh = mReport.FindControl("lxdh", true) as XRLabel;//联系方式
+                XRLabel jcr = mReport.FindControl("jcr", true) as XRLabel;//检查人
+                XRLabel gldwstring = mReport.FindControl("gldw", true) as XRLabel;//管理单位
+                XRLabel startime = mReport.FindControl("startime", true) as XRLabel;//开始检查时间
+                XRLabel printtime = mReport.FindControl("printtime", true) as XRLabel;//打印时间
+                XRLabel checklog = mReport.FindControl("checklog", true) as XRLabel;//检查日志
+
+                CommonClass common = new CommonClass();
+                string gldw = common.GetConfigValue("GLDW");
+
+                ConnectDB db = new ConnectDB();
+                DataTable DT = db.GetDataBySql("select * from GISDATA_GLDW where GLDW = '" + gldw + "'");
+                DataRow dr = DT.Select(null)[0];
+
+                lxr.Text = dr["CONTACTS"].ToString();
+                lxdh.Text = dr["TEL"].ToString();
+                jcr.Text = common.GetConfigValue("USER") == "" ? "曾伟" : common.GetConfigValue("USER");
+                gldwstring.Text = dr["GLDWNAME"].ToString();
+                startime.Text = dr["STARTTIME"].ToString();
+                //checklog.Text = dr["CHECKLOG"].ToString().Replace("br",Convert.ToChar(10).ToString());
+                checklog.Text = dr["CHECKLOG"].ToString();
+                printtime.Text = DateTime.Now.ToLocalTime().ToString();
+                DetailReport.DataSource = taskError;
+                DetailReport1.DataSource = checkError;
+                mReport.ShowPreviewDialog();
             }
-            taskError.TableName = "taskError";
-            DataTable checkError = new DataTable();
-            DataTable attrError = AttrDia.attrErrorTable;
-            if (attrError != null)
+            catch (Exception e) 
             {
-                checkError = attrError;
+                LogHelper.WriteLog(typeof(FormCheckMain), e);
             }
-            DataTable topotable = TopoDia.topoErrorTable;
-            if (topotable != null)
-            {
-                checkError.Merge(topotable);
-                checkError.TableName = "checkError";
-            }
-
-            //查找组件
-            DetailReportBand DetailReport = mReport.FindControl("DetailReport", true) as DetailReportBand;
-            DetailReportBand DetailReport1 = mReport.FindControl("DetailReport1", true) as DetailReportBand;
-            XRLabel lxr = mReport.FindControl("lxr", true) as XRLabel;//联系人
-            XRLabel lxdh = mReport.FindControl("lxdh", true) as XRLabel;//联系方式
-            XRLabel jcr = mReport.FindControl("jcr", true) as XRLabel;//检查人
-            XRLabel gldwstring = mReport.FindControl("gldw", true) as XRLabel;//管理单位
-            XRLabel startime = mReport.FindControl("startime", true) as XRLabel;//开始检查时间
-            XRLabel printtime = mReport.FindControl("printtime", true) as XRLabel;//打印时间
-            XRLabel checklog = mReport.FindControl("checklog", true) as XRLabel;//检查日志
-
-            CommonClass common = new CommonClass();
-            string gldw = common.GetConfigValue("GLDW");
-
-            ConnectDB db = new ConnectDB();
-            DataTable DT = db.GetDataBySql("select * from GISDATA_GLDW where GLDW = '" + gldw + "'");
-            DataRow dr = DT.Select(null)[0];
-
-            lxr.Text = dr["CONTACTS"].ToString();
-            lxdh.Text = dr["TEL"].ToString();
-            jcr.Text = common.GetConfigValue("USER") == "" ? "曾伟" : common.GetConfigValue("USER");
-            gldwstring.Text = dr["GLDWNAME"].ToString();
-            startime.Text = dr["STARTTIME"].ToString();
-            //checklog.Text = dr["CHECKLOG"].ToString().Replace("br",Convert.ToChar(10).ToString());
-            checklog.Text = dr["CHECKLOG"].ToString();
-            printtime.Text = DateTime.Now.ToLocalTime().ToString();
-            DetailReport.DataSource = taskError;
-            DetailReport1.DataSource = checkError;
-            mReport.ShowPreviewDialog();
+            
         }
         /// <summary>
         /// 显示未通过项

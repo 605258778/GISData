@@ -25,6 +25,7 @@ using DevExpress.XtraSpreadsheet.Commands;
 using DevExpress.XtraSpreadsheet.Services;
 using DevExpress.XtraSpreadsheet.Services.Implementation;
 using DevExpress.XtraSpreadsheet.Internal;
+using System.Threading;
 //using DevExpress.XtraSpreadsheet.API.Native.Implementation;
 //using DevExpress.Xpf.Spreadsheet;
 
@@ -36,17 +37,22 @@ namespace GISData.DataCheck.CheckDialog
         private CheckBox checkBox;
         private string stepNo;
         private string scheme;
+        private ProgressBar progressBar = null;
+
+        delegate void myDelegate(int i);
+        myDelegate mydelegate = null;
         public FormReportDia()
         {
             InitializeComponent();
         }
 
-        public FormReportDia(string stepNo, CheckBox cb, string scheme)
+        public FormReportDia(string stepNo, CheckBox cb, string scheme, ProgressBar progressbar)
         {
             InitializeComponent();
             this.stepNo = stepNo;
             this.checkBox = cb;
             this.scheme = scheme;
+            this.progressBar = progressbar;
             bindDataSource();
         }
         private void bindDataSource()
@@ -88,7 +94,7 @@ namespace GISData.DataCheck.CheckDialog
         private void gridView1_SelectionChanged(object sender, DevExpress.Data.SelectionChangedEventArgs e)
         {
             int[] selectRows = this.gridView1.GetSelectedRows();
-            if (selectRows.Length > 0)
+            if(selectRows.Length > 0)
             {
                 this.checkBox.CheckState = CheckState.Checked;
             }
@@ -111,6 +117,16 @@ namespace GISData.DataCheck.CheckDialog
             DataTable dtDs = new DataTable();
             foreach(int itemRow in selectRows)
             {
+                mydelegate = new myDelegate(setPos);
+                Thread myThread = new Thread((ThreadStart)(delegate()
+                {
+                    this.BeginInvoke(mydelegate, new object[] { itemRow });
+                }));
+                myThread.IsBackground = true;
+                myThread.Start();
+                //Thread MyThread = new Thread(new ParameterizedThreadStart(setPos));
+                //MyThread.IsBackground = true;
+                //MyThread.Start(itemRow);
                 DataRow row = this.gridView1.GetDataRow(itemRow);
                 String reportType = row["REPORTTYPE"].ToString();
                 String sheetname = row["SHEETNAME"].ToString();
@@ -329,6 +345,11 @@ namespace GISData.DataCheck.CheckDialog
                 }
                 row["STATE"] = "完成";
             }
+        }
+
+        private void setPos(int i) 
+        {
+            this.progressBar.Value = Convert.ToInt32( (i+1)/this.gridView1.RowCount*100);
         }
 
         private DataTable getTask(string[] dataSourceArr) 

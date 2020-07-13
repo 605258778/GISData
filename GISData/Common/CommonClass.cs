@@ -36,15 +36,22 @@ namespace GISData.Common
         /// <returns></returns>
         public IFeatureClass GetFeatureClassByShpPath(string filePath)
         {
-            IWorkspaceFactory pWorkspaceFactory = new ShapefileWorkspaceFactory();
-            IWorkspaceFactoryLockControl pWorkspaceFactoryLockControl = pWorkspaceFactory as IWorkspaceFactoryLockControl;
-            if (pWorkspaceFactoryLockControl.SchemaLockingEnabled)
+            IFeatureClass pFeatureClass = null;
+            try{
+                IWorkspaceFactory pWorkspaceFactory = new ShapefileWorkspaceFactory();
+                IWorkspaceFactoryLockControl pWorkspaceFactoryLockControl = pWorkspaceFactory as IWorkspaceFactoryLockControl;
+                if (pWorkspaceFactoryLockControl.SchemaLockingEnabled)
+                {
+                    pWorkspaceFactoryLockControl.DisableSchemaLocking();
+                }
+                IWorkspace pWorkspace = pWorkspaceFactory.OpenFromFile(System.IO.Path.GetDirectoryName(filePath), 0);
+                IFeatureWorkspace pFeatureWorkspace = pWorkspace as IFeatureWorkspace;
+                pFeatureClass = pFeatureWorkspace.OpenFeatureClass(System.IO.Path.GetFileName(filePath));
+                }
+            catch (Exception e)
             {
-                pWorkspaceFactoryLockControl.DisableSchemaLocking();
+                LogHelper.WriteLog(typeof(CommonClass), e);
             }
-            IWorkspace pWorkspace = pWorkspaceFactory.OpenFromFile(System.IO.Path.GetDirectoryName(filePath), 0);
-            IFeatureWorkspace pFeatureWorkspace = pWorkspace as IFeatureWorkspace;
-            IFeatureClass pFeatureClass = pFeatureWorkspace.OpenFeatureClass(System.IO.Path.GetFileName(filePath));
             return pFeatureClass;
         }
 
@@ -93,6 +100,7 @@ namespace GISData.Common
                     }
                     catch (Exception ex)
                     {
+                        LogHelper.WriteLog(typeof(CommonClass), ex);
                         MessageBox.Show(ex.Message);
                     }
                     finally
@@ -159,10 +167,18 @@ namespace GISData.Common
         /// <returns></returns>
         public string GetPathByName(string tablename)
         {
-            RegInfo reginfo = this.getRegInfo(tablename);
-            string path = reginfo.RegPath;
-            string dbtype = reginfo.RegType;
-            string table = reginfo.RegTable;
+            string path = "";
+            string table = "";
+            try
+            {
+                RegInfo reginfo = this.getRegInfo(tablename);
+                path = reginfo.RegPath;
+                table = reginfo.RegTable;
+            }
+            catch (Exception e)
+            {
+                LogHelper.WriteLog(typeof(CommonClass), e);
+            }
             return path + "\\" + table;
         }
         /// <summary>
@@ -1167,6 +1183,162 @@ namespace GISData.Common
             {
                 LogHelper.WriteLog(typeof(CommonClass), e);
                 return null;
+            }
+        }
+
+        /// <summary>
+        /// 创建shp文件
+        /// </summary>
+        /// <param name="shpFullFilePath"></param>
+        /// <param name="spatialReference"></param>
+        /// <param name="pGeometryType"></param>
+        /// <param name="shpFileName"></param>
+        public void CreatShpFile(string shpFullFilePath, ISpatialReference spatialReference, esriGeometryType pGeometryType, string shpFileName)
+        {
+            string pFileName = shpFullFilePath +"\\"+ shpFileName + ".shp";
+            try
+            {
+                string shpFolder = System.IO.Path.GetDirectoryName(shpFullFilePath);
+                IWorkspaceFactory pWorkspaceFac = new ShapefileWorkspaceFactoryClass();
+                IWorkspace pWorkSpace = pWorkspaceFac.OpenFromFile(shpFullFilePath, 0);
+                IFeatureWorkspace pFeatureWorkSpace = pWorkSpace as IFeatureWorkspace;
+                //如果文件已存在               
+                if (System.IO.File.Exists(pFileName))
+                {
+                    IFeatureClass pFCChecker = pFeatureWorkSpace.OpenFeatureClass(shpFileName);
+                    if (pFCChecker != null)
+                    {
+                        IDataset pds = pFCChecker as IDataset;
+                        pds.Delete();
+                    }
+                }
+                IFeatureClassDescription fcDescription = new FeatureClassDescriptionClass();
+                IObjectClassDescription pObjectDescription = (IObjectClassDescription)fcDescription;
+                IFields fields = pObjectDescription.RequiredFields;
+                int shapeFieldIndex = fields.FindField(fcDescription.ShapeFieldName);
+                IField field = fields.get_Field(shapeFieldIndex);
+                IGeometryDef geometryDef = field.GeometryDef;
+                IGeometryDefEdit geometryDefEdit = (IGeometryDefEdit)geometryDef;
+                //线
+                geometryDefEdit.GeometryType_2 = pGeometryType; //geometry类型
+                geometryDefEdit.HasZ_2 = true;                  //使图层具有Z值(无，则创建一个二维文件，不具备Z值)
+
+                geometryDefEdit.SpatialReference_2 = spatialReference;
+
+                IFieldChecker fieldChecker = new FieldCheckerClass();
+                IEnumFieldError enumFieldError = null;
+                IFields validatedFields = null; //将传入字段 转成 validatedFields
+                fieldChecker.ValidateWorkspace = pWorkSpace;
+                fieldChecker.Validate(fields, out enumFieldError, out validatedFields);
+
+                pFeatureWorkSpace.CreateFeatureClass(shpFileName, validatedFields, pObjectDescription.InstanceCLSID, pObjectDescription.ClassExtensionCLSID, esriFeatureType.esriFTSimple, fcDescription.ShapeFieldName, "");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+        /// <summary>
+        /// 讲Geometry 存入shp
+        /// </summary>
+        /// <param name="pResultGeometry"></param>
+        /// <param name="filename"></param>
+        public void GenerateSHPFile(IGeometry pResultGeometry, string filename)
+        {
+            IWorkspaceFactory wsf = new ShapefileWorkspaceFactory();
+            IFeatureWorkspace fwp;
+            IFeatureLayer flay = new FeatureLayer();
+            
+            fwp = (IFeatureWorkspace)wsf.OpenFromFile(System.IO.Path.GetDirectoryName(filename), 0);
+            IFeatureClass fc = fwp.OpenFeatureClass(System.IO.Path.GetFileName(filename));
+            flay.FeatureClass = fc;
+            flay.Name = flay.FeatureClass.AliasName;
+ 
+            IDataset pDataSet = flay.FeatureClass as IDataset;
+            IWorkspaceEdit m_WorkSpaceEdit = (IWorkspaceEdit)pDataSet.Workspace;
+            if (!m_WorkSpaceEdit.IsBeingEdited())
+            {
+                m_WorkSpaceEdit.StartEditing(true);
+                m_WorkSpaceEdit.EnableUndoRedo();
+            }
+ 
+            ITopologicalOperator pTop = pResultGeometry as ITopologicalOperator;
+            pTop.Simplify();
+ 
+            m_WorkSpaceEdit.StartEditOperation();
+            ITable pTable = flay.FeatureClass as ITable;
+            pTable.DeleteSearchedRows(null);
+ 
+            IFeature pFeature = fc.CreateFeature();
+            pFeature.Shape = this.ModifyGeomtryZMValue(fc, pResultGeometry);
+            pFeature.Store();
+ 
+            m_WorkSpaceEdit.StopEditOperation();
+            m_WorkSpaceEdit.StopEditing(true);
+        }
+
+        private IGeometry ModifyGeomtryZMValue(IObjectClass featureClass, IGeometry modifiedGeo)
+        {
+            try
+            {
+                IFeatureClass trgFtCls = featureClass as IFeatureClass;
+                if (trgFtCls == null) return null;
+                string shapeFieldName = trgFtCls.ShapeFieldName;
+                IFields fields = trgFtCls.Fields;
+                int geometryIndex = fields.FindField(shapeFieldName);
+                IField field = fields.get_Field(geometryIndex);
+                IGeometryDef pGeometryDef = field.GeometryDef;
+                IPointCollection pPointCollection = modifiedGeo as IPointCollection;
+                if (pGeometryDef.HasZ)
+                {
+                    IZAware pZAware = modifiedGeo as IZAware;
+                    pZAware.ZAware = true;
+                    IZ iz1 = modifiedGeo as IZ; //若报iz1为空的错误，则将设置Z值的这两句改成IPoint point = (IPoint)pGeo;  point.Z = 0;
+                    if (iz1 == null)
+                    {
+                        IPoint point = (IPoint)modifiedGeo;
+                        point.Z = 0;
+                    }
+                    else 
+                    {
+                        try
+                        {
+                            if ((modifiedGeo as IPoint) != null)
+                            {
+                                iz1.SetConstantZ((modifiedGeo as IPoint).Z);//如果此处报错，说明该几何体的点本身都没有Z值，在此处可以自己手动设置Z值,比如0，也就算将此句改成iz1.SetConstantZ(0);
+                            }
+                            else 
+                            {
+                                iz1.SetConstantZ(0);
+                            }
+                        }
+                        catch (Exception ex) 
+                        {
+                            iz1.SetConstantZ(0);//如果此处报错，说明该几何体的点本身都没有Z值，在此处可以自己手动设置Z值,比如0，也就算将此句改成iz1.SetConstantZ(0);
+                        }
+                    }
+                }
+                else
+                {
+                    IZAware pZAware = modifiedGeo as IZAware;
+                    pZAware.ZAware = false;
+                }
+                if (pGeometryDef.HasM)
+                {
+                    IMAware pMAware = modifiedGeo as IMAware;
+                    pMAware.MAware = true;
+                }
+                else
+                {
+                    IMAware pMAware = modifiedGeo as IMAware;
+                    pMAware.MAware = false;
+                }
+                return modifiedGeo;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Trace.WriteLine(ex.Message, "ModifyGeomtryZMValue error");
+                return modifiedGeo;
             }
         }
     }

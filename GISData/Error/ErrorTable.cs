@@ -1,6 +1,7 @@
 ﻿namespace TopologyCheck.Error
 {
     using ESRI.ArcGIS.Geodatabase;
+    using GISData.Common;
     using System;
     using System.Collections.Generic;
     using System.Data;
@@ -49,35 +50,43 @@
 
         public void AddErr(List<ErrorEntity> pErrEntity, ErrType pTy,string idname)
         {
-            if (_table != null)
+            try
             {
-                if ((pErrEntity == null) || (pErrEntity.Count < 1))
+                if (_table != null)
                 {
-                    this.ClearTable(idname);
-                }
-                else if (this.ClearTable(idname))
-                {
-                    string str = ((int) pErrEntity[0].ErrType).ToString();
-                    foreach (ErrorEntity entity in pErrEntity)
+                    if ((pErrEntity == null) || (pErrEntity.Count < 1))
                     {
-                        ESRI.ArcGIS.Geometry.IGeometry geo = entity.ErrGeo as ESRI.ArcGIS.Geometry.IGeometry;
-                        DataRow row = _table.NewRow();
-                        row["ID"] = entity.idname;
-                        row["FeatureID"] = entity.FeatureID;
-                        row["ErrDes"] = entity.ErrMsg;
-                        row["ErrPos"] = entity.ErrPos;
-                        row["ErrType"] = str;
-                        if (pTy == ErrType.SelfIntersect)
+                        this.ClearTable(idname);
+                    }
+                    else if (this.ClearTable(idname))
+                    {
+                        string str = ((int)pErrEntity[0].ErrType).ToString();
+                        foreach (ErrorEntity entity in pErrEntity)
                         {
-                            row["Geometry"] = geo.SpatialReference;
+                            ESRI.ArcGIS.Geometry.IGeometry geo = entity.ErrGeo as ESRI.ArcGIS.Geometry.IGeometry;
+                            DataRow row = _table.NewRow();
+                            row["ID"] = entity.idname;
+                            row["FeatureID"] = entity.FeatureID;
+                            row["ErrDes"] = entity.ErrMsg;
+                            row["ErrPos"] = entity.ErrPos;
+                            row["ErrType"] = str;
+                            if (pTy == ErrType.SelfIntersect)
+                            {
+                                row["Geometry"] = geo.SpatialReference;
+                            }
+                            else
+                            {
+                                row["Geometry"] = geo;
+                            }
+                            _table.Rows.Add(row);
                         }
-                        else 
-                        {
-                            row["Geometry"] = geo;
-                        }
-                        _table.Rows.Add(row);
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog(typeof(ErrorTable), ex);
+                Console.WriteLine("MyException Throw:" + ex.Message);
             }
         }
 

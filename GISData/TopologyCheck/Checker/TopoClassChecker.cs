@@ -6,6 +6,7 @@
     using ESRI.ArcGIS.Geometry;
     using ESRI.ArcGIS.Geoprocessing;
     using ESRI.ArcGIS.Geoprocessor;
+    using GISData.Common;
     using System;
     using System.Collections;
     using System.Collections.Generic;
@@ -279,6 +280,7 @@
         /// <returns></returns>
         public List<ErrorEntity> AreaSelfIntersect(string idname, IFeatureLayer pLayer)
         {
+            CommonClass common = new CommonClass();
             IFeatureCursor cursor;
             IQueryFilter filter = new QueryFilterClass();
             filter.SubFields = pLayer.FeatureClass.OIDFieldName + "," + pLayer.FeatureClass.ShapeFieldName;

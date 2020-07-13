@@ -38,6 +38,7 @@
             this.GLDWNAME = new DevExpress.XtraGrid.Columns.GridColumn();
             this.CONTACTS = new DevExpress.XtraGrid.Columns.GridColumn();
             this.TEL = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.SPATIALR = new DevExpress.XtraGrid.Columns.GridColumn();
             this.STARTTIME = new DevExpress.XtraGrid.Columns.GridColumn();
             this.STATE = new DevExpress.XtraGrid.Columns.GridColumn();
             this.CHECKLOG = new DevExpress.XtraGrid.Columns.GridColumn();
@@ -130,12 +131,14 @@
             this.GLDWNAME,
             this.CONTACTS,
             this.TEL,
+            this.SPATIALR,
             this.STARTTIME,
             this.STATE,
             this.CHECKLOG,
             this.OTHER});
             this.gridViewGLDW.GridControl = this.gridControlGLDW;
             this.gridViewGLDW.Name = "gridViewGLDW";
+            this.gridViewGLDW.OptionsView.ColumnAutoWidth = false;
             this.gridViewGLDW.OptionsView.ShowGroupPanel = false;
             // 
             // GLDW
@@ -178,6 +181,16 @@
             this.TEL.VisibleIndex = 3;
             this.TEL.Width = 94;
             // 
+            // SPATIALR
+            // 
+            this.SPATIALR.Caption = "坐标系统";
+            this.SPATIALR.FieldName = "SPATIALR";
+            this.SPATIALR.MinWidth = 180;
+            this.SPATIALR.Name = "SPATIALR";
+            this.SPATIALR.Visible = true;
+            this.SPATIALR.VisibleIndex = 4;
+            this.SPATIALR.Width = 270;
+            // 
             // STARTTIME
             // 
             this.STARTTIME.Caption = "开始检查时间";
@@ -185,7 +198,7 @@
             this.STARTTIME.MinWidth = 25;
             this.STARTTIME.Name = "STARTTIME";
             this.STARTTIME.Visible = true;
-            this.STARTTIME.VisibleIndex = 4;
+            this.STARTTIME.VisibleIndex = 5;
             this.STARTTIME.Width = 94;
             // 
             // STATE
@@ -195,7 +208,7 @@
             this.STATE.MinWidth = 25;
             this.STATE.Name = "STATE";
             this.STATE.Visible = true;
-            this.STATE.VisibleIndex = 5;
+            this.STATE.VisibleIndex = 6;
             this.STATE.Width = 94;
             // 
             // CHECKLOG
@@ -205,7 +218,7 @@
             this.CHECKLOG.MinWidth = 25;
             this.CHECKLOG.Name = "CHECKLOG";
             this.CHECKLOG.Visible = true;
-            this.CHECKLOG.VisibleIndex = 6;
+            this.CHECKLOG.VisibleIndex = 7;
             this.CHECKLOG.Width = 94;
             // 
             // OTHER
@@ -215,7 +228,7 @@
             this.OTHER.MinWidth = 25;
             this.OTHER.Name = "OTHER";
             this.OTHER.Visible = true;
-            this.OTHER.VisibleIndex = 7;
+            this.OTHER.VisibleIndex = 8;
             this.OTHER.Width = 94;
             // 
             // xtraTabPage2
@@ -325,6 +338,7 @@
         private System.Windows.Forms.Button button2;
         private DevExpress.XtraGrid.GridControl gridControl1;
         private DevExpress.XtraGrid.Views.Grid.GridView gridView1;
+        private DevExpress.XtraGrid.Columns.GridColumn SPATIALR;
 
     }
 }

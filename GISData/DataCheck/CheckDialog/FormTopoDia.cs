@@ -26,13 +26,14 @@ namespace GISData.DataCheck.CheckDialog
         private GridControl gridControlError = null;
         private IHookHelper m_hookHelper = null;
         public DataTable topoErrorTable = null;
+        private ProgressBar progressBar = null;
         private string scheme;
         public FormTopoDia()
         {
             InitializeComponent();
         }
 
-        public FormTopoDia(string stepNo, CheckBox cb, string scheme,CheckBox cbCheckMain, GridControl gridControlError)
+        public FormTopoDia(string stepNo, CheckBox cb, string scheme, CheckBox cbCheckMain, GridControl gridControlError, ProgressBar progressbar)
         {
             InitializeComponent();
             // TODO: Complete member initialization
@@ -41,6 +42,7 @@ namespace GISData.DataCheck.CheckDialog
             this.checkBox = cb;
             this.checkBoxCheckMain = cbCheckMain;
             this.gridControlError = gridControlError;
+            this.progressBar = progressbar;
         }
 
         public void SelectAll() 
@@ -90,44 +92,51 @@ namespace GISData.DataCheck.CheckDialog
 
         public void doCheckTopo(IHookHelper m_hookHelper)
         {
-            this.m_hookHelper = m_hookHelper;
-            CommonClass common = new CommonClass();
-            int[] selectRows = this.gridView1.GetSelectedRows();
-            TopoChecker topocheck = new TopoChecker();
-            Dictionary<string, string> DicTopoData = new Dictionary<string, string>();
-            foreach (int itemRow in selectRows)
+            try{
+                this.m_hookHelper = m_hookHelper;
+                CommonClass common = new CommonClass();
+                int[] selectRows = this.gridView1.GetSelectedRows();
+                TopoChecker topocheck = new TopoChecker();
+                Dictionary<string, string> DicTopoData = new Dictionary<string, string>();
+                foreach (int itemRow in selectRows)
+                {
+                    DataRow row = this.gridView1.GetDataRow(itemRow);
+                    this.gridView1.FocusedRowHandle = itemRow;
+                    string ID = row["ID"].ToString();
+                    string NAME = row["NAME"].ToString();
+                    string STATE = row["STATE"].ToString();
+                    string ERROR = row["ERROR"].ToString();
+                    string TYPE = row["CHECKTYPE"].ToString();
+                    string TABLENAME = row["TABLENAME"].ToString();
+                    string WHERESTRING = row["WHERESTRING"].ToString();
+                    string SUPTABLE = row["SUPTABLE"].ToString();
+                    string INPUTTEXT = row["INPUTTEXT"].ToString();
+                    if (INPUTTEXT != null && INPUTTEXT != "")
+                    {
+                        DicTopoData.Add(ID, INPUTTEXT);
+                    }
+                    row["STATE"] = "检查中";
+                    if (SUPTABLE != null && SUPTABLE != "")
+                    {
+                        topocheck.OtherRule(ID, TYPE, TABLENAME, SUPTABLE, INPUTTEXT, m_hookHelper);
+                    }
+                    else 
+                    {
+                        //topocheck.OtherRule(ID, TYPE, common.GetPathByName(TABLENAME), null, INPUTTEXT, m_hookHelper);
+                        topocheck.OtherRule(ID, TYPE, TABLENAME, null, INPUTTEXT, m_hookHelper);
+                    }
+                    Dictionary<string, int> DicTopoError = topocheck.DicTopoError;
+                    row["ERROR"] = DicTopoError[row["ID"].ToString()];
+                    row["STATE"] = "检查完成";
+                    if (DicTopoError[ID].ToString() != "0")
+                    {
+                        topoErrorTable.ImportRow(row);
+                    }
+                }
+            }
+            catch (Exception e)
             {
-                DataRow row = this.gridView1.GetDataRow(itemRow);
-                string ID = row["ID"].ToString();
-                string NAME = row["NAME"].ToString();
-                string STATE = row["STATE"].ToString();
-                string ERROR = row["ERROR"].ToString();
-                string TYPE = row["CHECKTYPE"].ToString();
-                string TABLENAME = row["TABLENAME"].ToString();
-                string WHERESTRING = row["WHERESTRING"].ToString();
-                string SUPTABLE = row["SUPTABLE"].ToString();
-                string INPUTTEXT = row["INPUTTEXT"].ToString();
-                if (INPUTTEXT != null && INPUTTEXT != "")
-                {
-                    DicTopoData.Add(ID, INPUTTEXT);
-                }
-                row["STATE"] = "检查中";
-                if (SUPTABLE != null && SUPTABLE != "")
-                {
-                    topocheck.OtherRule(ID, TYPE, TABLENAME, SUPTABLE, INPUTTEXT, m_hookHelper);
-                }
-                else 
-                {
-                    //topocheck.OtherRule(ID, TYPE, common.GetPathByName(TABLENAME), null, INPUTTEXT, m_hookHelper);
-                    topocheck.OtherRule(ID, TYPE, TABLENAME, null, INPUTTEXT, m_hookHelper);
-                }
-                Dictionary<string, int> DicTopoError = topocheck.DicTopoError;
-                row["ERROR"] = DicTopoError[row["ID"].ToString()];
-                row["STATE"] = "检查完成";
-                if (DicTopoError[ID].ToString() != "0")
-                {
-                    topoErrorTable.ImportRow(row);
-                }
+                LogHelper.WriteLog(typeof(FormTopoDia), e);
             }
         }
 
@@ -156,7 +165,7 @@ namespace GISData.DataCheck.CheckDialog
                             string errorType = this.gridView1.GetRowCellValue(gridView1.FocusedRowHandle, "CHECKTYPE").ToString();
                             string idname = this.gridView1.GetRowCellValue(gridView1.FocusedRowHandle, "ID").ToString();
                             string TABLENAME = this.gridView1.GetRowCellValue(gridView1.FocusedRowHandle, "TABLENAME").ToString();
-                            if (errorType == "面重叠检查") 
+                            if (true) 
                             {
                                 CommonClass common = new CommonClass();
                                 string outString = Application.StartupPath + "\\TopoError\\" + errorType + idname + ".shp";
@@ -187,9 +196,6 @@ namespace GISData.DataCheck.CheckDialog
                                 gridView.OptionsView.ColumnAutoWidth = false;
                                 this.gridControlError.RefreshDataSource();
                             }
-                            
-
-                           
                         }
                         else {
                             Console.WriteLine("未选中");
@@ -199,6 +205,7 @@ namespace GISData.DataCheck.CheckDialog
             }
             catch (Exception ex)
             {
+                LogHelper.WriteLog(typeof(FormTopoDia), ex);
                 Console.WriteLine("MyException Throw:" + ex.Message);
             }
         }

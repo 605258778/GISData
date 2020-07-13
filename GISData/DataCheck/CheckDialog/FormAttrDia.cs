@@ -14,6 +14,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -27,6 +28,7 @@ namespace GISData.DataCheck.CheckDialog
         private CheckBox checkBoxCheckMain;
         private GridControl gridControlError = null;
         public DataTable attrErrorTable = null;
+        private ProgressBar progressBar = null;
         private string scheme;
         public FormAttrDia()
         {
@@ -41,7 +43,7 @@ namespace GISData.DataCheck.CheckDialog
         {
             this.UnSelectTreeListAll(this.treeList1);
         }
-        public FormAttrDia(string stepNo, CheckBox cb,string scheme, CheckBox cbCheckMain, GridControl gridControlError)
+        public FormAttrDia(string stepNo, CheckBox cb, string scheme, CheckBox cbCheckMain, GridControl gridControlError, ProgressBar progressbar)
         {
             InitializeComponent();
             // TODO: Complete member initialization
@@ -50,6 +52,7 @@ namespace GISData.DataCheck.CheckDialog
             this.scheme = scheme;
             this.checkBoxCheckMain = cbCheckMain;
             this.gridControlError = gridControlError;
+            this.progressBar = progressbar;
             bindTreeView();
         }
 
@@ -183,8 +186,16 @@ namespace GISData.DataCheck.CheckDialog
 
         public void doCheckAttr() 
         {
-            TreeListNodes selectNode = this.treeList1.Nodes;
+            CheckForIllegalCrossThreadCalls = false;
             ExpandAppointTreeNode(this.treeList1);
+            TreeListNodes selectNode = this.treeList1.Nodes;
+            loopCheck(selectNode);
+            //Thread tr = new Thread(doCheck);
+            //tr.Start();
+        }
+        private void doCheck() 
+        {
+            TreeListNodes selectNode = this.treeList1.Nodes;
             loopCheck(selectNode);
         }
 
@@ -192,13 +203,16 @@ namespace GISData.DataCheck.CheckDialog
         {
             foreach (TreeListNode node in selectNode)
             {
+                this.progressBar.Value = Convert.ToInt32((node.Id+1)/this.treeList1.AllNodesCount*100);
                 DataRowView nodeData = this.treeList1.GetDataRecordByNode(node) as DataRowView;
+                node.Expanded = true;
                 nodeData["ERROR"] = "";
                 nodeData["ISCHECK"] = "";
                 if (node.Checked|| node.CheckState == CheckState.Indeterminate)
                 {
                     if(!node.HasChildren)
                     {
+                        this.treeList1.FocusedNode = node;
                         string NAME = nodeData["NAME"].ToString();
                         string CHECKTYPE = nodeData["CHECKTYPE"].ToString();
                         string FIELD = nodeData["FIELD"].ToString();
