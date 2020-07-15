@@ -94,6 +94,7 @@
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(400, 51);
             this.progressBar1.TabIndex = 6;
+            this.progressBar1.Visible = false;
             // 
             // panel2
             // 

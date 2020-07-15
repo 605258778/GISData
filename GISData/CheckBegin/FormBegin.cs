@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -25,7 +26,8 @@ namespace GISData.CheckBegin
 
         private void FormBegin_Load(object sender, EventArgs e)
         {
-            
+            CommonClass common = new CommonClass();
+            this.textBox1.Text = common.GetConfigValue("SAVEDIR");
         }
 
         private void bindZqTree() 
@@ -54,6 +56,10 @@ namespace GISData.CheckBegin
             {
                 MessageBox.Show("请填写联系人！");
             }
+            else if (this.textBox1.Text == "" || this.textBox1.Text == null)
+            {
+                MessageBox.Show("请选择成果目录！");
+            }
             else 
             {
                 Regex rx = new Regex(@"^[1]+[3,5,8]+\d{9}$");
@@ -66,9 +72,10 @@ namespace GISData.CheckBegin
 
                     CommonClass common = new CommonClass();
                     common.SetConfigValue("GLDW", gldwstr);
+                    common.SetConfigValue("SAVEDIR", this.textBox1.Text);
                     string datanow = DateTime.Now.ToLocalTime().ToString();
                     ConnectDB cdb = new ConnectDB();
-                    DataTable dt = cdb.GetDataBySql("select STARTTIME from GISDATA_GLDW WHERE GLDW = '" + gldwstr + "'");
+                    DataTable dt = cdb.GetDataBySql("select STARTTIME,GLDWNAME from GISDATA_GLDW WHERE GLDW = '" + gldwstr + "'");
                     DataRow[] dr = dt.Select(null);
                     string exists = dr[0]["STARTTIME"].ToString();
                     if (exists == "")
@@ -79,6 +86,7 @@ namespace GISData.CheckBegin
                     {
                         result = cdb.Update("Update GISDATA_GLDW set CONTACTS = '" + lxr + "',TEL='" + lxdh + "',CHECKLOG = concat(CHECKLOG,'" + datanow + "',CHAR(10)) where GLDW = '" + gldwstr + "'");
                     }
+                    CreateSaveForder(this.textBox1.Text, dr[0]["GLDWNAME"].ToString());
                     this.Close();
                 }
                 else 
@@ -89,12 +97,47 @@ namespace GISData.CheckBegin
             return result;
         }
 
+        private void CreateSaveForder(string path,string gldw) 
+        {
+            if (!Directory.Exists(path))//  
+                Directory.CreateDirectory(path);
+            if (!Directory.Exists(path + "\\" + gldw))//  
+                Directory.CreateDirectory(path + "\\" + gldw);
+            if (!Directory.Exists(path + "\\" + gldw + "\\表格"))//  
+                Directory.CreateDirectory(path + "\\" + gldw + "\\表格");
+            if (!Directory.Exists(path + "\\" + gldw + "\\数据库"))//  
+                Directory.CreateDirectory(path + "\\" + gldw + "\\数据库");
+            if (!Directory.Exists(path + "\\" + gldw + "\\错误参考"))//  
+                Directory.CreateDirectory(path + "\\" + gldw + "\\错误参考");
+            if (!Directory.Exists(path + "\\" + gldw + "\\错误参考\\拓扑错误"))  
+                Directory.CreateDirectory(path + "\\" + gldw + "\\错误参考\\拓扑错误");
+            if (!Directory.Exists(path + "\\" + gldw + "\\错误参考\\属性错误"))
+                Directory.CreateDirectory(path + "\\" + gldw + "\\错误参考\\属性错误");
+            if (!Directory.Exists(path + "\\" + gldw + "\\文档"))//  
+                Directory.CreateDirectory(path + "\\" + gldw + "\\文档");
+        }
+
         private void button1_Click(object sender, EventArgs e)
         {
             if (saveFun()) 
             {
                 FormMain main = new FormMain();
                 main.ShowSetpara();
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            System.Windows.Forms.FolderBrowserDialog dialog = new System.Windows.Forms.FolderBrowserDialog();
+            dialog.Description = "请选择成果保存文件夹";
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                if (string.IsNullOrEmpty(dialog.SelectedPath))
+                {
+                    MessageBox.Show(this, "文件夹路径不能为空", "提示");
+                    return;
+                }
+                this.textBox1.Text = dialog.SelectedPath;
             }
         }
     }

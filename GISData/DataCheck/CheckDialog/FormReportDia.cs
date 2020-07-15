@@ -103,16 +103,21 @@ namespace GISData.DataCheck.CheckDialog
                 this.checkBox.CheckState = CheckState.Unchecked;
             }
         }
-
+        /// <summary>
+        /// 生成表格
+        /// </summary>
         public void DoReport()
         {
-            string path = @"D:\report\";
+            CommonClass common = new CommonClass();
+            ConnectDB db = new ConnectDB();
+            DataTable DT = db.GetDataBySql("select GLDWNAME from GISDATA_GLDW where GLDW = '" + common.GetConfigValue("GLDW") + "'");
+            DataRow dr = DT.Select(null)[0];
+            string path = common.GetConfigValue("SAVEDIR") + "\\" + dr["GLDWNAME"].ToString() + "\\表格";
+            //string path = @"D:\report\";
             if (Directory.Exists(path) == false)
             {
                 Directory.CreateDirectory(path);
             }
-            CommonClass common = new CommonClass();
-            ConnectDB db = new ConnectDB();
             int[] selectRows = this.gridView1.GetSelectedRows();
             DataTable dtDs = new DataTable();
             foreach(int itemRow in selectRows)
@@ -210,7 +215,7 @@ namespace GISData.DataCheck.CheckDialog
                     {
                         using (MemoryStream result = new MemoryStream())
                         {
-                            resultBook.SaveDocument("D:\\report\\" + row["REPORTNAME"].ToString() + time + ".xlsx");
+                            resultBook.SaveDocument(path+"\\" + row["REPORTNAME"].ToString() + time + ".xlsx");
                             result.Seek(0, SeekOrigin.Begin);
                         }
                     }
@@ -317,7 +322,7 @@ namespace GISData.DataCheck.CheckDialog
                     {
                         using (MemoryStream result = new MemoryStream())
                         {
-                            resultBook.SaveDocument("D:\\report\\" + row["REPORTNAME"].ToString() + time + ".xlsx");
+                            resultBook.SaveDocument(path+"\\" + row["REPORTNAME"].ToString() + time + ".xlsx");
                             result.Seek(0, SeekOrigin.Begin);
                         }
                     }
@@ -338,7 +343,7 @@ namespace GISData.DataCheck.CheckDialog
                     {
                         using (MemoryStream result = new MemoryStream())
                         {
-                            resultBook.SaveDocument("D:\\report\\" + row["REPORTNAME"].ToString() + time + ".xlsx");
+                            resultBook.SaveDocument(path + "\\" + row["REPORTNAME"].ToString() + time + ".xlsx");
                             result.Seek(0, SeekOrigin.Begin);
                         }
                     }

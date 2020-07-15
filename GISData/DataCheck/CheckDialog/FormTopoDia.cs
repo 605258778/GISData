@@ -28,6 +28,7 @@ namespace GISData.DataCheck.CheckDialog
         public DataTable topoErrorTable = null;
         private ProgressBar progressBar = null;
         private string scheme;
+        private string topoDir;
         public FormTopoDia()
         {
             InitializeComponent();
@@ -43,6 +44,12 @@ namespace GISData.DataCheck.CheckDialog
             this.checkBoxCheckMain = cbCheckMain;
             this.gridControlError = gridControlError;
             this.progressBar = progressbar;
+
+            CommonClass common = new CommonClass();
+            ConnectDB db = new ConnectDB();
+            DataTable DT = db.GetDataBySql("select GLDWNAME from GISDATA_GLDW where GLDW = '" + common.GetConfigValue("GLDW") + "'");
+            DataRow dr = DT.Select(null)[0];
+            this.topoDir = common.GetConfigValue("SAVEDIR") + "\\" + dr["GLDWNAME"].ToString() + "\\错误参考\\拓扑错误";
         }
 
         public void SelectAll() 
@@ -165,39 +172,13 @@ namespace GISData.DataCheck.CheckDialog
                             string errorType = this.gridView1.GetRowCellValue(gridView1.FocusedRowHandle, "CHECKTYPE").ToString();
                             string idname = this.gridView1.GetRowCellValue(gridView1.FocusedRowHandle, "ID").ToString();
                             string TABLENAME = this.gridView1.GetRowCellValue(gridView1.FocusedRowHandle, "TABLENAME").ToString();
-                            if (true) 
-                            {
-                                CommonClass common = new CommonClass();
-                                string outString = Application.StartupPath + "\\TopoError\\" + errorType + idname + ".shp";
-                                IFeatureClass IFC = common.GetFeatureClassByShpPath(outString);
-                                TableShow(IFC, this.gridControlError, "拓扑检查ByGP", TABLENAME, errorType + idname + ".shp");
-                            } else 
-                            {
-                                GridView gridView = this.gridControlError.DefaultView as GridView;
-                                ErrorTable table = new ErrorTable();
-                                DataTable table2 = table.GetTable(idname);
-                                DataRow[] dr = table2.Select("1=1");
-                                //ESRI.ArcGIS.Geometry.IGeometry igo = (ESRI.ArcGIS.Geometry.IGeometry) dr[0]["Geometry"];
-                                gridView.Columns.Clear();
-                                for (int i = 0; i < table2.Columns.Count; i++)
-                                {
-                                    GridColumn gridCol_FeatureID = new GridColumn();
-                                    gridCol_FeatureID.Caption = table2.Columns[i].Caption;
-                                    gridCol_FeatureID.FieldName = table2.Columns[i].ColumnName;
-                                    gridCol_FeatureID.Name = table2.Columns[i].ColumnName;
-                                    gridCol_FeatureID.Visible = true;
-                                    gridView.Columns.Add(gridCol_FeatureID);
-                                }
-                                this.gridControlError.DataSource = table2;
-                                gridView.OptionsBehavior.Editable = false;
-                                gridView.OptionsSelection.MultiSelect = false;
-                                gridView.ViewCaption = "拓扑检查";
-                                gridView.NewItemRowText = TABLENAME;
-                                gridView.OptionsView.ColumnAutoWidth = false;
-                                this.gridControlError.RefreshDataSource();
-                            }
+                            CommonClass common = new CommonClass();
+                            string outString = this.topoDir + "\\" + errorType + idname + ".shp";
+                            IFeatureClass IFC = common.GetFeatureClassByShpPath(outString);
+                            TableShow(IFC, this.gridControlError, "拓扑检查ByGP", TABLENAME, errorType + idname + ".shp");
                         }
-                        else {
+                        else 
+                        {
                             Console.WriteLine("未选中");
                         }
                     }

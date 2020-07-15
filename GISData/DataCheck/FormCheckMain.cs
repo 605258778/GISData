@@ -300,86 +300,7 @@ namespace GISData.DataCheck
         {
             try 
             {
-                if (this.gridViewError.ViewCaption == "拓扑检查")
-                {
-                    IActiveView activeView = this.m_hookHelper.ActiveView;
-                    ErrManager.ClearElement(activeView);
-                    var index = this.gridViewError.GetFocusedDataSourceRowIndex();//获取数据行的索引值，从0开始
-                    DataRowView row = (DataRowView)this.gridViewError.GetRow(index);//获取选中行的那个单元格的值
-
-                    ErrType type = (ErrType)int.Parse(this.gridViewError.Columns["ErrType"] == null ? "0" : row["ErrType"].ToString());
-                    int oid = int.Parse(row["FeatureID"].ToString());
-
-                    object geo = this.gridViewError.Columns["Geometry"] == null ? row["Shape"] : row["Geometry"];
-                    CommonClass common = new CommonClass();
-                    IFeatureLayer pLayer = common.GetLayerByName(this.gridViewError.NewItemRowText);
-                    IEnumLayer enumlayer = activeView.FocusMap.Layers;
-                    ILayer itemLayer = enumlayer.Next();
-                    Boolean existsLayer = false;
-                    while (itemLayer != null)
-                    {
-                        if (itemLayer.Name == this.gridViewError.NewItemRowText)
-                        {
-                            existsLayer = true;
-                            break;
-                        }
-                        itemLayer = enumlayer.Next();
-                    }
-                    if (!existsLayer)
-                    {
-                        activeView.FocusMap.AddLayer(pLayer);
-                    }
-
-                    ESRI.ArcGIS.Geometry.ISpatialReference geoISpatial = geo as ESRI.ArcGIS.Geometry.ISpatialReference;
-                    switch (type)
-                    {
-                        case ErrType.OverLap:
-                            ErrManager.ZoomToErr(activeView, (ESRI.ArcGIS.Geometry.IGeometry)geo);
-                            ErrManager.AddErrTopoElement(activeView, (ESRI.ArcGIS.Geometry.IGeometry)geo, oid);
-                            //ErrManager.ZoomToErr(activeView, pFeature);
-                            //ErrManager.AddErrTopoElement(activeView, (IGeometry)row["Geometry"], ref list2);
-                            break;
-
-                        case ErrType.Gap:
-                            ErrManager.ZoomToErr(activeView, (ESRI.ArcGIS.Geometry.IGeometry)geo);
-                            ErrManager.AddErrTopoElement(activeView, (ESRI.ArcGIS.Geometry.IGeometry)geo, oid);
-                            break;
-                        case ErrType.MultiPart:
-                            ErrManager.ZoomToErr(activeView, (ESRI.ArcGIS.Geometry.IGeometry)geo);
-                            ErrManager.AddErrTopoElement(activeView, (ESRI.ArcGIS.Geometry.IGeometry)geo, oid);
-                            break;
-                        case ErrType.SelfIntersect:
-                            string ErrPos = row["ErrPos"].ToString();
-                            string[] strArray = ErrPos.Split(new char[] { ';' });
-                            ESRI.ArcGIS.Geometry.IPointCollection pPointCollection1 = new ESRI.ArcGIS.Geometry.MultipointClass();
-                            ESRI.ArcGIS.Geometry.IGeometry pGeo = null;
-                            foreach (string str in strArray)
-                            {
-                                if (!string.IsNullOrEmpty(str))
-                                {
-                                    string[] strArray2 = str.Split(new char[] { ',' });
-                                    double pX = double.Parse(strArray2[0]);
-                                    double pY = double.Parse(strArray2[1]);
-                                    ESRI.ArcGIS.Geometry.IPoint point = new ESRI.ArcGIS.Geometry.PointClass();
-                                    point.X = pX;
-                                    point.Y = pY;
-                                    pPointCollection1.AddPoint(point);
-                                }
-                            }
-                            ESRI.ArcGIS.Geometry.IMultipoint pMuPoint = pPointCollection1 as ESRI.ArcGIS.Geometry.IMultipoint;
-                            pGeo = pMuPoint as ESRI.ArcGIS.Geometry.IGeometry;
-                            List<IElement> list2 = new List<IElement>();
-                            ErrManager.ZoomToErr(activeView, pGeo);
-                            ErrManager.AddErrPointElement(activeView, ErrPos, geoISpatial, oid);
-                            break;
-                        default:
-                            ErrManager.ZoomToErr(activeView, (ESRI.ArcGIS.Geometry.IGeometry)geo);
-                            ErrManager.AddErrTopoElement(activeView, (ESRI.ArcGIS.Geometry.IGeometry)geo, oid);
-                            break;
-                    }
-                    activeView.Refresh();
-                }
-                else if (this.gridViewError.ViewCaption == "属性检查")
+                if (this.gridViewError.ViewCaption == "属性检查")
                 {
                     string tablename = this.gridViewError.NewItemRowText;
                     IActiveView activeView = this.m_hookHelper.ActiveView;
@@ -445,15 +366,20 @@ namespace GISData.DataCheck
                     int oid = int.Parse(row[pClass.OIDFieldName].ToString());
                     pQuery.WhereClause = pClass.OIDFieldName + "=" + oid;
                     IFeature feature = pClass.GetFeature(oid);
-                    //IFeatureSelection pFeatSelection;
-                    //pFeatSelection = pClass as IFeatureSelection;
-                    //pFeatSelection.SelectFeatures(pQuery, esriSelectionResultEnum.esriSelectionResultNew, false);
                     IElement element = CreatePolygonElement(activeView, feature.ShapeCopy);
                     (activeView as IGraphicsContainer).AddElement(element, 0);
-                    //pElements.Add(element);
                     activeView.PartialRefresh(esriViewDrawPhase.esriViewGraphics, null, activeView.Extent);
-                    activeView.Extent = feature.ShapeCopy.Envelope;
-                    activeView.Refresh();
+                    if (pClass.ShapeType == esriGeometryType.esriGeometryPoint)
+                    {
+                        ZoomToErr(activeView, feature.ShapeCopy);
+                    }
+                    else 
+                    {
+                        
+                        activeView.Extent = feature.ShapeCopy.Envelope;
+                        activeView.Refresh();
+                    }
+                    
                 }
             }
             catch(Exception ex)
@@ -464,6 +390,35 @@ namespace GISData.DataCheck
             
         }
 
+        private void ZoomToErr(IActiveView pActiveView, IGeometry pGeo)
+        {
+            pGeo = ConvertPoject(pGeo, pActiveView.FocusMap.SpatialReference);
+            if (!pGeo.IsEmpty)
+            {
+                IEnvelope envelope = new EnvelopeClass();
+                envelope.SpatialReference = pActiveView.FocusMap.SpatialReference;
+                envelope.PutCoords(pGeo.Envelope.XMin, pGeo.Envelope.YMin, pGeo.Envelope.XMax, pGeo.Envelope.YMax);
+                envelope.Expand(1.3, 1.3, false);
+                pActiveView.Extent = envelope;
+                pActiveView.PartialRefresh(esriViewDrawPhase.esriViewGeography, null, pActiveView.Extent);
+            }
+        }
+        private IGeometry ConvertPoject(IGeometry pGeometry, ISpatialReference pSpatialReference)
+        {
+            try
+            {
+                if (pGeometry.SpatialReference != pSpatialReference)
+                {
+                    pGeometry.Project(pSpatialReference);
+                    pGeometry.SpatialReference = pSpatialReference;
+                }
+                return pGeometry;
+            }
+            catch (Exception)
+            {
+                return pGeometry;
+            }
+        }
         public IElement CreatePolygonElement(IActiveView pActiveView, IGeometry pGeo)
         {
             Random rnd = new Random();
@@ -486,29 +441,21 @@ namespace GISData.DataCheck
             symbol2.Outline = symbol;
             pGeo = ConvertPoject(pGeo, pActiveView.FocusMap.SpatialReference);
             ISimpleFillSymbol symbol3 = symbol2;
-            IElement element = new PolygonElementClass();
+            IElement element;
+            if (pGeo.GeometryType == esriGeometryType.esriGeometryPoint)
+            {
+                element = new MarkerElementClass();
+            }
+            else 
+            {
+                element = new PolygonElementClass();
+            }
             element.Geometry = pGeo;
-            IFillShapeElement element2 = element as IFillShapeElement;
-            element2.Symbol = symbol3;
+            //IFillShapeElement element2 = element as IFillShapeElement;
+            //element2.Symbol = symbol3;
             return element;
         }
 
-        private IGeometry ConvertPoject(IGeometry pGeometry, ISpatialReference pSpatialReference)
-        {
-            try
-            {
-                if (pGeometry.SpatialReference != pSpatialReference)
-                {
-                    pGeometry.Project(pSpatialReference);
-                    pGeometry.SpatialReference = pSpatialReference;
-                }
-                return pGeometry;
-            }
-            catch (Exception)
-            {
-                return pGeometry;
-            }
-        }
         /// <summary>
         /// 选择方案
         /// </summary>

@@ -237,3 +237,133 @@ System.NullReferenceException: 未将对象引用设置到对象的实例。
 2020-07-13 15:57:48,983 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
 2020-07-13 15:57:49,682 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_REPORT where SCHEME ='营造林质检方案' and STEP_NO = '3'
 2020-07-13 15:57:50,836 [9] ERROR GISData.Common.ConnectDB - select NAME,STATE,ERROR,CHECKTYPE,TABLENAME,WHERESTRING,SUPTABLE,INPUTTEXT,ID from GISDATA_TBTOPO where SCHEME ='营造林质检方案' and STEP_NO = '2'
+2020-07-13 16:04:13,746 [9] ERROR GISData.DataCheck.FormCheckMain - Error
+System.ArgumentException: 值不在预期的范围内。
+   在 ESRI.ArcGIS.Carto.PolygonElementClass.set_Geometry(IGeometry pGeometry)
+   在 GISData.DataCheck.FormCheckMain.CreatePolygonElement(IActiveView pActiveView, IGeometry pGeo) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\FormCheckMain.cs:行号 490
+   在 GISData.DataCheck.FormCheckMain.gridControlError_DoubleClick(Object sender, EventArgs e) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\FormCheckMain.cs:行号 451
+2020-07-13 16:04:17,096 [9] ERROR GISData.DataCheck.FormCheckMain - Error
+System.ArgumentException: 值不在预期的范围内。
+   在 ESRI.ArcGIS.Carto.PolygonElementClass.set_Geometry(IGeometry pGeometry)
+   在 GISData.DataCheck.FormCheckMain.CreatePolygonElement(IActiveView pActiveView, IGeometry pGeo) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\FormCheckMain.cs:行号 490
+   在 GISData.DataCheck.FormCheckMain.gridControlError_DoubleClick(Object sender, EventArgs e) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\FormCheckMain.cs:行号 451
+2020-07-13 16:32:19,792 [9] ERROR GISData.DataCheck.FormCheckMain - Error
+System.ArgumentException: 值不在预期的范围内。
+   在 ESRI.ArcGIS.Carto.PolygonElementClass.set_Geometry(IGeometry pGeometry)
+   在 GISData.DataCheck.FormCheckMain.CreatePolygonElement(IActiveView pActiveView, IGeometry pGeo) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\FormCheckMain.cs:行号 490
+   在 GISData.DataCheck.FormCheckMain.gridControlError_DoubleClick(Object sender, EventArgs e) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\FormCheckMain.cs:行号 451
+2020-07-13 16:32:20,992 [9] ERROR GISData.DataCheck.FormCheckMain - Error
+System.ArgumentException: 值不在预期的范围内。
+   在 ESRI.ArcGIS.Carto.PolygonElementClass.set_Geometry(IGeometry pGeometry)
+   在 GISData.DataCheck.FormCheckMain.CreatePolygonElement(IActiveView pActiveView, IGeometry pGeo) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\FormCheckMain.cs:行号 490
+   在 GISData.DataCheck.FormCheckMain.gridControlError_DoubleClick(Object sender, EventArgs e) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\FormCheckMain.cs:行号 451
+2020-07-13 16:32:21,744 [9] ERROR GISData.DataCheck.FormCheckMain - Error
+System.ArgumentException: 值不在预期的范围内。
+   在 ESRI.ArcGIS.Carto.PolygonElementClass.set_Geometry(IGeometry pGeometry)
+   在 GISData.DataCheck.FormCheckMain.CreatePolygonElement(IActiveView pActiveView, IGeometry pGeo) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\FormCheckMain.cs:行号 490
+   在 GISData.DataCheck.FormCheckMain.gridControlError_DoubleClick(Object sender, EventArgs e) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\FormCheckMain.cs:行号 451
+2020-07-13 16:32:22,088 [9] ERROR GISData.DataCheck.FormCheckMain - Error
+System.ArgumentException: 值不在预期的范围内。
+   在 ESRI.ArcGIS.Carto.PolygonElementClass.set_Geometry(IGeometry pGeometry)
+   在 GISData.DataCheck.FormCheckMain.CreatePolygonElement(IActiveView pActiveView, IGeometry pGeo) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\FormCheckMain.cs:行号 490
+   在 GISData.DataCheck.FormCheckMain.gridControlError_DoubleClick(Object sender, EventArgs e) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\FormCheckMain.cs:行号 451
+2020-07-13 16:32:24,935 [9] ERROR GISData.DataCheck.FormCheckMain - Error
+System.ArgumentException: 值不在预期的范围内。
+   在 ESRI.ArcGIS.Carto.PolygonElementClass.set_Geometry(IGeometry pGeometry)
+   在 GISData.DataCheck.FormCheckMain.CreatePolygonElement(IActiveView pActiveView, IGeometry pGeo) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\FormCheckMain.cs:行号 490
+   在 GISData.DataCheck.FormCheckMain.gridControlError_DoubleClick(Object sender, EventArgs e) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\FormCheckMain.cs:行号 451
+2020-07-13 16:32:45,493 [9] ERROR GISData.DataCheck.FormCheckMain - Error
+System.ArgumentException: 值不在预期的范围内。
+   在 ESRI.ArcGIS.Carto.PolygonElementClass.set_Geometry(IGeometry pGeometry)
+   在 GISData.DataCheck.FormCheckMain.CreatePolygonElement(IActiveView pActiveView, IGeometry pGeo) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\FormCheckMain.cs:行号 490
+   在 GISData.DataCheck.FormCheckMain.gridControlError_DoubleClick(Object sender, EventArgs e) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\FormCheckMain.cs:行号 451
+2020-07-13 16:32:45,858 [9] ERROR GISData.DataCheck.FormCheckMain - Error
+System.ArgumentException: 值不在预期的范围内。
+   在 ESRI.ArcGIS.Carto.PolygonElementClass.set_Geometry(IGeometry pGeometry)
+   在 GISData.DataCheck.FormCheckMain.CreatePolygonElement(IActiveView pActiveView, IGeometry pGeo) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\FormCheckMain.cs:行号 490
+   在 GISData.DataCheck.FormCheckMain.gridControlError_DoubleClick(Object sender, EventArgs e) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\FormCheckMain.cs:行号 451
+2020-07-13 16:32:54,432 [9] ERROR GISData.DataCheck.FormCheckMain - Error
+System.ArgumentException: 值不在预期的范围内。
+   在 ESRI.ArcGIS.Carto.PolygonElementClass.set_Geometry(IGeometry pGeometry)
+   在 GISData.DataCheck.FormCheckMain.CreatePolygonElement(IActiveView pActiveView, IGeometry pGeo) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\FormCheckMain.cs:行号 490
+   在 GISData.DataCheck.FormCheckMain.gridControlError_DoubleClick(Object sender, EventArgs e) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\FormCheckMain.cs:行号 451
+ ----------------------header--------------------------
+2020-07-13 16:44:30,276 [9] ERROR GISData.Program - 登录
+2020-07-13 16:44:51,759 [9] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+2020-07-13 16:44:52,180 [9] ERROR GISData.Program - 开始运行
+2020-07-13 16:44:54,434 [9] ERROR GISData.FormMain - 窗体初始化开始
+2020-07-13 16:44:54,447 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_USER WHERE USER ='曾伟'
+2020-07-13 16:44:56,343 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_SCHEME order by IS_DEFAULT desc
+2020-07-13 16:44:56,347 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = 'System.Data.DataRowView' order by STEP_NO
+2020-07-13 16:44:56,388 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = '营造林质检方案' order by STEP_NO
+2020-07-13 16:44:56,547 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-07-13 16:44:56,570 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-07-13 16:44:57,304 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_REPORT where SCHEME ='营造林质检方案' and STEP_NO = '3'
+2020-07-13 16:44:58,652 [9] ERROR GISData.Common.ConnectDB - select NAME,STATE,ERROR,CHECKTYPE,TABLENAME,WHERESTRING,SUPTABLE,INPUTTEXT,ID from GISDATA_TBTOPO where SCHEME ='营造林质检方案' and STEP_NO = '2'
+ ----------------------header--------------------------
+2020-07-13 17:22:12,510 [9] ERROR GISData.Program - 登录
+2020-07-13 17:22:14,936 [9] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+2020-07-13 17:22:15,192 [9] ERROR GISData.Program - 开始运行
+2020-07-13 17:22:17,332 [9] ERROR GISData.FormMain - 窗体初始化开始
+2020-07-13 17:22:17,345 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_USER WHERE USER ='曾伟'
+2020-07-13 17:22:19,931 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_SCHEME order by IS_DEFAULT desc
+2020-07-13 17:22:19,936 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = 'System.Data.DataRowView' order by STEP_NO
+2020-07-13 17:22:19,980 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = '营造林质检方案' order by STEP_NO
+2020-07-13 17:22:20,132 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-07-13 17:22:20,155 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-07-13 17:22:20,875 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_REPORT where SCHEME ='营造林质检方案' and STEP_NO = '3'
+2020-07-13 17:22:21,781 [9] ERROR GISData.Common.ConnectDB - select NAME,STATE,ERROR,CHECKTYPE,TABLENAME,WHERESTRING,SUPTABLE,INPUTTEXT,ID from GISDATA_TBTOPO where SCHEME ='营造林质检方案' and STEP_NO = '2'
+2020-07-13 17:22:29,196 [9] ERROR GISData.DataCheck.CheckDialog.FormTopoDia - Error
+System.Runtime.InteropServices.COMException (0x80040904): 这个集合中找不到此项目。
+   在 ESRI.ArcGIS.Geodatabase.IFeature.set_Shape(IGeometry Shape)
+   在 GISData.Common.CommonClass.GenerateSHPFile(IGeometry pResultGeometry, String filename) 位置 f:\数据验收平台建设\GISData\GISData\Common\CommonClass.cs:行号 1259
+   在 GISData.Common.TopoChecker.OtherRule(String idname, String IN_RuleType, String TABLENAME, String SUPTABLE, String inputtext, IHookHelper m_hookHelper) 位置 f:\数据验收平台建设\GISData\GISData\Common\TopoChecker.cs:行号 268
+   在 GISData.DataCheck.CheckDialog.FormTopoDia.doCheckTopo(IHookHelper m_hookHelper) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormTopoDia.cs:行号 126
+2020-07-13 17:23:21,874 [9] ERROR GISData.DataCheck.CheckDialog.FormTopoDia - Error
+System.Runtime.InteropServices.COMException (0x80040904): 这个集合中找不到此项目。
+   在 ESRI.ArcGIS.Geodatabase.IFeature.set_Shape(IGeometry Shape)
+   在 GISData.Common.CommonClass.GenerateSHPFile(IGeometry pResultGeometry, String filename) 位置 f:\数据验收平台建设\GISData\GISData\Common\CommonClass.cs:行号 1259
+   在 GISData.Common.TopoChecker.OtherRule(String idname, String IN_RuleType, String TABLENAME, String SUPTABLE, String inputtext, IHookHelper m_hookHelper) 位置 f:\数据验收平台建设\GISData\GISData\Common\TopoChecker.cs:行号 268
+   在 GISData.DataCheck.CheckDialog.FormTopoDia.doCheckTopo(IHookHelper m_hookHelper) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormTopoDia.cs:行号 126
+ ----------------------header--------------------------
+2020-07-13 17:28:09,045 [9] ERROR GISData.Program - 登录
+2020-07-13 17:28:11,625 [9] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+2020-07-13 17:28:11,997 [9] ERROR GISData.Program - 开始运行
+2020-07-13 17:28:13,647 [9] ERROR GISData.FormMain - 窗体初始化开始
+2020-07-13 17:28:13,660 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_USER WHERE USER ='曾伟'
+2020-07-13 17:28:15,275 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_SCHEME order by IS_DEFAULT desc
+2020-07-13 17:28:15,280 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = 'System.Data.DataRowView' order by STEP_NO
+2020-07-13 17:28:15,323 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = '营造林质检方案' order by STEP_NO
+2020-07-13 17:28:15,477 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-07-13 17:28:15,499 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-07-13 17:28:16,211 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_REPORT where SCHEME ='营造林质检方案' and STEP_NO = '3'
+2020-07-13 17:28:17,229 [9] ERROR GISData.Common.ConnectDB - select NAME,STATE,ERROR,CHECKTYPE,TABLENAME,WHERESTRING,SUPTABLE,INPUTTEXT,ID from GISDATA_TBTOPO where SCHEME ='营造林质检方案' and STEP_NO = '2'
+2020-07-13 17:28:23,608 [9] ERROR GISData.DataCheck.CheckDialog.FormTopoDia - Error
+System.Runtime.InteropServices.COMException (0x80040904): 这个集合中找不到此项目。
+   在 ESRI.ArcGIS.Geodatabase.IFeatureBuffer.set_Shape(IGeometry Shape)
+   在 GISData.Common.CommonClass.GenerateSHPFile(IGeometry pResultGeometry, String filename) 位置 f:\数据验收平台建设\GISData\GISData\Common\CommonClass.cs:行号 1260
+   在 GISData.Common.TopoChecker.OtherRule(String idname, String IN_RuleType, String TABLENAME, String SUPTABLE, String inputtext, IHookHelper m_hookHelper) 位置 f:\数据验收平台建设\GISData\GISData\Common\TopoChecker.cs:行号 268
+   在 GISData.DataCheck.CheckDialog.FormTopoDia.doCheckTopo(IHookHelper m_hookHelper) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormTopoDia.cs:行号 126
+ ----------------------header--------------------------
+2020-07-13 17:32:43,835 [9] ERROR GISData.Program - 登录
+2020-07-13 17:32:46,838 [9] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+2020-07-13 17:32:47,132 [9] ERROR GISData.Program - 开始运行
+2020-07-13 17:32:48,770 [9] ERROR GISData.FormMain - 窗体初始化开始
+2020-07-13 17:32:48,783 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_USER WHERE USER ='曾伟'
+2020-07-13 17:32:50,685 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_SCHEME order by IS_DEFAULT desc
+2020-07-13 17:32:50,690 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = 'System.Data.DataRowView' order by STEP_NO
+2020-07-13 17:32:50,736 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = '营造林质检方案' order by STEP_NO
+2020-07-13 17:32:50,907 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-07-13 17:32:50,932 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-07-13 17:32:51,651 [9] ERROR GISData.Common.ConnectDB - select * from GISDATA_REPORT where SCHEME ='营造林质检方案' and STEP_NO = '3'
+2020-07-13 17:32:52,726 [9] ERROR GISData.Common.ConnectDB - select NAME,STATE,ERROR,CHECKTYPE,TABLENAME,WHERESTRING,SUPTABLE,INPUTTEXT,ID from GISDATA_TBTOPO where SCHEME ='营造林质检方案' and STEP_NO = '2'
+2020-07-13 17:34:49,276 [9] ERROR GISData.DataCheck.FormCheckMain - Error
+System.ArgumentException: 值不在预期的范围内。
+   在 ESRI.ArcGIS.Carto.PolygonElementClass.set_Geometry(IGeometry pGeometry)
+   在 GISData.DataCheck.FormCheckMain.CreatePolygonElement(IActiveView pActiveView, IGeometry pGeo) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\FormCheckMain.cs:行号 490
+   在 GISData.DataCheck.FormCheckMain.gridControlError_DoubleClick(Object sender, EventArgs e) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\FormCheckMain.cs:行号 451
+2020-07-13 17:34:51,990 [9] ERROR GISData.DataCheck.FormCheckMain - Error
+System.ArgumentException: 值不在预期的范围内。
+   在 ESRI.ArcGIS.Carto.PolygonElementClass.set_Geometry(IGeometry pGeometry)
+   在 GISData.DataCheck.FormCheckMain.CreatePolygonElement(IActiveView pActiveView, IGeometry pGeo) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\FormCheckMain.cs:行号 490
+   在 GISData.DataCheck.FormCheckMain.gridControlError_DoubleClick(Object sender, EventArgs e) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\FormCheckMain.cs:行号 451

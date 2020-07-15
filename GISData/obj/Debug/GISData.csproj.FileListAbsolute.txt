@@ -66,4 +66,5 @@ F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.Login.FormRegister
 F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.User.FormVerfied.resources
 F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.Login.FormHostConfig.resources
 F:\数据验收平台建设\GISData\GISData\bin\Debug\RegInfoFile.xml
+F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.Formtest.resources
 F:\数据验收平台建设\GISData\GISData\obj\Debug\GISData.csprojResolveAssemblyReference.cache

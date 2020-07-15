@@ -17,6 +17,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Excel = Microsoft.Office.Interop.Excel;
 
 namespace GISData.DataCheck.CheckDialog
 {
@@ -30,6 +31,8 @@ namespace GISData.DataCheck.CheckDialog
         public DataTable attrErrorTable = null;
         private ProgressBar progressBar = null;
         private string scheme;
+        private string attrDir;
+        private List<List<string>> listError;
         public FormAttrDia()
         {
             InitializeComponent();
@@ -54,6 +57,13 @@ namespace GISData.DataCheck.CheckDialog
             this.gridControlError = gridControlError;
             this.progressBar = progressbar;
             bindTreeView();
+            CommonClass common = new CommonClass();
+            ConnectDB db = new ConnectDB();
+            DataTable DT = db.GetDataBySql("select GLDWNAME from GISDATA_GLDW where GLDW = '" + common.GetConfigValue("GLDW") + "'");
+            DataRow dr = DT.Select(null)[0];
+            this.attrDir = common.GetConfigValue("SAVEDIR") + "\\" + dr["GLDWNAME"].ToString() + "\\错误参考\\属性错误";
+            this.listError = new List<List<string>>();
+            CreateExcelFile();
         }
 
         private void FormAttrDia_Load(object sender, EventArgs e)
@@ -186,10 +196,12 @@ namespace GISData.DataCheck.CheckDialog
 
         public void doCheckAttr() 
         {
+            this.listError.Clear();
             CheckForIllegalCrossThreadCalls = false;
             ExpandAppointTreeNode(this.treeList1);
             TreeListNodes selectNode = this.treeList1.Nodes;
             loopCheck(selectNode);
+            WriteToExcel(this.listError);
             //Thread tr = new Thread(doCheck);
             //tr.Start();
         }
@@ -203,7 +215,7 @@ namespace GISData.DataCheck.CheckDialog
         {
             foreach (TreeListNode node in selectNode)
             {
-                this.progressBar.Value = Convert.ToInt32((node.Id+1)/this.treeList1.AllNodesCount*100);
+                //this.progressBar.Value = Convert.ToInt32((node.Id+1)/this.treeList1.AllNodesCount*100);
                 DataRowView nodeData = this.treeList1.GetDataRecordByNode(node) as DataRowView;
                 node.Expanded = true;
                 nodeData["ERROR"] = "";
@@ -236,6 +248,15 @@ namespace GISData.DataCheck.CheckDialog
                                 IRow pRow = pCur.NextRow();
                                 int iInx = pCur.Fields.FindField("errorCount");
                                 string count = pRow.get_Value(iInx).ToString();
+                                if (int.Parse(count) > 0 )
+                                {
+                                    List<string> listItem = new List<string>();
+                                    listItem.Add(CHECKTYPE);
+                                    listItem.Add(NAME);
+                                    listItem.Add(count);
+                                    listItem.Add(FIELD + " IS NULL OR  format(" + FIELD + ") = '' ");
+                                    this.listError.Add(listItem);
+                                }
                                 nodeData["ERROR"] = count;
                                 nodeData["ISCHECK"] = "已检查";
                             }
@@ -266,6 +287,15 @@ namespace GISData.DataCheck.CheckDialog
                                     IRow pRow = pCur.NextRow();
                                     int iInx = pCur.Fields.FindField("errorCount");
                                     string count = pRow.get_Value(iInx).ToString();
+                                    if (int.Parse(count) > 0)
+                                    {
+                                        List<string> listItem = new List<string>();
+                                        listItem.Add(CHECKTYPE);
+                                        listItem.Add(NAME);
+                                        listItem.Add(count);
+                                        listItem.Add(" (" + WHERESTRING + ") and (" + RESULT + ")");
+                                        this.listError.Add(listItem);
+                                    }
                                     nodeData["ERROR"] = count;
                                     nodeData["ISCHECK"] = "已检查";
                                 }catch(Exception e)
@@ -289,6 +319,15 @@ namespace GISData.DataCheck.CheckDialog
                                 IRow pRow = pCur.NextRow();
                                 int iInx = pCur.Fields.FindField("errorCount");
                                 string count = pRow.get_Value(iInx).ToString();
+                                if (int.Parse(count) > 0)
+                                {
+                                    List<string> listItem = new List<string>();
+                                    listItem.Add(CHECKTYPE);
+                                    listItem.Add(NAME);
+                                    listItem.Add(count);
+                                    listItem.Add(FIELD + " in ( select " + FIELD + " as wyz from  " + TABLENAME + " group by " + FIELD + " having count(" + FIELD + ")>1)");
+                                    this.listError.Add(listItem);
+                                }
                                 nodeData["ERROR"] = count;
                                 nodeData["ISCHECK"] = "已检查";
                             }
@@ -332,6 +371,15 @@ namespace GISData.DataCheck.CheckDialog
                                         IRow pRow = pCur.NextRow();
                                         int iInx = pCur.Fields.FindField("errorCount");
                                         string count = pRow.get_Value(iInx).ToString();
+                                        if (int.Parse(count) > 0)
+                                        {
+                                            List<string> listItem = new List<string>();
+                                            listItem.Add(CHECKTYPE);
+                                            listItem.Add(NAME);
+                                            listItem.Add(count);
+                                            listItem.Add(FIELD + " IS NOT NULL AND " + FIELD + " <> '' AND " + FIELD + " not in ('" + codesString + "')");
+                                            this.listError.Add(listItem);
+                                        }
                                         nodeData["ERROR"] = count;
                                         nodeData["ISCHECK"] = "已检查";
                                     }
@@ -354,6 +402,15 @@ namespace GISData.DataCheck.CheckDialog
                                     IRow pRow = pCur.NextRow();
                                     int iInx = pCur.Fields.FindField("errorCount");
                                     string count = pRow.get_Value(iInx).ToString();
+                                    if (int.Parse(count) > 0)
+                                    {
+                                        List<string> listItem = new List<string>();
+                                        listItem.Add(CHECKTYPE);
+                                        listItem.Add(NAME);
+                                        listItem.Add(count);
+                                        listItem.Add(FIELD + " not in (" + CUSTOMVALUE + ")");
+                                        this.listError.Add(listItem);
+                                    }
                                     nodeData["ERROR"] = count;
                                     nodeData["ISCHECK"] = "已检查";
                                 }
@@ -374,7 +431,6 @@ namespace GISData.DataCheck.CheckDialog
                                 string[] idInts = xmmcArr.AsEnumerable().Select(d => d.Field<string>("XMMCARR")).ToArray();
                                 string codesString = String.Join("','", idInts);
                             
-                            
                                 CommonClass conClass = new CommonClass();
                                 IFeatureWorkspace ifw = conClass.GetFeatureWorkspaceByName(TABLENAME);
                                 IQueryDef pQueryDef = ifw.CreateQueryDef();
@@ -385,6 +441,15 @@ namespace GISData.DataCheck.CheckDialog
                                 IRow pRow = pCur.NextRow();
                                 int iInx = pCur.Fields.FindField("errorCount");
                                 string count = pRow.get_Value(iInx).ToString();
+                                if (int.Parse(count) > 0)
+                                {
+                                    List<string> listItem = new List<string>();
+                                    listItem.Add(CHECKTYPE);
+                                    listItem.Add(NAME);
+                                    listItem.Add(count);
+                                    listItem.Add(fieldStr + " not in ('" + codesString + "')");
+                                    this.listError.Add(listItem);
+                                }
                                 nodeData["ERROR"] = count;
                                 nodeData["ISCHECK"] = "已检查";
                             }
@@ -405,6 +470,7 @@ namespace GISData.DataCheck.CheckDialog
                     }
                 }
             }
+            
         }
 
         private void treeList1_MouseDown(object sender, MouseEventArgs e)
@@ -609,6 +675,83 @@ namespace GISData.DataCheck.CheckDialog
             {
                 LogHelper.WriteLog(typeof(FormAttrDia), ex);
             }
+        }
+        /// <summary>
+        /// If the supplied excel File does not exist then Create it
+        /// </summary>
+        /// <param name="FileName"></param>
+        private void CreateExcelFile()
+        {
+            if (System.IO.File.Exists(this.attrDir + "\\属性错误参考.xlsx")) 
+            {
+                System.IO.File.Delete(this.attrDir + "\\属性错误参考.xlsx");
+            }
+            //create
+            object Nothing = System.Reflection.Missing.Value;
+            var app = new Excel.Application();
+            app.Visible = false;
+            Excel.Workbook workBook = app.Workbooks.Add(Nothing);
+            Excel.Worksheet worksheet = (Excel.Worksheet)workBook.Sheets[1];
+            worksheet.Name = "Work";
+            //headline
+            worksheet.Columns.WrapText = true;
+            Microsoft.Office.Interop.Excel.Range rng = worksheet.get_Range("A1:D1", Type.Missing);
+            rng.ColumnWidth = 30;
+            rng.Borders.LineStyle = 1;
+            rng.Font.Size = 14;
+            rng.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+            rng.VerticalAlignment = Microsoft.Office.Interop.Excel.XlVAlign.xlVAlignCenter;
+            //rng.BorderAround(Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous, Microsoft.Office.Interop.Excel.XlBorderWeight.xlThick, Microsoft.Office.Interop.Excel.XlColorIndex.xlColorIndexAutomatic, System.Drawing.Color.Black.ToArgb());
+            worksheet.Cells[1, 1] = "检查类型";
+            worksheet.Cells[1, 2] = "检查项";
+            worksheet.Cells[1, 3] = "错误数量";
+            worksheet.Cells[1, 4] = "参考sql";
+
+            worksheet.SaveAs(this.attrDir+"\\属性错误参考.xlsx", Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing);
+            workBook.Close(false, Type.Missing, Type.Missing);
+            app.Quit();
+        }
+
+        /// <summary>
+        /// open an excel file,then write the content to file
+        /// </summary>
+        /// <param name="FileName">file name</param>
+        /// <param name="findString">first cloumn</param>
+        /// <param name="replaceString">second cloumn</param>
+        private void WriteToExcel(List<List<string>> listError)
+        {
+            
+            //open
+            object Nothing = System.Reflection.Missing.Value;
+            var app = new Excel.Application();
+            app.Visible = false;
+            Excel.Workbook mybook = app.Workbooks.Open(this.attrDir + "\\属性错误参考.xlsx", Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing);
+            Excel.Worksheet mysheet = (Excel.Worksheet)mybook.Worksheets[1];
+            mysheet.Activate();
+            //get activate sheet max row count
+            int maxrow = mysheet.UsedRange.Rows.Count + 1;
+            int startIndex = maxrow;
+            foreach (List<string> item in listError)
+            {
+                mysheet.Cells[maxrow, 1] = item[0];
+                mysheet.Cells[maxrow, 2] = item[1];
+                mysheet.Cells[maxrow, 3] = item[2];
+                mysheet.Cells[maxrow, 4] = item[3];
+                maxrow++;
+            }
+            mysheet.Columns.WrapText = true;
+            Microsoft.Office.Interop.Excel.Range rng = mysheet.get_Range("A" + startIndex + ":D" + (maxrow-1), Type.Missing);
+            rng.ColumnWidth = 30;
+            rng.Borders.LineStyle = 1;
+            rng.Font.Size = 11;
+            rng.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
+            rng.VerticalAlignment = Microsoft.Office.Interop.Excel.XlVAlign.xlVAlignCenter;
+
+            mybook.Save();
+            mybook.Close(false, Type.Missing, Type.Missing);
+            mybook = null;
+            //quit excel app
+            app.Quit();
         }
     }
 }

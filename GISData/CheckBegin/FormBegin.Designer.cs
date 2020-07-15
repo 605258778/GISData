@@ -36,6 +36,9 @@
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.button3 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -59,7 +62,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(33, 115);
+            this.label3.Location = new System.Drawing.Point(33, 120);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(82, 15);
             this.label3.TabIndex = 3;
@@ -81,7 +84,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(241, 167);
+            this.button1.Location = new System.Drawing.Point(236, 209);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 37);
             this.button1.TabIndex = 6;
@@ -91,7 +94,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(141, 167);
+            this.button2.Location = new System.Drawing.Point(136, 209);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 37);
             this.button2.TabIndex = 7;
@@ -107,16 +110,45 @@
             this.comboBox1.Size = new System.Drawing.Size(278, 23);
             this.comboBox1.TabIndex = 8;
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(33, 170);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(82, 15);
+            this.label4.TabIndex = 3;
+            this.label4.Text = "成果目录：";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(121, 165);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(225, 25);
+            this.textBox1.TabIndex = 5;
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(353, 165);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(47, 25);
+            this.button3.TabIndex = 9;
+            this.button3.Text = "预览";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
             // FormBegin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(462, 246);
+            this.ClientSize = new System.Drawing.Size(462, 306);
+            this.Controls.Add(this.button3);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
+            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.textBoxlxdh);
             this.Controls.Add(this.textBoxlxr);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -142,5 +174,8 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Button button3;
     }
 }

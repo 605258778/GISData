@@ -1247,34 +1247,19 @@ namespace GISData.Common
         {
             IWorkspaceFactory wsf = new ShapefileWorkspaceFactory();
             IFeatureWorkspace fwp;
-            IFeatureLayer flay = new FeatureLayer();
+            //IFeatureLayer flay = new FeatureLayer();
             
             fwp = (IFeatureWorkspace)wsf.OpenFromFile(System.IO.Path.GetDirectoryName(filename), 0);
-            IFeatureClass fc = fwp.OpenFeatureClass(System.IO.Path.GetFileName(filename));
-            flay.FeatureClass = fc;
-            flay.Name = flay.FeatureClass.AliasName;
- 
-            IDataset pDataSet = flay.FeatureClass as IDataset;
-            IWorkspaceEdit m_WorkSpaceEdit = (IWorkspaceEdit)pDataSet.Workspace;
-            if (!m_WorkSpaceEdit.IsBeingEdited())
-            {
-                m_WorkSpaceEdit.StartEditing(true);
-                m_WorkSpaceEdit.EnableUndoRedo();
-            }
- 
-            ITopologicalOperator pTop = pResultGeometry as ITopologicalOperator;
-            pTop.Simplify();
- 
-            m_WorkSpaceEdit.StartEditOperation();
-            ITable pTable = flay.FeatureClass as ITable;
-            pTable.DeleteSearchedRows(null);
- 
-            IFeature pFeature = fc.CreateFeature();
-            pFeature.Shape = this.ModifyGeomtryZMValue(fc, pResultGeometry);
-            pFeature.Store();
- 
-            m_WorkSpaceEdit.StopEditOperation();
-            m_WorkSpaceEdit.StopEditing(true);
+            IFeatureClass featureClass = fwp.OpenFeatureClass(System.IO.Path.GetFileName(filename));
+            //flay.FeatureClass = fc;
+            //flay.Name = flay.FeatureClass.AliasName;
+
+            IFeatureBuffer featureBuffer = featureClass.CreateFeatureBuffer();
+            IFeatureCursor featureCursor = featureClass.Insert(true);
+
+            featureBuffer.Shape = this.ModifyGeomtryZMValue(featureClass, pResultGeometry);
+            object featureOID = featureCursor.InsertFeature(featureBuffer);
+            featureCursor.Flush();
         }
 
         private IGeometry ModifyGeomtryZMValue(IObjectClass featureClass, IGeometry modifiedGeo)
@@ -1288,7 +1273,6 @@ namespace GISData.Common
                 int geometryIndex = fields.FindField(shapeFieldName);
                 IField field = fields.get_Field(geometryIndex);
                 IGeometryDef pGeometryDef = field.GeometryDef;
-                IPointCollection pPointCollection = modifiedGeo as IPointCollection;
                 if (pGeometryDef.HasZ)
                 {
                     IZAware pZAware = modifiedGeo as IZAware;
@@ -1296,8 +1280,16 @@ namespace GISData.Common
                     IZ iz1 = modifiedGeo as IZ; //若报iz1为空的错误，则将设置Z值的这两句改成IPoint point = (IPoint)pGeo;  point.Z = 0;
                     if (iz1 == null)
                     {
-                        IPoint point = (IPoint)modifiedGeo;
-                        point.Z = 0;
+                        try
+                        {
+                            IPoint point = (IPoint)modifiedGeo;
+                            point.Z = 0;
+                        }
+                        catch(Exception ex)
+                        {
+                        
+                        }
+                        
                     }
                     else 
                     {

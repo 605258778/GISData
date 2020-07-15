@@ -24,16 +24,21 @@ namespace GISData.Common
 {
     class TopoChecker//功能：构建拓扑，拓扑检测
     {
-        private SelfIntersectChecker _sc;
         private IHookHelper m_hookHelper;
         private ESRI.ArcGIS.Geoprocessor.Geoprocessor gp = null;
         List<IFeatureClass> LI_FeatureClass = new List<IFeatureClass>();//要素数据集所包含的所有要素类
         public Dictionary<string, int> DicTopoError = new Dictionary<string, int>();
+        private string topoDir;
         /// <summary>
         /// 构造拓扑检验类
         /// </summary>
         public TopoChecker()
         {
+            CommonClass common = new CommonClass();
+            ConnectDB db = new ConnectDB();
+            DataTable DT = db.GetDataBySql("select GLDWNAME from GISDATA_GLDW where GLDW = '" + common.GetConfigValue("GLDW") + "'");
+            DataRow dr = DT.Select(null)[0];
+            this.topoDir = common.GetConfigValue("SAVEDIR") + "\\" + dr["GLDWNAME"].ToString() + "\\错误参考\\拓扑错误";
         }
         public void OtherRule(string idname, string IN_RuleType, string TABLENAME, string SUPTABLE, string inputtext, IHookHelper m_hookHelper)
         {
@@ -48,12 +53,12 @@ namespace GISData.Common
                 IN_Sup_FeatureClass = common.GetLayerByName(SUPTABLE).FeatureClass;
             
             }
-            string ErrorFilePath = Application.StartupPath + "\\TopoError\\" + IN_RuleType + idname + ".shp";
+            string ErrorFilePath = this.topoDir + "\\" + IN_RuleType + idname + ".shp";
             if (IN_RuleType == "面多部件检查")
             {
                 try
                 {
-                    common.CreatShpFile(Application.StartupPath + "\\TopoError", spatialReference, esriGeometryType.esriGeometryPolygon, IN_RuleType + idname);
+                    common.CreatShpFile(this.topoDir, spatialReference, esriGeometryType.esriGeometryPolygon, IN_RuleType + idname);
                     List<ErrorEntity> list = new List<ErrorEntity>();
                     IFeatureCursor cursor = IN_FeatureClass.Search(null, false);
                     int tempCount = 0;
@@ -78,7 +83,6 @@ namespace GISData.Common
                         if (iCount > 1)
                         {
                             tempCount++;
-                            //list.Add(new ErrorEntity(idname, pFeature.OID.ToString(), "多部件", "", ErrType.MultiPart, pFeature.ShapeCopy));
                             common.GenerateSHPFile(pFeature.ShapeCopy, ErrorFilePath);
                         }
                         pFeature = cursor.NextFeature();
@@ -100,19 +104,16 @@ namespace GISData.Common
             }
             else if (IN_RuleType == "面自相交检查")
             {
-                common.CreatShpFile(Application.StartupPath + "\\TopoError", spatialReference,esriGeometryType.esriGeometryPoint, IN_RuleType + idname);
+                int errorCount = 0;
+                common.CreatShpFile(this.topoDir, spatialReference, esriGeometryType.esriGeometryPoint, IN_RuleType + idname);
                 IFeatureLayer pLayer = new FeatureLayer();
                 pLayer.FeatureClass = IN_FeatureClass;
                 TopoClassChecker topo = new TopoClassChecker();
-                //List<ErrorEntity> pErrEntity = topo.AreaSelfIntersect(idname, flay);
 
                 IFeatureCursor cursor;
                 IQueryFilter filter = new QueryFilterClass();
                 filter.SubFields = pLayer.FeatureClass.OIDFieldName + "," + pLayer.FeatureClass.ShapeFieldName;
                 cursor = pLayer.FeatureClass.Search(filter, true);
-                //IFieldEdit edit = pLayer.FeatureClass.Fields.get_Field(pLayer.FeatureClass.Fields.FindField(pLayer.FeatureClass.ShapeFieldName)) as IFieldEdit;
-                //ISpatialReference spatialReference = edit.GeometryDef.SpatialReference;
-                List<ErrorEntity> list = new List<ErrorEntity>();
                 IFeature feature = null;
                 object missing = Type.Missing;
                 while ((feature = cursor.NextFeature()) != null)
@@ -165,30 +166,40 @@ namespace GISData.Common
                     }
                     if (builder.Length > 0)
                     {
-                        list.Add(new ErrorEntity(idname, feature.OID.ToString(), "自相交", builder.ToString().Substring(1), ErrType.SelfIntersect, tempPoint));
-                        common.GenerateSHPFile(tempPoint, ErrorFilePath);
+                        errorCount++;
+
+                        string[] strArray = builder.ToString().Substring(1).Split(new char[] { ';' });
+                        ESRI.ArcGIS.Geometry.IPointCollection pPointCollection1 = new ESRI.ArcGIS.Geometry.MultipointClass();
+                        foreach (string str in strArray)
+                        {
+                            if (!string.IsNullOrEmpty(str))
+                            {
+                                string[] strArray2 = str.Split(new char[] { ',' });
+                                double pX = double.Parse(strArray2[0]);
+                                double pY = double.Parse(strArray2[1]);
+                                ESRI.ArcGIS.Geometry.IPoint point = new ESRI.ArcGIS.Geometry.PointClass();
+                                point.X = pX;
+                                point.Y = pY;
+                                common.GenerateSHPFile(point, ErrorFilePath);
+                            }
+                        }
                     }
                 }
 
                 if (!DicTopoError.ContainsKey(idname))
                 {
-                    DicTopoError.Add(idname, list.Count);
+                    DicTopoError.Add(idname, errorCount);
                 }
                 else
                 {
-                    DicTopoError[idname] = list.Count;
+                    DicTopoError[idname] = errorCount;
                 }
-                new ErrorTable().AddErr(list, ErrType.SelfIntersect, idname);
             }
             else if (IN_RuleType == "缝隙检查")
             {
                 int errorCount = 0;
-                common.CreatShpFile(Application.StartupPath + "\\TopoError", spatialReference, esriGeometryType.esriGeometryPolygon, IN_RuleType + idname);
+                common.CreatShpFile(this.topoDir, spatialReference, esriGeometryType.esriGeometryPolygon, IN_RuleType + idname);
                 this.m_hookHelper = m_hookHelper;
-                //IFeatureLayer flay = new FeatureLayer();
-                //flay.FeatureClass = IN_FeatureClass;
-                //TopoClassChecker topo = new TopoClassChecker();
-                //List<Dictionary<string, IGeometry>> pErrGeo = topo.CheckFeatureGap(IN_FeatureClass, inputtext);
                 IFeatureClass pFClass = IN_FeatureClass;
                 //获取空间参考
                 IGeometry geometryBag = new GeometryBagClass();
@@ -293,7 +304,7 @@ namespace GISData.Common
                 IFeatureClass outIFC = null;
                 this.m_hookHelper = m_hookHelper;
                 ESRI.ArcGIS.AnalysisTools.Intersect intersect = new ESRI.ArcGIS.AnalysisTools.Intersect();
-                string outString = Application.StartupPath + "\\TopoError\\" + IN_RuleType + idname + ".shp";
+                string outString = this.topoDir + "\\" + IN_RuleType + idname + ".shp";
                 intersect.in_features = common.GetPathByName(TABLENAME);
                 intersect.out_feature_class = outString;
                 Geoprocessor geoProcessor = new Geoprocessor();
@@ -328,29 +339,12 @@ namespace GISData.Common
                     DicTopoError[idname] = outIFC.FeatureCount(null);
                 }
             }
-            else if (IN_RuleType == "面重叠检查111")
-            {
-                this.m_hookHelper = m_hookHelper;
-                IFeatureLayer flay = new FeatureLayer();
-                flay.FeatureClass = IN_FeatureClass;
-                TopoClassChecker topo = new TopoClassChecker();
-                List<ErrorEntity> pErrEntity = topo.CheckOverLap(idname, flay);
-                if (!DicTopoError.ContainsKey(idname))
-                {
-                    DicTopoError.Add(idname, pErrEntity.Count);
-                }
-                else
-                {
-                    DicTopoError[idname] = pErrEntity.Count;
-                }
-                new ErrorTable().AddErr(pErrEntity, ErrType.OverLap, idname);
-            }
             else if (IN_RuleType == "面重叠检查（与其他图层）")
             {
                 IFeatureClass outIFC = null;
                 this.m_hookHelper = m_hookHelper;
                 ESRI.ArcGIS.AnalysisTools.Intersect intersect = new ESRI.ArcGIS.AnalysisTools.Intersect();
-                string outString = Application.StartupPath + "\\TopoError\\" + IN_RuleType + idname + ".shp";
+                string outString = this.topoDir + "\\" + IN_RuleType + idname + ".shp";
                 intersect.in_features = @common.GetPathByName(TABLENAME) + ";" + @common.GetPathByName(SUPTABLE);
                 intersect.out_feature_class = outString;
                 Geoprocessor geoProcessor = new Geoprocessor();
@@ -383,59 +377,6 @@ namespace GISData.Common
                 else
                 {
                     DicTopoError[idname] = outIFC.FeatureCount(null);
-                }
-            }
-            else if (IN_RuleType == "面重叠检查（与其他图层）1111")
-            {
-                List<ErrorEntity> listErrorEntity = new List<ErrorEntity>();
-                IFeatureCursor pFeatureCursor = IN_FeatureClass.Search(null, false);
-                IFeature pFeature = pFeatureCursor.NextFeature();
-                while (pFeature != null)
-                {//记录集循环
-                    IList<IGeometry> list = new List<IGeometry>();
-                    ISpatialFilter spatialFilter = new SpatialFilterClass();
-                    spatialFilter.Geometry = pFeature.ShapeCopy;
-                    spatialFilter.GeometryField = IN_Sup_FeatureClass.ShapeFieldName;
-                    spatialFilter.SubFields = IN_Sup_FeatureClass.OIDFieldName + "," + IN_Sup_FeatureClass.ShapeFieldName;
-                    spatialFilter.SpatialRel = esriSpatialRelEnum.esriSpatialRelIntersects;
-                    IFeatureCursor featureCursor = IN_Sup_FeatureClass.Search(spatialFilter, true);
-                    IFeature tFeature = featureCursor.NextFeature();//遍历查询结果
-                    if (tFeature != null)
-                    {
-                        IGeometry pGeometry = new PolygonClass();
-                        pGeometry = tFeature.ShapeCopy;
-                        while (tFeature != null)
-                        {
-                            ITopologicalOperator2 iUnionTopo = pGeometry as ITopologicalOperator2;
-                            pGeometry = iUnionTopo.Union(tFeature.Shape);
-                            tFeature = featureCursor.NextFeature();//移动到下一条记录
-                        }
-                        ITopologicalOperator2 pRo = (ITopologicalOperator2)pFeature.ShapeCopy;
-                        IGeometry pIntersectGeo = new PolygonClass();
-                        pIntersectGeo = pRo.Intersect(pGeometry, esriGeometryDimension.esriGeometry2Dimension) as IPolygon;
-                        if (pIntersectGeo != null && !pIntersectGeo.IsEmpty)
-                        {
-                            list.Add(pIntersectGeo);
-                        }
-                    }
-                    if (list.Count > 0)
-                    {
-                        listErrorEntity.Add(new ErrorEntity(idname, pFeature.OID.ToString(), "面重叠检查（与其他图层）", "", ErrType.MultiOverlap, list[0]));
-                    }
-                    Marshal.ReleaseComObject(pFeature);
-                    Marshal.ReleaseComObject(spatialFilter);
-                    Marshal.ReleaseComObject(featureCursor);
-                    pFeature = pFeatureCursor.NextFeature();//移动到下一条记录
-                }
-                Marshal.ReleaseComObject(pFeatureCursor);
-                new ErrorTable().AddErr(listErrorEntity, ErrType.MultiOverlap, idname);
-                if (!DicTopoError.ContainsKey(idname))
-                {
-                    DicTopoError.Add(idname, listErrorEntity.Count);
-                }
-                else
-                {
-                    DicTopoError[idname] = listErrorEntity.Count;
                 }
             }
         }
@@ -474,62 +415,6 @@ namespace GISData.Common
                 return null;
             }
             return pOutFeatureClass;
-        }
-
-        /// <param name="pFeatureClass">融合要素</param>
-        /// <param name="dissField">融合字段</param>
-        /// <param name="outPath">输出数据库路径</param>
-        /// <param name="name">输出要素名称</param>
-        private IFeatureClass MultipartToSinglepart(IFeatureClass pFeatureClass)
-        {
-            IFeatureClass pOutFeatureClass = null;
-
-            try
-            {
-                if (this.gp == null)
-                {
-                    this.gp = new ESRI.ArcGIS.Geoprocessor.Geoprocessor();
-                }
-                ESRI.ArcGIS.DataManagementTools.MultipartToSinglepart pM2S = new ESRI.ArcGIS.DataManagementTools.MultipartToSinglepart();
-                this.gp.OverwriteOutput = true;
-                pM2S.in_features = pFeatureClass;
-                pM2S.out_feature_class = System.Environment.CurrentDirectory + @"\temp\pM2S.shp";
-
-                IGeoProcessorResult result = (IGeoProcessorResult)gp.Execute(pM2S, null);
-
-                if (result.Status != ESRI.ArcGIS.esriSystem.esriJobStatus.esriJobSucceeded)
-                {
-                    return null;
-                }
-                else
-                {
-                    pOutFeatureClass = this.gp.Open(result.ReturnValue) as IFeatureClass;
-                }
-            }
-            catch (System.Exception ex)
-            {
-                return null;
-            }
-            //IWorkspaceFactory pwf = new ShapefileWorkspaceFactory();
-            ////关闭资源锁定   
-            //IWorkspaceFactoryLockControl ipWsFactoryLock = (IWorkspaceFactoryLockControl)pwf;
-            //if (ipWsFactoryLock.SchemaLockingEnabled)
-            //{
-            //    ipWsFactoryLock.DisableSchemaLocking();
-            //}
-            return pOutFeatureClass;
-        }
-
-        private void ClearTemp()
-        {
-            if (System.IO.File.Exists(System.Environment.CurrentDirectory + @"\temp\" + "Dissolve.shp"))
-            {
-                System.IO.File.Delete(System.Environment.CurrentDirectory + @"\temp\" + "Dissolve.shp");
-            }
-            if (System.IO.File.Exists(System.Environment.CurrentDirectory + @"\temp\" + "pM2S.shp"))
-            {
-                System.IO.File.Delete(System.Environment.CurrentDirectory + @"\temp\" + "pM2S.shp");
-            }
         }
 
         public static void Clear_Directors(string srcPath)

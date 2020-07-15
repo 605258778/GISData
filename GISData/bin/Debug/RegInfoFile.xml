@@ -1,13 +1,13 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <regstore>
-  <regitem regName="YZL_PY_FYYSXB" regPath="F:\\数据验收平台建设\\开阳县_520121_YZL_2016.mdb" regType="Access数据库" regTable="YZL_PY_FYYSXB" Type="YZL_PY_FYYSXB">
+  <regitem regName="YZL_PY_FYYSXB" regPath="F:\\数据验收平台建设\\开阳县_520121_YZL_2016.mdb" regType="Access数据库" regTable="YZL_PY_FYYSXB">
   </regitem>
-  <regitem regName="YZL_PY_ZLYSXB" regPath="F:\\数据验收平台建设\\开阳县_520121_YZL_2016.mdb" regType="Access数据库" regTable="YZL_PY_ZLYSXB" Type="YZL_PY_ZLYSXB">
+  <regitem regName="YZL_PY_ZLYSXB" regPath="F:\\数据验收平台建设\\开阳县_520121_YZL_2016.mdb" regType="Access数据库" regTable="YZL_PY_ZLYSXB">
   </regitem>
-  <regitem regName="县面" regPath="F:\\数据验收平台建设\\开阳县_520121_YZL_2016.mdb" regType="Access数据库" regTable="县面" Type="县面">
+  <regitem regName="县面" regPath="D:\开阳县_520121_YZL_2017.mdb" regType="Access数据库" regTable="县面">
   </regitem>
-  <regitem regName="乡面" regPath="F:\\数据验收平台建设\\开阳县_520121_YZL_2016.mdb" regType="Access数据库" regTable="乡面" Type="乡面">
+  <regitem regName="乡面" regPath="D:\开阳县_520121_YZL_2017.mdb" regType="Access数据库" regTable="乡面">
   </regitem>
-  <regitem regName="村面" regPath="F:\\数据验收平台建设\\开阳县_520121_YZL_2016.mdb" regType="Access数据库" regTable="村面" Type="村面">
+  <regitem regName="村面" regPath="D:\开阳县_520121_YZL_2017.mdb" regType="Access数据库" regTable="村面">
   </regitem>
 </regstore>
