@@ -32,6 +32,7 @@
             this.treeListColumn1 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.treeListColumn2 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
             this.treeListColumn3 = new DevExpress.XtraTreeList.Columns.TreeListColumn();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             ((System.ComponentModel.ISupportInitialize)(this.treeList1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -81,6 +82,11 @@
             this.treeListColumn3.Visible = true;
             this.treeListColumn3.VisibleIndex = 2;
             // 
+            // backgroundWorker1
+            // 
+            this.backgroundWorker1.WorkerReportsProgress = true;
+            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+            // 
             // FormAttrDia
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
@@ -101,6 +107,7 @@
         private DevExpress.XtraTreeList.Columns.TreeListColumn treeListColumn2;
         private DevExpress.XtraTreeList.Columns.TreeListColumn treeListColumn3;
         public DevExpress.XtraTreeList.TreeList treeList1;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
 
 
 

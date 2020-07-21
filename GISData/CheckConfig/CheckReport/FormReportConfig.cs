@@ -64,6 +64,7 @@ namespace GISData.CheckConfig.CheckReport
             string reporttype = this.comboBox2.Text;
             string datasource = this.checkedComboBoxEdit1.EditValue.ToString().Trim();
             string sheetname = this.checkedComboBoxEdit3.EditValue.ToString().Trim();
+            string sortfield = this.checkedComboBoxEdit2.EditValue.ToString().Trim();
             string valuestring = "";
             DataRow[] drs = this.dtSource.Select(null);
             foreach (DataRow dr in drs)
@@ -74,7 +75,7 @@ namespace GISData.CheckConfig.CheckReport
             Boolean result = true;
             if (reporttype == "透视表")
             {
-                result = db.Insert("insert into GISDATA_REPORT (REPORTNAME,REPORTMOULD,DATASOURCE,REPORTTYPE,SHEETNAME,SQLSTR,ROWNAME,COLUMNSNAME,VALUESTRING,SCHEME,STEP_NO) VALUES ('" + reportname + "','" + reportmould + "','" + datasource + "','" + reporttype + "','" + sheetname + "','" + sqlstr + "','" + this.DicPivot["ROW"].Trim() + "','" + this.DicPivot["COLUMNS"].Trim() + "','" + valuestring.Trim() + "','" + this.scheme + "'," + this.checkNo + ")");
+                result = db.Insert("insert into GISDATA_REPORT (REPORTNAME,REPORTMOULD,DATASOURCE,REPORTTYPE,SHEETNAME,SQLSTR,ROWNAME,COLUMNSNAME,VALUESTRING,SCHEME,STEP_NO,SORTFIELD) VALUES ('" + reportname + "','" + reportmould + "','" + datasource + "','" + reporttype + "','" + sheetname + "','" + sqlstr + "','" + this.DicPivot["ROW"].Trim() + "','" + this.DicPivot["COLUMNS"].Trim() + "','" + valuestring.Trim() + "','" + this.scheme + "'," + this.checkNo + "','" + sortfield.Trim() + ")");
             }
             else 
             {
@@ -86,6 +87,71 @@ namespace GISData.CheckConfig.CheckReport
             }
         }
 
+        /// <summary>
+        /// 设置排序字段
+        /// </summary>
+        private void setField(string[] dataSourceArr)
+        {
+            DataTable fieldTable = new DataTable();
+            DataTable fieldTableDS = new DataTable();
+            ConnectDB db = new ConnectDB();
+            for (int i = 0; i < dataSourceArr.Length; i++)
+            {
+                string itemTable = dataSourceArr[i].Trim();
+                DataTable dt = db.GetDataBySql("select FIELD_NAME,FIELD_ALSNAME from GISDATA_MATEDATA where REG_NAME = '" + itemTable + "'");
+                if (i == 0)
+                {
+                    fieldTable = dt;
+                    fieldTableDS = dt;
+                }
+                else
+                {
+                    fieldTableDS = this.MergeDataTable(fieldTable, dt, "FIELD_NAME");
+                }
+            }
+            DataRow[] dr = fieldTable.Select(null);
+            this.checkedComboBoxEdit2.Properties.DataSource = fieldTableDS;
+            this.checkedComboBoxEdit2.Properties.DisplayMember = "FIELD_ALSNAME";
+            this.checkedComboBoxEdit2.Properties.ValueMember = "FIELD_NAME";
+        }
+
+        /// <summary>
+        /// 取两个DataTable的交集,删除重复数据
+        /// </summary>
+        /// <param name="sourceDataTable">源DataTable</param>
+        /// <param name="targetDataTable">目标DataTable</param>
+        /// <param name="primaryKey">两个表的主键</param>
+        /// <returns>合并后的表</returns>
+        private DataTable MergeDataTable(DataTable sourceDataTable, DataTable targetDataTable, string primaryKey)
+        {
+            DataTable returnTable = new DataTable();
+            foreach (DataColumn itemColum in sourceDataTable.Columns)
+            {
+                DataColumn insertColum = new DataColumn(itemColum.ColumnName);
+                returnTable.Columns.Add(insertColum);
+            }
+            if (sourceDataTable != null || targetDataTable != null || !sourceDataTable.Equals(targetDataTable))
+            {
+                sourceDataTable.PrimaryKey = new DataColumn[] { sourceDataTable.Columns[primaryKey] };
+                DataTable dt = targetDataTable.Copy();
+                foreach (DataRow tRow in dt.Rows)
+                {
+                    try
+                    {
+                        DataRow drFind = sourceDataTable.Rows.Find(tRow.Field<string>(primaryKey));
+                        if (drFind != null)
+                        {
+                            returnTable.ImportRow(tRow);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+                }
+            }
+            return returnTable;
+        }
         /// <summary>
         /// 绑定所有的报表
         /// </summary>
@@ -180,6 +246,11 @@ namespace GISData.CheckConfig.CheckReport
                 this.labelpivot.Visible = false;
                 this.textBoxpivot.Visible = false;
             }
+        }
+
+        private void checkedComboBoxEdit1_EditValueChanged(object sender, EventArgs e)
+        {
+            setField(this.checkedComboBoxEdit1.EditValue.ToString().Split(','));
         }
 
 

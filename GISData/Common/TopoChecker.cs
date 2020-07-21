@@ -40,7 +40,7 @@ namespace GISData.Common
             DataRow dr = DT.Select(null)[0];
             this.topoDir = common.GetConfigValue("SAVEDIR") + "\\" + dr["GLDWNAME"].ToString() + "\\错误参考\\拓扑错误";
         }
-        public void OtherRule(string idname, string IN_RuleType, string TABLENAME, string SUPTABLE, string inputtext, IHookHelper m_hookHelper)
+        public void OtherRule(string idname,string checkname, string IN_RuleType, string TABLENAME, string SUPTABLE, string inputtext, IHookHelper m_hookHelper)
         {
             CommonClass common = new CommonClass();
             
@@ -53,12 +53,12 @@ namespace GISData.Common
                 IN_Sup_FeatureClass = common.GetLayerByName(SUPTABLE).FeatureClass;
             
             }
-            string ErrorFilePath = this.topoDir + "\\" + IN_RuleType + idname + ".shp";
+            string ErrorFilePath = this.topoDir + "\\" + checkname + idname + ".shp";
             if (IN_RuleType == "面多部件检查")
             {
                 try
                 {
-                    common.CreatShpFile(this.topoDir, spatialReference, esriGeometryType.esriGeometryPolygon, IN_RuleType + idname);
+                    common.CreatShpFile(this.topoDir, spatialReference, esriGeometryType.esriGeometryPolygon, checkname + idname);
                     List<ErrorEntity> list = new List<ErrorEntity>();
                     IFeatureCursor cursor = IN_FeatureClass.Search(null, false);
                     int tempCount = 0;
@@ -105,87 +105,93 @@ namespace GISData.Common
             else if (IN_RuleType == "面自相交检查")
             {
                 int errorCount = 0;
-                common.CreatShpFile(this.topoDir, spatialReference, esriGeometryType.esriGeometryPoint, IN_RuleType + idname);
-                IFeatureLayer pLayer = new FeatureLayer();
-                pLayer.FeatureClass = IN_FeatureClass;
-                TopoClassChecker topo = new TopoClassChecker();
-
-                IFeatureCursor cursor;
-                IQueryFilter filter = new QueryFilterClass();
-                filter.SubFields = pLayer.FeatureClass.OIDFieldName + "," + pLayer.FeatureClass.ShapeFieldName;
-                cursor = pLayer.FeatureClass.Search(filter, true);
-                IFeature feature = null;
-                object missing = Type.Missing;
-                while ((feature = cursor.NextFeature()) != null)
+                try
                 {
-                    IPoint tempPoint = null;
-                    StringBuilder builder = new StringBuilder();
-                    IGeometryCollection shape = feature.Shape as IGeometryCollection;
-                    for (int i = 0; i < shape.GeometryCount; i++)
-                    {
-                        esriNonSimpleReasonEnum enum2;
-                        IPointCollection newPoints = shape.get_Geometry(i) as IPointCollection;
-                        IRing ring = newPoints as IRing;
-                        int num2 = 0;
-                        if (ring.IsClosed)
-                        {
-                            num2 = 1;
-                        }
-                        PolylineClass o = new PolylineClass();
-                        o.AddPointCollection(newPoints);
-                        o.SpatialReference = spatialReference;
+                    common.CreatShpFile(this.topoDir, spatialReference, esriGeometryType.esriGeometryPoint, checkname + idname);
+                    IFeatureLayer pLayer = new FeatureLayer();
+                    pLayer.FeatureClass = IN_FeatureClass;
+                    TopoClassChecker topo = new TopoClassChecker();
 
-                        ITopologicalOperator3 @operator = o;
-                        @operator.IsKnownSimple_2 = false;
-                        if (!@operator.get_IsSimpleEx(out enum2) && (enum2 == esriNonSimpleReasonEnum.esriNonSimpleSelfIntersections))
+                    IFeatureCursor cursor;
+                    IQueryFilter filter = new QueryFilterClass();
+                    filter.SubFields = pLayer.FeatureClass.OIDFieldName + "," + pLayer.FeatureClass.ShapeFieldName;
+                    cursor = pLayer.FeatureClass.Search(filter, true);
+                    IFeature feature = null;
+                    object missing = Type.Missing;
+                    while ((feature = cursor.NextFeature()) != null)
+                    {
+                        IPoint tempPoint = null;
+                        StringBuilder builder = new StringBuilder();
+                        IGeometryCollection shape = feature.Shape as IGeometryCollection;
+                        for (int i = 0; i < shape.GeometryCount; i++)
                         {
-                            List<string> list2 = new List<string>();
-                            List<string> list3 = new List<string>();
-                            for (int j = num2; j < newPoints.PointCount; j++)
+                            esriNonSimpleReasonEnum enum2;
+                            IPointCollection newPoints = shape.get_Geometry(i) as IPointCollection;
+                            IRing ring = newPoints as IRing;
+                            int num2 = 0;
+                            if (ring.IsClosed)
                             {
-                                IPoint point = newPoints.get_Point(j);
-                                tempPoint = point;
-                                string item = point.X.ToString() + "," + point.Y.ToString();
-                                if (list2.Contains(item))
+                                num2 = 1;
+                            }
+                            PolylineClass o = new PolylineClass();
+                            o.AddPointCollection(newPoints);
+                            o.SpatialReference = spatialReference;
+
+                            ITopologicalOperator3 @operator = o;
+                            @operator.IsKnownSimple_2 = false;
+                            if (!@operator.get_IsSimpleEx(out enum2) && (enum2 == esriNonSimpleReasonEnum.esriNonSimpleSelfIntersections))
+                            {
+                                List<string> list2 = new List<string>();
+                                List<string> list3 = new List<string>();
+                                for (int j = num2; j < newPoints.PointCount; j++)
                                 {
-                                    if (!list3.Contains(item))
+                                    IPoint point = newPoints.get_Point(j);
+                                    tempPoint = point;
+                                    string item = point.X.ToString() + "," + point.Y.ToString();
+                                    if (list2.Contains(item))
                                     {
-                                        builder.Append(";");
-                                        builder.Append(item);
-                                        list3.Add(item);
+                                        if (!list3.Contains(item))
+                                        {
+                                            builder.Append(";");
+                                            builder.Append(item);
+                                            list3.Add(item);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        list2.Add(item);
                                     }
                                 }
-                                else
-                                {
-                                    list2.Add(item);
-                                }
                             }
+                            Marshal.ReleaseComObject(o);
+                            o = null;
                         }
-                        Marshal.ReleaseComObject(o);
-                        o = null;
-                    }
-                    if (builder.Length > 0)
-                    {
-                        errorCount++;
-
-                        string[] strArray = builder.ToString().Substring(1).Split(new char[] { ';' });
-                        ESRI.ArcGIS.Geometry.IPointCollection pPointCollection1 = new ESRI.ArcGIS.Geometry.MultipointClass();
-                        foreach (string str in strArray)
+                        if (builder.Length > 0)
                         {
-                            if (!string.IsNullOrEmpty(str))
+                            errorCount++;
+
+                            string[] strArray = builder.ToString().Substring(1).Split(new char[] { ';' });
+                            ESRI.ArcGIS.Geometry.IPointCollection pPointCollection1 = new ESRI.ArcGIS.Geometry.MultipointClass();
+                            foreach (string str in strArray)
                             {
-                                string[] strArray2 = str.Split(new char[] { ',' });
-                                double pX = double.Parse(strArray2[0]);
-                                double pY = double.Parse(strArray2[1]);
-                                ESRI.ArcGIS.Geometry.IPoint point = new ESRI.ArcGIS.Geometry.PointClass();
-                                point.X = pX;
-                                point.Y = pY;
-                                common.GenerateSHPFile(point, ErrorFilePath);
+                                if (!string.IsNullOrEmpty(str))
+                                {
+                                    string[] strArray2 = str.Split(new char[] { ',' });
+                                    double pX = double.Parse(strArray2[0]);
+                                    double pY = double.Parse(strArray2[1]);
+                                    ESRI.ArcGIS.Geometry.IPoint point = new ESRI.ArcGIS.Geometry.PointClass();
+                                    point.X = pX;
+                                    point.Y = pY;
+                                    common.GenerateSHPFile(point, ErrorFilePath);
+                                }
                             }
                         }
                     }
                 }
-
+                catch (Exception ex)
+                {
+                    LogHelper.WriteLog(typeof(TopoChecker), ex);
+                }
                 if (!DicTopoError.ContainsKey(idname))
                 {
                     DicTopoError.Add(idname, errorCount);
@@ -198,97 +204,104 @@ namespace GISData.Common
             else if (IN_RuleType == "缝隙检查")
             {
                 int errorCount = 0;
-                common.CreatShpFile(this.topoDir, spatialReference, esriGeometryType.esriGeometryPolygon, IN_RuleType + idname);
-                this.m_hookHelper = m_hookHelper;
-                IFeatureClass pFClass = IN_FeatureClass;
-                //获取空间参考
-                IGeometry geometryBag = new GeometryBagClass();
-                IGeoDataset geoDataset = pFClass as IGeoDataset;
-                geometryBag.SpatialReference = geoDataset.SpatialReference;
-
-                ////属性过滤
-                IFeatureCursor featureCursor = pFClass.Search(null, false);
-
-                // 遍历游标
-                IFeature currentFeature = featureCursor.NextFeature();
-                IGeometryCollection geometryCollection = geometryBag as IGeometryCollection;
-                object missing = Type.Missing;
-                while (currentFeature != null)
+                try
                 {
-                    geometryCollection.AddGeometry(currentFeature.Shape, ref missing, ref missing);
-                    currentFeature = featureCursor.NextFeature();
-                }
+                    common.CreatShpFile(this.topoDir, spatialReference, esriGeometryType.esriGeometryPolygon, checkname + idname);
+                    this.m_hookHelper = m_hookHelper;
+                    IFeatureClass pFClass = IN_FeatureClass;
+                    //获取空间参考
+                    IGeometry geometryBag = new GeometryBagClass();
+                    IGeoDataset geoDataset = pFClass as IGeoDataset;
+                    geometryBag.SpatialReference = geoDataset.SpatialReference;
 
-                // 合并要素
-                ITopologicalOperator unionedPolygon = null;
-                unionedPolygon = new Polygon() as ITopologicalOperator;
-                unionedPolygon.ConstructUnion(geometryCollection as IEnumGeometry);
+                    ////属性过滤
+                    IFeatureCursor featureCursor = pFClass.Search(null, false);
 
-                Marshal.ReleaseComObject(featureCursor);
-                IPolygon4 pMergerPolygon = unionedPolygon as IPolygon4;
-                IGeometryBag pOutGeometryBag = pMergerPolygon.ExteriorRingBag;  //获取外部环
-                IGeometryCollection pOutGmtyCollection = pOutGeometryBag as IGeometryCollection;
-
-                for (int i = 0; i < pOutGmtyCollection.GeometryCount; i++)  //对外部环遍历
-                {
-                    IGeometry pOutRing = pOutGmtyCollection.get_Geometry(i); //外部环
-                    //【此处可以对外部环进行操作】
-                    IPointCollection pOutRingCollection = pOutRing as IPointCollection;
-                    for (int j = 0; j < pOutRingCollection.PointCount; j++)
+                    // 遍历游标
+                    IFeature currentFeature = featureCursor.NextFeature();
+                    IGeometryCollection geometryCollection = geometryBag as IGeometryCollection;
+                    object missing = Type.Missing;
+                    while (currentFeature != null)
                     {
-                        IPoint pOutRingPoint = pOutRingCollection.get_Point(j);//获取外环上的点
+                        geometryCollection.AddGeometry(currentFeature.Shape, ref missing, ref missing);
+                        currentFeature = featureCursor.NextFeature();
                     }
 
-                    IGeometryBag pInteriotGeometryBag = pMergerPolygon.get_InteriorRingBag(pOutRing as IRing);  //获取内部环
-                    IGeometryCollection pInteriorGeometryCollection = pInteriotGeometryBag as IGeometryCollection;
+                    // 合并要素
+                    ITopologicalOperator unionedPolygon = null;
+                    unionedPolygon = new Polygon() as ITopologicalOperator;
+                    unionedPolygon.ConstructUnion(geometryCollection as IEnumGeometry);
 
-                    for (int j = 0; j < pInteriorGeometryCollection.GeometryCount; j++)
+                    Marshal.ReleaseComObject(featureCursor);
+                    IPolygon4 pMergerPolygon = unionedPolygon as IPolygon4;
+                    IGeometryBag pOutGeometryBag = pMergerPolygon.ExteriorRingBag;  //获取外部环
+                    IGeometryCollection pOutGmtyCollection = pOutGeometryBag as IGeometryCollection;
+
+                    for (int i = 0; i < pOutGmtyCollection.GeometryCount; i++)  //对外部环遍历
                     {
-                        ISegmentCollection SegCol = pInteriorGeometryCollection.get_Geometry(j) as ISegmentCollection;
-
-                        IPolygon PPolygon = new PolygonClass();
-                        ISegmentCollection newSegCol = PPolygon as ISegmentCollection;
-                        newSegCol.AddSegmentCollection(SegCol);
-                        //pInteriorGeometry即为多边形的内部环
-                        IGeometry inRing = PPolygon as IGeometry;
-                        inRing.SpatialReference = geometryBag.SpatialReference;
-                        IArea area = inRing as IArea;
-                        Double getarea = System.Math.Abs(Convert.ToDouble(area.Area));
-                        if (inputtext == null || inputtext == "" || getarea < Convert.ToDouble(inputtext))
+                        IGeometry pOutRing = pOutGmtyCollection.get_Geometry(i); //外部环
+                        //【此处可以对外部环进行操作】
+                        IPointCollection pOutRingCollection = pOutRing as IPointCollection;
+                        for (int j = 0; j < pOutRingCollection.PointCount; j++)
                         {
-                            Boolean flag = true;
-                            ISpatialFilter filter = new SpatialFilterClass();
-                            filter.Geometry = inRing;
-                            filter.SubFields = pFClass.OIDFieldName + "," + pFClass.ShapeFieldName;
-                            filter.SpatialRel = esriSpatialRelEnum.esriSpatialRelIntersects;
-                            IFeatureCursor o = pFClass.Search(filter, true);
-                            IFeature feature = o.NextFeature();
-                            while (feature != null && flag)
-                            {
-                                IPolygon4 pPolygon = feature.Shape as IPolygon4;
-                                IGeometryBag iOutGeometryBag = pPolygon.ExteriorRingBag;  //获取外部环
-                                IGeometryCollection iOutGmtyCollection = iOutGeometryBag as IGeometryCollection;
+                            IPoint pOutRingPoint = pOutRingCollection.get_Point(j);//获取外环上的点
+                        }
 
-                                for (int m = 0; m < iOutGmtyCollection.GeometryCount && flag; m++)  //对外部环遍历
+                        IGeometryBag pInteriotGeometryBag = pMergerPolygon.get_InteriorRingBag(pOutRing as IRing);  //获取内部环
+                        IGeometryCollection pInteriorGeometryCollection = pInteriotGeometryBag as IGeometryCollection;
+
+                        for (int j = 0; j < pInteriorGeometryCollection.GeometryCount; j++)
+                        {
+                            ISegmentCollection SegCol = pInteriorGeometryCollection.get_Geometry(j) as ISegmentCollection;
+
+                            IPolygon PPolygon = new PolygonClass();
+                            ISegmentCollection newSegCol = PPolygon as ISegmentCollection;
+                            newSegCol.AddSegmentCollection(SegCol);
+                            //pInteriorGeometry即为多边形的内部环
+                            IGeometry inRing = PPolygon as IGeometry;
+                            inRing.SpatialReference = geometryBag.SpatialReference;
+                            IArea area = inRing as IArea;
+                            Double getarea = System.Math.Abs(Convert.ToDouble(area.Area));
+                            if (inputtext == null || inputtext == "" || getarea < Convert.ToDouble(inputtext))
+                            {
+                                Boolean flag = true;
+                                ISpatialFilter filter = new SpatialFilterClass();
+                                filter.Geometry = inRing;
+                                filter.SubFields = pFClass.OIDFieldName + "," + pFClass.ShapeFieldName;
+                                filter.SpatialRel = esriSpatialRelEnum.esriSpatialRelIntersects;
+                                IFeatureCursor o = pFClass.Search(filter, true);
+                                IFeature feature = o.NextFeature();
+                                while (feature != null && flag)
                                 {
-                                    IGeometry outGeo = iOutGmtyCollection.get_Geometry(m);
-                                    IGeometryCollection polyGonGeo = new PolygonClass();
-                                    polyGonGeo.AddGeometry(outGeo);
-                                    IPolygon iPolygon = polyGonGeo as IPolygon;
-                                    iPolygon.SimplifyPreserveFromTo();
-                                    IRelationalOperator2 pRelationalOperator2 = iPolygon as IRelationalOperator2;
-                                    if (!pRelationalOperator2.Contains(inRing))
+                                    IPolygon4 pPolygon = feature.Shape as IPolygon4;
+                                    IGeometryBag iOutGeometryBag = pPolygon.ExteriorRingBag;  //获取外部环
+                                    IGeometryCollection iOutGmtyCollection = iOutGeometryBag as IGeometryCollection;
+
+                                    for (int m = 0; m < iOutGmtyCollection.GeometryCount && flag; m++)  //对外部环遍历
                                     {
-                                        errorCount++;
-                                        common.GenerateSHPFile(inRing, ErrorFilePath);
-                                        flag = false;
+                                        IGeometry outGeo = iOutGmtyCollection.get_Geometry(m);
+                                        IGeometryCollection polyGonGeo = new PolygonClass();
+                                        polyGonGeo.AddGeometry(outGeo);
+                                        IPolygon iPolygon = polyGonGeo as IPolygon;
+                                        iPolygon.SimplifyPreserveFromTo();
+                                        IRelationalOperator2 pRelationalOperator2 = iPolygon as IRelationalOperator2;
+                                        if (!pRelationalOperator2.Contains(inRing))
+                                        {
+                                            errorCount++;
+                                            common.GenerateSHPFile(inRing, ErrorFilePath);
+                                            flag = false;
+                                        }
                                     }
+                                    feature = o.NextFeature();
                                 }
-                                feature = o.NextFeature();
+                                Marshal.ReleaseComObject(o);
                             }
-                            Marshal.ReleaseComObject(o);
                         }
                     }
+                }
+                catch (Exception ex) 
+                {
+                    LogHelper.WriteLog(typeof(TopoChecker), ex);
                 }
                 if (!DicTopoError.ContainsKey(idname))
                 {
@@ -304,7 +317,7 @@ namespace GISData.Common
                 IFeatureClass outIFC = null;
                 this.m_hookHelper = m_hookHelper;
                 ESRI.ArcGIS.AnalysisTools.Intersect intersect = new ESRI.ArcGIS.AnalysisTools.Intersect();
-                string outString = this.topoDir + "\\" + IN_RuleType + idname + ".shp";
+                string outString = this.topoDir + "\\" + checkname + idname + ".shp";
                 intersect.in_features = common.GetPathByName(TABLENAME);
                 intersect.out_feature_class = outString;
                 Geoprocessor geoProcessor = new Geoprocessor();
@@ -328,6 +341,7 @@ namespace GISData.Common
                 }
                 catch (Exception ex)
                 {
+                    LogHelper.WriteLog(typeof(TopoChecker), ex);
                     Console.WriteLine(ex.Message);
                 }
                 if (!DicTopoError.ContainsKey(idname))
@@ -344,7 +358,7 @@ namespace GISData.Common
                 IFeatureClass outIFC = null;
                 this.m_hookHelper = m_hookHelper;
                 ESRI.ArcGIS.AnalysisTools.Intersect intersect = new ESRI.ArcGIS.AnalysisTools.Intersect();
-                string outString = this.topoDir + "\\" + IN_RuleType + idname + ".shp";
+                string outString = this.topoDir + "\\" + checkname + idname + ".shp";
                 intersect.in_features = @common.GetPathByName(TABLENAME) + ";" + @common.GetPathByName(SUPTABLE);
                 intersect.out_feature_class = outString;
                 Geoprocessor geoProcessor = new Geoprocessor();
@@ -369,6 +383,7 @@ namespace GISData.Common
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
+                    LogHelper.WriteLog(typeof(TopoChecker), ex);
                 }
                 if (!DicTopoError.ContainsKey(idname))
                 {

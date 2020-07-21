@@ -14,6 +14,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TopologyCheck.Error;
@@ -23,6 +24,7 @@ namespace GISData.DataCheck
     public partial class FormCheckMain : Form
     {
         private IHookHelper m_hookHelper = null;
+        //定义一个为委托
         public FormCheckMain()
         {
             InitializeComponent();
@@ -38,6 +40,7 @@ namespace GISData.DataCheck
         private FormTopoDia TopoDia;
         private FormReportDia ReportDia;
         private List<CheckBox> CheckBoxArr = new List<CheckBox>();
+        private string topoDir;
         private void splitContainer1_SplitterMoved(object sender, SplitterEventArgs e)
         {
 
@@ -53,10 +56,15 @@ namespace GISData.DataCheck
             comboBoxScheme.DataSource = result;
             comboBoxScheme.DisplayMember = "SCHEME_NAME";
             comboBoxScheme.ValueMember = "SCHEME_NAME";
+            CommonClass common = new CommonClass();
+            DataTable DT = db.GetDataBySql("select GLDWNAME from GISDATA_GLDW where GLDW = '" + common.GetConfigValue("GLDW") + "'");
+            DataRow dr = DT.Select(null)[0];
+            this.topoDir = common.GetConfigValue("SAVEDIR") + "\\" + dr["GLDWNAME"].ToString() + "\\错误参考\\拓扑错误";
         }
 
         private void FormCheckMain_Load(object sender, EventArgs e)
         {
+            Control.CheckForIllegalCrossThreadCalls = false;
             this.tableLayoutPanel1.ColumnStyles[1].Width = 0;
             this.tabControl1.Width = 1200;
             this.Width = 1200;
@@ -138,14 +146,6 @@ namespace GISData.DataCheck
             CheckBox CheckBoxSender = (CheckBox)sender;
             if (type == "结构检查")
             {
-                //if (CheckBoxSender.Checked)
-                //{
-                //    StructureDia.SelectAll();
-                //}
-                //else {
-                //    StructureDia.UnSelectAll();
-                //}
-               
             }
             else if (type == "属性检查")
             {
@@ -223,7 +223,7 @@ namespace GISData.DataCheck
                 }
                 catch (System.Exception ex)
                 {
-                    //
+                    LogHelper.WriteLog(typeof(FormCheckMain), ex);
                 }
             }
         }
@@ -234,15 +234,16 @@ namespace GISData.DataCheck
         /// <param name="e"></param>
         private void buttonCheckStar_Click(object sender, EventArgs e)
         {
-            try{
-                if (AttrDia.attrErrorTable!= null)
+            try
+            {
+                if (AttrDia.attrErrorTable != null)
                     AttrDia.attrErrorTable.Clear();
                 if (TopoDia.topoErrorTable != null)
                     TopoDia.topoErrorTable.Clear();
                 foreach (CheckBox item in CheckBoxArr)
                 {
                     splitContainer1.ForeColor = Color.FromArgb(55, 15, 0, 0);
-                    if(item.CheckState == CheckState.Checked)
+                    if (item.CheckState == CheckState.Checked)
                     {
                         this.tabControl1.SelectTab(item.Name);
                         if (item.Name == "结构检查")
@@ -271,6 +272,12 @@ namespace GISData.DataCheck
                 LogHelper.WriteLog(typeof(FormCheckMain), ex);
             }
         }
+
+        private void CheckStar(BackgroundWorker bk)
+        {
+            
+        }
+
         /// <summary>
         /// 显示详情
         /// </summary>
@@ -346,7 +353,7 @@ namespace GISData.DataCheck
                     //设置高亮要素的查询条件  
                     CommonClass common = new CommonClass();
                     IFeatureLayer pLayer = common.GetLayerByName(tablename);
-                    IFeatureClass pClass = common.GetFeatureClassByShpPath(Application.StartupPath + "\\TopoError\\" + errorResult);
+                    IFeatureClass pClass = common.GetFeatureClassByShpPath(this.topoDir + "\\" + errorResult);
                     IEnumLayer enumlayer = activeView.FocusMap.Layers;
                     ILayer itemLayer = enumlayer.Next();
                     Boolean existsLayer = false;
@@ -510,8 +517,8 @@ namespace GISData.DataCheck
                 }
 
                 //查找组件
-                DetailReportBand DetailReport = mReport.FindControl("DetailReport", true) as DetailReportBand;
-                DetailReportBand DetailReport1 = mReport.FindControl("DetailReport1", true) as DetailReportBand;
+                //DetailReportBand DetailReport = mReport.FindControl("DetailReport", true) as DetailReportBand;
+                //DetailReportBand DetailReport1 = mReport.FindControl("DetailReport1", true) as DetailReportBand;
                 XRLabel lxr = mReport.FindControl("lxr", true) as XRLabel;//联系人
                 XRLabel lxdh = mReport.FindControl("lxdh", true) as XRLabel;//联系方式
                 XRLabel jcr = mReport.FindControl("jcr", true) as XRLabel;//检查人
@@ -532,11 +539,17 @@ namespace GISData.DataCheck
                 jcr.Text = common.GetConfigValue("USER") == "" ? "曾伟" : common.GetConfigValue("USER");
                 gldwstring.Text = dr["GLDWNAME"].ToString();
                 startime.Text = dr["STARTTIME"].ToString();
-                //checklog.Text = dr["CHECKLOG"].ToString().Replace("br",Convert.ToChar(10).ToString());
-                checklog.Text = dr["CHECKLOG"].ToString();
+                string log = dr["CHECKLOG"].ToString();
+                string[] logArrar = log.Split('\n');
+                checklog.Text = "";
+                for (int j = 0; j < logArrar.Length-1; j++) 
+                {
+                    checklog.Text += "第"+(j+1).ToString() + "次检查：" + logArrar[j] + "\n";
+                }
+                //checklog.Text = dr["CHECKLOG"].ToString();
                 printtime.Text = DateTime.Now.ToLocalTime().ToString();
-                DetailReport.DataSource = taskError;
-                DetailReport1.DataSource = checkError;
+                //DetailReport.DataSource = taskError;
+                //DetailReport1.DataSource = checkError;
                 mReport.ShowPreviewDialog();
             }
             catch (Exception e) 
@@ -567,6 +580,62 @@ namespace GISData.DataCheck
                 this.AttrDia.treeList1.FilterConditions.Clear();
                 this.TopoDia.gridView1.ActiveFilterString = null;
             }
+        }
+
+        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        {
+            try
+            {
+                if (AttrDia.attrErrorTable != null)
+                    AttrDia.attrErrorTable.Clear();
+                if (TopoDia.topoErrorTable != null)
+                    TopoDia.topoErrorTable.Clear();
+                foreach (CheckBox item in CheckBoxArr)
+                {
+                    //if (this.backgroundWorker1.CancellationPending)
+                    //{
+                    //    this.backgroundWorker1.ReportProgress(item.TabIndex, String.Format("{0}%,操作被用户申请中断", item.TabIndex));
+                    //    return;
+                    //}
+                    splitContainer1.ForeColor = Color.FromArgb(55, 15, 0, 0);
+                    if (item.CheckState == CheckState.Checked)
+                    {
+                        this.tabControl1.SelectTab(item.Name);
+                        if (item.Name == "结构检查")
+                        {
+
+                            //StructureDia.doCheckStructure();
+                        }
+                        else if (item.Name == "属性检查")
+                        {
+                            AttrDia.doCheckAttr();
+                        }
+                        else if (item.Name == "图形检查")
+                        {
+                            TopoDia.doCheckTopo(this.m_hookHelper);
+                        }
+                        else if (item.Name == "统计报表")
+                        {
+                            ReportDia.DoReport();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogHelper.WriteLog(typeof(FormCheckMain), ex);
+            }
+        }
+
+        private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            this.progressBar1.Value = e.ProgressPercentage;
+            Console.WriteLine(e.ProgressPercentage);
+        }
+
+        private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            MessageBox.Show("检查完成", "提示");
         }
     }
 }

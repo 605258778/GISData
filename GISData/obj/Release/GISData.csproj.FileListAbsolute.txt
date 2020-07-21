@@ -11,9 +11,6 @@ F:\数据验收平台建设\GISData\GISData\bin\Release\Spire.License.dll
 F:\数据验收平台建设\GISData\GISData\bin\Release\Spire.Pdf.dll
 F:\数据验收平台建设\GISData\GISData\bin\Release\ESRI.ArcGIS.ADF.xml
 F:\数据验收平台建设\GISData\GISData\bin\Release\Microsoft.Office.Tools.Excel.v4.0.Utilities.xml
-F:\数据验收平台建设\GISData\GISData\bin\Release\Spire.XLS.xml
-F:\数据验收平台建设\GISData\GISData\bin\Release\Spire.License.xml
-F:\数据验收平台建设\GISData\GISData\bin\Release\Spire.Pdf.xml
 F:\数据验收平台建设\GISData\GISData\obj\Release\GISData.csproj.ResolveComReference.cache
 F:\数据验收平台建设\GISData\GISData\obj\Release\GISData.CheckBegin.FormBegin.resources
 F:\数据验收平台建设\GISData\GISData\obj\Release\GISData.ChekConfig.CheckDialog.FormDomain.resources
@@ -68,5 +65,5 @@ F:\数据验收平台建设\GISData\GISData\obj\Release\GISData.csproj.GenerateR
 F:\数据验收平台建设\GISData\GISData\obj\Release\GISData.exe
 F:\数据验收平台建设\GISData\GISData\obj\Release\GISData.pdb
 F:\数据验收平台建设\GISData\GISData\bin\Release\RegInfoFile.xml
-F:\数据验收平台建设\GISData\GISData\obj\Release\GISData.csprojResolveAssemblyReference.cache
 F:\数据验收平台建设\GISData\GISData\obj\Release\GISData.Formtest.resources
+F:\数据验收平台建设\GISData\GISData\obj\Release\GISData.csprojResolveAssemblyReference.cache

@@ -525,8 +525,10 @@ namespace GISData.Common
                     string codewhere = drs[i][1].ToString();
                     DataTable ItemDomain = new DataTable();
                     if (codepk == "GISDATA_ZQSJZD") 
-                    { 
-                        ItemDomain = db.GetDataBySql("select C_CODE,C_NAME from " + codepk + " where " + codewhere+" AND LEFT(C_CODE,6)='520121'");
+                    {
+                        CommonClass common = new CommonClass();
+                        string gldw = common.GetConfigValue("GLDW") == "" ? "520121" : common.GetConfigValue("GLDW");
+                        ItemDomain = db.GetDataBySql("select C_CODE,C_NAME from " + codepk + " where " + codewhere + " AND LEFT(C_CODE,6)='" + gldw + "'");
                     } 
                     else 
                     {
@@ -1251,8 +1253,6 @@ namespace GISData.Common
             
             fwp = (IFeatureWorkspace)wsf.OpenFromFile(System.IO.Path.GetDirectoryName(filename), 0);
             IFeatureClass featureClass = fwp.OpenFeatureClass(System.IO.Path.GetFileName(filename));
-            //flay.FeatureClass = fc;
-            //flay.Name = flay.FeatureClass.AliasName;
 
             IFeatureBuffer featureBuffer = featureClass.CreateFeatureBuffer();
             IFeatureCursor featureCursor = featureClass.Insert(true);

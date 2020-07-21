@@ -53,6 +53,8 @@
             this.button3 = new System.Windows.Forms.Button();
             this.labelpivot = new System.Windows.Forms.Label();
             this.textBoxpivot = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.checkedComboBoxEdit2 = new DevExpress.XtraEditors.CheckedComboBoxEdit();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit1)).BeginInit();
@@ -60,6 +62,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.checkedComboBoxEdit1.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.checkedComboBoxEdit3.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.checkedComboBoxEdit2.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // textBox1
@@ -204,6 +207,7 @@
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.checkedComboBoxEdit1.Size = new System.Drawing.Size(259, 24);
             this.checkedComboBoxEdit1.TabIndex = 5;
+            this.checkedComboBoxEdit1.EditValueChanged += new System.EventHandler(this.checkedComboBoxEdit1_EditValueChanged);
             // 
             // label4
             // 
@@ -248,7 +252,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(18, 191);
+            this.label6.Location = new System.Drawing.Point(18, 213);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(76, 15);
             this.label6.TabIndex = 2;
@@ -256,10 +260,10 @@
             // 
             // textBoxSql
             // 
-            this.textBoxSql.Location = new System.Drawing.Point(100, 199);
+            this.textBoxSql.Location = new System.Drawing.Point(100, 212);
             this.textBoxSql.Multiline = true;
             this.textBoxSql.Name = "textBoxSql";
-            this.textBoxSql.Size = new System.Drawing.Size(597, 86);
+            this.textBoxSql.Size = new System.Drawing.Size(597, 73);
             this.textBoxSql.TabIndex = 0;
             // 
             // button3
@@ -289,18 +293,38 @@
             this.textBoxpivot.Size = new System.Drawing.Size(259, 77);
             this.textBoxpivot.TabIndex = 0;
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(2, 165);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(82, 15);
+            this.label7.TabIndex = 2;
+            this.label7.Text = "排序字段：";
+            // 
+            // checkedComboBoxEdit2
+            // 
+            this.checkedComboBoxEdit2.Location = new System.Drawing.Point(100, 160);
+            this.checkedComboBoxEdit2.Name = "checkedComboBoxEdit2";
+            this.checkedComboBoxEdit2.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.checkedComboBoxEdit2.Size = new System.Drawing.Size(259, 24);
+            this.checkedComboBoxEdit2.TabIndex = 5;
+            // 
             // FormReportConfig
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(802, 595);
             this.Controls.Add(this.button3);
+            this.Controls.Add(this.checkedComboBoxEdit2);
             this.Controls.Add(this.checkedComboBoxEdit3);
             this.Controls.Add(this.checkedComboBoxEdit1);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.gridControl1);
             this.Controls.Add(this.label6);
+            this.Controls.Add(this.label7);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.labelpivot);
             this.Controls.Add(this.label4);
@@ -324,6 +348,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemCheckEdit2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.checkedComboBoxEdit1.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.checkedComboBoxEdit3.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.checkedComboBoxEdit2.Properties)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -356,5 +381,7 @@
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Label labelpivot;
         private System.Windows.Forms.TextBox textBoxpivot;
+        private System.Windows.Forms.Label label7;
+        private DevExpress.XtraEditors.CheckedComboBoxEdit checkedComboBoxEdit2;
     }
 }

@@ -2069,3 +2069,18 @@ System.Runtime.InteropServices.COMException (0x80040216): 尝试打开的数据库已经被
 System.Runtime.InteropServices.COMException (0x80040216): 尝试打开的数据库已经被机器 'ZENGW-PC' 上的用户 'ADMIN' 以排它的方式打开。当数据库可使用后请再试一次。
    在 ESRI.ArcGIS.Geodatabase.ISchemaLock.ChangeSchemaLock(esriSchemaLock schemaLock)
    在 GISData.Common.CommonClass.setIDomain(IWorkspaceDomains workspaceDomains, IFeatureClass featureClass, String tablename) 位置 f:\数据验收平台建设\GISData\GISData\Common\CommonClass.cs:行号 556
+ ----------------------header--------------------------
+2020-07-15 16:39:11,073 [10] ERROR GISData.Program - 登录
+2020-07-15 16:39:18,323 [10] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+2020-07-15 16:39:18,660 [10] ERROR GISData.Program - 开始运行
+2020-07-15 16:39:20,761 [10] ERROR GISData.FormMain - 窗体初始化开始
+2020-07-15 16:39:20,773 [10] ERROR GISData.Common.ConnectDB - select * from GISDATA_USER WHERE USER ='曾伟'
+2020-07-15 16:39:25,343 [10] ERROR GISData.Common.ConnectDB - select * from GISDATA_SCHEME order by IS_DEFAULT desc
+2020-07-15 16:39:25,348 [10] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = 'System.Data.DataRowView' order by STEP_NO
+2020-07-15 16:39:25,393 [10] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = '营造林质检方案' order by STEP_NO
+2020-07-15 16:39:25,553 [10] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-07-15 16:39:25,573 [10] ERROR GISData.Common.ConnectDB - select GLDWNAME from GISDATA_GLDW where GLDW = '520121'
+2020-07-15 16:39:29,684 [10] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-07-15 16:39:30,388 [10] ERROR GISData.Common.ConnectDB - select GLDWNAME from GISDATA_GLDW where GLDW = '520121'
+2020-07-15 16:39:30,432 [10] ERROR GISData.Common.ConnectDB - select * from GISDATA_REPORT where SCHEME ='营造林质检方案' and STEP_NO = '3'
+2020-07-15 16:47:41,742 [10] ERROR GISData.Common.ConnectDB - select NAME,STATE,ERROR,CHECKTYPE,TABLENAME,WHERESTRING,SUPTABLE,INPUTTEXT,ID from GISDATA_TBTOPO where SCHEME ='营造林质检方案' and STEP_NO = '2'

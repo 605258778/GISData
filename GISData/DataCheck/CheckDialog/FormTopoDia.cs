@@ -125,12 +125,12 @@ namespace GISData.DataCheck.CheckDialog
                     row["STATE"] = "检查中";
                     if (SUPTABLE != null && SUPTABLE != "")
                     {
-                        topocheck.OtherRule(ID, TYPE, TABLENAME, SUPTABLE, INPUTTEXT, m_hookHelper);
+                        topocheck.OtherRule(ID, NAME, TYPE, TABLENAME, SUPTABLE, INPUTTEXT, m_hookHelper);
                     }
                     else 
                     {
                         //topocheck.OtherRule(ID, TYPE, common.GetPathByName(TABLENAME), null, INPUTTEXT, m_hookHelper);
-                        topocheck.OtherRule(ID, TYPE, TABLENAME, null, INPUTTEXT, m_hookHelper);
+                        topocheck.OtherRule(ID,NAME, TYPE, TABLENAME, null, INPUTTEXT, m_hookHelper);
                     }
                     Dictionary<string, int> DicTopoError = topocheck.DicTopoError;
                     row["ERROR"] = DicTopoError[row["ID"].ToString()];
@@ -171,11 +171,12 @@ namespace GISData.DataCheck.CheckDialog
                         {
                             string errorType = this.gridView1.GetRowCellValue(gridView1.FocusedRowHandle, "CHECKTYPE").ToString();
                             string idname = this.gridView1.GetRowCellValue(gridView1.FocusedRowHandle, "ID").ToString();
+                            string name = this.gridView1.GetRowCellValue(gridView1.FocusedRowHandle, "NAME").ToString();
                             string TABLENAME = this.gridView1.GetRowCellValue(gridView1.FocusedRowHandle, "TABLENAME").ToString();
                             CommonClass common = new CommonClass();
-                            string outString = this.topoDir + "\\" + errorType + idname + ".shp";
+                            string outString = this.topoDir + "\\" + name + idname + ".shp";
                             IFeatureClass IFC = common.GetFeatureClassByShpPath(outString);
-                            TableShow(IFC, this.gridControlError, "拓扑检查ByGP", TABLENAME, errorType + idname + ".shp");
+                            TableShow(IFC, this.gridControlError, "拓扑检查ByGP", TABLENAME, name + idname + ".shp");
                         }
                         else 
                         {
@@ -293,6 +294,11 @@ namespace GISData.DataCheck.CheckDialog
             gridView.ViewCaption = ViewCaption;
             gridView.NewItemRowText = NewItemRowText;
             gridView.GroupPanelText = GroupPanelText;
+        }
+
+        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        {
+
         }
     }
 }

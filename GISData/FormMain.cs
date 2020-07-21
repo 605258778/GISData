@@ -61,10 +61,20 @@ namespace GISData
             if (ROLE == "超级管理员")
             {
                 this.用户管理ToolStripMenuItem.Visible = true;
+                this.报表设计ToolStripMenuItem.Visible = true;
+                this.任务管理ToolStripMenuItem.Visible = true;
+                this.质检配置ToolStripMenuItem.Visible = true;
+                this.字典管理ToolStripMenuItem.Visible = true;
+                this.数据注册ToolStripMenuItem.Visible = true;
             }
             else 
             {
                 this.用户管理ToolStripMenuItem.Visible = false;
+                this.报表设计ToolStripMenuItem.Visible = false;
+                this.任务管理ToolStripMenuItem.Visible = false;
+                this.质检配置ToolStripMenuItem.Visible = false;
+                this.字典管理ToolStripMenuItem.Visible = false;
+                this.数据注册ToolStripMenuItem.Visible = false;
             }
             try
             {

@@ -92,7 +92,7 @@
         <Item4 Ref="49" ControlType="XRLabel" Name="label14" Multiline="true" Text="数据检查日志：" SizeF="144.166687,23" LocationFloat="363.333344, 6.66666651" Font="Arial, 12pt" Padding="2,2,0,0,100">
           <StylePriority Ref="50" UseFont="false" />
         </Item4>
-        <Item5 Ref="51" ControlType="XRLabel" Name="checklog" Multiline="true" Text="2020/4/27 20:45:32&#xD;&#xA;2020/4/27 20:45:32&#xD;&#xA;2020/4/27 20:45:32&#xD;&#xA;2020/4/27 20:45:32&#xD;&#xA;2020/4/27 20:45:32&#xD;&#xA;2020/4/27 20:45:32&#xD;&#xA;2020/4/27 20:45:32" SizeF="235,86.9999847" LocationFloat="405, 43.83334" Font="Arial, 12pt" Padding="2,2,0,0,100">
+        <Item5 Ref="51" ControlType="XRLabel" Name="checklog" Multiline="true" Text="2020/4/27 20:45:32&#xD;&#xA;2020/4/27 20:45:32&#xD;&#xA;2020/4/27 20:45:32&#xD;&#xA;2020/4/27 20:45:32&#xD;&#xA;2020/4/27 20:45:32&#xD;&#xA;2020/4/27 20:45:32&#xD;&#xA;2020/4/27 20:45:32" SizeF="235,86.9999847" LocationFloat="377, 43.83334" Font="Arial, 12pt" Padding="2,2,0,0,100">
           <StylePriority Ref="52" UseFont="false" />
         </Item5>
         <Item6 Ref="53" ControlType="XRLabel" Name="label1" Multiline="true" Text="验收单打印时间：" SizeF="151.666672,23" LocationFloat="13.3333588, 71.8333359" Font="Arial, 12pt" Padding="2,2,0,0,100">
@@ -132,144 +132,28 @@
         </Item9>
       </Controls>
     </Item4>
-    <Item5 Ref="75" ControlType="DetailReportBand" Name="DetailReport" Level="0">
-      <Bands>
-        <Item1 Ref="76" ControlType="DetailBand" Name="Detail1" HeightF="33.6666641">
-          <Controls>
-            <Item1 Ref="77" ControlType="XRTable" Name="table3" TextAlignment="MiddleCenter" SizeF="636.6667,33.6666641" LocationFloat="13.333333, 0" Borders="All">
-              <Rows>
-                <Item1 Ref="78" ControlType="XRTableRow" Name="tableRow6" Weight="1">
-                  <Cells>
-                    <Item1 Ref="79" ControlType="XRTableCell" Name="tableCell22" Weight="1" Multiline="true" Text="[XMMC]" Padding="2,2,0,0,100" />
-                    <Item2 Ref="80" ControlType="XRTableCell" Name="tableCell23" Weight="1" Multiline="true" Text="[YZLFS]" Padding="2,2,0,0,100" />
-                    <Item3 Ref="81" ControlType="XRTableCell" Name="tableCell24" Weight="1" Multiline="true" Text="[ZCSBND]" Padding="2,2,0,0,100" />
-                    <Item4 Ref="82" ControlType="XRTableCell" Name="tableCell25" Weight="1" Multiline="true" Text="[RWMJ]" Padding="2,2,0,0,100" />
-                    <Item5 Ref="83" ControlType="XRTableCell" Name="tableCell26" Weight="1" Multiline="true" Text="[SBMJ]" Padding="2,2,0,0,100" />
-                    <Item6 Ref="84" ControlType="XRTableCell" Name="tableCell44" Weight="1" Multiline="true" Padding="2,2,0,0,100" />
-                  </Cells>
-                </Item1>
-              </Rows>
-              <StylePriority Ref="85" UseBorders="false" UseTextAlignment="false" />
-            </Item1>
-          </Controls>
-        </Item1>
-        <Item2 Ref="86" ControlType="ReportHeaderBand" Name="ReportHeader1" HeightF="66.66667">
-          <Controls>
-            <Item1 Ref="87" ControlType="XRTable" Name="table1" TextAlignment="MiddleCenter" SizeF="636.6667,33.6666641" LocationFloat="13.333313, 33.0000038" Borders="All">
-              <Rows>
-                <Item1 Ref="88" ControlType="XRTableRow" Name="tableRow2" Weight="1">
-                  <Cells>
-                    <Item1 Ref="89" ControlType="XRTableCell" Name="tableCell4" Weight="1" Multiline="true" Text="项目名称" Font="Arial, 9.75pt, style=Bold" Padding="2,2,0,0,100">
-                      <StylePriority Ref="90" UseFont="false" />
-                    </Item1>
-                    <Item2 Ref="91" ControlType="XRTableCell" Name="tableCell15" Weight="1" Multiline="true" Text="营造林方式" Font="Arial, 9.75pt, style=Bold" Padding="2,2,0,0,100">
-                      <StylePriority Ref="92" UseFont="false" />
-                    </Item2>
-                    <Item3 Ref="93" ControlType="XRTableCell" Name="tableCell5" Weight="1" Multiline="true" Text="自查上报年度" Font="Arial, 9.75pt, style=Bold" Padding="2,2,0,0,100">
-                      <StylePriority Ref="94" UseFont="false" />
-                    </Item3>
-                    <Item4 Ref="95" ControlType="XRTableCell" Name="tableCell6" Weight="1" Multiline="true" Text="任务面积" Font="Arial, 9.75pt, style=Bold" Padding="2,2,0,0,100">
-                      <StylePriority Ref="96" UseFont="false" />
-                    </Item4>
-                    <Item5 Ref="97" ControlType="XRTableCell" Name="tableCell13" Weight="1" Multiline="true" Text="上报面积" Font="Arial, 9.75pt, style=Bold" Padding="2,2,0,0,100">
-                      <StylePriority Ref="98" UseFont="false" />
-                    </Item5>
-                    <Item6 Ref="99" ControlType="XRTableCell" Name="tableCell43" Weight="1" Multiline="true" Text="备注" Font="Arial, 9.75pt, style=Bold" Padding="2,2,0,0,100">
-                      <StylePriority Ref="100" UseFont="false" />
-                    </Item6>
-                  </Cells>
-                </Item1>
-              </Rows>
-              <StylePriority Ref="101" UseBorders="false" UseTextAlignment="false" />
-            </Item1>
-            <Item2 Ref="102" ControlType="XRLabel" Name="label6" Multiline="true" Text="任务完成情况认定:" SizeF="165,23" LocationFloat="13.333333, 10" Font="Arial, 12pt" Padding="2,2,0,0,100">
-              <StylePriority Ref="103" UseFont="false" />
-            </Item2>
-          </Controls>
-        </Item2>
-      </Bands>
-    </Item5>
-    <Item6 Ref="104" ControlType="ReportFooterBand" Name="ReportFooter" HeightF="287.749847">
+    <Item5 Ref="75" ControlType="ReportFooterBand" Name="ReportFooter" HeightF="287.749847">
       <Controls>
-        <Item1 Ref="105" ControlType="XRLabel" Name="label19" Multiline="true" Text="数据上报单位确认无误后签字:" SizeF="253.333328,23" LocationFloat="254.166672, 10" Font="Arial, 12pt" Padding="2,2,0,0,100">
-          <StylePriority Ref="106" UseFont="false" />
+        <Item1 Ref="76" ControlType="XRLabel" Name="label12" Multiline="true" Text="检查意见:" SizeF="100,23" LocationFloat="10, 10" Font="Arial, 12pt" Padding="2,2,0,0,100">
+          <StylePriority Ref="77" UseFont="false" />
         </Item1>
-        <Item2 Ref="107" ControlType="XRLabel" Name="label12" Multiline="true" Text="检查意见:" SizeF="100,23" LocationFloat="10, 51.6666679" Font="Arial, 12pt" Padding="2,2,0,0,100">
-          <StylePriority Ref="108" UseFont="false" />
+        <Item2 Ref="78" ControlType="XRLabel" Name="label10" Multiline="true" Text="时间:" SizeF="100,23" LocationFloat="384.333344, 243.749847" Font="Arial, 12pt" Padding="2,2,0,0,100">
+          <StylePriority Ref="79" UseFont="false" />
         </Item2>
-        <Item3 Ref="109" ControlType="XRLabel" Name="label10" Multiline="true" Text="时间:" SizeF="100,23" LocationFloat="384.333344, 243.749847" Font="Arial, 12pt" Padding="2,2,0,0,100">
-          <StylePriority Ref="110" UseFont="false" />
+        <Item3 Ref="80" ControlType="XRLabel" Name="label9" Multiline="true" Text="被检查人:" SizeF="100,23" LocationFloat="199.125, 243.749847" Font="Arial, 12pt" Padding="2,2,0,0,100">
+          <StylePriority Ref="81" UseFont="false" />
         </Item3>
-        <Item4 Ref="111" ControlType="XRLabel" Name="label9" Multiline="true" Text="被检查人:" SizeF="100,23" LocationFloat="199.125, 243.749847" Font="Arial, 12pt" Padding="2,2,0,0,100">
-          <StylePriority Ref="112" UseFont="false" />
+        <Item4 Ref="82" ControlType="XRLabel" Name="label8" Multiline="true" Text="检查人:" SizeF="100,23" LocationFloat="11, 243.749847" Font="Arial, 12pt" Padding="2,2,0,0,100">
+          <StylePriority Ref="83" UseFont="false" />
         </Item4>
-        <Item5 Ref="113" ControlType="XRLabel" Name="label8" Multiline="true" Text="检查人:" SizeF="100,23" LocationFloat="11, 243.749847" Font="Arial, 12pt" Padding="2,2,0,0,100">
-          <StylePriority Ref="114" UseFont="false" />
-        </Item5>
+      </Controls>
+    </Item5>
+    <Item6 Ref="84" ControlType="PageFooterBand" Name="PageFooter" HeightF="24.6669521">
+      <Controls>
+        <Item1 Ref="85" ControlType="XRPageInfo" Name="pageInfo1" TextAlignment="TopCenter" SizeF="100,23" LocationFloat="275.833344, 0" Padding="2,2,0,0,100">
+          <StylePriority Ref="86" UseTextAlignment="false" />
+        </Item1>
       </Controls>
     </Item6>
-    <Item7 Ref="115" ControlType="DetailReportBand" Name="DetailReport1" Level="1">
-      <Bands>
-        <Item1 Ref="116" ControlType="DetailBand" Name="Detail3" HeightF="30.4166679">
-          <Controls>
-            <Item1 Ref="117" ControlType="XRTable" Name="table2" TextAlignment="MiddleCenter" SizeF="636.6666,30.416666" LocationFloat="13.3333588, 0" Borders="All">
-              <Rows>
-                <Item1 Ref="118" ControlType="XRTableRow" Name="tableRow4" Weight="1">
-                  <Cells>
-                    <Item1 Ref="119" ControlType="XRTableCell" Name="tableCell10" Weight="0.83333320950545609" Multiline="true" Text="[TABLENAME]" Padding="2,2,0,0,100" />
-                    <Item2 Ref="120" ControlType="XRTableCell" Name="tableCell8" Weight="0.76352532358381331" Multiline="true" Text="[CHECKTYPE]" Padding="2,2,0,0,100" />
-                    <Item3 Ref="121" ControlType="XRTableCell" Name="tableCell11" Weight="1.7364744487326707" Multiline="true" Text="[NAME]" Padding="2,2,0,0,100" />
-                    <Item4 Ref="122" ControlType="XRTableCell" Name="tableCell12" Weight="0.66666701817806018" Multiline="true" Text="[ERROR]" Padding="2,2,0,0,100" />
-                    <Item5 Ref="123" ControlType="XRTableCell" Name="tableCell46" Weight="1" Multiline="true" Padding="2,2,0,0,100" />
-                  </Cells>
-                </Item1>
-              </Rows>
-              <StylePriority Ref="124" UseBorders="false" UseTextAlignment="false" />
-            </Item1>
-          </Controls>
-        </Item1>
-        <Item2 Ref="125" ControlType="ReportHeaderBand" Name="ReportHeader3" HeightF="142.416626">
-          <Controls>
-            <Item1 Ref="126" ControlType="XRLabel" Name="label18" Multiline="true" Text="数据上报单位确认无误后签字:" SizeF="253.333328,23" LocationFloat="254.166672, 10" Font="Arial, 12pt" Padding="2,2,0,0,100">
-              <StylePriority Ref="127" UseFont="false" />
-            </Item1>
-            <Item2 Ref="128" ControlType="XRTable" Name="table4" TextAlignment="MiddleCenter" SizeF="636.6667,30.4166641" LocationFloat="13.333333, 111.999969" Borders="All">
-              <Rows>
-                <Item1 Ref="129" ControlType="XRTableRow" Name="tableRow1" Weight="1">
-                  <Cells>
-                    <Item1 Ref="130" ControlType="XRTableCell" Name="tableCell1" Weight="0.83333334531667513" Multiline="true" Text="图层" Font="Arial, 9.75pt, style=Bold" Padding="2,2,0,0,100">
-                      <StylePriority Ref="131" UseFont="false" />
-                    </Item1>
-                    <Item2 Ref="132" ControlType="XRTableCell" Name="tableCell7" Weight="0.76352528633715933" Multiline="true" Text="检查类型" Font="Arial, 9.75pt, style=Bold" Padding="2,2,0,0,100">
-                      <StylePriority Ref="133" UseFont="false" />
-                    </Item2>
-                    <Item3 Ref="134" ControlType="XRTableCell" Name="tableCell2" Weight="1.7364749173796517" Multiline="true" Text="检查项" Font="Arial, 9.75pt, style=Bold" Padding="2,2,0,0,100">
-                      <StylePriority Ref="135" UseFont="false" />
-                    </Item3>
-                    <Item4 Ref="136" ControlType="XRTableCell" Name="tableCell3" Weight="0.666666450966514" Multiline="true" Text="未通过数量" Font="Arial, 9.75pt, style=Bold" Padding="2,2,0,0,100">
-                      <StylePriority Ref="137" UseFont="false" />
-                    </Item4>
-                    <Item5 Ref="138" ControlType="XRTableCell" Name="tableCell45" Weight="1" Multiline="true" Text="备注" Font="Arial, 9.75pt, style=Bold" Padding="2,2,0,0,100">
-                      <StylePriority Ref="139" UseFont="false" />
-                    </Item5>
-                  </Cells>
-                </Item1>
-              </Rows>
-              <StylePriority Ref="140" UseBorders="false" UseTextAlignment="false" />
-            </Item2>
-            <Item3 Ref="141" ControlType="XRLabel" Name="label7" Multiline="true" Text="矢量数据问题认定:" SizeF="165,23" LocationFloat="13.3333082, 88.99999" Font="Arial, 12pt" Padding="2,2,0,0,100">
-              <StylePriority Ref="142" UseFont="false" />
-            </Item3>
-          </Controls>
-        </Item2>
-      </Bands>
-    </Item7>
-    <Item8 Ref="143" ControlType="PageFooterBand" Name="PageFooter" HeightF="24.6669521">
-      <Controls>
-        <Item1 Ref="144" ControlType="XRPageInfo" Name="pageInfo1" TextAlignment="TopCenter" SizeF="100,23" LocationFloat="275.833344, 0" Padding="2,2,0,0,100">
-          <StylePriority Ref="145" UseTextAlignment="false" />
-        </Item1>
-      </Controls>
-    </Item8>
   </Bands>
 </XtraReportsLayoutSerializer>

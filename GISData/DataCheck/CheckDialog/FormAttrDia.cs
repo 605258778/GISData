@@ -17,7 +17,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Excel = Microsoft.Office.Interop.Excel;
+using Spire.Xls;
+//using Excel = Microsoft.Office.Interop.Excel;
 
 namespace GISData.DataCheck.CheckDialog
 {
@@ -110,13 +111,13 @@ namespace GISData.DataCheck.CheckDialog
 
         private void treeList1_BeforeCheckNode(object sender, DevExpress.XtraTreeList.CheckNodeEventArgs e)
         {
-            if (e.PrevState == CheckState.Checked)
+            if (e.PrevState == System.Windows.Forms.CheckState.Checked)
             {
-                e.State = CheckState.Unchecked;
+                e.State = System.Windows.Forms.CheckState.Unchecked;
             }
             else
             {
-                e.State = CheckState.Checked;
+                e.State = System.Windows.Forms.CheckState.Checked;
             }
         }
 
@@ -129,7 +130,7 @@ namespace GISData.DataCheck.CheckDialog
             this.findOrigin(this.treeList1);
             if (flag) 
             {
-                this.checkBox.CheckState = CheckState.Unchecked;
+                this.checkBox.CheckState = System.Windows.Forms.CheckState.Unchecked;
             }
         }
 
@@ -141,9 +142,9 @@ namespace GISData.DataCheck.CheckDialog
             {
                 foreach (TreeListNode item in nodes)
                 {
-                    if (item.CheckState == CheckState.Checked)
+                    if (item.CheckState == System.Windows.Forms.CheckState.Checked)
                     {
-                        this.checkBox.CheckState = CheckState.Checked;
+                        this.checkBox.CheckState = System.Windows.Forms.CheckState.Checked;
                         flag = false;
                         break;
                     }
@@ -165,7 +166,7 @@ namespace GISData.DataCheck.CheckDialog
             nodes = nodes ?? tree.Nodes;
             foreach (TreeListNode item in nodes)
             {
-                item.CheckState = CheckState.Checked;
+                item.CheckState = System.Windows.Forms.CheckState.Checked;
                 if (tree.HasChildren)
                 {
                     SelectTreeListAll(tree, item.Nodes);
@@ -182,7 +183,7 @@ namespace GISData.DataCheck.CheckDialog
             nodes = nodes ?? tree.Nodes;
             foreach (TreeListNode item in nodes)
             {
-                item.CheckState = CheckState.Unchecked;
+                item.CheckState = System.Windows.Forms.CheckState.Unchecked;
                 if (tree.HasChildren)
                 {
                     UnSelectTreeListAll(tree, item.Nodes);
@@ -207,8 +208,7 @@ namespace GISData.DataCheck.CheckDialog
         }
         private void doCheck() 
         {
-            TreeListNodes selectNode = this.treeList1.Nodes;
-            loopCheck(selectNode);
+            this.backgroundWorker1.RunWorkerAsync();
         }
 
         public void loopCheck(TreeListNodes selectNode)
@@ -220,12 +220,13 @@ namespace GISData.DataCheck.CheckDialog
                 node.Expanded = true;
                 nodeData["ERROR"] = "";
                 nodeData["ISCHECK"] = "";
-                if (node.Checked|| node.CheckState == CheckState.Indeterminate)
+                if (node.Checked|| node.CheckState == System.Windows.Forms.CheckState.Indeterminate)
                 {
                     if(!node.HasChildren)
                     {
                         this.treeList1.FocusedNode = node;
                         string NAME = nodeData["NAME"].ToString();
+                        Console.WriteLine(NAME);
                         string CHECKTYPE = nodeData["CHECKTYPE"].ToString();
                         string FIELD = nodeData["FIELD"].ToString();
                         string TABLENAME = nodeData["TABLENAME"].ToString();
@@ -682,34 +683,26 @@ namespace GISData.DataCheck.CheckDialog
         /// <param name="FileName"></param>
         private void CreateExcelFile()
         {
-            if (System.IO.File.Exists(this.attrDir + "\\属性错误参考.xlsx")) 
+            if (System.IO.File.Exists(this.attrDir + "\\属性错误参考.xls")) 
             {
-                System.IO.File.Delete(this.attrDir + "\\属性错误参考.xlsx");
+                System.IO.File.Delete(this.attrDir + "\\属性错误参考.xls");
             }
             //create
             object Nothing = System.Reflection.Missing.Value;
-            var app = new Excel.Application();
-            app.Visible = false;
-            Excel.Workbook workBook = app.Workbooks.Add(Nothing);
-            Excel.Worksheet worksheet = (Excel.Worksheet)workBook.Sheets[1];
-            worksheet.Name = "Work";
-            //headline
-            worksheet.Columns.WrapText = true;
-            Microsoft.Office.Interop.Excel.Range rng = worksheet.get_Range("A1:D1", Type.Missing);
+            Workbook workbook = new Workbook();
+            Worksheet sheet = workbook.Worksheets[0];
+            CellRange rng = sheet.Range["A1:D1"];
             rng.ColumnWidth = 30;
-            rng.Borders.LineStyle = 1;
-            rng.Font.Size = 14;
-            rng.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
-            rng.VerticalAlignment = Microsoft.Office.Interop.Excel.XlVAlign.xlVAlignCenter;
+            rng.BorderAround();
+            rng.Style.Font.Size = 14;
+            rng.Style.HorizontalAlignment = HorizontalAlignType.Center;
+            rng.Style.HorizontalAlignment = HorizontalAlignType.Center;
             //rng.BorderAround(Microsoft.Office.Interop.Excel.XlLineStyle.xlContinuous, Microsoft.Office.Interop.Excel.XlBorderWeight.xlThick, Microsoft.Office.Interop.Excel.XlColorIndex.xlColorIndexAutomatic, System.Drawing.Color.Black.ToArgb());
-            worksheet.Cells[1, 1] = "检查类型";
-            worksheet.Cells[1, 2] = "检查项";
-            worksheet.Cells[1, 3] = "错误数量";
-            worksheet.Cells[1, 4] = "参考sql";
-
-            worksheet.SaveAs(this.attrDir+"\\属性错误参考.xlsx", Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing);
-            workBook.Close(false, Type.Missing, Type.Missing);
-            app.Quit();
+            sheet.Range["A1"].Text = "检查类型";
+            sheet.Range["B1"].Text = "检查项";
+            sheet.Range["C1"].Text = "错误数量";
+            sheet.Range["D1"].Text = "参考sql";
+            workbook.SaveToFile(this.attrDir + "\\属性错误参考.xls");
         }
 
         /// <summary>
@@ -720,38 +713,38 @@ namespace GISData.DataCheck.CheckDialog
         /// <param name="replaceString">second cloumn</param>
         private void WriteToExcel(List<List<string>> listError)
         {
-            
-            //open
-            object Nothing = System.Reflection.Missing.Value;
-            var app = new Excel.Application();
-            app.Visible = false;
-            Excel.Workbook mybook = app.Workbooks.Open(this.attrDir + "\\属性错误参考.xlsx", Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing, Nothing);
-            Excel.Worksheet mysheet = (Excel.Worksheet)mybook.Worksheets[1];
-            mysheet.Activate();
-            //get activate sheet max row count
-            int maxrow = mysheet.UsedRange.Rows.Count + 1;
+
+            Workbook workbook = new Workbook();
+
+            //Load an excel file including pivot table
+            workbook.LoadFromFile(this.attrDir + "\\属性错误参考.xls");
+
+            //Modify data of data source
+            Worksheet datasheet = workbook.Worksheets[0];
+            int maxrow = datasheet.Rows.Count()+1;
             int startIndex = maxrow;
             foreach (List<string> item in listError)
             {
-                mysheet.Cells[maxrow, 1] = item[0];
-                mysheet.Cells[maxrow, 2] = item[1];
-                mysheet.Cells[maxrow, 3] = item[2];
-                mysheet.Cells[maxrow, 4] = item[3];
+                datasheet.Range[maxrow, 1].Text = item[0];
+                datasheet.Range[maxrow, 2].Text = item[1];
+                datasheet.Range[maxrow, 3].Text = item[2];
+                datasheet.Range[maxrow, 4].Text = item[3];
                 maxrow++;
             }
-            mysheet.Columns.WrapText = true;
-            Microsoft.Office.Interop.Excel.Range rng = mysheet.get_Range("A" + startIndex + ":D" + (maxrow-1), Type.Missing);
+            CellRange rng = datasheet.Range["A" + startIndex + ":D" + (maxrow - 1)];
             rng.ColumnWidth = 30;
-            rng.Borders.LineStyle = 1;
-            rng.Font.Size = 11;
-            rng.HorizontalAlignment = Microsoft.Office.Interop.Excel.XlHAlign.xlHAlignCenter;
-            rng.VerticalAlignment = Microsoft.Office.Interop.Excel.XlVAlign.xlVAlignCenter;
+            rng.BorderAround(LineStyleType.Double,Color.Black);
+            rng.BorderInside(LineStyleType.Thin, Color.Black); 
+            rng.Style.Font.Size = 11;
+            rng.Style.HorizontalAlignment = HorizontalAlignType.Center;
+            rng.Style.HorizontalAlignment = HorizontalAlignType.Center;
+            workbook.Save();
+        }
 
-            mybook.Save();
-            mybook.Close(false, Type.Missing, Type.Missing);
-            mybook = null;
-            //quit excel app
-            app.Quit();
+        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        {
+            TreeListNodes selectNode = this.treeList1.Nodes;
+            loopCheck(selectNode);
         }
     }
 }

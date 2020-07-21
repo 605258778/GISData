@@ -138,7 +138,8 @@ namespace GISData.DataCheck.CheckDialog
                 String sqlstr = row["SQLSTR"].ToString();
                 String rowname = row["ROWNAME"].ToString().Trim();
                 String columnsname = row["COLUMNSNAME"].ToString().Trim();
-                String valuestring = row["VALUESTRING"].ToString().Trim();
+                String ValueStr = row["VALUESTRING"].ToString().Trim();
+                String sortfield = row["SORTFIELD"].ToString().Trim();
                 string[] dataSourceArr = row["DATASOURCE"].ToString().Split(',');
 
                 SpreadsheetControl sheet = new SpreadsheetControl();
@@ -228,12 +229,11 @@ namespace GISData.DataCheck.CheckDialog
                         //DataTable itemDt = ToDataTable(table);
                         dt.Merge(itemDt);
                     }
-
+                    dt.DefaultView.Sort = sortfield;
                     ConvertPivotTable conver = new ConvertPivotTable();
                     DataTable dtPivot = conver.CreatePivotTable(dt, columnsname.Trim(), "SBMJ", "", rowname.Trim());
 
                     Spread.Worksheet Spreadsheet = book.Worksheets[sheetname];
-
                     Model.DocumentModel documentModel = new Model.DocumentModel();
                     FileInfo xlxsFile =new FileInfo(Application.StartupPath + "\\Report\\" + row["REPORTMOULD"].ToString());
                     System.IO.Stream stream = xlxsFile.OpenRead();
@@ -314,7 +314,6 @@ namespace GISData.DataCheck.CheckDialog
                     
                     
 
-
                     string time = DateTime.Now.ToString("yyyyMMddHHmmss");
                     book.MailMergeDataSource = dtPivot;
                     Spread.IWorkbook resultBook = book.GenerateMailMergeDocuments()[0];
@@ -324,6 +323,54 @@ namespace GISData.DataCheck.CheckDialog
                         {
                             resultBook.SaveDocument(path+"\\" + row["REPORTNAME"].ToString() + time + ".xlsx");
                             result.Seek(0, SeekOrigin.Begin);
+                            SpreadsheetControl mergesheet = new SpreadsheetControl();
+                            Spread.IWorkbook mergebook = mergesheet.Document;
+                            mergebook.LoadDocument(path + "\\" + row["REPORTNAME"].ToString() + time + ".xlsx", Spread.DocumentFormat.OpenXml);
+                            Spread.Worksheet MergeSpreadsheet = mergebook.Worksheets[sheetname];
+                            int TableRowCnts = detail.TopLeft.Row + dtPivot.Rows.Count;
+                            int tmpA;
+                            int tmpB;
+                            var PerTxt = "";
+                            var CurTxt = "";
+                            var groupPerTxt = "";
+                            var groupCurTxt = "";
+                            for (int i = detail.TopRight.Column; i > 0 ; i--) 
+                            {
+                                PerTxt = "";
+                                tmpA = 1;
+                                tmpB = 0;
+                                for (int j = detail.TopLeft.Row; j <= TableRowCnts; j++) 
+                                {
+                                    groupCurTxt = "";
+                                    if (j == TableRowCnts)
+                                    {
+                                        CurTxt = "";
+                                    }
+                                    else 
+                                    {
+                                        CurTxt = MergeSpreadsheet.GetCellValue(i - 1, j).ToString();
+                                    }
+                                    for (int k = i - 1; k > 0; k--)
+                                    {
+                                        groupCurTxt += MergeSpreadsheet.GetCellValue(k - 1, j).ToString();
+                                    }
+                                    if (PerTxt == CurTxt&& groupCurTxt == groupPerTxt) {
+                                        tmpA += 1;
+                                    } else {
+                                        tmpB += tmpA;
+                                        if (tmpA > 1)
+                                        {
+                                            Model.CellRange MergePos = new Model.CellRange(newDetail.Worksheet, i - 1, j - tmpA, i - 1, j - 1);
+                                            Spread.Range MergeRange = MergeSpreadsheet.Range[MergePos.ToString()];
+                                            MergeSpreadsheet.MergeCells(MergeRange);
+                                        } 
+                                        tmpA = 1;
+                                    }
+                                    PerTxt = CurTxt;
+                                    groupPerTxt = groupCurTxt;
+                                }
+                            }
+                            mergebook.SaveDocument(path + "\\" + row["REPORTNAME"].ToString() + time + ".xlsx");
                         }
                     }
                 }else 
@@ -350,6 +397,30 @@ namespace GISData.DataCheck.CheckDialog
                 }
                 row["STATE"] = "完成";
             }
+        }
+
+        public enum RangeIndex
+        {
+            A = 1,
+            B = 2,
+            C = 3,
+            D = 4,
+            E = 5,
+            F = 6,
+            G = 7,
+            H = 8,
+            I = 9,
+            J = 10,
+            K = 11,
+            L = 12,
+            M = 13,
+            N = 14,
+            O = 15,
+            P = 16,
+            Q = 17,
+            R = 18,
+            S = 19,
+            T = 20
         }
 
         private void setPos(int i) 
