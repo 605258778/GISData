@@ -1,0 +1,38 @@
+ ----------------------header--------------------------
+2020-07-22 09:23:24,669 [7] ERROR GISData.Program - 登录
+2020-07-22 09:23:28,467 [7] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+2020-07-22 09:23:28,754 [7] ERROR GISData.Program - 开始运行
+2020-07-22 09:23:28,801 [7] ERROR GISData.Program - Error
+System.Runtime.InteropServices.COMException (0x80040111): 检索 COM 类工厂中 CLSID 为 {E1C83025-EAA8-4F14-B86F-C5F456ED5F5D} 的组件失败，原因是出现以下错误: 80040111 ClassFactory 无法供应请求的类 (异常来自 HRESULT:0x80040111 (CLASS_E_CLASSNOTAVAILABLE))。
+   在 GISData.FormMain..ctor() 位置 f:\数据验收平台建设\GISData\GISData\FormMain.cs:行号 44
+   在 GISData.Program.Main() 位置 f:\数据验收平台建设\GISData\GISData\Program.cs:行号 40
+ ----------------------footer--------------------------
+ ----------------------header--------------------------
+2020-07-22 09:24:05,362 [6] ERROR GISData.Program - 登录
+2020-07-22 09:24:08,490 [6] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+2020-07-22 09:24:08,723 [6] ERROR GISData.Program - 开始运行
+2020-07-22 09:24:08,766 [6] ERROR GISData.Program - Error
+System.Runtime.InteropServices.COMException (0x80040111): 检索 COM 类工厂中 CLSID 为 {E1C83025-EAA8-4F14-B86F-C5F456ED5F5D} 的组件失败，原因是出现以下错误: 80040111 ClassFactory 无法供应请求的类 (异常来自 HRESULT:0x80040111 (CLASS_E_CLASSNOTAVAILABLE))。
+   在 GISData.FormMain..ctor() 位置 f:\数据验收平台建设\GISData\GISData\FormMain.cs:行号 44
+   在 GISData.Program.Main() 位置 f:\数据验收平台建设\GISData\GISData\Program.cs:行号 40
+ ----------------------footer--------------------------
+ ----------------------header--------------------------
+2020-07-22 09:24:35,471 [7] ERROR GISData.Program - 登录
+ ----------------------header--------------------------
+2020-07-22 09:25:18,037 [6] ERROR GISData.Program - 登录
+2020-07-22 09:25:28,815 [6] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+2020-07-22 09:25:39,206 [6] ERROR GISData.Program - 开始运行
+2020-07-22 09:25:39,244 [6] ERROR GISData.Program - Error
+System.Runtime.InteropServices.COMException (0x80040111): 检索 COM 类工厂中 CLSID 为 {E1C83025-EAA8-4F14-B86F-C5F456ED5F5D} 的组件失败，原因是出现以下错误: 80040111 ClassFactory 无法供应请求的类 (异常来自 HRESULT:0x80040111 (CLASS_E_CLASSNOTAVAILABLE))。
+   在 GISData.FormMain..ctor() 位置 f:\数据验收平台建设\GISData\GISData\FormMain.cs:行号 44
+   在 GISData.Program.Main() 位置 f:\数据验收平台建设\GISData\GISData\Program.cs:行号 40
+ ----------------------footer--------------------------
+ ----------------------header--------------------------
+2020-07-22 09:25:53,532 [7] ERROR GISData.Program - 登录
+2020-07-22 09:25:59,774 [7] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+2020-07-22 09:26:11,032 [7] ERROR GISData.Program - 开始运行
+2020-07-22 09:26:44,073 [7] ERROR GISData.Program - Error
+System.Runtime.InteropServices.COMException (0x80040111): 检索 COM 类工厂中 CLSID 为 {E1C83025-EAA8-4F14-B86F-C5F456ED5F5D} 的组件失败，原因是出现以下错误: 80040111 ClassFactory 无法供应请求的类 (异常来自 HRESULT:0x80040111 (CLASS_E_CLASSNOTAVAILABLE))。
+   在 GISData.FormMain..ctor() 位置 f:\数据验收平台建设\GISData\GISData\FormMain.cs:行号 44
+   在 GISData.Program.Main() 位置 f:\数据验收平台建设\GISData\GISData\Program.cs:行号 40
+ ----------------------footer--------------------------
