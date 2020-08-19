@@ -303,7 +303,7 @@ namespace GISData.ChekConfig
                     itemnode.SetValue("PARENTID", selectedId);
                     itemnode.SetValue("NAME", name);
                     itemnode.SetValue("STEP_NO", checkNo);
-                    itemnode.SetValue("CHECKTYPE", "空值检查");
+                    itemnode.SetValue("CHECKTYPE", "值域检查");
                     itemnode.SetValue("TABLENAME", table);
                     itemnode.SetValue("SHOWFIELD", showfield);
                     itemnode.SetValue("SCHEME", this.scheme);
@@ -326,7 +326,7 @@ namespace GISData.ChekConfig
                     itemnode.SetValue("PARENTID", selectedId);
                     itemnode.SetValue("NAME", name);
                     itemnode.SetValue("STEP_NO", checkNo);
-                    itemnode.SetValue("CHECKTYPE", "空值检查");
+                    itemnode.SetValue("CHECKTYPE", "唯一值检查");
                     itemnode.SetValue("TABLENAME", table);
                     itemnode.SetValue("SHOWFIELD", showfield);
                     itemnode.SetValue("SCHEME", this.scheme);
@@ -351,7 +351,7 @@ namespace GISData.ChekConfig
                     itemnode.SetValue("PARENTID", selectedId);
                     itemnode.SetValue("NAME", name);
                     itemnode.SetValue("STEP_NO", checkNo);
-                    itemnode.SetValue("CHECKTYPE", "空值检查");
+                    itemnode.SetValue("CHECKTYPE", "逻辑关系检查");
                     itemnode.SetValue("TABLENAME", table);
                     itemnode.SetValue("SHOWFIELD", showfield);
                     itemnode.SetValue("SCHEME", this.scheme);
@@ -384,7 +384,7 @@ namespace GISData.ChekConfig
                     itemnode.SetValue("PARENTID", selectedId);
                     itemnode.SetValue("NAME", name);
                     itemnode.SetValue("STEP_NO", checkNo);
-                    itemnode.SetValue("CHECKTYPE", "空值检查");
+                    itemnode.SetValue("CHECKTYPE", "项目名称检查");
                     itemnode.SetValue("TABLENAME", table);
                     itemnode.SetValue("SHOWFIELD", showfield);
                     itemnode.SetValue("FIELD", fieldStr + "#" + taskfieldStr);
@@ -394,7 +394,5 @@ namespace GISData.ChekConfig
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
-
-        
     }
 }

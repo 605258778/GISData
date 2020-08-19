@@ -31,6 +31,8 @@
             this.xtraTabControl1 = new DevExpress.XtraTab.XtraTabControl();
             this.xtraTabPage1 = new DevExpress.XtraTab.XtraTabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.button3 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.gridControlGLDW = new DevExpress.XtraGrid.GridControl();
             this.gridViewGLDW = new DevExpress.XtraGrid.Views.Grid.GridView();
@@ -41,6 +43,7 @@
             this.SPATIALR = new DevExpress.XtraGrid.Columns.GridColumn();
             this.STARTTIME = new DevExpress.XtraGrid.Columns.GridColumn();
             this.STATE = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.ENDTIME = new DevExpress.XtraGrid.Columns.GridColumn();
             this.CHECKLOG = new DevExpress.XtraGrid.Columns.GridColumn();
             this.OTHER = new DevExpress.XtraGrid.Columns.GridColumn();
             this.xtraTabPage2 = new DevExpress.XtraTab.XtraTabPage();
@@ -94,6 +97,8 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.checkBox1);
+            this.splitContainer1.Panel1.Controls.Add(this.button3);
             this.splitContainer1.Panel1.Controls.Add(this.button1);
             // 
             // splitContainer1.Panel2
@@ -103,11 +108,34 @@
             this.splitContainer1.SplitterDistance = 39;
             this.splitContainer1.TabIndex = 0;
             // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Dock = System.Windows.Forms.DockStyle.Right;
+            this.checkBox1.Location = new System.Drawing.Point(761, 0);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(90, 39);
+            this.checkBox1.TabIndex = 2;
+            this.checkBox1.Text = "导出别名";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // button3
+            // 
+            this.button3.Dock = System.Windows.Forms.DockStyle.Right;
+            this.button3.Location = new System.Drawing.Point(851, 0);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(70, 39);
+            this.button3.TabIndex = 1;
+            this.button3.Text = "导出";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(909, 3);
+            this.button1.Dock = System.Windows.Forms.DockStyle.Right;
+            this.button1.Location = new System.Drawing.Point(921, 0);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 33);
+            this.button1.Size = new System.Drawing.Size(69, 39);
             this.button1.TabIndex = 0;
             this.button1.Text = "导入";
             this.button1.UseVisualStyleBackColor = true;
@@ -123,6 +151,7 @@
             this.gridControlGLDW.TabIndex = 0;
             this.gridControlGLDW.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridViewGLDW});
+            this.gridControlGLDW.Click += new System.EventHandler(this.gridControlGLDW_Click);
             // 
             // gridViewGLDW
             // 
@@ -134,6 +163,7 @@
             this.SPATIALR,
             this.STARTTIME,
             this.STATE,
+            this.ENDTIME,
             this.CHECKLOG,
             this.OTHER});
             this.gridViewGLDW.GridControl = this.gridControlGLDW;
@@ -144,6 +174,7 @@
             // GLDW
             // 
             this.GLDW.Caption = "管理单位代码";
+            this.GLDW.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Custom;
             this.GLDW.FieldName = "GLDW";
             this.GLDW.MinWidth = 25;
             this.GLDW.Name = "GLDW";
@@ -211,6 +242,16 @@
             this.STATE.VisibleIndex = 6;
             this.STATE.Width = 94;
             // 
+            // ENDTIME
+            // 
+            this.ENDTIME.Caption = "检查完成时间";
+            this.ENDTIME.FieldName = "ENDTIME";
+            this.ENDTIME.MinWidth = 25;
+            this.ENDTIME.Name = "ENDTIME";
+            this.ENDTIME.Visible = true;
+            this.ENDTIME.VisibleIndex = 7;
+            this.ENDTIME.Width = 94;
+            // 
             // CHECKLOG
             // 
             this.CHECKLOG.Caption = "检查日志";
@@ -218,7 +259,7 @@
             this.CHECKLOG.MinWidth = 25;
             this.CHECKLOG.Name = "CHECKLOG";
             this.CHECKLOG.Visible = true;
-            this.CHECKLOG.VisibleIndex = 7;
+            this.CHECKLOG.VisibleIndex = 8;
             this.CHECKLOG.Width = 94;
             // 
             // OTHER
@@ -228,7 +269,7 @@
             this.OTHER.MinWidth = 25;
             this.OTHER.Name = "OTHER";
             this.OTHER.Visible = true;
-            this.OTHER.VisibleIndex = 8;
+            this.OTHER.VisibleIndex = 9;
             this.OTHER.Width = 94;
             // 
             // xtraTabPage2
@@ -301,6 +342,7 @@
             this.xtraTabControl1.ResumeLayout(false);
             this.xtraTabPage1.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
@@ -339,6 +381,9 @@
         private DevExpress.XtraGrid.GridControl gridControl1;
         private DevExpress.XtraGrid.Views.Grid.GridView gridView1;
         private DevExpress.XtraGrid.Columns.GridColumn SPATIALR;
+        private System.Windows.Forms.Button button3;
+        private DevExpress.XtraGrid.Columns.GridColumn ENDTIME;
+        private System.Windows.Forms.CheckBox checkBox1;
 
     }
 }

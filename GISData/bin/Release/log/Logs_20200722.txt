@@ -36,3 +36,39 @@ System.Runtime.InteropServices.COMException (0x80040111): 检索 COM 类工厂中 CLSI
    在 GISData.FormMain..ctor() 位置 f:\数据验收平台建设\GISData\GISData\FormMain.cs:行号 44
    在 GISData.Program.Main() 位置 f:\数据验收平台建设\GISData\GISData\Program.cs:行号 40
  ----------------------footer--------------------------
+ ----------------------header--------------------------
+2020-07-22 10:01:55,190 [6] ERROR GISData.Program - 登录
+2020-07-22 10:01:59,035 [6] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+2020-07-22 10:02:04,948 [6] ERROR GISData.Program - 开始运行
+2020-07-22 10:02:32,807 [6] ERROR GISData.Program - Error
+System.Runtime.InteropServices.COMException (0x80040111): 检索 COM 类工厂中 CLSID 为 {E1C83025-EAA8-4F14-B86F-C5F456ED5F5D} 的组件失败，原因是出现以下错误: 80040111 ClassFactory 无法供应请求的类 (异常来自 HRESULT:0x80040111 (CLASS_E_CLASSNOTAVAILABLE))。
+   在 GISData.FormMain..ctor() 位置 f:\数据验收平台建设\GISData\GISData\FormMain.cs:行号 44
+   在 GISData.Program.Main() 位置 f:\数据验收平台建设\GISData\GISData\Program.cs:行号 40
+ ----------------------footer--------------------------
+ ----------------------header--------------------------
+2020-07-22 10:51:19,571 [6] ERROR GISData.Program - 登录
+2020-07-22 10:51:23,402 [6] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+2020-07-22 10:51:24,086 [6] ERROR GISData.Program - 开始运行
+2020-07-22 10:51:41,724 [6] ERROR GISData.FormMain - 窗体初始化开始
+2020-07-22 10:51:41,777 [6] ERROR GISData.Common.ConnectDB - select * from GISDATA_USER WHERE USER ='曾伟'
+ ----------------------header--------------------------
+2020-07-22 15:21:21,327 [6] ERROR GISData.Program - 登录
+ ----------------------header--------------------------
+2020-07-22 15:41:46,189 [6] ERROR GISData.Program - 登录
+2020-07-22 15:41:59,995 [6] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+2020-07-22 15:42:01,444 [6] ERROR GISData.Program - 开始运行
+2020-07-22 15:42:12,865 [6] ERROR GISData.FormMain - 窗体初始化开始
+2020-07-22 15:42:12,897 [6] ERROR GISData.Common.ConnectDB - select * from GISDATA_USER WHERE USER ='曾伟'
+ ----------------------header--------------------------
+2020-07-22 15:43:10,970 [7] ERROR GISData.Program - 登录
+2020-07-22 15:43:13,615 [7] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+2020-07-22 15:43:13,984 [7] ERROR GISData.Program - 开始运行
+2020-07-22 15:43:16,097 [7] ERROR GISData.FormMain - 窗体初始化开始
+2020-07-22 15:43:16,112 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_USER WHERE USER ='曾伟'
+ ----------------------footer--------------------------
+ ----------------------header--------------------------
+2020-07-22 15:57:29,709 [8] ERROR GISData.Program - 登录
+2020-07-22 15:58:26,900 [8] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+2020-07-22 15:58:27,219 [8] ERROR GISData.Program - 开始运行
+2020-07-22 15:58:29,024 [8] ERROR GISData.FormMain - 窗体初始化开始
+2020-07-22 15:58:29,052 [8] ERROR GISData.Common.ConnectDB - select * from GISDATA_USER WHERE USER ='曾伟'

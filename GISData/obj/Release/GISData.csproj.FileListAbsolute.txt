@@ -62,7 +62,6 @@ F:\数据验收平台建设\GISData\GISData\obj\Release\GISData.exe
 F:\数据验收平台建设\GISData\GISData\obj\Release\GISData.pdb
 F:\数据验收平台建设\GISData\GISData\bin\Release\RegInfoFile.xml
 F:\数据验收平台建设\GISData\GISData\obj\Release\GISData.Formtest.resources
-F:\数据验收平台建设\GISData\GISData\obj\Release\GISData.csprojResolveAssemblyReference.cache
 F:\数据验收平台建设\GISData\GISData\bin\Release\adodb.dll
 F:\数据验收平台建设\GISData\GISData\bin\Release\DevExpress.Charts.v18.2.Core.dll
 F:\数据验收平台建设\GISData\GISData\bin\Release\DevExpress.CodeParser.v18.2.dll
@@ -278,5 +277,4 @@ F:\数据验收平台建设\GISData\GISData\bin\Release\de\DevExpress.XtraVertic
 F:\数据验收平台建设\GISData\GISData\bin\Release\es\DevExpress.XtraVerticalGrid.v18.2.resources.dll
 F:\数据验收平台建设\GISData\GISData\bin\Release\ja\DevExpress.XtraVerticalGrid.v18.2.resources.dll
 F:\数据验收平台建设\GISData\GISData\bin\Release\ru\DevExpress.XtraVerticalGrid.v18.2.resources.dll
-F:\数据验收平台建设\GISData\GISData\bin\Release\ESRI.ArcGIS.Framework.dll
-F:\数据验收平台建设\GISData\GISData\bin\Release\ESRI.ArcGIS.Framework.xml
+F:\数据验收平台建设\GISData\GISData\obj\Release\GISData.csprojResolveAssemblyReference.cache

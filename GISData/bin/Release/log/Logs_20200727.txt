@@ -1,0 +1,120 @@
+ ----------------------header--------------------------
+2020-07-27 10:52:56,111 [6] ERROR GISData.Program - 登录
+2020-07-27 10:57:14,273 [6] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+2020-07-27 10:57:16,151 [6] ERROR GISData.Common.ConnectDB - Error
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unable to connect to any of the specified MySQL hosts.
+   在 MySql.Data.MySqlClient.NativeDriver.Open()
+   在 MySql.Data.MySqlClient.Driver.Open()
+   在 MySql.Data.MySqlClient.Driver.Create(MySqlConnectionStringBuilder settings)
+   在 MySql.Data.MySqlClient.MySqlPool.CreateNewPooledConnection()
+   在 MySql.Data.MySqlClient.MySqlPool.GetPooledConnection()
+   在 MySql.Data.MySqlClient.MySqlPool.TryToGetDriver()
+   在 MySql.Data.MySqlClient.MySqlPool.GetConnection()
+   在 MySql.Data.MySqlClient.MySqlConnection.Open()
+   在 GISData.Common.ConnectDB.GetDataBySql(String sql) 位置 f:\数据验收平台建设\GISData\GISData\Common\ConnectDB.cs:行号 39
+2020-07-27 10:57:30,690 [6] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+2020-07-27 10:57:31,404 [6] ERROR GISData.Program - 开始运行
+2020-07-27 10:57:41,357 [6] ERROR GISData.FormMain - 窗体初始化开始
+2020-07-27 10:57:41,438 [6] ERROR GISData.Common.ConnectDB - select * from GISDATA_USER WHERE USER ='曾伟'
+ ----------------------header--------------------------
+2020-07-27 11:10:09,223 [6] ERROR GISData.Program - 登录
+2020-07-27 11:10:40,853 [6] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+2020-07-27 11:10:41,291 [6] ERROR GISData.Program - 开始运行
+2020-07-27 11:10:43,351 [6] ERROR GISData.FormMain - 窗体初始化开始
+2020-07-27 11:10:43,363 [6] ERROR GISData.Common.ConnectDB - select * from GISDATA_USER WHERE USER ='曾伟'
+2020-07-27 11:10:49,711 [6] ERROR GISData.Common.ConnectDB - select * from GISDATA_TASK
+2020-07-27 11:10:50,358 [6] ERROR GISData.Common.ConnectDB - select * from GISDATA_GLDW
+ ----------------------header--------------------------
+2020-07-27 11:16:24,626 [7] ERROR GISData.Program - 登录
+2020-07-27 11:16:27,580 [7] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+2020-07-27 11:16:27,955 [7] ERROR GISData.Program - 开始运行
+2020-07-27 11:16:29,823 [7] ERROR GISData.FormMain - 窗体初始化开始
+2020-07-27 11:16:29,835 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_USER WHERE USER ='曾伟'
+2020-07-27 11:16:32,172 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_SCHEME order by IS_DEFAULT desc
+2020-07-27 11:16:32,241 [7] ERROR GISData.Common.ConnectDB - select max(STEP_NO) as STEPNO from GISDATA_CONFIGSTEP where SCHEME = 'System.Data.DataRowView'
+2020-07-27 11:16:32,348 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where SCHEME ='System.Data.DataRowView' order by STEP_NO
+2020-07-27 11:16:32,363 [7] ERROR GISData.Common.ConnectDB - select max(STEP_NO) as STEPNO from GISDATA_CONFIGSTEP where SCHEME = '营造林质检方案'
+2020-07-27 11:16:32,366 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where SCHEME ='营造林质检方案' order by STEP_NO
+2020-07-27 11:16:36,068 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_TASK
+2020-07-27 11:16:36,186 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_GLDW
+ ----------------------header--------------------------
+2020-07-27 11:18:54,965 [6] ERROR GISData.Program - 登录
+ ----------------------footer--------------------------
+ ----------------------header--------------------------
+2020-07-27 11:21:31,743 [7] ERROR GISData.Program - 登录
+2020-07-27 11:22:03,728 [7] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+2020-07-27 11:22:04,091 [7] ERROR GISData.Program - 开始运行
+2020-07-27 11:22:05,883 [7] ERROR GISData.FormMain - 窗体初始化开始
+2020-07-27 11:22:05,895 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_USER WHERE USER ='曾伟'
+2020-07-27 11:24:07,840 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_TASK
+2020-07-27 11:24:07,957 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_GLDW
+ ----------------------header--------------------------
+2020-07-27 11:25:21,842 [7] ERROR GISData.Program - 登录
+2020-07-27 11:25:37,612 [7] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+2020-07-27 11:25:37,911 [7] ERROR GISData.Program - 开始运行
+2020-07-27 11:25:39,728 [7] ERROR GISData.FormMain - 窗体初始化开始
+2020-07-27 11:25:39,740 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_USER WHERE USER ='曾伟'
+2020-07-27 11:25:46,947 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_SCHEME order by IS_DEFAULT desc
+2020-07-27 11:25:46,950 [7] ERROR GISData.Common.ConnectDB - select max(STEP_NO) as STEPNO from GISDATA_CONFIGSTEP where SCHEME = 'System.Data.DataRowView'
+2020-07-27 11:25:46,954 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where SCHEME ='System.Data.DataRowView' order by STEP_NO
+2020-07-27 11:25:46,974 [7] ERROR GISData.Common.ConnectDB - select max(STEP_NO) as STEPNO from GISDATA_CONFIGSTEP where SCHEME = '营造林质检方案'
+2020-07-27 11:25:46,977 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where SCHEME ='营造林质检方案' order by STEP_NO
+2020-07-27 11:25:51,776 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_TASK
+2020-07-27 11:25:51,894 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_GLDW
+ ----------------------header--------------------------
+2020-07-27 15:11:32,819 [7] ERROR GISData.Program - 登录
+2020-07-27 15:11:35,527 [7] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+2020-07-27 15:11:35,858 [7] ERROR GISData.Program - 开始运行
+2020-07-27 15:11:37,510 [7] ERROR GISData.FormMain - 窗体初始化开始
+2020-07-27 15:11:37,521 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_USER WHERE USER ='曾伟'
+2020-07-27 15:11:41,951 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_TASK
+2020-07-27 15:11:42,067 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_GLDW
+ ----------------------footer--------------------------
+ ----------------------header--------------------------
+2020-07-27 15:28:02,374 [7] ERROR GISData.Program - 登录
+2020-07-27 15:28:05,946 [7] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+2020-07-27 15:28:06,249 [7] ERROR GISData.Program - 开始运行
+2020-07-27 15:28:07,861 [7] ERROR GISData.FormMain - 窗体初始化开始
+2020-07-27 15:28:07,872 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_USER WHERE USER ='曾伟'
+ ----------------------footer--------------------------
+ ----------------------header--------------------------
+2020-07-27 15:42:52,351 [7] ERROR GISData.Program - 登录
+2020-07-27 15:43:00,826 [7] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+2020-07-27 15:43:01,149 [7] ERROR GISData.Program - 开始运行
+2020-07-27 15:43:02,757 [7] ERROR GISData.FormMain - 窗体初始化开始
+2020-07-27 15:43:02,768 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_USER WHERE USER ='曾伟'
+ ----------------------header--------------------------
+2020-07-27 15:52:17,469 [6] ERROR GISData.Program - 登录
+2020-07-27 15:52:20,892 [6] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+2020-07-27 15:52:21,252 [6] ERROR GISData.Program - 开始运行
+2020-07-27 15:52:23,000 [6] ERROR GISData.FormMain - 窗体初始化开始
+2020-07-27 15:52:23,013 [6] ERROR GISData.Common.ConnectDB - select * from GISDATA_USER WHERE USER ='曾伟'
+ ----------------------header--------------------------
+2020-07-27 15:53:47,708 [7] ERROR GISData.Program - 登录
+2020-07-27 15:53:51,657 [7] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+2020-07-27 15:53:51,915 [7] ERROR GISData.Program - 开始运行
+2020-07-27 15:53:53,535 [7] ERROR GISData.FormMain - 窗体初始化开始
+2020-07-27 15:53:53,547 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_USER WHERE USER ='曾伟'
+ ----------------------header--------------------------
+2020-07-27 15:57:44,183 [6] ERROR GISData.Program - 登录
+ ----------------------header--------------------------
+2020-07-27 15:57:53,069 [6] ERROR GISData.Program - 登录
+2020-07-27 15:57:56,796 [6] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+2020-07-27 15:57:57,138 [6] ERROR GISData.Program - 开始运行
+2020-07-27 15:57:58,746 [6] ERROR GISData.FormMain - 窗体初始化开始
+2020-07-27 15:57:58,759 [6] ERROR GISData.Common.ConnectDB - select * from GISDATA_USER WHERE USER ='曾伟'
+ ----------------------header--------------------------
+2020-07-27 16:00:43,971 [6] ERROR GISData.Program - 登录
+2020-07-27 16:00:46,669 [6] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+2020-07-27 16:00:46,991 [6] ERROR GISData.Program - 开始运行
+2020-07-27 16:00:48,768 [6] ERROR GISData.FormMain - 窗体初始化开始
+2020-07-27 16:00:48,780 [6] ERROR GISData.Common.ConnectDB - select * from GISDATA_USER WHERE USER ='曾伟'
+ ----------------------header--------------------------
+2020-07-27 16:07:44,810 [6] ERROR GISData.Program - 登录
+2020-07-27 16:07:47,768 [6] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+2020-07-27 16:07:48,100 [6] ERROR GISData.Program - 开始运行
+2020-07-27 16:07:50,315 [6] ERROR GISData.FormMain - 窗体初始化开始
+2020-07-27 16:07:50,328 [6] ERROR GISData.Common.ConnectDB - select * from GISDATA_USER WHERE USER ='曾伟'
+2020-07-27 16:07:55,214 [6] ERROR GISData.Common.ConnectDB - select * from GISDATA_TASK
+2020-07-27 16:07:55,331 [6] ERROR GISData.Common.ConnectDB - select * from GISDATA_GLDW
+ ----------------------footer--------------------------

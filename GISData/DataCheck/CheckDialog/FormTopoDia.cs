@@ -11,9 +11,11 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml;
 using TopologyCheck.Error;
 
 namespace GISData.DataCheck.CheckDialog
@@ -74,7 +76,20 @@ namespace GISData.DataCheck.CheckDialog
         private void bindTreeView()
         {
             ConnectDB db = new ConnectDB();
-            DataTable dt = db.GetDataBySql("select NAME,STATE,ERROR,CHECKTYPE,TABLENAME,WHERESTRING,SUPTABLE,INPUTTEXT,ID from GISDATA_TBTOPO where SCHEME ='" + this.scheme + "' and STEP_NO = '" + this.stepNo + "'");
+            DataTable dt = db.GetDataBySql("select * from GISDATA_TBTOPO where SCHEME ='" + this.scheme + "' and STEP_NO = '" + this.stepNo + "'");
+
+
+            foreach (DataRow dr in dt.Rows)  //对特定的行添加限制条件
+            {
+                if (dr["CHECKTYPE"].ToString() != "")
+                {
+                    string ID = dr["ID"].ToString();
+                    string value = getXMLInnerText(ID);
+                    dr["ERROR"] = value;
+                    dr["STATE"] = "已检查";
+                }
+            }
+            
             this.gridControl1.DataSource = dt;
             this.gridView1.OptionsBehavior.Editable = false;
             this.gridView1.OptionsSelection.MultiSelect = true;
@@ -83,6 +98,32 @@ namespace GISData.DataCheck.CheckDialog
             {
                 topoErrorTable.Columns.Add(column.ColumnName);
             }
+        }
+
+
+        public string getXMLInnerText(string ID)
+        {
+            try
+            {
+                XmlDocument doc = new XmlDocument();
+                doc.Load(@"checkEroor.xml");
+                string strPath = string.Format("/Error/Topos/topo[@key=\"{0}\"]", ID);
+                if (strPath != null)
+                {
+                    XmlElement selectXe = (XmlElement)doc.SelectSingleNode(strPath);  //selectSingleNode 根据XPath表达式,获得符合条件的第一个节点.
+                    return selectXe.GetAttribute("value");
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception e)
+            {
+                LogHelper.WriteLog(typeof(CommonClass), e);
+                return null;
+            }
+
         }
 
         private void gridView1_SelectionChanged(object sender, DevExpress.Data.SelectionChangedEventArgs e)
@@ -100,6 +141,12 @@ namespace GISData.DataCheck.CheckDialog
         public void doCheckTopo(IHookHelper m_hookHelper)
         {
             try{
+                XmlDocument doc = new XmlDocument();
+                doc.Load(@"checkEroor.xml");
+                var root = doc.DocumentElement;//取到根结点
+                XmlElement Topos = doc.CreateElement("Topos");
+                root.AppendChild(Topos);
+
                 this.m_hookHelper = m_hookHelper;
                 CommonClass common = new CommonClass();
                 int[] selectRows = this.gridView1.GetSelectedRows();
@@ -134,12 +181,24 @@ namespace GISData.DataCheck.CheckDialog
                     }
                     Dictionary<string, int> DicTopoError = topocheck.DicTopoError;
                     row["ERROR"] = DicTopoError[row["ID"].ToString()];
-                    row["STATE"] = "检查完成";
+                    row["STATE"] = "已检查";
+
+                    XmlElement Xmlnode = doc.CreateElement("topo");
+                    Topos.AppendChild(Xmlnode);
+                    XmlAttribute xa = doc.CreateAttribute("key");
+                    xa.Value = row["ID"].ToString();
+                    XmlAttribute xa2 = doc.CreateAttribute("value");
+                    xa2.Value = DicTopoError[ID].ToString();
+                    Xmlnode.SetAttributeNode(xa);
+                    Xmlnode.SetAttributeNode(xa2); 
+
                     if (DicTopoError[ID].ToString() != "0")
                     {
                         topoErrorTable.ImportRow(row);
                     }
                 }
+                doc.Save(@"checkEroor.xml");
+                //doc.Save(Application.StartupPath+"/checkEroor.xml");
             }
             catch (Exception e)
             {
@@ -177,6 +236,7 @@ namespace GISData.DataCheck.CheckDialog
                             string outString = this.topoDir + "\\" + name + idname + ".shp";
                             IFeatureClass IFC = common.GetFeatureClassByShpPath(outString);
                             TableShow(IFC, this.gridControlError, "拓扑检查ByGP", TABLENAME, name + idname + ".shp");
+                            Marshal.ReleaseComObject(IFC);
                         }
                         else 
                         {
@@ -294,6 +354,7 @@ namespace GISData.DataCheck.CheckDialog
             gridView.ViewCaption = ViewCaption;
             gridView.NewItemRowText = NewItemRowText;
             gridView.GroupPanelText = GroupPanelText;
+            Marshal.ReleaseComObject(pFeatureCuror);
         }
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)

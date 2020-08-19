@@ -18,6 +18,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Spire.Xls;
+using System.Runtime.InteropServices;
+using System.Xml;
 //using Excel = Microsoft.Office.Interop.Excel;
 
 namespace GISData.DataCheck.CheckDialog
@@ -76,6 +78,18 @@ namespace GISData.DataCheck.CheckDialog
         {
             ConnectDB cdb = new ConnectDB();
             DataTable dt = cdb.GetDataBySql("select * from GISDATA_TBATTR where SCHEME ='" + this.scheme + "' and STEP_NO = '" + this.stepNo + "'");
+
+            foreach (DataRow dr in dt.Rows)  //对特定的行添加限制条件
+            {
+                if (dr["CHECKTYPE"].ToString() != "") 
+                {
+                    string ID = dr["ID"].ToString();
+                    string value = getXMLInnerText(ID);
+                    dr["ERROR"] = value;
+                    dr["ISCHECK"] = "已检查";
+                }
+            }
+            
             this.treeList1.DataSource = dt;
             treeList1.OptionsView.ShowCheckBoxes = true;
             attrErrorTable = new DataTable();
@@ -111,27 +125,12 @@ namespace GISData.DataCheck.CheckDialog
 
         private void treeList1_BeforeCheckNode(object sender, DevExpress.XtraTreeList.CheckNodeEventArgs e)
         {
-            if (e.PrevState == System.Windows.Forms.CheckState.Checked)
-            {
-                e.State = System.Windows.Forms.CheckState.Unchecked;
-            }
-            else
-            {
-                e.State = System.Windows.Forms.CheckState.Checked;
-            }
+
         }
 
         private void treeList1_AfterCheckNode(object sender, DevExpress.XtraTreeList.NodeEventArgs e)
         {
-            CommonClass common = new CommonClass();
-            common.SetCheckedChildNodes(e.Node, e.Node.CheckState);
-            common.SetCheckedParentNodes(e.Node, e.Node.CheckState);
-            flag = true;
-            this.findOrigin(this.treeList1);
-            if (flag) 
-            {
-                this.checkBox.CheckState = System.Windows.Forms.CheckState.Unchecked;
-            }
+
         }
 
         private void findOrigin(DevExpress.XtraTreeList.TreeList tree,TreeListNodes nodes = null)
@@ -197,12 +196,20 @@ namespace GISData.DataCheck.CheckDialog
 
         public void doCheckAttr() 
         {
+            XmlDocument doc = new XmlDocument();
+            doc.Load(@"checkEroor.xml");
+            var root = doc.DocumentElement;//取到根结点
+            XmlElement Attrs = doc.CreateElement("Attrs");
+            root.AppendChild(Attrs);
+
             this.listError.Clear();
             CheckForIllegalCrossThreadCalls = false;
             ExpandAppointTreeNode(this.treeList1);
             TreeListNodes selectNode = this.treeList1.Nodes;
-            loopCheck(selectNode);
+            loopCheck(selectNode,Attrs,doc);
             WriteToExcel(this.listError);
+
+            doc.Save(@"checkEroor.xml");
             //Thread tr = new Thread(doCheck);
             //tr.Start();
         }
@@ -211,8 +218,9 @@ namespace GISData.DataCheck.CheckDialog
             this.backgroundWorker1.RunWorkerAsync();
         }
 
-        public void loopCheck(TreeListNodes selectNode)
+        public void loopCheck(TreeListNodes selectNode, XmlElement Attrs,XmlDocument doc)
         {
+           
             foreach (TreeListNode node in selectNode)
             {
                 //this.progressBar.Value = Convert.ToInt32((node.Id+1)/this.treeList1.AllNodesCount*100);
@@ -260,6 +268,7 @@ namespace GISData.DataCheck.CheckDialog
                                 }
                                 nodeData["ERROR"] = count;
                                 nodeData["ISCHECK"] = "已检查";
+                                Marshal.ReleaseComObject(pCur);
                             }
                             catch (Exception e)
                             {
@@ -299,6 +308,7 @@ namespace GISData.DataCheck.CheckDialog
                                     }
                                     nodeData["ERROR"] = count;
                                     nodeData["ISCHECK"] = "已检查";
+                                    Marshal.ReleaseComObject(pCur);
                                 }catch(Exception e)
                                 {
                                     LogHelper.WriteLog(typeof(FormAttrDia), e);
@@ -331,6 +341,7 @@ namespace GISData.DataCheck.CheckDialog
                                 }
                                 nodeData["ERROR"] = count;
                                 nodeData["ISCHECK"] = "已检查";
+                                Marshal.ReleaseComObject(pCur);
                             }
                             catch (Exception e)
                             {
@@ -383,6 +394,7 @@ namespace GISData.DataCheck.CheckDialog
                                         }
                                         nodeData["ERROR"] = count;
                                         nodeData["ISCHECK"] = "已检查";
+                                        Marshal.ReleaseComObject(pCur);
                                     }
                                     else 
                                     {
@@ -414,6 +426,7 @@ namespace GISData.DataCheck.CheckDialog
                                     }
                                     nodeData["ERROR"] = count;
                                     nodeData["ISCHECK"] = "已检查";
+                                    Marshal.ReleaseComObject(pCur);
                                 }
                             }catch(Exception e)
                             {
@@ -453,6 +466,7 @@ namespace GISData.DataCheck.CheckDialog
                                 }
                                 nodeData["ERROR"] = count;
                                 nodeData["ISCHECK"] = "已检查";
+                                Marshal.ReleaseComObject(pCur);
                             }
                             catch (Exception e)
                             {
@@ -464,13 +478,34 @@ namespace GISData.DataCheck.CheckDialog
                         {
                             attrErrorTable.ImportRow(nodeData.Row);
                         }
+
+
+
+                        XmlElement Xmlnode = doc.CreateElement("attr");
+                        ////创建bai用户du名节点
+                        //XmlElement element1 = doc.CreateElement("ID");
+                        //element1.InnerText = nodeData["ID"].ToString();
+                        //Xmlnode.AppendChild(element1);
+                        ////创建密码节点
+                        //XmlElement element2 = doc.CreateElement("ERROR");
+                        //element2.InnerText = nodeData["ERROR"].ToString();
+                        //Xmlnode.AppendChild(element2);
+                        Attrs.AppendChild(Xmlnode);
+                        XmlAttribute xa = doc.CreateAttribute("key");
+                        xa.Value = nodeData["ID"].ToString();
+                        XmlAttribute xa2 = doc.CreateAttribute("value");
+                        xa2.Value = nodeData["ERROR"].ToString();
+                        Xmlnode.SetAttributeNode(xa);
+                        Xmlnode.SetAttributeNode(xa2); 
                     }
                     if (node.Nodes.Count != 0)
                     {
-                        loopCheck(node.Nodes);
+                        loopCheck(node.Nodes, Attrs,doc);
                     }
                 }
+
             }
+            
             
         }
 
@@ -669,6 +704,8 @@ namespace GISData.DataCheck.CheckDialog
                         gridView.ViewCaption = "属性检查";
                         gridView.NewItemRowText = TABLENAME;
                         this.gridControlError.RefreshDataSource();
+                        Marshal.ReleaseComObject(pFeatureCuror);
+                        Marshal.ReleaseComObject(pFLayer);
                     }
                 }
             }
@@ -744,7 +781,40 @@ namespace GISData.DataCheck.CheckDialog
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
             TreeListNodes selectNode = this.treeList1.Nodes;
-            loopCheck(selectNode);
+            //loopCheck(selectNode);
+        }
+
+        private void treeList1_CustomDrawNodeIndicator(object sender, CustomDrawNodeIndicatorEventArgs e)
+        {
+        }
+
+        public string getXMLInnerText(string ID)
+        {
+            try
+            {
+                XmlDocument doc = new XmlDocument();
+                doc.Load(@"checkEroor.xml");
+                string strPath = string.Format("/Error/Attrs/attr[@key=\"{0}\"]", ID);
+                if (strPath != null)
+                {
+                    XmlElement selectXe = (XmlElement)doc.SelectSingleNode(strPath);  //selectSingleNode 根据XPath表达式,获得符合条件的第一个节点.
+                    return selectXe.GetAttribute("value");
+                }
+                else 
+                {
+                    return null;
+                }
+            }
+            catch (Exception e)
+            {
+                LogHelper.WriteLog(typeof(CommonClass), e);
+                return null;
+            }
+
+        }
+
+        private void treeList1_CustomDrawNodeCell(object sender, CustomDrawNodeCellEventArgs e)
+        {
         }
     }
 }

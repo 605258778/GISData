@@ -1,6 +1,7 @@
 ﻿using DevExpress.Utils.Menu;
 using DevExpress.XtraGrid.Menu;
 using GISData.Common;
+using Spire.Xls;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -33,25 +34,67 @@ namespace GISData.TaskManage
             string filePath = "";
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                // 取得文件路径及文件名
-                filePath = openFileDialog.FileName;
-                DataTable excelDataTable = ReadExcelToTable(filePath);      // 读出excel并放入datatable
-                DataRow[] dr = excelDataTable.Select(null);
-
-
-                ConnectDB db = new ConnectDB();
-                db.Delete("delete from GISDATA_TASK");
-                for (int i = 1; i < dr.Length; i++)
+                try
                 {
-                    string YZLGLDW = dr[i]["YZLGLDW"].ToString();
-                    string ZCSBND = dr[i]["ZCSBND"].ToString();
-                    string YZLFS = dr[i]["YZLFS"].ToString();
-                    string XMMC = dr[i]["XMMC"].ToString();
-                    string RWMJ = dr[i]["RWMJ"].ToString();
-                    db.Insert("INSERT INTO GISDATA_TASK (YZLGLDW,ZCSBND,YZLFS,RWMJ,XMMC) values ('" + YZLGLDW + "','" + ZCSBND + "','" + YZLFS + "','" + RWMJ + "','" + XMMC + "')");
+                    filePath = openFileDialog.FileName;
+                    Workbook book = new Workbook();
+                    book.LoadFromFile(filePath);
+                    DataTable excelDataTable = book.Worksheets[0].ExportDataTable();
+
+                    ConnectDB db = new ConnectDB();
+                    db.Delete("delete from GISDATA_TASK");
+                    int result = db.Save2MySqlDB(excelDataTable, "GISDATA_TASK");
+
+                    gridControl1.DataSource = excelDataTable;        // 测试用, 输出到dataGridView
+
+                    if (result > 1) 
+                    {
+                        MessageBox.Show("导入成功");
+                    }
+                }catch(Exception ex)
+                {
+                    LogHelper.WriteLog(typeof(FormTaskManage), ex);
                 }
-                gridControl1.DataSource = excelDataTable;        // 测试用, 输出到dataGridView
-                MessageBox.Show("导入成功");
+            }
+        }
+
+        private void button2_Click11(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Files|*.xls;*.xlsx";              // 设定打开的文件类型
+            //openFileDialog.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory;                       // 打开app对应的路径
+            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);  // 打开桌面
+
+            // 如果选定了文件
+            string filePath = "";
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    // 取得文件路径及文件名
+                    filePath = openFileDialog.FileName;
+                    DataTable excelDataTable = ReadExcelToTable(filePath);      // 读出excel并放入datatable
+                    DataRow[] dr = excelDataTable.Select(null);
+
+
+                    ConnectDB db = new ConnectDB();
+                    db.Delete("delete from GISDATA_TASK");
+                    for (int i = 1; i < dr.Length; i++)
+                    {
+                        string YZLGLDW = dr[i]["YZLGLDW"].ToString();
+                        string ZCSBND = dr[i]["ZCSBND"].ToString();
+                        string YZLFS = dr[i]["YZLFS"].ToString();
+                        string XMMC = dr[i]["XMMC"].ToString();
+                        string RWMJ = dr[i]["RWMJ"].ToString();
+                        db.Insert("INSERT INTO GISDATA_TASK (YZLGLDW,ZCSBND,YZLFS,RWMJ,XMMC) values ('" + YZLGLDW + "','" + ZCSBND + "','" + YZLFS + "','" + RWMJ + "','" + XMMC + "')");
+                    }
+                    gridControl1.DataSource = excelDataTable;        // 测试用, 输出到dataGridView
+                    MessageBox.Show("导入成功");
+                }
+                catch (Exception ex)
+                {
+                    LogHelper.WriteLog(typeof(FormTaskManage), ex);
+                }
             }
         }
 
@@ -86,8 +129,9 @@ namespace GISData.TaskManage
                     return set.Tables[0];
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                LogHelper.WriteLog(typeof(FormTaskManage), ex);
                 return null;
             }
         }
@@ -143,10 +187,9 @@ namespace GISData.TaskManage
                 DataTable excelDataTable = ReadExcelToTable(filePath);      // 读出excel并放入datatable
                 DataRow[] dr = excelDataTable.Select(null);
 
-
                 ConnectDB db = new ConnectDB();
                 db.Delete("delete from GISDATA_GLDW");
-                for (int i = 1; i < dr.Length; i++)
+                for (int i = 0; i < dr.Length; i++)
                 {
                     string GLDW = dr[i]["GLDW"].ToString();
                     string GLDWNAME = dr[i]["GLDWNAME"].ToString();
@@ -156,11 +199,56 @@ namespace GISData.TaskManage
                     string STATE = dr[i]["STATE"].ToString();
                     string ENDTIME = dr[i]["ENDTIME"].ToString();
                     string OTHER = dr[i]["OTHER"].ToString();
-                    db.Insert("INSERT INTO GISDATA_GLDW (GLDW,GLDWNAME,CONTACTS,TEL,STARTTIME,STATE,ENDTIME,OTHER) values ('" + GLDW + "','" + GLDWNAME + "','" + CONTACTS + "','" + TEL + "','" + STARTTIME + "','" + STATE + "','" + ENDTIME + "','" + OTHER + "')");
+                    string SPATIALR = dr[i]["SPATIALR"].ToString();
+                    db.Insert("INSERT INTO GISDATA_GLDW (GLDW,GLDWNAME,CONTACTS,TEL,STARTTIME,STATE,ENDTIME,OTHER,SPATIALR) values ('" + GLDW + "','" + GLDWNAME + "','" + CONTACTS + "','" + TEL + "','" + STARTTIME + "','" + STATE + "','" + ENDTIME + "','" + OTHER + "','" + SPATIALR + "')");
                 }
                 gridControlGLDW.DataSource = excelDataTable;        // 测试用, 输出到dataGridView
                 MessageBox.Show("导入成功");
             }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+
+            using (SaveFileDialog saveFileDialog1 = new SaveFileDialog())
+            {
+                saveFileDialog1.Title = "另存为";
+                saveFileDialog1.FileName = "newExcelName.xlsx"; //设置默认另存为的名字，可选
+                saveFileDialog1.Filter = "Excel 文件(*.xlsx)|*.xlsx|Excel 文件(*.xls)|*.xls|所有文件(*.*)|*.*";
+                saveFileDialog1.AddExtension = false;
+                if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    if (this.checkBox1.Checked)
+                    {
+                        DevExpress.XtraPrinting.XlsExportOptions options = new DevExpress.XtraPrinting.XlsExportOptions();
+                        this.gridViewGLDW.AppearancePrint.Row.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+                        this.gridViewGLDW.ExportToXlsx(saveFileDialog1.FileName);
+                    }
+                    else 
+                    {
+                        try
+                        {
+                            Workbook book = new Workbook();
+
+                            Worksheet sheet = book.Worksheets[0];
+                            DataView dv = this.gridViewGLDW.DataSource as DataView;
+                            sheet.InsertDataTable(dv.ToTable(), true, 1, 1);
+                            book.SaveToFile(saveFileDialog1.FileName, saveFileDialog1.FileName.EndsWith("xlsx") ? ExcelVersion.Version2013 : ExcelVersion.Version2007);
+                            MessageBox.Show("导出成功");
+                        }catch(Exception ex)
+                        {
+                            LogHelper.WriteLog(typeof(FormTaskManage), ex);
+                            MessageBox.Show("导出失败");
+                        }
+                    }
+                    
+                }
+            }
+        }
+
+        private void gridControlGLDW_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

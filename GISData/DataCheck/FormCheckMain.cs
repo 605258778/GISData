@@ -13,10 +13,12 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml;
 using TopologyCheck.Error;
 
 namespace GISData.DataCheck
@@ -143,6 +145,7 @@ namespace GISData.DataCheck
         /// </summary>
         private void checkState(object sender, EventArgs e,string type) 
         {
+            this.tabControl1.SelectTab(type);
             CheckBox CheckBoxSender = (CheckBox)sender;
             if (type == "结构检查")
             {
@@ -236,6 +239,13 @@ namespace GISData.DataCheck
         {
             try
             {
+                var doc = new XmlDocument();
+                XmlDeclaration dec = doc.CreateXmlDeclaration("1.0", "GB2312", null);
+                doc.AppendChild(dec);
+                XmlElement root = doc.CreateElement("Error");
+                doc.AppendChild(root);
+                doc.Save(Application.StartupPath + "/checkEroor.xml");
+
                 if (AttrDia.attrErrorTable != null)
                     AttrDia.attrErrorTable.Clear();
                 if (TopoDia.topoErrorTable != null)
@@ -273,10 +283,6 @@ namespace GISData.DataCheck
             }
         }
 
-        private void CheckStar(BackgroundWorker bk)
-        {
-            
-        }
 
         /// <summary>
         /// 显示详情
@@ -341,6 +347,7 @@ namespace GISData.DataCheck
                     pFeatSelection.SelectFeatures(pQuery, esriSelectionResultEnum.esriSelectionResultNew, false);
                     activeView.Extent = feature.ShapeCopy.Envelope;
                     activeView.Refresh();
+                    Marshal.ReleaseComObject(pLayer);
                 }
                 else
                 {
@@ -386,7 +393,7 @@ namespace GISData.DataCheck
                         activeView.Extent = feature.ShapeCopy.Envelope;
                         activeView.Refresh();
                     }
-                    
+                    Marshal.ReleaseComObject(pLayer);
                 }
             }
             catch(Exception ex)

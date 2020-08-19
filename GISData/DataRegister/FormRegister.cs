@@ -61,12 +61,14 @@ namespace GISData.DataRegister
         public void refreshDataGridReg()
         {
             ConnectDB cd = new ConnectDB();
-            DataTable dt = cd.GetDataBySql("select REG_NAME,REG_ALIASNAME AS 注册名称 from GISDATA_REGINFO");
+            DataTable dt = cd.GetDataBySql("select ID,REG_NAME,SORT,REG_ALIASNAME AS 注册名称 from GISDATA_REGINFO ORDER BY SORT");
             this.dataGridViewDataReg.DataSource = dt;
             this.gridView2.OptionsBehavior.Editable = false;
             if (this.gridView2.Columns.Count > 0)
             {
                 this.gridView2.Columns[0].Visible = false;
+                this.gridView2.Columns[1].Visible = false;
+                this.gridView2.Columns[2].Visible = false;
             }
         }
         
@@ -412,5 +414,63 @@ namespace GISData.DataRegister
         {
 
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+            if (this.gridView2.IsFirstRow == true)
+            {   //当前节点是第一个节点,不用上移
+                return;
+            }
+            var index = this.gridView2.GetFocusedDataSourceRowIndex();
+            DataRowView row = (DataRowView)this.gridView2.GetRow(index);
+
+            string val = row["SORT"].ToString();
+            string id = row["ID"].ToString();
+            ConnectDB db = new ConnectDB();
+            try 
+            {
+                Boolean result = db.Update("update GISDATA_REGINFO set sort=" + Int32.Parse(val) + " where sort = " + (Int32.Parse(val) - 1));
+                if (result) 
+                {
+                    Boolean result1 = db.Update("update GISDATA_REGINFO set sort=" + (Int32.Parse(val)-1) + " where id = " + id);
+                    DataTable dt = db.GetDataBySql("select ID,REG_NAME,SORT,REG_ALIASNAME AS 注册名称 from GISDATA_REGINFO ORDER BY SORT");
+                    this.dataGridViewDataReg.DataSource = dt;
+                }
+            }
+            catch(Exception ex)
+            {
+            
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (this.gridView2.IsLastRow == true)
+            {   //当前节点是最后一个节点,不用下移
+                return;
+            }
+            var index = this.gridView2.GetFocusedDataSourceRowIndex();
+            DataRowView row = (DataRowView)this.gridView2.GetRow(index);
+
+            string val = row["SORT"].ToString();
+            string id = row["ID"].ToString();
+            ConnectDB db = new ConnectDB();
+            try
+            {
+                Boolean result = db.Update("update GISDATA_REGINFO set sort=" + Int32.Parse(val) + " where sort = " + (Int32.Parse(val) + 1));
+                if (result)
+                {
+                    Boolean result1 = db.Update("update GISDATA_REGINFO set sort=" + (Int32.Parse(val) + 1) + " where id = " + id);
+                    DataTable dt = db.GetDataBySql("select ID,REG_NAME,SORT,REG_ALIASNAME AS 注册名称 from GISDATA_REGINFO ORDER BY SORT");
+                    this.dataGridViewDataReg.DataSource = dt;
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
     }
 }

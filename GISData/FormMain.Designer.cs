@@ -205,7 +205,7 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.axMapControl1);
             this.splitContainer1.Size = new System.Drawing.Size(1201, 519);
-            this.splitContainer1.SplitterDistance = 400;
+            this.splitContainer1.SplitterDistance = 301;
             this.splitContainer1.TabIndex = 5;
             // 
             // axLicenseControl1
@@ -224,7 +224,7 @@
             this.axTOCControl1.Location = new System.Drawing.Point(0, 0);
             this.axTOCControl1.Name = "axTOCControl1";
             this.axTOCControl1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axTOCControl1.OcxState")));
-            this.axTOCControl1.Size = new System.Drawing.Size(400, 519);
+            this.axTOCControl1.Size = new System.Drawing.Size(301, 519);
             this.axTOCControl1.TabIndex = 0;
             this.axTOCControl1.OnMouseDown += new ESRI.ArcGIS.Controls.ITOCControlEvents_Ax_OnMouseDownEventHandler(this.axTOCControl1_OnMouseDown);
             // 
@@ -234,7 +234,7 @@
             this.axMapControl1.Location = new System.Drawing.Point(0, 0);
             this.axMapControl1.Name = "axMapControl1";
             this.axMapControl1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axMapControl1.OcxState")));
-            this.axMapControl1.Size = new System.Drawing.Size(797, 519);
+            this.axMapControl1.Size = new System.Drawing.Size(896, 519);
             this.axMapControl1.TabIndex = 0;
             // 
             // FormMain

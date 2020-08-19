@@ -1,0 +1,8 @@
+ ----------------------header--------------------------
+2019-08-07 15:52:02,864 [7] ERROR GISData.Program - 登录
+2019-08-07 15:52:08,316 [7] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+2019-08-07 15:52:08,668 [7] ERROR GISData.Program - 开始运行
+2019-08-07 15:52:14,089 [7] ERROR GISData.FormMain - 窗体初始化开始
+2019-08-07 15:52:14,121 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_USER WHERE USER ='曾伟'
+2019-08-07 15:52:18,833 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_TASK
+2019-08-07 15:52:19,134 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_GLDW

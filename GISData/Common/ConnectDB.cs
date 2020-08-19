@@ -192,5 +192,83 @@ namespace GISData.Common
                 return false;
             }
         }
+
+        /// <summary>
+        /// 存储进数据库
+        /// </summary>
+        /// <param name="dt">需要存储的表</param>
+        /// <param name="DBTableName">数据库表的名字</param>
+        /// <returns></returns>
+        public int Save2MySqlDB(DataTable dt, string DBTableName)
+        {
+            if (dt.Rows.Count < 1)
+            {
+                return dt.Rows.Count;
+            }
+            string sb = this.GetCommdString(dt, DBTableName);
+            int res = -1;
+            string result = "";
+            conn.Open();
+            using (MySqlCommand cmd = new MySqlCommand(sb, conn))
+            {
+                try
+                {
+                    res = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    res = -1;
+                    // Unknown column 'names' in 'field list' 
+                    result = "操作失败！" + ex.Message.Replace("Unknown column", "未知列").Replace("in 'field list'", "存在字段集合中！");
+                }
+            }
+            conn.Close();
+            return res;
+        }
+
+
+
+        /// <summary>
+        /// 得到存储语句（比较高效）
+        /// </summary>
+        /// <param name="dt">需要存储的表</param>
+        /// <param name="DBTableName">数据库表的名字</param>
+        /// <returns></returns>
+        public string GetCommdString(DataTable dt, string DBTableName)
+        {
+            List<string> mySqlList = new List<string>();
+            string sb = "INSERT INTO " + DBTableName + "(";
+            mySqlList.Add(sb);
+            sb = "";
+            for (int i = 0; i < dt.Columns.Count; i++)
+            {
+                sb = sb + dt.Columns[i].ColumnName + ",";
+            }
+            sb = sb.Remove(sb.LastIndexOf(','), 1);
+            sb = sb + ") VALUES ";
+            mySqlList.Add(sb);
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                sb = "(";
+                for (int j = 0; j < dt.Columns.Count; j++)
+                {
+                    sb = sb + "'" + dt.Rows[i][j] + "',";
+                }
+                sb = sb.Remove(sb.ToString().LastIndexOf(','), 1);
+                sb = sb + "),";
+                if (i < dt.Rows.Count - 1)
+                {
+                    mySqlList.Add(sb);
+                }
+                else
+                {
+                    sb = sb.Remove(sb.ToString().LastIndexOf(','), 1);
+                    sb = sb + ";";
+                    mySqlList.Add(sb);
+                }
+            }
+            string str = string.Join("", mySqlList.ToArray());
+            return str;
+        }
     }
 }

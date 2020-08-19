@@ -19,6 +19,7 @@ using System.Data;
 using System.IO;
 using ESRI.ArcGIS.Geoprocessing;
 using System.Diagnostics;
+using System.Xml;
 
 namespace GISData.Common
 {
@@ -42,6 +43,8 @@ namespace GISData.Common
         }
         public void OtherRule(string idname,string checkname, string IN_RuleType, string TABLENAME, string SUPTABLE, string inputtext, IHookHelper m_hookHelper)
         {
+            
+
             CommonClass common = new CommonClass();
             
             IFeatureClass IN_FeatureClass = common.GetLayerByName(TABLENAME).FeatureClass;
@@ -95,6 +98,25 @@ namespace GISData.Common
                     else
                     {
                         DicTopoError[idname] = tempCount;
+                    }
+
+                    Marshal.ReleaseComObject(cursor);
+
+                    if (tempCount==0)
+                    {
+                        string shpFolder = System.IO.Path.GetDirectoryName(ErrorFilePath);
+                        IWorkspaceFactory pWorkspaceFac = new ShapefileWorkspaceFactoryClass();
+                        IWorkspace pWorkSpace = pWorkspaceFac.OpenFromFile(ErrorFilePath, 0);
+                        IFeatureWorkspace pFeatureWorkSpace = pWorkSpace as IFeatureWorkspace;
+                        if (System.IO.File.Exists(ErrorFilePath))
+                        {
+                            IFeatureClass pFCChecker = pFeatureWorkSpace.OpenFeatureClass(ErrorFilePath);
+                            if (pFCChecker != null)
+                            {
+                                IDataset pds = pFCChecker as IDataset;
+                                pds.Delete();
+                            }
+                        }
                     }
                 }
                 catch (Exception ex) 
@@ -184,6 +206,23 @@ namespace GISData.Common
                                     point.Y = pY;
                                     common.GenerateSHPFile(point, ErrorFilePath);
                                 }
+                            }
+                        }
+                    }
+                    Marshal.ReleaseComObject(cursor);
+                    if (errorCount == 0)
+                    {
+                        string shpFolder = System.IO.Path.GetDirectoryName(ErrorFilePath);
+                        IWorkspaceFactory pWorkspaceFac = new ShapefileWorkspaceFactoryClass();
+                        IWorkspace pWorkSpace = pWorkspaceFac.OpenFromFile(ErrorFilePath, 0);
+                        IFeatureWorkspace pFeatureWorkSpace = pWorkSpace as IFeatureWorkspace;
+                        if (System.IO.File.Exists(ErrorFilePath))
+                        {
+                            IFeatureClass pFCChecker = pFeatureWorkSpace.OpenFeatureClass(ErrorFilePath);
+                            if (pFCChecker != null)
+                            {
+                                IDataset pds = pFCChecker as IDataset;
+                                pds.Delete();
                             }
                         }
                     }
@@ -297,6 +336,22 @@ namespace GISData.Common
                                 Marshal.ReleaseComObject(o);
                             }
                         }
+                        if (errorCount == 0)
+                        {
+                            string shpFolder = System.IO.Path.GetDirectoryName(ErrorFilePath);
+                            IWorkspaceFactory pWorkspaceFac = new ShapefileWorkspaceFactoryClass();
+                            IWorkspace pWorkSpace = pWorkspaceFac.OpenFromFile(ErrorFilePath, 0);
+                            IFeatureWorkspace pFeatureWorkSpace = pWorkSpace as IFeatureWorkspace;
+                            if (System.IO.File.Exists(ErrorFilePath))
+                            {
+                                IFeatureClass pFCChecker = pFeatureWorkSpace.OpenFeatureClass(ErrorFilePath);
+                                if (pFCChecker != null)
+                                {
+                                    IDataset pds = pFCChecker as IDataset;
+                                    pds.Delete();
+                                }
+                            }
+                        }
                     }
                 }
                 catch (Exception ex) 
@@ -344,6 +399,24 @@ namespace GISData.Common
                     LogHelper.WriteLog(typeof(TopoChecker), ex);
                     Console.WriteLine(ex.Message);
                 }
+
+                if (outIFC.FeatureCount(null) == 0)
+                {
+                    string shpFolder = System.IO.Path.GetDirectoryName(ErrorFilePath);
+                    IWorkspaceFactory pWorkspaceFac = new ShapefileWorkspaceFactoryClass();
+                    IWorkspace pWorkSpace = pWorkspaceFac.OpenFromFile(ErrorFilePath, 0);
+                    IFeatureWorkspace pFeatureWorkSpace = pWorkSpace as IFeatureWorkspace;
+                    if (System.IO.File.Exists(ErrorFilePath))
+                    {
+                        IFeatureClass pFCChecker = pFeatureWorkSpace.OpenFeatureClass(ErrorFilePath);
+                        if (pFCChecker != null)
+                        {
+                            IDataset pds = pFCChecker as IDataset;
+                            pds.Delete();
+                        }
+                    }
+                }
+
                 if (!DicTopoError.ContainsKey(idname))
                 {
                     DicTopoError.Add(idname, outIFC.FeatureCount(null));
@@ -385,6 +458,22 @@ namespace GISData.Common
                     Console.WriteLine(ex.Message);
                     LogHelper.WriteLog(typeof(TopoChecker), ex);
                 }
+                if (outIFC.FeatureCount(null) == 0)
+                {
+                    string shpFolder = System.IO.Path.GetDirectoryName(ErrorFilePath);
+                    IWorkspaceFactory pWorkspaceFac = new ShapefileWorkspaceFactoryClass();
+                    IWorkspace pWorkSpace = pWorkspaceFac.OpenFromFile(ErrorFilePath, 0);
+                    IFeatureWorkspace pFeatureWorkSpace = pWorkSpace as IFeatureWorkspace;
+                    if (System.IO.File.Exists(ErrorFilePath))
+                    {
+                        IFeatureClass pFCChecker = pFeatureWorkSpace.OpenFeatureClass(ErrorFilePath);
+                        if (pFCChecker != null)
+                        {
+                            IDataset pds = pFCChecker as IDataset;
+                            pds.Delete();
+                        }
+                    }
+                }
                 if (!DicTopoError.ContainsKey(idname))
                 {
                     DicTopoError.Add(idname, outIFC.FeatureCount(null));
@@ -393,6 +482,11 @@ namespace GISData.Common
                 {
                     DicTopoError[idname] = outIFC.FeatureCount(null);
                 }
+            }
+            Marshal.ReleaseComObject(IN_FeatureClass);
+            if (SUPTABLE != null)
+            {
+                Marshal.ReleaseComObject(IN_Sup_FeatureClass);
             }
         }
 

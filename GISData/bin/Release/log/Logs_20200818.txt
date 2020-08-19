@@ -1,0 +1,537 @@
+ ----------------------header--------------------------
+2020-08-18 15:03:22,901 [7] ERROR GISData.Program - 登录
+ ----------------------footer--------------------------
+ ----------------------header--------------------------
+2020-08-18 15:03:50,956 [6] ERROR GISData.Program - 登录
+2020-08-18 15:03:56,803 [6] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+ ----------------------header--------------------------
+2020-08-18 15:05:04,214 [6] ERROR GISData.Program - 登录
+2020-08-18 15:05:09,369 [6] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+2020-08-18 15:05:09,733 [6] ERROR GISData.Program - 开始运行
+2020-08-18 15:05:18,490 [6] ERROR GISData.FormMain - 窗体初始化开始
+2020-08-18 15:05:18,501 [6] ERROR GISData.Common.ConnectDB - select * from GISDATA_USER WHERE USER ='曾伟'
+2020-08-18 15:05:21,980 [6] ERROR GISData.Common.ConnectDB - select * from GISDATA_SCHEME order by IS_DEFAULT desc
+2020-08-18 15:05:22,007 [6] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = 'System.Data.DataRowView' order by STEP_NO
+2020-08-18 15:05:22,010 [6] ERROR GISData.Common.ConnectDB - select GLDWNAME from GISDATA_GLDW where GLDW = '520121'
+2020-08-18 15:05:22,049 [6] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = '营造林质检方案' order by STEP_NO
+2020-08-18 15:05:22,199 [6] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-08-18 15:05:22,358 [6] ERROR GISData.Common.CommonClass - Error
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 GISData.DataCheck.CheckDialog.FormAttrDia.getXMLInnerText(String ID) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormAttrDia.cs:行号 800
+2020-08-18 15:05:22,418 [6] ERROR GISData.Common.CommonClass - Error
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 GISData.DataCheck.CheckDialog.FormAttrDia.getXMLInnerText(String ID) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormAttrDia.cs:行号 800
+2020-08-18 15:05:22,468 [6] ERROR GISData.Common.CommonClass - Error
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 GISData.DataCheck.CheckDialog.FormAttrDia.getXMLInnerText(String ID) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormAttrDia.cs:行号 800
+2020-08-18 15:05:22,516 [6] ERROR GISData.Common.CommonClass - Error
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 GISData.DataCheck.CheckDialog.FormAttrDia.getXMLInnerText(String ID) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormAttrDia.cs:行号 800
+2020-08-18 15:05:22,563 [6] ERROR GISData.Common.CommonClass - Error
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 GISData.DataCheck.CheckDialog.FormAttrDia.getXMLInnerText(String ID) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormAttrDia.cs:行号 800
+2020-08-18 15:05:24,711 [6] ERROR GISData.Common.CommonClass - Error
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 GISData.DataCheck.CheckDialog.FormAttrDia.getXMLInnerText(String ID) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormAttrDia.cs:行号 800
+2020-08-18 15:05:24,757 [6] ERROR GISData.Common.CommonClass - Error
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 GISData.DataCheck.CheckDialog.FormAttrDia.getXMLInnerText(String ID) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormAttrDia.cs:行号 800
+2020-08-18 15:05:24,805 [6] ERROR GISData.Common.CommonClass - Error
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 GISData.DataCheck.CheckDialog.FormAttrDia.getXMLInnerText(String ID) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormAttrDia.cs:行号 800
+2020-08-18 15:05:24,852 [6] ERROR GISData.Common.CommonClass - Error
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 GISData.DataCheck.CheckDialog.FormAttrDia.getXMLInnerText(String ID) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormAttrDia.cs:行号 800
+2020-08-18 15:05:24,900 [6] ERROR GISData.Common.CommonClass - Error
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 GISData.DataCheck.CheckDialog.FormAttrDia.getXMLInnerText(String ID) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormAttrDia.cs:行号 800
+2020-08-18 15:05:26,605 [6] ERROR GISData.Common.CommonClass - Error
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 GISData.DataCheck.CheckDialog.FormAttrDia.getXMLInnerText(String ID) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormAttrDia.cs:行号 800
+2020-08-18 15:05:26,696 [6] ERROR GISData.Common.CommonClass - Error
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 GISData.DataCheck.CheckDialog.FormAttrDia.getXMLInnerText(String ID) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormAttrDia.cs:行号 800
+2020-08-18 15:05:26,720 [6] ERROR GISData.Common.ConnectDB - select GLDWNAME from GISDATA_GLDW where GLDW = '520121'
+2020-08-18 15:05:29,243 [6] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-08-18 15:05:29,305 [6] ERROR GISData.Common.CommonClass - Error
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 GISData.DataCheck.CheckDialog.FormAttrDia.getXMLInnerText(String ID) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormAttrDia.cs:行号 800
+2020-08-18 15:05:29,359 [6] ERROR GISData.Common.CommonClass - Error
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 GISData.DataCheck.CheckDialog.FormAttrDia.getXMLInnerText(String ID) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormAttrDia.cs:行号 800
+2020-08-18 15:05:29,413 [6] ERROR GISData.Common.CommonClass - Error
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 GISData.DataCheck.CheckDialog.FormAttrDia.getXMLInnerText(String ID) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormAttrDia.cs:行号 800
+2020-08-18 15:05:29,467 [6] ERROR GISData.Common.CommonClass - Error
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 GISData.DataCheck.CheckDialog.FormAttrDia.getXMLInnerText(String ID) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormAttrDia.cs:行号 800
+2020-08-18 15:05:29,519 [6] ERROR GISData.Common.CommonClass - Error
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 GISData.DataCheck.CheckDialog.FormAttrDia.getXMLInnerText(String ID) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormAttrDia.cs:行号 800
+2020-08-18 15:05:31,855 [6] ERROR GISData.Common.CommonClass - Error
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 GISData.DataCheck.CheckDialog.FormAttrDia.getXMLInnerText(String ID) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormAttrDia.cs:行号 800
+2020-08-18 15:05:31,909 [6] ERROR GISData.Common.CommonClass - Error
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 GISData.DataCheck.CheckDialog.FormAttrDia.getXMLInnerText(String ID) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormAttrDia.cs:行号 800
+2020-08-18 15:05:31,962 [6] ERROR GISData.Common.CommonClass - Error
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 GISData.DataCheck.CheckDialog.FormAttrDia.getXMLInnerText(String ID) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormAttrDia.cs:行号 800
+2020-08-18 15:05:32,017 [6] ERROR GISData.Common.CommonClass - Error
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 GISData.DataCheck.CheckDialog.FormAttrDia.getXMLInnerText(String ID) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormAttrDia.cs:行号 800
+2020-08-18 15:05:32,071 [6] ERROR GISData.Common.CommonClass - Error
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 GISData.DataCheck.CheckDialog.FormAttrDia.getXMLInnerText(String ID) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormAttrDia.cs:行号 800
+2020-08-18 15:05:33,922 [6] ERROR GISData.Common.CommonClass - Error
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 GISData.DataCheck.CheckDialog.FormAttrDia.getXMLInnerText(String ID) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormAttrDia.cs:行号 800
+2020-08-18 15:05:34,021 [6] ERROR GISData.Common.CommonClass - Error
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 GISData.DataCheck.CheckDialog.FormAttrDia.getXMLInnerText(String ID) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormAttrDia.cs:行号 800
+2020-08-18 15:05:34,699 [6] ERROR GISData.Common.ConnectDB - select GLDWNAME from GISDATA_GLDW where GLDW = '520121'
+2020-08-18 15:05:34,729 [6] ERROR GISData.Common.ConnectDB - select * from GISDATA_REPORT where SCHEME ='营造林质检方案' and STEP_NO = '3'
+ ----------------------header--------------------------
+2020-08-18 15:07:48,104 [6] ERROR GISData.Program - 登录
+2020-08-18 15:07:59,217 [6] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+2020-08-18 15:07:59,509 [6] ERROR GISData.Program - 开始运行
+2020-08-18 15:08:01,497 [6] ERROR GISData.FormMain - 窗体初始化开始
+2020-08-18 15:08:01,509 [6] ERROR GISData.Common.ConnectDB - select * from GISDATA_USER WHERE USER ='曾伟'
+2020-08-18 15:08:09,157 [6] ERROR GISData.Common.ConnectDB - select * from GISDATA_SCHEME order by IS_DEFAULT desc
+2020-08-18 15:08:09,162 [6] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = 'System.Data.DataRowView' order by STEP_NO
+2020-08-18 15:08:09,165 [6] ERROR GISData.Common.ConnectDB - select GLDWNAME from GISDATA_GLDW where GLDW = '520121'
+2020-08-18 15:08:09,207 [6] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = '营造林质检方案' order by STEP_NO
+2020-08-18 15:08:09,347 [6] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-08-18 15:08:09,412 [6] ERROR GISData.Common.CommonClass - Error
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 GISData.DataCheck.CheckDialog.FormAttrDia.getXMLInnerText(String ID) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormAttrDia.cs:行号 801
+2020-08-18 15:08:09,466 [6] ERROR GISData.Common.CommonClass - Error
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 GISData.DataCheck.CheckDialog.FormAttrDia.getXMLInnerText(String ID) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormAttrDia.cs:行号 801
+2020-08-18 15:08:09,516 [6] ERROR GISData.Common.CommonClass - Error
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 GISData.DataCheck.CheckDialog.FormAttrDia.getXMLInnerText(String ID) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormAttrDia.cs:行号 801
+2020-08-18 15:08:09,567 [6] ERROR GISData.Common.CommonClass - Error
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 GISData.DataCheck.CheckDialog.FormAttrDia.getXMLInnerText(String ID) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormAttrDia.cs:行号 801
+2020-08-18 15:08:09,616 [6] ERROR GISData.Common.CommonClass - Error
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 GISData.DataCheck.CheckDialog.FormAttrDia.getXMLInnerText(String ID) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormAttrDia.cs:行号 801
+2020-08-18 15:08:11,878 [6] ERROR GISData.Common.CommonClass - Error
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 GISData.DataCheck.CheckDialog.FormAttrDia.getXMLInnerText(String ID) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormAttrDia.cs:行号 801
+2020-08-18 15:08:11,930 [6] ERROR GISData.Common.CommonClass - Error
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 GISData.DataCheck.CheckDialog.FormAttrDia.getXMLInnerText(String ID) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormAttrDia.cs:行号 801
+2020-08-18 15:08:11,985 [6] ERROR GISData.Common.CommonClass - Error
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 GISData.DataCheck.CheckDialog.FormAttrDia.getXMLInnerText(String ID) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormAttrDia.cs:行号 801
+2020-08-18 15:08:12,034 [6] ERROR GISData.Common.CommonClass - Error
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 GISData.DataCheck.CheckDialog.FormAttrDia.getXMLInnerText(String ID) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormAttrDia.cs:行号 801
+2020-08-18 15:08:12,083 [6] ERROR GISData.Common.CommonClass - Error
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 GISData.DataCheck.CheckDialog.FormAttrDia.getXMLInnerText(String ID) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormAttrDia.cs:行号 801
+2020-08-18 15:08:13,860 [6] ERROR GISData.Common.CommonClass - Error
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 GISData.DataCheck.CheckDialog.FormAttrDia.getXMLInnerText(String ID) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormAttrDia.cs:行号 801
+2020-08-18 15:08:13,958 [6] ERROR GISData.Common.CommonClass - Error
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 GISData.DataCheck.CheckDialog.FormAttrDia.getXMLInnerText(String ID) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormAttrDia.cs:行号 801
+2020-08-18 15:08:13,984 [6] ERROR GISData.Common.ConnectDB - select GLDWNAME from GISDATA_GLDW where GLDW = '520121'
+2020-08-18 15:08:14,756 [6] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-08-18 15:08:14,813 [6] ERROR GISData.Common.CommonClass - Error
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 GISData.DataCheck.CheckDialog.FormAttrDia.getXMLInnerText(String ID) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormAttrDia.cs:行号 801
+2020-08-18 15:08:14,870 [6] ERROR GISData.Common.CommonClass - Error
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 GISData.DataCheck.CheckDialog.FormAttrDia.getXMLInnerText(String ID) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormAttrDia.cs:行号 801
+2020-08-18 15:08:14,927 [6] ERROR GISData.Common.CommonClass - Error
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 GISData.DataCheck.CheckDialog.FormAttrDia.getXMLInnerText(String ID) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormAttrDia.cs:行号 801
+2020-08-18 15:08:14,982 [6] ERROR GISData.Common.CommonClass - Error
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 GISData.DataCheck.CheckDialog.FormAttrDia.getXMLInnerText(String ID) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormAttrDia.cs:行号 801
+2020-08-18 15:08:15,038 [6] ERROR GISData.Common.CommonClass - Error
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 GISData.DataCheck.CheckDialog.FormAttrDia.getXMLInnerText(String ID) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormAttrDia.cs:行号 801
+2020-08-18 15:08:17,486 [6] ERROR GISData.Common.CommonClass - Error
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 GISData.DataCheck.CheckDialog.FormAttrDia.getXMLInnerText(String ID) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormAttrDia.cs:行号 801
+2020-08-18 15:08:17,546 [6] ERROR GISData.Common.CommonClass - Error
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 GISData.DataCheck.CheckDialog.FormAttrDia.getXMLInnerText(String ID) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormAttrDia.cs:行号 801
+2020-08-18 15:08:17,604 [6] ERROR GISData.Common.CommonClass - Error
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 GISData.DataCheck.CheckDialog.FormAttrDia.getXMLInnerText(String ID) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormAttrDia.cs:行号 801
+2020-08-18 15:08:17,662 [6] ERROR GISData.Common.CommonClass - Error
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 GISData.DataCheck.CheckDialog.FormAttrDia.getXMLInnerText(String ID) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormAttrDia.cs:行号 801
+2020-08-18 15:08:17,719 [6] ERROR GISData.Common.CommonClass - Error
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 GISData.DataCheck.CheckDialog.FormAttrDia.getXMLInnerText(String ID) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormAttrDia.cs:行号 801
+2020-08-18 15:08:19,678 [6] ERROR GISData.Common.CommonClass - Error
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 GISData.DataCheck.CheckDialog.FormAttrDia.getXMLInnerText(String ID) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormAttrDia.cs:行号 801
+2020-08-18 15:08:19,787 [6] ERROR GISData.Common.CommonClass - Error
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 GISData.DataCheck.CheckDialog.FormAttrDia.getXMLInnerText(String ID) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormAttrDia.cs:行号 801
+2020-08-18 15:08:20,341 [6] ERROR GISData.Common.ConnectDB - select GLDWNAME from GISDATA_GLDW where GLDW = '520121'
+2020-08-18 15:08:20,370 [6] ERROR GISData.Common.ConnectDB - select * from GISDATA_REPORT where SCHEME ='营造林质检方案' and STEP_NO = '3'
+2020-08-18 15:08:45,027 [6] ERROR GISData.Common.ConnectDB - SELECT CONCAT(YZLGLDW,YZLFS,ZCSBND,XMMC) AS XMMCARR FROM GISDATA_TASK WHERE YZLGLDW ='520121'
+2020-08-18 15:08:48,080 [6] ERROR GISData.DataCheck.CheckDialog.FormAttrDia - Error
+System.Runtime.InteropServices.InvalidComObjectException: COM 对象与其基础 RCW 分开后就不能再使用。
+   在 System.StubHelpers.StubHelpers.StubRegisterRCW(Object pThis)
+   在 ESRI.ArcGIS.Carto.FeatureLayerClass.get_FeatureClass()
+   在 GISData.DataCheck.CheckDialog.FormAttrDia.treeList1_MouseDoubleClick(Object sender, MouseEventArgs e) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormAttrDia.cs:行号 587
+2020-08-18 15:09:01,659 [6] ERROR GISData.DataCheck.CheckDialog.FormAttrDia - Error
+System.Runtime.InteropServices.InvalidComObjectException: COM 对象与其基础 RCW 分开后就不能再使用。
+   在 System.StubHelpers.StubHelpers.StubRegisterRCW(Object pThis)
+   在 ESRI.ArcGIS.Carto.FeatureLayerClass.get_FeatureClass()
+   在 GISData.DataCheck.CheckDialog.FormAttrDia.treeList1_MouseDoubleClick(Object sender, MouseEventArgs e) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormAttrDia.cs:行号 587
+2020-08-18 15:09:06,563 [6] ERROR GISData.DataCheck.CheckDialog.FormAttrDia - Error
+System.Runtime.InteropServices.InvalidComObjectException: COM 对象与其基础 RCW 分开后就不能再使用。
+   在 System.StubHelpers.StubHelpers.StubRegisterRCW(Object pThis)
+   在 ESRI.ArcGIS.Carto.FeatureLayerClass.get_FeatureClass()
+   在 GISData.DataCheck.CheckDialog.FormAttrDia.treeList1_MouseDoubleClick(Object sender, MouseEventArgs e) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormAttrDia.cs:行号 587
+2020-08-18 15:09:22,299 [6] ERROR GISData.DataCheck.CheckDialog.FormAttrDia - Error
+System.Runtime.InteropServices.InvalidComObjectException: COM 对象与其基础 RCW 分开后就不能再使用。
+   在 System.StubHelpers.StubHelpers.StubRegisterRCW(Object pThis)
+   在 ESRI.ArcGIS.Carto.FeatureLayerClass.get_FeatureClass()
+   在 GISData.DataCheck.CheckDialog.FormAttrDia.treeList1_MouseDoubleClick(Object sender, MouseEventArgs e) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormAttrDia.cs:行号 587
+2020-08-18 15:12:58,124 [6] ERROR GISData.Common.ConnectDB - select * from GISDATA_SCHEME order by IS_DEFAULT desc
+2020-08-18 15:12:58,126 [6] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = 'System.Data.DataRowView' order by STEP_NO
+2020-08-18 15:12:58,128 [6] ERROR GISData.Common.ConnectDB - select GLDWNAME from GISDATA_GLDW where GLDW = '520121'
+2020-08-18 15:12:58,144 [6] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = '营造林质检方案' order by STEP_NO
+2020-08-18 15:12:58,163 [6] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+ ----------------------header--------------------------
+2020-08-18 15:13:47,334 [7] ERROR GISData.Program - 登录
+2020-08-18 15:13:51,196 [7] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+2020-08-18 15:13:51,483 [7] ERROR GISData.Program - 开始运行
+2020-08-18 15:13:53,432 [7] ERROR GISData.FormMain - 窗体初始化开始
+2020-08-18 15:13:53,444 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_USER WHERE USER ='曾伟'
+2020-08-18 15:14:00,053 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_SCHEME order by IS_DEFAULT desc
+2020-08-18 15:14:00,059 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = 'System.Data.DataRowView' order by STEP_NO
+2020-08-18 15:14:00,061 [7] ERROR GISData.Common.ConnectDB - select GLDWNAME from GISDATA_GLDW where GLDW = '520121'
+2020-08-18 15:14:00,098 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = '营造林质检方案' order by STEP_NO
+2020-08-18 15:14:00,245 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-08-18 15:14:11,381 [7] ERROR GISData.Common.ConnectDB - select GLDWNAME from GISDATA_GLDW where GLDW = '520121'
+2020-08-18 15:14:12,183 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-08-18 15:14:17,058 [7] ERROR GISData.Common.ConnectDB - select GLDWNAME from GISDATA_GLDW where GLDW = '520121'
+2020-08-18 15:14:17,085 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_REPORT where SCHEME ='营造林质检方案' and STEP_NO = '3'
+2020-08-18 15:14:32,029 [7] ERROR GISData.DataCheck.CheckDialog.FormAttrDia - Error
+System.Runtime.InteropServices.InvalidComObjectException: COM 对象与其基础 RCW 分开后就不能再使用。
+   在 System.StubHelpers.StubHelpers.StubRegisterRCW(Object pThis)
+   在 ESRI.ArcGIS.Carto.FeatureLayerClass.get_FeatureClass()
+   在 GISData.DataCheck.CheckDialog.FormAttrDia.treeList1_MouseDoubleClick(Object sender, MouseEventArgs e) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormAttrDia.cs:行号 587
+2020-08-18 15:14:33,168 [7] ERROR GISData.DataCheck.CheckDialog.FormAttrDia - Error
+System.Runtime.InteropServices.InvalidComObjectException: COM 对象与其基础 RCW 分开后就不能再使用。
+   在 System.StubHelpers.StubHelpers.StubRegisterRCW(Object pThis)
+   在 ESRI.ArcGIS.Carto.FeatureLayerClass.get_FeatureClass()
+   在 GISData.DataCheck.CheckDialog.FormAttrDia.treeList1_MouseDoubleClick(Object sender, MouseEventArgs e) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormAttrDia.cs:行号 587
+2020-08-18 15:15:25,015 [7] ERROR GISData.DataCheck.CheckDialog.FormAttrDia - Error
+System.Runtime.InteropServices.InvalidComObjectException: COM 对象与其基础 RCW 分开后就不能再使用。
+   在 System.StubHelpers.StubHelpers.StubRegisterRCW(Object pThis)
+   在 ESRI.ArcGIS.Carto.FeatureLayerClass.get_FeatureClass()
+   在 GISData.DataCheck.CheckDialog.FormAttrDia.treeList1_MouseDoubleClick(Object sender, MouseEventArgs e) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormAttrDia.cs:行号 587
+2020-08-18 15:17:25,374 [7] ERROR GISData.DataCheck.CheckDialog.FormAttrDia - Error
+System.Runtime.InteropServices.InvalidComObjectException: COM 对象与其基础 RCW 分开后就不能再使用。
+   在 System.StubHelpers.StubHelpers.StubRegisterRCW(Object pThis)
+   在 ESRI.ArcGIS.Carto.FeatureLayerClass.get_FeatureClass()
+   在 GISData.DataCheck.CheckDialog.FormAttrDia.treeList1_MouseDoubleClick(Object sender, MouseEventArgs e) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormAttrDia.cs:行号 587
+2020-08-18 15:24:50,545 [7] ERROR GISData.DataCheck.CheckDialog.FormAttrDia - Error
+System.Runtime.InteropServices.InvalidComObjectException: COM 对象与其基础 RCW 分开后就不能再使用。
+   在 System.StubHelpers.StubHelpers.StubRegisterRCW(Object pThis)
+   在 ESRI.ArcGIS.Carto.FeatureLayerClass.get_FeatureClass()
+   在 GISData.DataCheck.CheckDialog.FormAttrDia.treeList1_MouseDoubleClick(Object sender, MouseEventArgs e) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormAttrDia.cs:行号 587
+2020-08-18 15:25:03,981 [7] ERROR GISData.DataCheck.CheckDialog.FormAttrDia - Error
+System.Runtime.InteropServices.InvalidComObjectException: COM 对象与其基础 RCW 分开后就不能再使用。
+   在 System.StubHelpers.StubHelpers.StubRegisterRCW(Object pThis)
+   在 ESRI.ArcGIS.Carto.FeatureLayerClass.get_FeatureClass()
+   在 GISData.DataCheck.CheckDialog.FormAttrDia.treeList1_MouseDoubleClick(Object sender, MouseEventArgs e) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormAttrDia.cs:行号 587
+ ----------------------header--------------------------
+2020-08-18 15:26:47,098 [7] ERROR GISData.Program - 登录
+2020-08-18 15:26:50,613 [7] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+2020-08-18 15:26:50,979 [7] ERROR GISData.Program - 开始运行
+2020-08-18 15:26:53,006 [7] ERROR GISData.FormMain - 窗体初始化开始
+2020-08-18 15:26:53,018 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_USER WHERE USER ='曾伟'
+2020-08-18 15:26:54,749 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_SCHEME order by IS_DEFAULT desc
+2020-08-18 15:26:54,754 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = 'System.Data.DataRowView' order by STEP_NO
+2020-08-18 15:26:54,757 [7] ERROR GISData.Common.ConnectDB - select GLDWNAME from GISDATA_GLDW where GLDW = '520121'
+2020-08-18 15:26:54,795 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = '营造林质检方案' order by STEP_NO
+2020-08-18 15:26:54,938 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-08-18 15:26:58,773 [7] ERROR GISData.Common.ConnectDB - select GLDWNAME from GISDATA_GLDW where GLDW = '520121'
+2020-08-18 15:26:59,584 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-08-18 15:27:04,286 [7] ERROR GISData.Common.ConnectDB - select GLDWNAME from GISDATA_GLDW where GLDW = '520121'
+2020-08-18 15:27:04,313 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_REPORT where SCHEME ='营造林质检方案' and STEP_NO = '3'
+2020-08-18 15:27:30,655 [7] ERROR GISData.DataCheck.CheckDialog.FormAttrDia - Error
+System.Runtime.InteropServices.InvalidComObjectException: COM 对象与其基础 RCW 分开后就不能再使用。
+   在 System.StubHelpers.StubHelpers.StubRegisterRCW(Object pThis)
+   在 ESRI.ArcGIS.Carto.FeatureLayerClass.get_FeatureClass()
+   在 GISData.DataCheck.CheckDialog.FormAttrDia.treeList1_MouseDoubleClick(Object sender, MouseEventArgs e) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormAttrDia.cs:行号 587
+ ----------------------header--------------------------
+2020-08-18 15:29:47,695 [7] ERROR GISData.Program - 登录
+2020-08-18 15:29:56,136 [7] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+2020-08-18 15:29:56,422 [7] ERROR GISData.Program - 开始运行
+2020-08-18 15:29:58,166 [7] ERROR GISData.FormMain - 窗体初始化开始
+2020-08-18 15:29:58,178 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_USER WHERE USER ='曾伟'
+2020-08-18 15:30:08,093 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_SCHEME order by IS_DEFAULT desc
+2020-08-18 15:30:08,098 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = 'System.Data.DataRowView' order by STEP_NO
+2020-08-18 15:30:08,100 [7] ERROR GISData.Common.ConnectDB - select GLDWNAME from GISDATA_GLDW where GLDW = '520121'
+2020-08-18 15:30:08,139 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = '营造林质检方案' order by STEP_NO
+2020-08-18 15:30:08,271 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-08-18 15:30:12,026 [7] ERROR GISData.Common.ConnectDB - select GLDWNAME from GISDATA_GLDW where GLDW = '520121'
+2020-08-18 15:30:12,895 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-08-18 15:30:17,513 [7] ERROR GISData.Common.ConnectDB - select GLDWNAME from GISDATA_GLDW where GLDW = '520121'
+2020-08-18 15:30:17,540 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_REPORT where SCHEME ='营造林质检方案' and STEP_NO = '3'
+ ----------------------header--------------------------
+2020-08-18 15:30:58,865 [7] ERROR GISData.Program - 登录
+2020-08-18 15:31:01,776 [7] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+2020-08-18 15:31:02,008 [7] ERROR GISData.Program - 开始运行
+2020-08-18 15:31:04,098 [7] ERROR GISData.FormMain - 窗体初始化开始
+2020-08-18 15:31:04,109 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_USER WHERE USER ='曾伟'
+2020-08-18 15:31:06,705 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_SCHEME order by IS_DEFAULT desc
+2020-08-18 15:31:06,710 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = 'System.Data.DataRowView' order by STEP_NO
+2020-08-18 15:31:06,712 [7] ERROR GISData.Common.ConnectDB - select GLDWNAME from GISDATA_GLDW where GLDW = '520121'
+2020-08-18 15:31:06,748 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = '营造林质检方案' order by STEP_NO
+2020-08-18 15:31:06,897 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-08-18 15:31:10,937 [7] ERROR GISData.Common.ConnectDB - select GLDWNAME from GISDATA_GLDW where GLDW = '520121'
+2020-08-18 15:31:11,760 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-08-18 15:31:16,626 [7] ERROR GISData.Common.ConnectDB - select GLDWNAME from GISDATA_GLDW where GLDW = '520121'
+2020-08-18 15:31:16,656 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_REPORT where SCHEME ='营造林质检方案' and STEP_NO = '3'
+2020-08-18 15:31:27,450 [7] ERROR GISData.Common.ConnectDB - SELECT CONCAT(YZLGLDW,YZLFS,ZCSBND,XMMC) AS XMMCARR FROM GISDATA_TASK WHERE YZLGLDW ='520121'
+2020-08-18 15:35:58,722 [7] ERROR GISData.Common.ConnectDB - select NAME,STATE,ERROR,CHECKTYPE,TABLENAME,WHERESTRING,SUPTABLE,INPUTTEXT,ID from GISDATA_TBTOPO where SCHEME ='营造林质检方案' and STEP_NO = '2'
+ ----------------------footer--------------------------
+ ----------------------header--------------------------
+2020-08-18 15:45:30,805 [7] ERROR GISData.Program - 登录
+2020-08-18 15:45:40,050 [7] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+2020-08-18 15:45:40,373 [7] ERROR GISData.Program - 开始运行
+2020-08-18 15:45:42,569 [7] ERROR GISData.FormMain - 窗体初始化开始
+2020-08-18 15:45:42,580 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_USER WHERE USER ='曾伟'
+2020-08-18 15:45:45,205 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_SCHEME order by IS_DEFAULT desc
+2020-08-18 15:45:45,209 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = 'System.Data.DataRowView' order by STEP_NO
+2020-08-18 15:45:45,211 [7] ERROR GISData.Common.ConnectDB - select GLDWNAME from GISDATA_GLDW where GLDW = '520121'
+2020-08-18 15:45:45,251 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = '营造林质检方案' order by STEP_NO
+2020-08-18 15:45:45,384 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-08-18 15:45:49,167 [7] ERROR GISData.Common.ConnectDB - select GLDWNAME from GISDATA_GLDW where GLDW = '520121'
+2020-08-18 15:45:49,950 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-08-18 15:45:54,572 [7] ERROR GISData.Common.ConnectDB - select GLDWNAME from GISDATA_GLDW where GLDW = '520121'
+2020-08-18 15:45:54,600 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_REPORT where SCHEME ='营造林质检方案' and STEP_NO = '3'
+2020-08-18 15:45:56,091 [7] ERROR GISData.Common.ConnectDB - select NAME,STATE,ERROR,CHECKTYPE,TABLENAME,WHERESTRING,SUPTABLE,INPUTTEXT,ID from GISDATA_TBTOPO where SCHEME ='营造林质检方案' and STEP_NO = '2'
+2020-08-18 15:45:56,162 [7] ERROR GISData.Common.CommonClass - Error
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 GISData.DataCheck.CheckDialog.FormTopoDia.getXMLInnerText(String ID) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormTopoDia.cs:行号 114
+2020-08-18 15:46:10,033 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_SCHEME order by IS_DEFAULT desc
+2020-08-18 15:46:10,035 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = 'System.Data.DataRowView' order by STEP_NO
+2020-08-18 15:46:10,037 [7] ERROR GISData.Common.ConnectDB - select GLDWNAME from GISDATA_GLDW where GLDW = '520121'
+2020-08-18 15:46:10,057 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = '营造林质检方案' order by STEP_NO
+2020-08-18 15:46:10,076 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-08-18 15:46:14,051 [7] ERROR GISData.Common.ConnectDB - select GLDWNAME from GISDATA_GLDW where GLDW = '520121'
+2020-08-18 15:46:14,298 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-08-18 15:46:18,539 [7] ERROR GISData.Common.ConnectDB - select GLDWNAME from GISDATA_GLDW where GLDW = '520121'
+2020-08-18 15:46:18,567 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_REPORT where SCHEME ='营造林质检方案' and STEP_NO = '3'
+2020-08-18 15:46:19,944 [7] ERROR GISData.Common.ConnectDB - select NAME,STATE,ERROR,CHECKTYPE,TABLENAME,WHERESTRING,SUPTABLE,INPUTTEXT,ID from GISDATA_TBTOPO where SCHEME ='营造林质检方案' and STEP_NO = '2'
+2020-08-18 15:46:20,007 [7] ERROR GISData.Common.CommonClass - Error
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 GISData.DataCheck.CheckDialog.FormTopoDia.getXMLInnerText(String ID) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormTopoDia.cs:行号 114
+ ----------------------header--------------------------
+2020-08-18 16:28:51,757 [7] ERROR GISData.Program - 登录
+2020-08-18 16:28:55,254 [7] ERROR GISData.Common.ConnectDB - select * from gisdata_user WHERE USER ="曾伟"
+2020-08-18 16:28:55,570 [7] ERROR GISData.Program - 开始运行
+2020-08-18 16:28:57,285 [7] ERROR GISData.FormMain - 窗体初始化开始
+2020-08-18 16:28:57,298 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_USER WHERE USER ='曾伟'
+2020-08-18 16:28:59,809 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_SCHEME order by IS_DEFAULT desc
+2020-08-18 16:28:59,814 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = 'System.Data.DataRowView' order by STEP_NO
+2020-08-18 16:28:59,817 [7] ERROR GISData.Common.ConnectDB - select GLDWNAME from GISDATA_GLDW where GLDW = '520121'
+2020-08-18 16:28:59,857 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_CONFIGSTEP where IS_CONFIG = '1' and SCHEME = '营造林质检方案' order by STEP_NO
+2020-08-18 16:28:59,993 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-08-18 16:29:03,797 [7] ERROR GISData.Common.ConnectDB - select GLDWNAME from GISDATA_GLDW where GLDW = '520121'
+2020-08-18 16:29:04,582 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_TBATTR where SCHEME ='营造林质检方案' and STEP_NO = '1'
+2020-08-18 16:29:09,250 [7] ERROR GISData.Common.ConnectDB - select GLDWNAME from GISDATA_GLDW where GLDW = '520121'
+2020-08-18 16:29:09,278 [7] ERROR GISData.Common.ConnectDB - select * from GISDATA_REPORT where SCHEME ='营造林质检方案' and STEP_NO = '3'
+2020-08-18 16:29:11,566 [7] ERROR GISData.Common.ConnectDB - select NAME,STATE,ERROR,CHECKTYPE,TABLENAME,WHERESTRING,SUPTABLE,INPUTTEXT,ID from GISDATA_TBTOPO where SCHEME ='营造林质检方案' and STEP_NO = '2'
+2020-08-18 16:29:16,829 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_ZLYSXB' AND FIELD_NAME = 'XIAN'
+2020-08-18 16:29:16,961 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZQSJZD WHERE L_ZQJB=3 AND LEFT(C_CODE,6)='520121'
+2020-08-18 16:29:17,095 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_ZLYSXB' AND FIELD_NAME = 'XIANG'
+2020-08-18 16:29:17,097 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZQSJZD WHERE L_ZQJB=4 AND LEFT(C_CODE,6)='520121'
+2020-08-18 16:29:17,121 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_ZLYSXB' AND FIELD_NAME = 'CUN'
+2020-08-18 16:29:17,123 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZQSJZD WHERE L_ZQJB=5 AND LEFT(C_CODE,6)='520121'
+2020-08-18 16:29:17,211 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_ZLYSXB' AND FIELD_NAME = 'DQLB'
+2020-08-18 16:29:17,213 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="地区类别" and  L_JB >1
+2020-08-18 16:29:17,341 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_ZLYSXB' AND FIELD_NAME = 'GCLB'
+2020-08-18 16:29:17,343 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="工程类别" and  L_JB >1
+2020-08-18 16:29:17,400 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_ZLYSXB' AND FIELD_NAME = 'YZLQDL'
+2020-08-18 16:29:17,401 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="地类" and  L_JB >1
+2020-08-18 16:29:17,437 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_ZLYSXB' AND FIELD_NAME = 'DILEI'
+2020-08-18 16:29:17,438 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="地类" and  L_JB >1
+2020-08-18 16:29:17,458 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_ZLYSXB' AND FIELD_NAME = 'YZLFS'
+2020-08-18 16:29:17,460 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="营造林方式" and  L_JB >1
+2020-08-18 16:29:17,490 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_ZLYSXB' AND FIELD_NAME = 'LDSYQ'
+2020-08-18 16:29:17,492 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="林地所有权" and  L_JB >1
+2020-08-18 16:29:17,505 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_ZLYSXB' AND FIELD_NAME = 'LMSYQ'
+2020-08-18 16:29:17,507 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="林木所有权" and  L_JB >1
+2020-08-18 16:29:17,523 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_ZLYSXB' AND FIELD_NAME = 'BHSYY'
+2020-08-18 16:29:17,524 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="不核实原因" and  L_JB >1
+2020-08-18 16:29:17,551 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_ZLYSXB' AND FIELD_NAME = 'SJLZ'
+2020-08-18 16:29:17,553 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="林种" and  L_JB >1
+2020-08-18 16:29:17,576 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_ZLYSXB' AND FIELD_NAME = 'SJYSSZ'
+2020-08-18 16:29:17,577 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="植被种类" and  L_JB >1
+2020-08-18 16:29:17,666 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_ZLYSXB' AND FIELD_NAME = 'ZLYSSZ'
+2020-08-18 16:29:17,667 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="植被种类" and  L_JB >1
+2020-08-18 16:29:17,746 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_ZLYSXB' AND FIELD_NAME = 'HJFS'
+2020-08-18 16:29:17,747 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="混交方式" and  L_JB >1
+2020-08-18 16:29:17,758 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_ZLYSXB' AND FIELD_NAME = 'XBZYY'
+2020-08-18 16:29:17,759 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="需补植原因" and  L_JB >1
+2020-08-18 16:29:17,778 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_ZLYSXB' AND FIELD_NAME = 'SBWBCYY'
+2020-08-18 16:29:17,779 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="失败、未保存原因" and  L_JB >1
+2020-08-18 16:29:17,800 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_ZLYSXB' AND FIELD_NAME = 'SSYY'
+2020-08-18 16:29:17,801 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="损失原因" and  L_JB >1
+2020-08-18 16:29:17,880 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_ZLYSXB' AND FIELD_NAME = 'ZYSJNRDJ'
+2020-08-18 16:29:17,881 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="作业设计内容等级" and  L_JB >1
+2020-08-18 16:29:17,893 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_ZLYSXB' AND FIELD_NAME = 'ZYSJZLDJ'
+2020-08-18 16:29:17,894 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="作业设计质量等级" and  L_JB >1
+2020-08-18 16:29:17,908 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_ZLYSXB' AND FIELD_NAME = 'ZYSJSGDJ'
+2020-08-18 16:29:17,911 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="作业设计施工等级" and  L_JB >1
+2020-08-18 16:29:17,922 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_ZLYSXB' AND FIELD_NAME = 'DAGLNRDJ'
+2020-08-18 16:29:17,924 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="档案管理内容等级" and  L_JB >1
+2020-08-18 16:29:17,939 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_ZLYSXB' AND FIELD_NAME = 'DAGLDJ'
+2020-08-18 16:29:17,941 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="档案管理等级" and  L_JB >1
+2020-08-18 16:29:18,079 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_ZLYSXB' AND FIELD_NAME = 'JCYSNRDJ'
+2020-08-18 16:29:18,081 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="检查验收内容等级" and  L_JB >1
+2020-08-18 16:29:18,115 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_ZLYSXB' AND FIELD_NAME = 'JCYSZLDJ'
+2020-08-18 16:29:18,116 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="检查验收质量等级" and  L_JB >1
+2020-08-18 16:29:18,130 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_ZLYSXB' AND FIELD_NAME = 'FYZLGL'
+2020-08-18 16:29:18,131 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="抚育质量等级" and  L_JB >1
+2020-08-18 16:29:18,145 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_ZLYSXB' AND FIELD_NAME = 'GHJG'
+2020-08-18 16:29:18,147 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="管护机构" and  L_JB >1
+2020-08-18 16:29:18,163 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_ZLYSXB' AND FIELD_NAME = 'GHCS'
+2020-08-18 16:29:18,266 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="管护措施" and  L_JB >1
+2020-08-18 16:29:18,277 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_ZLYSXB' AND FIELD_NAME = 'GHXG'
+2020-08-18 16:29:18,279 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="管护效果" and  L_JB >1
+2020-08-18 16:29:18,290 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_ZLYSXB' AND FIELD_NAME = 'LQZFF'
+2020-08-18 16:29:18,291 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="林权证发放" and  L_JB >1
+2020-08-18 16:29:18,305 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_ZLYSXB' AND FIELD_NAME = 'JSDW'
+2020-08-18 16:29:18,306 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="责任部门" and  L_JB >1
+2020-08-18 16:29:18,342 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_ZLYSXB' AND FIELD_NAME = 'HSLZ'
+2020-08-18 16:29:18,344 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="退耕林种" and  L_JB >1
+2020-08-18 16:29:18,358 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_ZLYSXB' AND FIELD_NAME = 'ZBPZLX'
+2020-08-18 16:29:18,466 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="植被配置类型" and  L_JB >1
+2020-08-18 16:29:18,477 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_ZLYSXB' AND FIELD_NAME = 'SSZTLX'
+2020-08-18 16:29:18,478 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="实施主体类型" and  L_JB >1
+2020-08-18 16:29:18,490 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_ZLYSXB' AND FIELD_NAME = 'SBBTBZ'
+2020-08-18 16:29:18,491 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="补贴标准类型" and  L_JB >1
+2020-08-18 16:29:18,505 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_ZLYSXB' AND FIELD_NAME = 'HSBTBZ'
+2020-08-18 16:29:18,506 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="补贴标准类型" and  L_JB >1
+2020-08-18 16:29:18,525 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_ZLYSXB' AND FIELD_NAME = 'ZYSJSP'
+2020-08-18 16:29:18,527 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="作业设计审批" and  L_JB >1
+2020-08-18 16:29:18,540 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_ZLYSXB' AND FIELD_NAME = 'SJDWZZ'
+2020-08-18 16:29:18,666 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="设计单位资质" and  L_JB >1
+2020-08-18 16:29:18,682 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_ZLYSXB' AND FIELD_NAME = 'HTSQD'
+2020-08-18 16:29:18,684 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="合同书签订" and  L_JB >1
+2020-08-18 16:29:18,702 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_ZLYSXB' AND FIELD_NAME = 'TDDCSFZC'
+2020-08-18 16:29:18,704 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="种源情况" and  L_JB >1
+2020-08-18 16:29:18,719 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_ZLYSXB' AND FIELD_NAME = 'HSPZMC'
+2020-08-18 16:29:18,720 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="良种使用情况" and  L_JB >1
+2020-08-18 16:29:18,757 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_ZLYSXB' AND FIELD_NAME = 'RWMC'
+2020-08-18 16:29:18,758 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="造林任务名称" and  L_JB >1
+2020-08-18 16:29:18,774 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_ZLYSXB' AND FIELD_NAME = 'YZLGLDW'
+2020-08-18 16:29:18,866 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="管理单位" and  L_JB >1
+2020-08-18 16:29:22,609 [7] ERROR GISData.Common.ConnectDB - SELECT CONCAT(YZLGLDW,YZLFS,ZCSBND,XMMC) AS XMMCARR FROM GISDATA_TASK WHERE YZLGLDW ='520121'
+2020-08-18 16:29:24,692 [7] ERROR GISData.DataCheck.CheckDialog.FormAttrDia - Error
+System.Runtime.InteropServices.COMException (0x80004005): 标准表达式中数据类型不匹配。
+   在 ESRI.ArcGIS.Geodatabase.IQueryDef.Evaluate()
+   在 GISData.DataCheck.CheckDialog.FormAttrDia.loopCheck(TreeListNodes selectNode, XmlElement Attrs, XmlDocument doc) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormAttrDia.cs:行号 296
+2020-08-18 16:29:24,696 [7] ERROR GISData.DataCheck.CheckDialog.FormAttrDia -  (XBGHMJ > 0) and (XBGHMJ>=1 and XBGHMJ<=525 and XBGHMJ <>""  and XBGHMJ<>" " and XBGHMJ is not null)
+2020-08-18 16:29:25,680 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_FYYSXB' AND FIELD_NAME = 'XIAN'
+2020-08-18 16:29:25,682 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZQSJZD WHERE  L_ZQJB =3 AND LEFT(C_CODE,6)='520121'
+2020-08-18 16:29:25,716 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_FYYSXB' AND FIELD_NAME = 'XIANG'
+2020-08-18 16:29:25,719 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZQSJZD WHERE  L_ZQJB =4 AND LEFT(C_CODE,6)='520121'
+2020-08-18 16:29:25,738 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_FYYSXB' AND FIELD_NAME = 'CUN'
+2020-08-18 16:29:25,740 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZQSJZD WHERE  L_ZQJB =5 AND LEFT(C_CODE,6)='520121'
+2020-08-18 16:29:25,791 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_FYYSXB' AND FIELD_NAME = 'GCLB'
+2020-08-18 16:29:25,792 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="工程类别" and  L_JB >1
+2020-08-18 16:29:25,811 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_FYYSXB' AND FIELD_NAME = 'YZLQDL'
+2020-08-18 16:29:25,812 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="地类" and  L_JB >1
+2020-08-18 16:29:25,828 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_FYYSXB' AND FIELD_NAME = 'DILEI'
+2020-08-18 16:29:25,830 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="地类" and  L_JB >1
+2020-08-18 16:29:25,842 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_FYYSXB' AND FIELD_NAME = 'YZLFS'
+2020-08-18 16:29:25,844 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="营造林方式" and  L_JB >1
+2020-08-18 16:29:25,856 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_FYYSXB' AND FIELD_NAME = 'FYLX'
+2020-08-18 16:29:25,923 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="封育类型" and  L_JB >1
+2020-08-18 16:29:25,933 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_FYYSXB' AND FIELD_NAME = 'LDSYQ'
+2020-08-18 16:29:25,934 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  =  "林地所有权" and  L_JB >1
+2020-08-18 16:29:25,962 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_FYYSXB' AND FIELD_NAME = 'LMSYQ'
+2020-08-18 16:29:25,968 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="林木所有权" and  L_JB >1
+2020-08-18 16:29:25,978 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_FYYSXB' AND FIELD_NAME = 'BHSYY'
+2020-08-18 16:29:25,979 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="不核实原因" and  L_JB >1
+2020-08-18 16:29:25,992 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_FYYSXB' AND FIELD_NAME = 'SJLZ'
+2020-08-18 16:29:25,994 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="林种" and  L_JB >1
+2020-08-18 16:29:26,012 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_FYYSXB' AND FIELD_NAME = 'SJYSSZ'
+2020-08-18 16:29:26,123 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="植被种类" and  L_JB >1
+2020-08-18 16:29:26,189 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_FYYSXB' AND FIELD_NAME = 'ZLYSSZ'
+2020-08-18 16:29:26,190 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="植被种类" and  L_JB >1
+2020-08-18 16:29:26,306 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_FYYSXB' AND FIELD_NAME = 'SSYY'
+2020-08-18 16:29:26,308 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="损失原因" and  L_JB >1
+2020-08-18 16:29:26,320 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_FYYSXB' AND FIELD_NAME = 'ZYSJNRDJ'
+2020-08-18 16:29:26,322 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="作业设计内容等级" and  L_JB >1
+2020-08-18 16:29:26,334 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_FYYSXB' AND FIELD_NAME = 'ZYSJZLDJ'
+2020-08-18 16:29:26,336 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="作业设计质量等级" and  L_JB >1
+2020-08-18 16:29:26,349 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_FYYSXB' AND FIELD_NAME = 'ZYSJSGDJ'
+2020-08-18 16:29:26,351 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="作业设计施工等级" and  L_JB >1
+2020-08-18 16:29:26,363 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_FYYSXB' AND FIELD_NAME = 'DAGLNRDJ'
+2020-08-18 16:29:26,364 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="档案管理内容等级" and  L_JB >1
+2020-08-18 16:29:26,377 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_FYYSXB' AND FIELD_NAME = 'DAGLDJ'
+2020-08-18 16:29:26,379 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="档案管理等级" and  L_JB >1
+2020-08-18 16:29:26,391 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_FYYSXB' AND FIELD_NAME = 'JCYSNRDJ'
+2020-08-18 16:29:26,523 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="检查验收内容等级" and  L_JB >1
+2020-08-18 16:29:26,535 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_FYYSXB' AND FIELD_NAME = 'JCYSZLDJ'
+2020-08-18 16:29:26,536 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="检查验收质量等级" and  L_JB >1
+2020-08-18 16:29:26,549 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_FYYSXB' AND FIELD_NAME = 'FYZLGL'
+2020-08-18 16:29:26,551 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="抚育质量等级" and  L_JB >1
+2020-08-18 16:29:26,564 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_FYYSXB' AND FIELD_NAME = 'GHJG'
+2020-08-18 16:29:26,565 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="管护机构" and  L_JB >1
+2020-08-18 16:29:26,576 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_FYYSXB' AND FIELD_NAME = 'GHCS'
+2020-08-18 16:29:26,577 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="管护措施" and  L_JB >1
+2020-08-18 16:29:26,589 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_FYYSXB' AND FIELD_NAME = 'GHXG'
+2020-08-18 16:29:26,724 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="管护效果" and  L_JB >1
+2020-08-18 16:29:26,757 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_FYYSXB' AND FIELD_NAME = 'YLCS'
+2020-08-18 16:29:26,759 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="育林措施" and  L_JB >1
+2020-08-18 16:29:26,772 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_FYYSXB' AND FIELD_NAME = 'FSYLBHGYY'
+2020-08-18 16:29:26,773 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="封育不合格原因" and  L_JB >1
+2020-08-18 16:29:26,788 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_FYYSXB' AND FIELD_NAME = 'JSDW'
+2020-08-18 16:29:26,789 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="责任部门" and  L_JB >1
+2020-08-18 16:29:26,799 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_FYYSXB' AND FIELD_NAME = 'RWMC'
+2020-08-18 16:29:26,801 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="造林任务名称" and  L_JB >1
+2020-08-18 16:29:26,923 [7] ERROR GISData.Common.ConnectDB - SELECT CODE_PK,CODE_WHERE FROM GISDATA_MATEDATA WHERE REG_NAME = 'YZL_PY_FYYSXB' AND FIELD_NAME = 'YZLGLDW'
+2020-08-18 16:29:26,925 [7] ERROR GISData.Common.ConnectDB - SELECT C_CODE FROM GISDATA_ZYSJZD WHERE  C_DOMAINNAME  ="管理单位" and  L_JB >1
+2020-08-18 16:29:27,915 [7] ERROR GISData.Common.ConnectDB - SELECT CONCAT(YZLGLDW,YZLFS,ZCSBND,XMMC) AS XMMCARR FROM GISDATA_TASK WHERE YZLGLDW ='520121'
+2020-08-18 16:29:29,175 [7] ERROR GISData.DataCheck.CheckDialog.FormAttrDia - Error
+System.Runtime.InteropServices.COMException (0x80004005): 标准表达式中数据类型不匹配。
+   在 ESRI.ArcGIS.Geodatabase.IQueryDef.Evaluate()
+   在 GISData.DataCheck.CheckDialog.FormAttrDia.loopCheck(TreeListNodes selectNode, XmlElement Attrs, XmlDocument doc) 位置 f:\数据验收平台建设\GISData\GISData\DataCheck\CheckDialog\FormAttrDia.cs:行号 296
+2020-08-18 16:29:29,175 [7] ERROR GISData.DataCheck.CheckDialog.FormAttrDia -  (XBGHMJ > 0) and (XBGHMJ >= 1 and XBGHMJ <=525 and XBGHMJ <>""  and XBGHMJ <>" " and XBGHMJ is not null)
+2020-08-18 16:29:29,637 [7] ERROR GISData.Common.ConnectDB - select GLDWNAME from GISDATA_GLDW where GLDW = '520121'
+2020-08-18 16:29:31,122 [7] ERROR GISData.Common.TopoChecker - Error
+System.Runtime.InteropServices.COMException (0x80040258): 异常来自 HRESULT:0x80040258
+   在 ESRI.ArcGIS.DataSourcesFile.ShapefileWorkspaceFactoryClass.OpenFromFile(String fileName, Int32 hWnd)
+   在 GISData.Common.TopoChecker.OtherRule(String idname, String checkname, String IN_RuleType, String TABLENAME, String SUPTABLE, String inputtext, IHookHelper m_hookHelper) 位置 f:\数据验收平台建设\GISData\GISData\Common\TopoChecker.cs:行号 109
+2020-08-18 16:29:48,849 [7] ERROR GISData.Common.TopoChecker - Error
+System.Runtime.InteropServices.COMException (0x80040258): 异常来自 HRESULT:0x80040258
+   在 ESRI.ArcGIS.DataSourcesFile.ShapefileWorkspaceFactoryClass.OpenFromFile(String fileName, Int32 hWnd)
+   在 GISData.Common.TopoChecker.OtherRule(String idname, String checkname, String IN_RuleType, String TABLENAME, String SUPTABLE, String inputtext, IHookHelper m_hookHelper) 位置 f:\数据验收平台建设\GISData\GISData\Common\TopoChecker.cs:行号 217
+2020-08-18 16:29:49,543 [7] ERROR GISData.Common.TopoChecker - Error
+System.Runtime.InteropServices.COMException (0x80040258): 异常来自 HRESULT:0x80040258
+   在 ESRI.ArcGIS.DataSourcesFile.ShapefileWorkspaceFactoryClass.OpenFromFile(String fileName, Int32 hWnd)
+   在 GISData.Common.TopoChecker.OtherRule(String idname, String checkname, String IN_RuleType, String TABLENAME, String SUPTABLE, String inputtext, IHookHelper m_hookHelper) 位置 f:\数据验收平台建设\GISData\GISData\Common\TopoChecker.cs:行号 109
+2020-08-18 16:29:52,215 [7] ERROR GISData.Common.TopoChecker - Error
+System.Runtime.InteropServices.COMException (0x80040258): 异常来自 HRESULT:0x80040258
+   在 ESRI.ArcGIS.DataSourcesFile.ShapefileWorkspaceFactoryClass.OpenFromFile(String fileName, Int32 hWnd)
+   在 GISData.Common.TopoChecker.OtherRule(String idname, String checkname, String IN_RuleType, String TABLENAME, String SUPTABLE, String inputtext, IHookHelper m_hookHelper) 位置 f:\数据验收平台建设\GISData\GISData\Common\TopoChecker.cs:行号 217
+2020-08-18 16:29:59,627 [7] ERROR GISData.Common.TopoChecker - Error
+System.Runtime.InteropServices.COMException (0x80040258): 异常来自 HRESULT:0x80040258
+   在 ESRI.ArcGIS.DataSourcesFile.ShapefileWorkspaceFactoryClass.OpenFromFile(String fileName, Int32 hWnd)
+   在 GISData.Common.TopoChecker.OtherRule(String idname, String checkname, String IN_RuleType, String TABLENAME, String SUPTABLE, String inputtext, IHookHelper m_hookHelper) 位置 f:\数据验收平台建设\GISData\GISData\Common\TopoChecker.cs:行号 343
+2020-08-18 16:30:02,245 [7] ERROR GISData.Common.TopoChecker - Error
+System.Runtime.InteropServices.COMException (0x80040258): 异常来自 HRESULT:0x80040258
+   在 ESRI.ArcGIS.DataSourcesFile.ShapefileWorkspaceFactoryClass.OpenFromFile(String fileName, Int32 hWnd)
+   在 GISData.Common.TopoChecker.OtherRule(String idname, String checkname, String IN_RuleType, String TABLENAME, String SUPTABLE, String inputtext, IHookHelper m_hookHelper) 位置 f:\数据验收平台建设\GISData\GISData\Common\TopoChecker.cs:行号 343

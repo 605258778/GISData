@@ -190,38 +190,31 @@ namespace GISData.Common
         {
             try
             {
-                if (DicLayer.ContainsKey(tablename))
+                RegInfo reginfo = this.getRegInfo(tablename);
+                string path = reginfo.RegPath;
+                string dbtype = reginfo.RegType;
+                IFeatureWorkspace space;
+                if (dbtype == "Access数据库")
                 {
-                    return DicLayer[tablename];
-                }
-                else 
-                {
-                    RegInfo reginfo = this.getRegInfo(tablename);
-                    string path = reginfo.RegPath;
-                    string dbtype = reginfo.RegType;
-                    IFeatureWorkspace space;
-                    if (dbtype == "Access数据库")
-                    {
-                        AccessWorkspaceFactory fac = new AccessWorkspaceFactoryClass();
-                        space = (IFeatureWorkspace)fac.OpenFromFile(path, 0);
+                    AccessWorkspaceFactory fac = new AccessWorkspaceFactoryClass();
+                    space = (IFeatureWorkspace)fac.OpenFromFile(path, 0);
 
-                    }
-                    else if (dbtype == "文件夹数据库")
-                    {
-                        FileGDBWorkspaceFactoryClass fac = new FileGDBWorkspaceFactoryClass();
-                        space = (IFeatureWorkspace)fac.OpenFromFile(path, 0);
-                    }
-                    else 
-                    {
-                        FileGDBWorkspaceFactoryClass fac = new FileGDBWorkspaceFactoryClass();
-                        space = (IFeatureWorkspace)fac.OpenFromFile(path, 0);
-                    }
-                    IFeatureLayer _Layer = new FeatureLayer();
-                    _Layer.FeatureClass = space.OpenFeatureClass(reginfo.RegTable);
-                    _Layer.Name = reginfo.RegTable;
-                    DicLayer.Add(tablename, _Layer);
-                    return _Layer;
                 }
+                else if (dbtype == "文件夹数据库")
+                {
+                    FileGDBWorkspaceFactoryClass fac = new FileGDBWorkspaceFactoryClass();
+                    space = (IFeatureWorkspace)fac.OpenFromFile(path, 0);
+                }
+                else
+                {
+                    FileGDBWorkspaceFactoryClass fac = new FileGDBWorkspaceFactoryClass();
+                    space = (IFeatureWorkspace)fac.OpenFromFile(path, 0);
+                }
+                IFeatureLayer _Layer = new FeatureLayer();
+                _Layer.FeatureClass = space.OpenFeatureClass(reginfo.RegTable);
+                _Layer.Name = reginfo.RegTable;
+                //DicLayer.Add(tablename, _Layer);
+                return _Layer;
             }
             catch (Exception ex)
             {
